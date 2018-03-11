@@ -1,0 +1,29 @@
+[GLOBAL]
+plugin.tx_c1imagerenderer {
+    view {
+        layoutRootPaths.10 = {$plugin.tx_c1imagerenderer.view.layoutRootPath}
+        templateRootPaths.10 = {$plugin.tx_c1imagerenderer.view.templateRootPath}
+        partialRootPaths.10 = {$plugin.tx_c1imagerenderer.view.partialRootPath}
+    }
+    settings {
+        debug = {$plugin.tx_c1imagerenderer.settings.debug}
+        defaultImgWidth = {$plugin.tx_c1imagerenderer.settings.defaultImgWidth}
+        srcsetWidths = {$plugin.tx_c1imagerenderer.settings.srcsetWidths}
+        cssClasses {
+            img = {$plugin.tx_c1imagerenderer.settings.cssClasses.img}
+            ratioBoxAdditional = {$plugin.tx_c1imagerenderer.settings.cssClasses.ratioBoxAdditional}
+        }
+    }
+}
+
+page {
+    includeJSFooterlibs {
+        lazysizes = {$plugin.tx_c1imagerenderer.settings.assets.js.lazysizes}
+        debugimgsizes = {$plugin.tx_c1imagerenderer.settings.assets.js.debugimgsizes}
+    }
+    includeCSS {
+        lazysizes = {$plugin.tx_c1imagerenderer.settings.assets.css.lazysizes}
+    }
+}
+
+mod.tx_c1imagerenderer.view < plugin.tx_c1imagerenderer.view

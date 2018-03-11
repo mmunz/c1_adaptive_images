@@ -1,0 +1,19 @@
+{
+    "name": "c1/c1-imagerenderer",
+    "type": "typo3-cms-extension",
+    "description": "Imagerenderer for fluid_styled_content.",
+    "authors": [
+        {
+            "name": "Manuel Munz",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "typo3/cms-core": "^8.7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "C1\\C1Imagerenderer\\": "Classes"
+        }
+    }
+}

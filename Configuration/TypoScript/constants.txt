@@ -1,0 +1,31 @@
+plugin.tx_c1imagerenderer {
+    view {
+        layoutRootPath = EXT:c1_imagerenderer/Resources/Private/Layouts
+        templateRootPath = EXT:c1_imagerenderer/Resources/Private/Templates
+        partialRootPath = EXT:c1_imagerenderer/Resources/Private/Partials
+    }
+    settings {
+        # If enabled (1) then image size is rendered as text on the image
+        debug = 0
+        # image width for use with the img tag (default fallback iage fpr browsers that do not support srcset)
+        defaultImgWidth = 768
+        # comma seperated list of srcset candidates
+        srcsetWidths = 240,360,480,660,840,1024,1280,1440,1680,1920
+        cssClasses {
+            # css class to add to the image tag
+            img = img-responsive lazyload
+            # Additional class names for the ratio box div
+            ratioBoxAdditional =
+        }
+        assets {
+            js {
+                lazysizes = EXT:c1_imagerenderer/Resources/Public/JavaScript/lazysizes.min.js
+                debugimgsizes = EXT:c1_imagerenderer/Resources/Public/JavaScript/debugimgsizes.js
+            }
+            css {
+                lazysizes = EXT:c1_imagerenderer/Resources/Public/Stylesheets/lazysizes.css
+            }
+        }
+
+    }
+}

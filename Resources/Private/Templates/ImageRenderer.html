@@ -1,0 +1,56 @@
+<f:layout name="Default" />
+
+<f:section name="Main">
+    <picture>
+    <f:for each="{sources}" as="cropVariant">
+        <f:if condition="{cropVariant.media}">
+            <f:then>
+                <source media="{cropVariant.media}"
+                        srcset="{cropVariant.srcset}"
+                >
+            </f:then>
+            <f:else>
+                <img src="{defaultImage.url}"
+                     class="img-responsive lazyload"
+                     data-imgdebug="1"
+                     srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 1w"
+                     sizes="100vw"
+                     data-sizes="auto"
+                     data-srcset="{cropVariant.srcset}"
+                >
+            </f:else>
+        </f:if>
+    </f:for>
+    </picture>
+
+</f:section>
+
+<f:comment>
+    <div class="ratio-box ratio-box--33dot46 ratio-box--max-width767px-5631">
+        <picture>
+            <source media="(max-width:767px)"
+                    srcset="/fileadmin/_processed_/5/3/csm_monitor-862116_24d43ddc4c.jpg 320w,/fileadmin/_processed_/5/3/csm_monitor-862116_b8383fa0f9.jpg 480w,/fileadmin/_processed_/5/3/csm_monitor-862116_ed8535d3a7.jpg 640w,/fileadmin/_processed_/5/3/csm_monitor-862116_15e0a06313.jpg 840w"
+                    sizes="100vw">
+            <img src="/fileadmin/_processed_/5/3/csm_monitor-862116_e9bf1a12db.jpg" alt="monitor-862116.jpg" width="768"
+                 height="257" class="img-responsive lazyload"
+                 srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 1w"
+                 sizes="100vw" data-sizes="auto"
+                 data-srcset="/fileadmin/_processed_/5/3/csm_monitor-862116_91d96cb4f7.jpg 840w, /fileadmin/_processed_/5/3/csm_monitor-862116_6beecc1b2b.jpg 1024w, /fileadmin/_processed_/5/3/csm_monitor-862116_e5b4f4ddb5.jpg 1280w, /fileadmin/_processed_/5/3/csm_monitor-862116_d7161dcdd9.jpg 1440w, /fileadmin/_processed_/5/3/csm_monitor-862116_eae2135a6b.jpg 1680w, /fileadmin/_processed_/5/3/csm_monitor-862116_898e07940c.jpg 1920w">
+        </picture>
+        <noscript>
+            &lt;picture&gt;&lt;source media="(max-width:767px)"
+            srcset="/fileadmin/_processed_/5/3/csm_monitor-862116_24d43ddc4c.jpg
+            320w,/fileadmin/_processed_/5/3/csm_monitor-862116_b8383fa0f9.jpg
+            480w,/fileadmin/_processed_/5/3/csm_monitor-862116_ed8535d3a7.jpg
+            640w,/fileadmin/_processed_/5/3/csm_monitor-862116_15e0a06313.jpg 840w" sizes="100vw" /&gt;&lt;img
+            src="/fileadmin/_processed_/5/3/csm_monitor-862116_e9bf1a12db.jpg" alt="monitor-862116.jpg" width="768"
+            height="257" class="img-responsive lazyload"
+            srcset="/fileadmin/_processed_/5/3/csm_monitor-862116_91d96cb4f7.jpg 840w,
+            /fileadmin/_processed_/5/3/csm_monitor-862116_6beecc1b2b.jpg 1024w,
+            /fileadmin/_processed_/5/3/csm_monitor-862116_e5b4f4ddb5.jpg 1280w,
+            /fileadmin/_processed_/5/3/csm_monitor-862116_d7161dcdd9.jpg 1440w,
+            /fileadmin/_processed_/5/3/csm_monitor-862116_eae2135a6b.jpg 1680w,
+            /fileadmin/_processed_/5/3/csm_monitor-862116_898e07940c.jpg 1920w" sizes="100vw" /&gt;&lt;/picture&gt;
+        </noscript>
+    </div>
+</f:comment>
