@@ -1,0 +1,134 @@
+<?php
+
+namespace C1\ImageRenderer\Utility;
+
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+class RatioBoxUtility
+{
+    
+    /** @var PageRenderer */
+    protected $pageRenderer;
+
+    /**
+     * @var array $ratioBoxClassnames
+     */
+    protected $ratioBoxClassnames;
+
+    public function __construct() {
+        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+    }
+
+    /**
+     * @var array $ratioBoxBase
+     */
+    protected $ratioBoxBase;
+
+    /**
+     * Removes unwanted characters from css classNames
+     *
+     * @param $class
+     * @returns string
+     */
+    public function sanitizeCssClassname($class)
+    {
+        $class = \strtolower($class);
+        // remove all characters not allowed in HTML class names
+        $regex = '/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0041}-\\x{005A}\\x{005F}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u';
+        $class = \preg_replace($regex, '', $class);
+        $class = \preg_replace("/[\s_]/", "-", $class);
+        return $class;
+    }
+
+    /**
+     *
+     * Returns a class name for the ratio box (for intrinsic ratio css)
+     *
+     * Because ratio can be a float and dots are not allowed inside css class names dots in $ratio are replaced with
+     * 'dot'. After that the resulting string is also filtered to make sure it does only contain valid chars to use in
+     * css class names.
+     *
+     * @param int|float $ratio
+     * @return string
+     */
+    public function getRatioClassForCropVariant($ratio, $mq = null)
+    {
+        $ratioBoxClass = null;
+        $ratioBoxBase = $this->ratioBoxBase;
+
+        if($mq) {
+            $ratioBoxBase .= '-' . $this->sanitizeCssClassname($mq);
+        }
+
+        $ratioBoxClass = sprintf(
+            '%s--%s',
+            $ratioBoxBase,
+            \preg_replace('/\./i', 'dot', $ratio)
+        );
+        return $this->sanitizeCssClassname($ratioBoxClass);
+    }
+
+    /**
+     *
+     * Get the default style for the ratio box
+     *
+     * @param int|float $ratio
+     * @param string $mq
+     * @return string
+     */
+    public function getRatioBoxStyle($ratio, $mq)
+    {
+        if ($mq) {
+            return sprintf(
+                '@media %s{.%s{padding-bottom:%s%%}}',
+                $mq,
+                $this->getRatioClassForCropVariant($ratio, $mq),
+                $ratio
+            );
+        } else {
+            return sprintf(
+                '.%s{padding-bottom:%s%%}',
+                $this->getRatioClassForCropVariant($ratio, null),
+                $ratio
+            );
+        }
+    }
+
+    /**
+     *
+     * Add inline css to the header for generated ratio-box class names
+     *
+     * @param string $class
+     * @param string $css
+     * @param int $compress
+     */
+    public function addStyleToHeader($class, $css, $compress=1) {
+        $this->pageRenderer->addCssInlineBlock($class, $css, $compress);
+    }
+
+    /**
+     * return ratio box classNames
+     *
+     * @param string $basename
+     * @param array $cropVariants
+     *
+     * @return array
+     */
+    public function getRatioBoxClassnames($basename='ratio-box', $cropVariants) {
+
+        $this->ratioBoxBase = $basename;
+        $this->ratioBoxClassnames[] = $this->ratioBoxBase;
+
+        foreach (array_reverse($cropVariants) as $cropVariantKey => $cropVariantConfig) {
+            $mq = $cropVariantConfig['media'] ?? null;
+            $className = $this->getRatioClassForCropVariant($cropVariantConfig['ratio'], $mq);
+            $this->ratioBoxClassnames[] = $className;
+            $css = $this->getRatioBoxStyle($cropVariantConfig['ratio'], $mq);
+            $this->addStyleToHeader($className, $css, 1);
+        };
+
+        return $this->ratioBoxClassnames;
+    }
+
+}

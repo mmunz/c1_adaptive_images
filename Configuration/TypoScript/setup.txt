@@ -11,6 +11,7 @@ plugin.tx_c1imagerenderer {
         srcsetWidths = {$plugin.tx_c1imagerenderer.settings.srcsetWidths}
         cssClasses {
             img = {$plugin.tx_c1imagerenderer.settings.cssClasses.img}
+            ratioBoxBase = {$plugin.tx_c1imagerenderer.settings.cssClasses.ratioBoxBase}
             ratioBoxAdditional = {$plugin.tx_c1imagerenderer.settings.cssClasses.ratioBoxAdditional}
         }
     }

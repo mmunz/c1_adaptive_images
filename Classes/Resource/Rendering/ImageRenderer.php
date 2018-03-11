@@ -10,6 +10,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 use C1\ImageRenderer\Utility\ImageUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use C1\ImageRenderer\Utility\RatioBoxUtility;
 
 
 
@@ -60,8 +61,6 @@ class ImageRenderer implements FileRendererInterface
      */
     protected $imageUtility;
 
-
-
     /**
      * Constructor
      */
@@ -74,8 +73,6 @@ class ImageRenderer implements FileRendererInterface
         }
         $this->imageUtility = $this->objectManager->get(ImageUtility::class);
 
-
-
 //        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 //        $this->utility = $this->objectManager->get(ImageRendererUtility::class);
 
@@ -86,6 +83,17 @@ class ImageRenderer implements FileRendererInterface
 //        }
 //        $this->settings = $this->configuration->getSettings();
 //        $this->view = $this->configuration->getView();
+    }
+
+
+    /**
+     * Return an instance of RatioBoxUtility
+     *
+     * @return RatioBoxUtility
+     */
+    protected function getRatioBoxUtility()
+    {
+        return $this->objectManager->get(RatioBoxUtility::class);
     }
 
 
@@ -142,15 +150,27 @@ class ImageRenderer implements FileRendererInterface
 
     public function renderFluidTemplate() {
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $viewTmpl */
+        $ratioBoxUtility = $this->getRatioBoxUtility();
         $viewTmpl = $this->objectManager->get(StandaloneView::class);
         $viewTmpl->setLayoutRootPaths($this->viewConfiguration['layoutRootPaths']);
         $viewTmpl->setTemplateRootPaths($this->viewConfiguration['templateRootPaths']);
         $viewTmpl->setPartialRootPaths($this->viewConfiguration['partialRootPaths']);
         $viewTmpl->setTemplate('ImageRenderer');
         //$viewTmpl->assign('this', $this);
+        $cropVariants = $this->imageUtility->getCropVariants();
         $viewTmpl->assign('settings', $this->settings);
         $viewTmpl->assign('options', $this->options);
-        $viewTmpl->assign('sources', $this->imageUtility->getCropVariants());
+        $viewTmpl->assign('sources', $cropVariants);
+
+        $ratioBoxClasses = $ratioBoxUtility->getRatioBoxClassnames(
+            $this->settings['cssClasses']['ratioBoxBase'],
+            $cropVariants
+        );
+        $ratioBox = [
+            classNames => implode(' ', $ratioBoxClasses)
+        ];
+        $viewTmpl->assign('ratioBox', $ratioBox);
+
         $viewTmpl->assign('defaultImage', $this->imageUtility->getDefaultImage());
 
         return $viewTmpl->render();

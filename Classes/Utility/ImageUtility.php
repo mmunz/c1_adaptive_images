@@ -7,7 +7,6 @@ use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class ImageUtility
 {
@@ -203,7 +202,6 @@ class ImageUtility
     protected function processSrcsetImages($cropVariantKey, $cropVariantConfig)
     {
         $srcset = array();
-        $ratio = '';
         $srcWidths = explode(',', $cropVariantConfig['srcsetWidths']);
         $maxWidthReached = false;
 
@@ -229,7 +227,7 @@ class ImageUtility
             $localProcessingConfiguration['crop'] = $this->getCropAreaForVariant($cropVariantKey);
 
             if ($cropVariantConfig['image_format'] > 0) {
-                $img_format = $this->additionalConfig['image_format'];
+                $img_format = $this->options['image_format'];
                 $localProcessingConfiguration['width'] = $width . "c";
                 $localProcessingConfiguration['height'] = round(intval($width) / $img_format) . "c";
             } else {
@@ -245,20 +243,6 @@ class ImageUtility
         };
 
         return $srcset;
-
-//        $this->cssMediaQueries[] = array(
-//            'media' => $cropVariantConfig['media'],
-//            'ratio' => $ratio,
-//            'class' => $this->getMediaQueryClassname($cropVariantConfig['media'], $ratio),
-//        );
-//
-//        $tagBuilder = $this->getTagBuilder();
-//        $tagBuilder->setTagName('source');
-//        $tagBuilder->addAttribute('media', $cropVariantConfig['media']);
-//        $tagBuilder->addAttribute('srcset', implode(',', $srcset));
-//        $tagBuilder->addAttribute('sizes', '100vw');
-//        $tag = $tagBuilder->render();
-//        return $tag;
     }
 
     /**
@@ -287,6 +271,25 @@ class ImageUtility
         return reset($candidates)['ratio'];
     }
 
+    /**
+     * Get the default image
+     * This can for example be used as fallback image if the browser supports no srcset/sources attributes
+     *
+     * @return array
+     */
+    public function getDefaultImage()
+    {
+        $processingConfiguration = [
+            'width' => $this->options['width'],
+            'height' => $this->options['height'],
+            'crop' => $this->getCropAreaForVariant('default')
+        ];
+
+        $processedImage = $this->processImage($processingConfiguration);
+
+        return $processedImage;
+    }
+
 
     /**
      *
@@ -308,20 +311,5 @@ class ImageUtility
 
         return $this->cropVariants;
     }
-
-
-    public function getDefaultImage()
-    {
-        $processingConfiguration = [
-            'width' => $this->options['width'],
-            'height' => $this->options['height'],
-            'crop' => $this->getCropAreaForVariant('default')
-        ];
-
-        $processedImage = $this->processImage($processingConfiguration);
-
-        return $processedImage;
-    }
-
 
 }
