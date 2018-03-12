@@ -8,7 +8,6 @@ use TYPO3\CMS\Core\Resource\Rendering\FileRendererInterface;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use C1\ImageRenderer\Utility\ImageUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use C1\ImageRenderer\Utility\RatioBoxUtility;
 
@@ -72,19 +71,7 @@ class ImageRenderer implements FileRendererInterface
             $this->objectManager = $objectManager;
         }
         $this->imageUtility = $this->objectManager->get(ImageUtility::class);
-
-//        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-//        $this->utility = $this->objectManager->get(ImageRendererUtility::class);
-
-//        if (!$configuration) {
-//            $this->configuration = $this->objectManager->get(ImageRendererConfiguration::class);
-//        } else {
-//            $this->configuration = $configuration;
-//        }
-//        $this->settings = $this->configuration->getSettings();
-//        $this->view = $this->configuration->getView();
     }
-
 
     /**
      * Return an instance of RatioBoxUtility
@@ -95,9 +82,6 @@ class ImageRenderer implements FileRendererInterface
     {
         return $this->objectManager->get(RatioBoxUtility::class);
     }
-
-
-
 
     /**
      * @return int
@@ -115,14 +99,6 @@ class ImageRenderer implements FileRendererInterface
     {
         return in_array($file->getMimeType(), $this->possibleMimeTypes, true);
     }
-
-    /*
-     * Get the cObj which is the parent
-     */
-//    public function getContentObject() {
-//
-//    }
-
 
     /**
      * @param array $options
@@ -144,6 +120,7 @@ class ImageRenderer implements FileRendererInterface
             $this->file = $file->getOriginalFile();
             return $this;
         }
+
         $this->file = $file;
         return $this;
     }
@@ -151,6 +128,7 @@ class ImageRenderer implements FileRendererInterface
     public function renderFluidTemplate() {
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $viewTmpl */
         $ratioBoxUtility = $this->getRatioBoxUtility();
+        $ratioBoxUtility->setRatioBoxBase($this->settings['cssClasses']['ratioBoxBase'] ?? 'ratio-box');
         $viewTmpl = $this->objectManager->get(StandaloneView::class);
         $viewTmpl->setLayoutRootPaths($this->viewConfiguration['layoutRootPaths']);
         $viewTmpl->setTemplateRootPaths($this->viewConfiguration['templateRootPaths']);
@@ -162,10 +140,7 @@ class ImageRenderer implements FileRendererInterface
         $viewTmpl->assign('options', $this->options);
         $viewTmpl->assign('sources', $cropVariants);
 
-        $ratioBoxClasses = $ratioBoxUtility->getRatioBoxClassnames(
-            $this->settings['cssClasses']['ratioBoxBase'],
-            $cropVariants
-        );
+        $ratioBoxClasses = $ratioBoxUtility->getRatioBoxClassnames($cropVariants);
         $ratioBox = [
             classNames => implode(' ', $ratioBoxClasses)
         ];
@@ -196,25 +171,12 @@ class ImageRenderer implements FileRendererInterface
         $this->imageUtility->setOriginalFile($file);
         $this->imageUtility->setOptions($this->options);
 
-
         $pluginSettingsService = $this->objectManager->get('C1\\ImageRenderer\\Service\\SettingsService');
         $this->settings = $pluginSettingsService->getSettings();
 
         $this->viewConfiguration = $pluginSettingsService->getViewConfiguration();
 
         return $this->renderFluidTemplate();
-
-
-//        $this->init($width, $height, $options);
-//        if ($options['renderType'] === 'adaptive') {
-//            $this->createSrcSet();
-//            return $this->buildAll();
-//        } else if ($options['renderType'] === 'fluidtemplate') {
-//            $this->createSrcSet();
-//            return $this->renderFluidTemplate();
-//        } else {
-//            return $this->buildSimpleImgTag();
-//        }
     }
 
 }

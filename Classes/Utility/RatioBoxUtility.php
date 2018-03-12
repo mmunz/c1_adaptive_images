@@ -16,14 +16,27 @@ class RatioBoxUtility
      */
     protected $ratioBoxClassnames;
 
-    public function __construct() {
-        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+    public function __construct($pageRenderer = null) {
+        if (!$pageRenderer) {
+            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        } else {
+            $this->pageRenderer = $pageRenderer;
+        }
     }
 
     /**
      * @var array $ratioBoxBase
      */
     protected $ratioBoxBase;
+
+    /**
+     * Setter for $this->ratioBoxBase
+     *
+     * @param string $ratioBoxBase
+     */
+    public function setRatioBoxBase($ratioBoxBase = 'ratio-box') {
+        $this->ratioBoxBase = $ratioBoxBase;
+    }
 
     /**
      * Removes unwanted characters from css classNames
@@ -77,7 +90,7 @@ class RatioBoxUtility
      * @param string $mq
      * @return string
      */
-    public function getRatioBoxStyle($ratio, $mq)
+    public function getRatioBoxStyle($ratio, $mq = null)
     {
         if ($mq) {
             return sprintf(
@@ -103,7 +116,7 @@ class RatioBoxUtility
      * @param string $css
      * @param int $compress
      */
-    public function addStyleToHeader($class, $css, $compress=1) {
+    public function addStyleToHeader($class, $css, $compress = true) {
         $this->pageRenderer->addCssInlineBlock($class, $css, $compress);
     }
 
@@ -115,9 +128,8 @@ class RatioBoxUtility
      *
      * @return array
      */
-    public function getRatioBoxClassnames($basename='ratio-box', $cropVariants) {
+    public function getRatioBoxClassnames($cropVariants) {
 
-        $this->ratioBoxBase = $basename;
         $this->ratioBoxClassnames[] = $this->ratioBoxBase;
 
         foreach (array_reverse($cropVariants) as $cropVariantKey => $cropVariantConfig) {
