@@ -12,9 +12,9 @@ class RatioBoxUtility
     protected $pageRenderer;
 
     /**
-     * @var array $ratioBoxClassnames
+     * @var array $ratioBoxClassNames
      */
-    protected $ratioBoxClassnames;
+    protected $ratioBoxClassNames;
 
     public function __construct($pageRenderer = null) {
         if (!$pageRenderer) {
@@ -39,12 +39,12 @@ class RatioBoxUtility
     }
 
     /**
-     * Removes unwanted characters from css classNames
+     * Removes unwanted characters from css ClassNames
      *
      * @param $class
      * @returns string
      */
-    public function sanitizeCssClassname($class)
+    public function sanitizeCssClassName($class)
     {
         $class = \strtolower($class);
         // remove all characters not allowed in HTML class names
@@ -63,6 +63,7 @@ class RatioBoxUtility
      * css class names.
      *
      * @param int|float $ratio
+     * @param string|null $mq
      * @return string
      */
     public function getRatioClassForCropVariant($ratio, $mq = null)
@@ -74,7 +75,7 @@ class RatioBoxUtility
             $ratioBoxClass = sprintf(
                 '%s--%s-%s',
                 $ratioBoxBase,
-                $this->sanitizeCssClassname($mq),
+                $this->sanitizeCssClassName($mq),
                 \preg_replace('/\./i', 'dot', $ratio)
             );
         } else {
@@ -86,7 +87,7 @@ class RatioBoxUtility
         }
 
 
-        return $this->sanitizeCssClassname($ratioBoxClass);
+        return $this->sanitizeCssClassName($ratioBoxClass);
     }
 
     /**
@@ -121,7 +122,7 @@ class RatioBoxUtility
      *
      * @param string $class
      * @param string $css
-     * @param int $compress
+     * @param boolean $compress
      */
     public function addStyleToHeader($class, $css, $compress = true) {
         $this->pageRenderer->addCssInlineBlock($class, $css, $compress);
@@ -130,24 +131,23 @@ class RatioBoxUtility
     /**
      * return ratio box classNames
      *
-     * @param string $basename
      * @param array $cropVariants
      *
      * @return array
      */
-    public function getRatioBoxClassnames($cropVariants) {
+    public function getRatioBoxClassNames($cropVariants) {
 
-        $this->ratioBoxClassnames[] = $this->ratioBoxBase;
+        $this->ratioBoxClassNames[] = $this->ratioBoxBase;
 
         foreach (array_reverse($cropVariants) as $cropVariantKey => $cropVariantConfig) {
             $mq = $cropVariantConfig['media'] ?? null;
             $className = $this->getRatioClassForCropVariant($cropVariantConfig['ratio'], $mq);
-            $this->ratioBoxClassnames[] = $className;
+            $this->ratioBoxClassNames[] = $className;
             $css = $this->getRatioBoxStyle($cropVariantConfig['ratio'], $mq);
             $this->addStyleToHeader($className, $css, 1);
         };
 
-        return $this->ratioBoxClassnames;
+        return $this->ratioBoxClassNames;
     }
 
 }

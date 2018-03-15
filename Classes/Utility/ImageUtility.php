@@ -3,13 +3,12 @@
 namespace C1\ImageRenderer\Utility;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
+use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Extbase\Service\ImageService;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class ImageUtility
 {
@@ -36,7 +35,7 @@ class ImageUtility
     protected $cropVariants;
 
     /**
-     * @var array
+     * @var CropVariantCollection $cropVariantCollection
      */
     protected $cropVariantCollection;
 
@@ -70,7 +69,7 @@ class ImageUtility
     }
 
     /**
-     * @param File|FileReference $file
+     * @param FileInterface $file
      */
     public function setOriginalFile($file)
     {
@@ -198,6 +197,7 @@ class ImageUtility
 
     public function processImage($processingConfiguration) {
         $imageService = $this->getImageService();
+        /** @var FileReference $processedImage */
         $processedImage = $imageService->applyProcessingInstructions(
             $this->originalFile,
             $processingConfiguration

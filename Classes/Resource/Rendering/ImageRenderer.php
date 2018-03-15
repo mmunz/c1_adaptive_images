@@ -8,11 +8,8 @@ use TYPO3\CMS\Core\Resource\Rendering\FileRendererInterface;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use C1\ImageRenderer\Utility\ImageUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use C1\ImageRenderer\Utility\RatioBoxUtility;
-
-
 
 class ImageRenderer implements FileRendererInterface
 {
@@ -63,6 +60,9 @@ class ImageRenderer implements FileRendererInterface
 
     /**
      * Constructor
+     *
+     * @param array $configuration
+     * @param ObjectManager|object
      */
     public function __construct($configuration = null, $objectManager = null)
     {
@@ -77,7 +77,7 @@ class ImageRenderer implements FileRendererInterface
     /**
      * Return an instance of RatioBoxUtility
      *
-     * @return RatioBoxUtility
+     * @return RatioBoxUtility|object
      */
     protected function getRatioBoxUtility()
     {
@@ -141,9 +141,9 @@ class ImageRenderer implements FileRendererInterface
         $viewTmpl->assign('options', $this->options);
         $viewTmpl->assign('sources', $cropVariants);
 
-        $ratioBoxClasses = $ratioBoxUtility->getRatioBoxClassnames($cropVariants);
+        $ratioBoxClasses = $ratioBoxUtility->getRatioBoxClassNames($cropVariants);
         $ratioBox = [
-            classNames => implode(' ', $ratioBoxClasses)
+            'classNames' => implode(' ', $ratioBoxClasses)
         ];
         $viewTmpl->assign('ratioBox', $ratioBox);
 

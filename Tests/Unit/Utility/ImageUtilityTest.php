@@ -7,7 +7,6 @@ use Nimut\TestingFramework\TestCase\AbstractTestCase;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 
@@ -78,6 +77,7 @@ class ImageUtilityTest extends AbstractTestCase
     /** @test */
     public function setOriginalFileSetsFile()
     {
+        /** @var File $fileMock */
         $fileMock = $this->createMock(File::class);
         $utility = new ImageUtility($this->optionsMock, $this->settingsMock, $this->objectManagerMock);
         $utility->setOriginalFile($fileMock);
@@ -133,7 +133,7 @@ class ImageUtilityTest extends AbstractTestCase
     /** @test */
     public function getCropVariantsReturnsCropVariants()
     {
-
+        /** @var MockObject|ImageUtility $mock */
         $mock = $this->getMockBuilder(ImageUtility::class)
             ->setConstructorArgs([$this->optionsMock, $this->settingsMock, $this->objectManagerMock])
             ->setMethods(['processSrcsetImages'])

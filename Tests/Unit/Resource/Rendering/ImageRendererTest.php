@@ -3,7 +3,7 @@
 namespace C1\ImageRenderer\Tests\Unit\Resource\Rendering;
 
 use C1\ImageRenderer\Resource\Rendering\ImageRenderer;
-//use C1\LazysizesImagerenderer\Resource\Rendering\ImageRendererConfiguration;
+use C1\ImageRenderer\Service\SettingsService;
 use Nimut\TestingFramework\TestCase\AbstractTestCase;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -14,7 +14,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class ImageRendererTest extends AbstractTestCase
 {
     /**
-     * @var MockObject|ImageRendererConfiguration
+     * @var MockObject|SettingsService
      */
     protected $configurationMock;
 
@@ -43,10 +43,12 @@ class ImageRendererTest extends AbstractTestCase
     /** @test */
     public function canRenderReturnsTrueOnJpg()
     {
-        $jpgMock = $this->createMock(\TYPO3\CMS\Core\Resource\File::class);
+        /** @var MockObject|File $jpgMock */
+        $jpgMock = $this->createMock(File::class);
         $jpgMock->expects($this->any())->method('getMimeType')->will($this->returnValue('image/jpg'));
 
-        $jpegMock = $this->createMock(\TYPO3\CMS\Core\Resource\File::class);
+        /** @var MockObject|File $jpegMock */
+        $jpegMock = $this->createMock(File::class);
         $jpegMock->expects($this->any())->method('getMimeType')->will($this->returnValue('image/jpeg'));
 
         $imageRenderer = new ImageRenderer($this->configurationMock, $this->objectManagerMock);
@@ -58,7 +60,8 @@ class ImageRendererTest extends AbstractTestCase
     /** @test */
     public function canRenderReturnsTrueOnGif()
     {
-        $gifMock = $this->createMock(\TYPO3\CMS\Core\Resource\File::class);
+        /** @var MockObject|File $gifMock */
+        $gifMock = $this->createMock(File::class);
         $gifMock->expects($this->any())->method('getMimeType')->will($this->returnValue('image/gif'));
 
         $imageRenderer = new ImageRenderer($this->configurationMock, $this->objectManagerMock);
@@ -69,7 +72,8 @@ class ImageRendererTest extends AbstractTestCase
     /** @test */
     public function canRenderReturnsTrueOnPng()
     {
-        $pngMock = $this->createMock(\TYPO3\CMS\Core\Resource\File::class);
+        /** @var MockObject|File $pngMock */
+        $pngMock = $this->createMock(File::class);
         $pngMock->expects($this->any())->method('getMimeType')->will($this->returnValue('image/png'));
 
         $imageRenderer = new ImageRenderer($this->configurationMock, $this->objectManagerMock);
@@ -80,7 +84,8 @@ class ImageRendererTest extends AbstractTestCase
     /** @test */
     public function canRenderReturnsFalseOnWrongMimeType()
     {
-        $audioMock = $this->createMock(\TYPO3\CMS\Core\Resource\File::class);
+        /** @var MockObject|File $audioMock */
+        $audioMock = $this->createMock(File::class);
         $audioMock->expects($this->any())->method('getMimeType')->will($this->returnValue('audio/ogg'));
 
         $imageRenderer = new ImageRenderer($this->configurationMock, $this->objectManagerMock);
@@ -91,7 +96,10 @@ class ImageRendererTest extends AbstractTestCase
     /** @test */
     public function setFileSetsFile()
     {
+        /** @var MockObject|File $fileMock */
         $fileMock = $this->createMock(File::class);
+
+        /** @var ImageRenderer $imageRenderer */
         $imageRenderer = new ImageRenderer($this->configurationMock, $this->objectManagerMock);
         $imageRenderer->setFile($fileMock);
 
@@ -99,9 +107,12 @@ class ImageRendererTest extends AbstractTestCase
     }
 
     /** @test */
-    public function setFileTransformsFilereferenceToFile()
+    public function setFileTransformsFileReferenceToFile()
     {
+        /** @var MockObject|File $fileMock */
         $fileMock = $this->createMock(File::class);
+
+        /** @var MockObject|FileReference $filereferenceMock */
         $filereferenceMock = $this->createMock(FileReference::class);
         $filereferenceMock->expects($this->any())
             ->method('getOriginalFile')

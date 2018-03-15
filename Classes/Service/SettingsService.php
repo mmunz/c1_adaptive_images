@@ -1,13 +1,12 @@
 <?php
 /**
- * Get typoscript settings and view configuration.
+ * Get TypoScript settings and view configuration.
  */
 
 namespace C1\ImageRenderer\Service;
 
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class SettingsService
 {
@@ -59,7 +58,7 @@ class SettingsService
     }
 
     /**
-     * Returns the typoscript array at path $path, which is separated by ".",
+     * Returns the TypoScript array at path $path, which is separated by ".",
      * e.g. "settings.foo".
      * "settings.foo" would return $this->frameworkConfiguration['settings']['foo'].
      *
@@ -74,7 +73,7 @@ class SettingsService
     }
 
     /**
-     * Returns all typoscript settings.
+     * Returns all TypoScript settings.
      *
      * @return array
      */
