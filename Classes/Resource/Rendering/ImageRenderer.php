@@ -105,7 +105,8 @@ class ImageRenderer implements FileRendererInterface
      * @param array $options
      * @return void
      */
-    public function setOptions($options) {
+    public function setOptions($options)
+    {
         $this->options = $options;
     }
 
@@ -126,7 +127,8 @@ class ImageRenderer implements FileRendererInterface
         return $this;
     }
 
-    public function renderFluidTemplate() {
+    public function renderFluidTemplate()
+    {
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $viewTmpl */
         $ratioBoxUtility = $this->getRatioBoxUtility();
         $ratioBoxUtility->setRatioBoxBase($this->settings['cssClasses']['ratioBoxBase'] ?? 'ratio-box');
@@ -179,5 +181,4 @@ class ImageRenderer implements FileRendererInterface
 
         return $this->renderFluidTemplate();
     }
-
 }

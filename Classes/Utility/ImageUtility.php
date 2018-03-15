@@ -43,7 +43,8 @@ class ImageUtility
     /**
      * @param array $options
      */
-    public function init($options = null) {
+    public function init($options = null)
+    {
         if ($options) {
             $this->setOptions($options);
         };
@@ -56,7 +57,6 @@ class ImageUtility
     public function setOptions($options)
     {
         $this->options = $options;
-
     }
 
     /**
@@ -106,7 +106,6 @@ class ImageUtility
         if (!array_key_exists('default', $this->cropVariants)) {
             $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
         }
-
     }
 
     /**
@@ -127,7 +126,7 @@ class ImageUtility
      * @param string $processor
      * @return string
      */
-    public function getDebugAnnotation($width, $height, $ratio, $processor = Null)
+    public function getDebugAnnotation($width, $height, $ratio, $processor = null)
     {
         if (!$processor) {
             $processor = $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'];
@@ -144,7 +143,8 @@ class ImageUtility
 
         if ($processor === 'ImageMagick') {
             $text = sprintf(
-                '-pointsize 30 -gravity Center -fill black -annotate +0+0 "%s x %s (%s)" -gravity NorthWest  -blur 2x5 ',
+                '-pointsize 30 -gravity Center \
+                        -fill black -annotate +0+0 "%s x %s (%s)" -gravity NorthWest  -blur 2x5 ',
                 $width,
                 $height,
                 $ratio
@@ -185,8 +185,10 @@ class ImageUtility
      * @param string $cropVariantKey
      * @return null|Area
      */
-    public function getCropAreaForVariant($cropVariantKey) {
-        $cropArea = $this->cropVariantCollection->getCropArea($cropVariantKey) ?? $this->cropVariantCollection->getCropArea('default');
+    public function getCropAreaForVariant($cropVariantKey)
+    {
+        $cropArea = $this->cropVariantCollection
+                ->getCropArea($cropVariantKey) ?? $this->cropVariantCollection->getCropArea('default');
         return $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($this->originalFile);
     }
 
@@ -195,7 +197,8 @@ class ImageUtility
      * @return array
      */
 
-    public function processImage($processingConfiguration) {
+    public function processImage($processingConfiguration)
+    {
         $imageService = $this->getImageService();
         /** @var FileReference $processedImage */
         $processedImage = $imageService->applyProcessingInstructions(
@@ -213,7 +216,6 @@ class ImageUtility
             $processedImage->getProperty('width'),
             $processedImage->getProperty('height'),
             $ratio
-
         );
 
         $processedImage = $imageService->applyProcessingInstructions(
@@ -283,7 +285,8 @@ class ImageUtility
      * @param array $candidates
      * @return string
      */
-    public function getSrcSetString($candidates) {
+    public function getSrcSetString($candidates)
+    {
         $srcset = [];
         foreach ($candidates as $candidate) {
             $srcset[] = sprintf('%s %dw', $candidate['url'], $candidate['width']);
@@ -299,7 +302,8 @@ class ImageUtility
      *
      * @param $candidates
      */
-    public function getRatioFromFirstCandidate($candidates) {
+    public function getRatioFromFirstCandidate($candidates)
+    {
         return reset($candidates)['ratio'];
     }
 
@@ -345,5 +349,4 @@ class ImageUtility
 
         return $this->cropVariants;
     }
-
 }

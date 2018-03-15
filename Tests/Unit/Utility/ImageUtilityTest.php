@@ -9,7 +9,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
-
 class ImageUtilityTest extends AbstractTestCase
 {
 
@@ -36,19 +35,19 @@ class ImageUtilityTest extends AbstractTestCase
      * @var array optionsMock
      */
     protected $optionsMock = [
-        'additionalAttributes' => NULL,
-        'data' => NULL,
+        'additionalAttributes' => null,
+        'data' => null,
         'class' => 'image-embed-item',
-        'dir' => NULL,
-        'id' => NULL,
-        'lang' => NULL,
-        'style' => NULL,
+        'dir' => null,
+        'id' => null,
+        'lang' => null,
+        'style' => null,
         'title' => '',
-        'accesskey' => NULL,
-        'tabindex' => NULL,
-        'onclick' => NULL,
+        'accesskey' => null,
+        'tabindex' => null,
+        'onclick' => null,
         'alt' => '',
-        'file' => NULL,
+        'file' => null,
         'additionalConfig' => [
             'renderType' => 'adaptive-fluidtemplate',
             'sources' => [
@@ -92,7 +91,9 @@ class ImageUtilityTest extends AbstractTestCase
         $utility = new ImageUtility($this->optionsMock, $this->settingsMock, $this->objectManagerMock);
 
         $this->assertEquals(
-            '-pointsize 30 -gravity Center -fill black -annotate +0+0 "400m x 400 (0.5)" -gravity NorthWest  -blur 2x5 -pointsize 30 -gravity Center -fill white -annotate +1+1 "400m x 400 (0.5)" -gravity NorthWest',
+            '-pointsize 30 -gravity Center \
+                        -fill black -annotate +0+0 "400m x 400 (0.5)" -gravity NorthWest  -blur 2x5 -pointsize 30 ' .
+                        '-gravity Center -fill white -annotate +1+1 "400m x 400 (0.5)" -gravity NorthWest',
             $utility->getDebugAnnotation('400m', '400', 0.5, 'ImageMagick')
         );
     }
@@ -174,7 +175,7 @@ class ImageUtilityTest extends AbstractTestCase
                 'srcset' => 'file-320.jpg 320w,file-640.jpg 640w',
                 'ratio' => 0.75
             ],
-            'default' => Array (
+            'default' => array (
                 'srcsetWidths' => '600,992',
                 'candidates' => $candidates['default'],
                 'srcset' => 'file-600.jpg 600w,file-992.jpg 992w',
@@ -195,10 +196,5 @@ class ImageUtilityTest extends AbstractTestCase
             $expectation,
             $mock->getCropVariants()
         );
-
-
     }
-
-
-
 }

@@ -97,5 +97,4 @@ class SettingsService
         }
         return $this->viewConfiguration;
     }
-
 }

@@ -16,7 +16,8 @@ class RatioBoxUtility
      */
     protected $ratioBoxClassNames;
 
-    public function __construct($pageRenderer = null) {
+    public function __construct($pageRenderer = null)
+    {
         if (!$pageRenderer) {
             $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         } else {
@@ -34,7 +35,8 @@ class RatioBoxUtility
      *
      * @param string $ratioBoxBase
      */
-    public function setRatioBoxBase($ratioBoxBase = 'ratio-box') {
+    public function setRatioBoxBase($ratioBoxBase = 'ratio-box')
+    {
         $this->ratioBoxBase = $ratioBoxBase;
     }
 
@@ -71,7 +73,7 @@ class RatioBoxUtility
         $ratioBoxClass = null;
         $ratioBoxBase = $this->ratioBoxBase;
 
-        if($mq) {
+        if ($mq) {
             $ratioBoxClass = sprintf(
                 '%s--%s-%s',
                 $ratioBoxBase,
@@ -124,7 +126,8 @@ class RatioBoxUtility
      * @param string $css
      * @param boolean $compress
      */
-    public function addStyleToHeader($class, $css, $compress = true) {
+    public function addStyleToHeader($class, $css, $compress = true)
+    {
         $this->pageRenderer->addCssInlineBlock($class, $css, $compress);
     }
 
@@ -135,7 +138,8 @@ class RatioBoxUtility
      *
      * @return array
      */
-    public function getRatioBoxClassNames($cropVariants) {
+    public function getRatioBoxClassNames($cropVariants)
+    {
 
         $this->ratioBoxClassNames[] = $this->ratioBoxBase;
 
@@ -149,5 +153,4 @@ class RatioBoxUtility
 
         return $this->ratioBoxClassNames;
     }
-
 }
