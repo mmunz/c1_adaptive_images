@@ -8,6 +8,7 @@ use TYPO3\CMS\Core\Resource\Rendering\FileRendererInterface;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use C1\ImageRenderer\Utility\ImageUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use C1\ImageRenderer\Utility\RatioBoxUtility;
 
@@ -169,7 +170,7 @@ class ImageRenderer implements FileRendererInterface
         $this->setFile($file);
         $this->setOptions($options);
         $this->imageUtility->setOriginalFile($file);
-        $this->imageUtility->setOptions($this->options);
+        $this->imageUtility->init($this->options);
 
         $pluginSettingsService = $this->objectManager->get('C1\\ImageRenderer\\Service\\SettingsService');
         $this->settings = $pluginSettingsService->getSettings();

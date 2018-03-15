@@ -2,11 +2,14 @@
 
 namespace C1\ImageRenderer\Utility;
 
+use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Extbase\Service\ImageService;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class ImageUtility
 {
@@ -28,20 +31,59 @@ class ImageUtility
     protected $originalFile;
 
     /**
-     * @var array $cropVariants
+     * @var CropVariantCollection $cropVariants
      */
     protected $cropVariants;
 
+    /**
+     * @var array
+     */
+    protected $cropVariantCollection;
+
+
+    /**
+     * @param array $options
+     */
+    public function init($options = null) {
+        if ($options) {
+            $this->setOptions($options);
+        };
+        $this->cropVariants = $this->options['additionalConfig']['sources'] ?? [];
+    }
+
+    /**
+     * @param array $options
+     */
     public function setOptions($options)
     {
         $this->options = $options;
+
     }
 
+    /**
+     Create a CropVariantCollection from file reference.
+     */
+    public function setCropVariantCollection()
+    {
+        $cropString = $this->originalFile instanceof FileReference ? $this->originalFile->getProperty('crop') : '';
+        $this->cropVariantCollection = CropVariantCollection::create((string)$cropString);
+    }
+
+    /**
+     * @param File|FileReference $file
+     */
     public function setOriginalFile($file)
     {
         $this->originalFile = $file;
+        $this->setCropVariantCollection();
     }
 
+    /**
+     * ImageUtility constructor.
+     * @param null|array $options
+     * @param null|array $settings
+     * @param null|ObjectManager $objectManager
+     */
     public function __construct($options = null, $settings = null, $objectManager = null)
     {
         if (!$objectManager) {
@@ -51,7 +93,8 @@ class ImageUtility
         }
 
         if ($options) {
-            $this->options = $options;
+            $this->setOptions($options);
+            $this->cropVariants = $this->options['additionalConfig']['sources'] ?? [];
         }
 
         if ($settings) {
@@ -60,12 +103,17 @@ class ImageUtility
             $pluginSettingsService = $this->objectManager->get('C1\\ImageRenderer\\Service\\SettingsService');
             $this->settings = $pluginSettingsService->getSettings();
         };
+
+        if (!array_key_exists('default', $this->cropVariants)) {
+            $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
+        }
+
     }
 
     /**
      * Return an instance of ImageService
      *
-     * @return ImageService
+     * @return object
      */
     protected function getImageService()
     {
@@ -77,11 +125,14 @@ class ImageUtility
      * @param int $height
      * @param int $width
      * @param int|float $ratio
+     * @param string $processor
      * @return string
      */
-    public function getDebugAnnotation($width, $height, $ratio)
+    public function getDebugAnnotation($width, $height, $ratio, $processor = Null)
     {
-        $processor = $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'];
+        if (!$processor) {
+            $processor = $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'];
+        }
 
         if ($processor === 'GraphicsMagick') {
             return sprintf(
@@ -108,7 +159,6 @@ class ImageUtility
             );
             return $text;
         };
-
         return '';
     }
 
@@ -130,28 +180,15 @@ class ImageUtility
     }
 
     /**
+     *
+     * Returns a calculated Area with coordinates for croppting the actual image
+     *
      * @param string $cropVariantKey
-     * @return mixed
+     * @return null|Area
      */
     public function getCropAreaForVariant($cropVariantKey) {
-
-        $cropString = $this->originalFile instanceof FileReference ? $this->originalFile->getProperty('crop') : '';
-        $cropVariantCollection = CropVariantCollection::create((string)$cropString);
-        $cropArea = $cropVariantCollection->getCropArea($cropVariantKey);
-
-        if ($cropArea->isEmpty()) {
-            if ($cropVariantKey !== 'default') {
-                return null;
-            }
-            // try 'default' cropArea as fallback if the current variant has no cropArea
-            $cropAreaDefault = $cropVariantCollection->getCropArea('default');
-            if ($cropAreaDefault->isEmpty()) {
-                return null;
-            }
-            return $cropAreaDefault->makeAbsoluteBasedOnFile($this->originalFile);
-        } else {
-            return $cropArea->makeAbsoluteBasedOnFile($this->originalFile);
-        }
+        $cropArea = $this->cropVariantCollection->getCropArea($cropVariantKey) ?? $this->cropVariantCollection->getCropArea('default');
+        return $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($this->originalFile);
     }
 
     /**
@@ -186,10 +223,10 @@ class ImageUtility
 
         $url = $imageService->getImageUri($processedImage);
         return [
-            url => $url,
-            width => $processedImage->getProperty('width'),
-            height => $processedImage->getProperty('height'),
-            ratio => $ratio
+            'url' => $url,
+            'width' => $processedImage->getProperty('width'),
+            'height' => $processedImage->getProperty('height'),
+            'ratio' => $ratio
         ];
     }
 
@@ -199,7 +236,7 @@ class ImageUtility
      * @param array $cropVariantConfig
      * @return array
      */
-    protected function processSrcsetImages($cropVariantKey, $cropVariantConfig)
+    public function processSrcsetImages($cropVariantKey, $cropVariantConfig)
     {
         $srcset = array();
         $srcWidths = explode(',', $cropVariantConfig['srcsetWidths']);
@@ -224,8 +261,6 @@ class ImageUtility
                 }
             }
 
-            $localProcessingConfiguration['crop'] = $this->getCropAreaForVariant($cropVariantKey);
-
             if ($cropVariantConfig['image_format'] > 0) {
                 $img_format = $this->options['image_format'];
                 $localProcessingConfiguration['width'] = $width . "c";
@@ -237,9 +272,6 @@ class ImageUtility
             $processedImage = $this->processImage($localProcessingConfiguration);
 
             $srcset[$width] = $processedImage;
-
-
-
         };
 
         return $srcset;
@@ -259,7 +291,7 @@ class ImageUtility
         return implode(',', $srcset);
     }
 
-    /*
+    /**
      * Get the ratio for a given cropVariant
      *
      * Because all candidates have the same ratio we can just return the 'ratio' from the first child of the candidates
@@ -296,7 +328,6 @@ class ImageUtility
      */
     public function getCropVariants()
     {
-        $this->cropVariants = $this->options['additionalConfig']['sources'] ?? [];
 
         if (!array_key_exists('default', $this->cropVariants)) {
             $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
@@ -305,8 +336,11 @@ class ImageUtility
         foreach ($this->cropVariants as $cropVariantKey => $cropVariantConfig) {
             $candidates = $this->processSrcsetImages($cropVariantKey, $cropVariantConfig);
             $this->cropVariants[$cropVariantKey]['candidates'] = $candidates;
-            $this->cropVariants[$cropVariantKey]['srcset'] = $this->getSrcsetString($this->cropVariants[$cropVariantKey]['candidates']);
+            $this->cropVariants[$cropVariantKey]['srcset'] = $this->getSrcSetString($candidates);
             $this->cropVariants[$cropVariantKey]['ratio'] = $this->getRatioFromFirstCandidate($candidates);
+            // update srcsetWidths with actually generated candidate widths. Some of the configured sizes might
+            // have been skipped for smaller images or when maxWidth for the image was reached.
+            $this->cropVariants[$cropVariantKey]['srcsetWidths'] = implode(',', array_keys($candidates));
         }
 
         return $this->cropVariants;
