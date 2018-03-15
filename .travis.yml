@@ -1,0 +1,7 @@
+language: php
+php: 7.0.21
+install:
+  - pear install pear/PHP_CodeSniffer
+  - phpenv rehash
+script:
+  - phpcs --extensions=php .
