@@ -36,13 +36,13 @@ class RatioBoxUtilityTest extends AbstractTestCase
 
         $this->assertEquals('ratio-box--42', $utility->getRatioClassForCropVariant(42));
         $this->assertEquals(
-            'ratio-box-max-width768px--42',
+            'ratio-box--max-width768px-42',
             $utility->getRatioClassForCropVariant(42, 'max-width: 768px')
         );
 
         // with media query
         $this->assertEquals(
-            'ratio-box-max-width768px--42',
+            'ratio-box--max-width768px-42',
             $utility->getRatioClassForCropVariant(42, 'max-width: 768px')
         );
 
@@ -50,7 +50,7 @@ class RatioBoxUtilityTest extends AbstractTestCase
         $utility->setRatioBoxBase('rbx');
         $this->assertEquals('rbx--42', $utility->getRatioClassForCropVariant(42));
         $this->assertEquals(
-            'rbx-max-width768px--42',
+            'rbx--max-width768px-42',
             $utility->getRatioClassForCropVariant(42, 'max-width: 768px')
         );
     }
@@ -66,16 +66,16 @@ class RatioBoxUtilityTest extends AbstractTestCase
 
         // with media query
         $this->assertEquals(
-            '@media max-width: 768px{.ratio-box-max-width768px--42{padding-bottom:42%}}',
+            '@media max-width: 768px{.ratio-box--max-width768px-42{padding-bottom:42%}}',
             $utility->getRatioBoxStyle(42, 'max-width: 768px'));
         $this->assertEquals(
-            '@media max-width: 768px{.ratio-box-max-width768px--42dot23{padding-bottom:42.23%}}',
+            '@media max-width: 768px{.ratio-box--max-width768px-42dot23{padding-bottom:42.23%}}',
             $utility->getRatioBoxStyle(42.23, 'max-width: 768px'));
 
         // with changed ratioBoxBase
         $utility->setRatioBoxBase('rbx');
         $this->assertEquals(
-            '@media max-width: 768px{.rbx-max-width768px--42{padding-bottom:42%}}',
+            '@media max-width: 768px{.rbx--max-width768px-42{padding-bottom:42%}}',
             $utility->getRatioBoxStyle(42, 'max-width: 768px'));
     }
 
@@ -99,7 +99,7 @@ class RatioBoxUtilityTest extends AbstractTestCase
             Array (
                 0 => 'ratio-box',
                 1 => 'ratio-box--56dot25',
-                2 => 'ratio-box-max-width767px--75'
+                2 => 'ratio-box--max-width767px-75'
             ),
             $utility->getRatioBoxClassnames($cropVariants)
         );
@@ -111,7 +111,7 @@ class RatioBoxUtilityTest extends AbstractTestCase
             Array (
                 0 => 'rbx',
                 1 => 'rbx--56dot25',
-                2 => 'rbx-max-width767px--75'
+                2 => 'rbx--max-width767px-75'
             ),
             $utility->getRatioBoxClassnames($cropVariants)
         );

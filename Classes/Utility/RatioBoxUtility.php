@@ -71,14 +71,21 @@ class RatioBoxUtility
         $ratioBoxBase = $this->ratioBoxBase;
 
         if($mq) {
-            $ratioBoxBase .= '-' . $this->sanitizeCssClassname($mq);
+            $ratioBoxClass = sprintf(
+                '%s--%s-%s',
+                $ratioBoxBase,
+                $this->sanitizeCssClassname($mq),
+                \preg_replace('/\./i', 'dot', $ratio)
+            );
+        } else {
+            $ratioBoxClass = sprintf(
+                '%s--%s',
+                $ratioBoxBase,
+                \preg_replace('/\./i', 'dot', $ratio)
+            );
         }
 
-        $ratioBoxClass = sprintf(
-            '%s--%s',
-            $ratioBoxBase,
-            \preg_replace('/\./i', 'dot', $ratio)
-        );
+
         return $this->sanitizeCssClassname($ratioBoxClass);
     }
 
