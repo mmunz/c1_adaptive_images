@@ -31,7 +31,8 @@ class RatioBoxUtilityTest extends AbstractTestCase
     }
 
     /** @test */
-    public function getRatioClassForCropVariantReturnsValidClass() {
+    public function getRatioClassForCropVariantReturnsValidClass()
+    {
         $utility = new RatioBoxUtility($this->pageRendererMock);
         $utility->setRatioBoxBase('ratio-box');
 
@@ -97,7 +98,7 @@ class RatioBoxUtilityTest extends AbstractTestCase
         ];
 
         $this->assertEquals(
-            Array (
+            array (
                 0 => 'ratio-box',
                 1 => 'ratio-box--56dot25',
                 2 => 'ratio-box--max-width767px-75'
@@ -109,7 +110,7 @@ class RatioBoxUtilityTest extends AbstractTestCase
         $utility = new RatioBoxUtility($this->pageRendererMock);
         $utility->setRatioBoxBase('rbx');
         $this->assertEquals(
-            Array (
+            array (
                 0 => 'rbx',
                 1 => 'rbx--56dot25',
                 2 => 'rbx--max-width767px-75'
