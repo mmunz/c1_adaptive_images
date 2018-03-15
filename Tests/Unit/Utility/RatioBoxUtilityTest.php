@@ -18,8 +18,6 @@ class RatioBoxUtilityTest extends AbstractTestCase
     protected function setUp()
     {
         parent::setUp();
-
-        //$this->configurationMock = $this->createMock(ImageRendererConfiguration::class);
         $this->pageRendererMock = $this->createMock(PageRenderer::class);
     }
 
@@ -121,32 +119,4 @@ class RatioBoxUtilityTest extends AbstractTestCase
             $utility->getRatioBoxClassNames($cropVariants)
         );
     }
-
-
-
-
-//
-//    /** @test */
-//    public function getDebugInformationFillsInWidthAndHeight()
-//    {
-//        $utility = new RatioBoxUtility();
-//
-//        $this->assertEquals(
-//            '-pointsize 40 -stroke white -gravity Center -annotate +0+0 "400m x 400" -gravity NorthWest',
-//            $utility->getDebugAnnotation('400m', '400')
-//        );
-//    }
-
-//    /** @test */
-// MOVE TO ImageUtilityTest
-//    public function calculateRatioReturnsCorrectRatio()
-//    {
-//        $utility = new RatioBoxUtility();
-//
-//        $this->assertEquals(100, $utility->calculateRatio(400, 400));
-//        $this->assertEquals(50, $utility->calculateRatio(200, 400));
-//        $this->assertEquals(21.77, $utility->calculateRatio(100.25, 460.5));
-//    }
-
-//
 }

@@ -26,8 +26,6 @@ class ImageRendererTest extends AbstractTestCase
     protected function setUp()
     {
         parent::setUp();
-
-        //$this->configurationMock = $this->createMock(ImageRendererConfiguration::class);
         $this->objectManagerMock = $this->createMock(ObjectManager::class);
     }
 
@@ -124,7 +122,7 @@ class ImageRendererTest extends AbstractTestCase
         Assert::assertAttributeInstanceOf('TYPO3\CMS\Core\Resource\File', 'file', $imageRenderer);
     }
 
-    /** @test */
+//    /** @test */
 //    public function setAltTextFromFileAlternative()
 //    {
 //        $fileMock = $this->createMock(File::class);
@@ -141,7 +139,7 @@ class ImageRendererTest extends AbstractTestCase
 //        Assert::assertAttributeEquals('dummy alt text', 'altText', $imageRenderer);
 //    }
 
-    /** @test */
+//    /** @test */
 //    public function setAltTextFromFileName()
 //    {
 //        $fileMock = $this->createMock(File::class);
@@ -164,7 +162,7 @@ class ImageRendererTest extends AbstractTestCase
 //        Assert::assertAttributeEquals('image.jpg', 'altText', $imageRenderer);
 //    }
 
-    /** @test */
+//    /** @test */
 //    public function setAltTextFromViewHelper()
 //    {
 //        $imageRenderer = new ImageRenderer($this->configurationMock, $this->objectManagerMock);

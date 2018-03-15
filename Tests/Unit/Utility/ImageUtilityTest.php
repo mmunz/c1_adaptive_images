@@ -69,8 +69,6 @@ class ImageUtilityTest extends AbstractTestCase
     {
         parent::setUp();
         $this->objectManagerMock = $this->createMock(ObjectManager::class);
-        //$this->configurationMock = $this->createMock(ImageRendererConfiguration::class);
-        //$this->pageRendererMock = $this->createMock(PageRenderer::class);
     }
 
     /** @test */
