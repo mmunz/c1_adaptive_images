@@ -1,29 +1,33 @@
-<f:layout name="Default" />
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:layout name="Default"/>
 
 <f:section name="Main">
-    <picture>
-    <f:for each="{sources}" as="cropVariant">
-        <f:if condition="{cropVariant.media}">
-            <f:then>
-                <source media="{cropVariant.media}"
-                        srcset="{cropVariant.srcset}"
-                >
-            </f:then>
-            <f:else>
-                <f:debug>{defaultImage}</f:debug>
-                <img src="{defaultImage.url}"
-                     class="img-responsive lazyload"
-                     data-imgdebug="1"
-                     srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 1w"
-                     sizes="100vw"
-                     data-sizes="auto"
-                     data-srcset="{cropVariant.srcset}"
-                >
-            </f:else>
-        </f:if>
-    </f:for>
-    </picture>
-
+    <f:spaceless>
+        <picture>
+            <f:for each="{sources}" as="cropVariant">
+                <f:if condition="{cropVariant.media}">
+                    <f:then>
+                        <source media="{cropVariant.media}"
+                                srcset="{cropVariant.srcset}"
+                        >
+                    </f:then>
+                    <f:else>
+                        <img src="{defaultImage.url}"
+                             class="img-responsive lazyload"
+                             data-imgdebug="1"
+                             srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 1w"
+                             sizes="100vw"
+                             {defaultImage.dataString}
+                             data-sizes="auto"
+                             data-srcset="{cropVariant.srcset}"
+                             {defaultImage.additionalAttributesString}
+                        >
+                    </f:else>
+                </f:if>
+            </f:for>
+        </picture>
+    </f:spaceless>
 </f:section>
 
 <f:comment>

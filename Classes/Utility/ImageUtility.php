@@ -9,7 +9,6 @@ use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class ImageUtility
 {
@@ -241,7 +240,7 @@ class ImageUtility
      */
     public function processSrcsetImages($cropVariantKey, $cropVariantConfig)
     {
-        $srcset = array();
+        $srcset = [];
         $srcWidths = explode(',', $cropVariantConfig['srcsetWidths']);
         $maxWidthReached = false;
 
@@ -309,6 +308,40 @@ class ImageUtility
     }
 
     /**
+     * Returns a space separated string of data attributes
+     * @return string
+     */
+    public function formatDataAttributes()
+    {
+        $data = $this->options['data'];
+        $tmpData = [];
+
+        if ($data && is_array($data)) {
+            foreach ($data as $dataAttributeKey => $dataAttributeValue) {
+                $tmpData[] = "data-{$dataAttributeKey}={$dataAttributeValue}";
+            }
+        }
+        return implode(' ', $tmpData);
+    }
+
+    /**
+     * Returns a space separated string of additionalAttributes
+     * @return string
+     */
+    public function formatAdditionalAttributes()
+    {
+        $data = $this->options['additionalAttributes'];
+        $tmpData = [];
+
+        if ($data && is_array($data)) {
+            foreach ($data as $dataAttributeKey => $dataAttributeValue) {
+                $tmpData[] = "{$dataAttributeKey}={$dataAttributeValue}";
+            }
+        }
+        return implode(' ', $tmpData);
+    }
+
+    /**
      * Get the default image
      * This can for example be used as fallback image if the browser supports no srcset/sources attributes
      *
@@ -323,10 +356,14 @@ class ImageUtility
             'crop' => $this->getCropAreaForVariant('default')
         ];
 
+        $this->formatDataAttributes();
+
         $processedImage = $this->processImage($processingConfiguration);
 
         // @Todo: unset unneeded keys
         $mergedWithOptions = array_merge($this->options, $processedImage);
+        $mergedWithOptions['dataString'] = $this->formatDataAttributes();
+        $mergedWithOptions['additionalAttributesString'] = $this->formatAdditionalAttributes();
 
         return $mergedWithOptions;
     }

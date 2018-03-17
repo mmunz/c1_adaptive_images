@@ -48,20 +48,16 @@ class ImageUtilityTest extends AbstractTestCase
         'onclick' => null,
         'alt' => '',
         'file' => null,
-        'additionalConfig' => [
-            'renderType' => 'adaptive-fluidtemplate',
-            'sources' => [
-                'mobile' => [
-                    'srcsetWidths' => '320,640',
-                    'media' => '(max-width:767px)'
-                ]
-            ],
-            'debugImgProperties' => 'TRUE'
-        ],
         'width' => 2560,
         'height' => 1475,
         'cropVariant' => 'default',
         'renderType' => 'adaptive-fluidtemplate',
+        'sources' => [
+            'mobile' => [
+                'srcsetWidths' => '320,640',
+                'media' => '(max-width:767px)'
+            ]
+        ],
         'debugImgProperties' => 'TRUE'
     ];
 
