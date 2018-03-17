@@ -108,6 +108,8 @@ class ImageRenderer implements FileRendererInterface
     public function setOptions($options)
     {
         $this->options = $options;
+        // additionalConfig is merged with options, so unset it
+        unset($this->options['additionalConfig']);
     }
 
     /**

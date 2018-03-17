@@ -9,6 +9,7 @@ use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class ImageUtility
 {
@@ -48,7 +49,7 @@ class ImageUtility
         if ($options) {
             $this->setOptions($options);
         };
-        $this->cropVariants = $this->options['additionalConfig']['sources'] ?? [];
+        $this->cropVariants = $this->options['sources'] ?? [];
     }
 
     /**
@@ -93,7 +94,7 @@ class ImageUtility
 
         if ($options) {
             $this->setOptions($options);
-            $this->cropVariants = $this->options['additionalConfig']['sources'] ?? [];
+            $this->cropVariants = $this->options['sources'] ?? [];
         }
 
         if ($settings) {
@@ -315,6 +316,7 @@ class ImageUtility
      */
     public function getDefaultImage()
     {
+
         $processingConfiguration = [
             'width' => $this->options['width'],
             'height' => $this->options['height'],
@@ -323,7 +325,10 @@ class ImageUtility
 
         $processedImage = $this->processImage($processingConfiguration);
 
-        return $processedImage;
+        // @Todo: unset unneeded keys
+        $mergedWithOptions = array_merge($this->options, $processedImage);
+
+        return $mergedWithOptions;
     }
 
 
