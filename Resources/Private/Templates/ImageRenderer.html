@@ -1,33 +1,36 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:data-namespace-typo3-fluid="true">
 
 <f:layout name="Default"/>
 
 <f:section name="Main">
-    <f:spaceless>
-        <picture>
-            <f:for each="{sources}" as="cropVariant">
-                <f:if condition="{cropVariant.media}">
-                    <f:then>
-                        <source media="{cropVariant.media}"
-                                srcset="{cropVariant.srcset}"
-                        >
-                    </f:then>
-                    <f:else>
-                        <img src="{defaultImage.url}"
-                             class="img-responsive lazyload"
-                             data-imgdebug="1"
-                             srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 1w"
-                             sizes="100vw"
-                             {defaultImage.dataString}
-                             data-sizes="auto"
-                             data-srcset="{cropVariant.srcset}"
-                             {defaultImage.additionalAttributesString}
-                        >
-                    </f:else>
-                </f:if>
-            </f:for>
-        </picture>
-    </f:spaceless>
+    <picture>
+        <f:for each="{sources}" as="cropVariant">
+            <f:if condition="{cropVariant.media}">
+                <f:then>
+                    <source media="{cropVariant.media}"
+                            srcset="{cropVariant.srcset}"
+                    >
+                </f:then>
+                <f:else>
+                    <img src="{defaultImage.url}"
+                         class="{defaultImage.class}"
+                         alt="{defaultImage.alt}"
+                         data-img-debug="1"
+                         srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 1w"
+                         sizes="100vw"
+                         data-sizes="auto"
+                         data-srcset="{cropVariant.srcset}"
+                         {defaultImage.dataString}
+                         {defaultImage.additionalAttributesString}
+                    >
+                </f:else>
+            </f:if>
+        </f:for>
+    </picture>
+</f:section>
+
+<f:section name="Attributes">
+    <f:if condition="{defaultImage.title}">title="{defaultImage.title}"</f:if>
 </f:section>
 
 <f:comment>
