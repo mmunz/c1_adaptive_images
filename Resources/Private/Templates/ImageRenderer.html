@@ -4,7 +4,7 @@
 
 <f:section name="Main">
     <picture>
-        <f:for each="{sources}" as="cropVariant">
+        <f:for each="{cropVariants}" as="cropVariant">
             <f:if condition="{cropVariant.media}">
                 <f:then>
                     <source media="{cropVariant.media}"
@@ -15,13 +15,8 @@
                     <img src="{defaultImage.url}"
                          class="{defaultImage.class}"
                          alt="{defaultImage.alt}"
-                         data-img-debug="1"
-                         srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 1w"
-                         sizes="100vw"
-                         data-sizes="auto"
-                         data-srcset="{cropVariant.srcset}"
-                         {defaultImage.dataString}
-                         {defaultImage.additionalAttributesString}
+                         {defaultImage.dataString->f:format.raw()}
+                         {defaultImage.additionalAttributesString->f:format.raw()}
                     >
                 </f:else>
             </f:if>

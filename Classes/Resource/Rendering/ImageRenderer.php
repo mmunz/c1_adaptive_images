@@ -8,7 +8,6 @@ use TYPO3\CMS\Core\Resource\Rendering\FileRendererInterface;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use C1\ImageRenderer\Utility\ImageUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use C1\ImageRenderer\Utility\RatioBoxUtility;
 
@@ -110,7 +109,7 @@ class ImageRenderer implements FileRendererInterface
     {
         $this->options = $options;
         // additionalConfig is merged with options, so unset it
-        unset($this->options['additionalConfig']);
+        // unset($this->options['additionalConfig']);
     }
 
     /**
@@ -144,7 +143,7 @@ class ImageRenderer implements FileRendererInterface
         $cropVariants = $this->imageUtility->getCropVariants();
         $viewTmpl->assign('settings', $this->settings);
         $viewTmpl->assign('options', $this->options);
-        $viewTmpl->assign('sources', $cropVariants);
+        $viewTmpl->assign('cropVariants', $cropVariants);
 
         $ratioBoxClasses = $ratioBoxUtility->getRatioBoxClassNames($cropVariants);
         $ratioBox = [
@@ -182,6 +181,11 @@ class ImageRenderer implements FileRendererInterface
 
         $this->viewConfiguration = $pluginSettingsService->getViewConfiguration();
 
-        return $this->renderFluidTemplate();
+        switch ($this->options['renderMode']) {
+            case 'fluidtemplate':
+                return $this->renderFluidTemplate();
+            default:
+                return 'No renderMode specified.';
+        }
     }
 }

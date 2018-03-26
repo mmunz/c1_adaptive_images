@@ -7,6 +7,7 @@ plugin.tx_c1imagerenderer {
     }
     settings {
         debug = {$plugin.tx_c1imagerenderer.settings.debug}
+        defaultImg = data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 1w
         defaultImgWidth = {$plugin.tx_c1imagerenderer.settings.defaultImgWidth}
         srcsetWidths = {$plugin.tx_c1imagerenderer.settings.srcsetWidths}
         cssClasses {

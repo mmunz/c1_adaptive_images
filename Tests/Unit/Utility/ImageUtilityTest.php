@@ -51,8 +51,8 @@ class ImageUtilityTest extends AbstractTestCase
         'width' => 2560,
         'height' => 1475,
         'cropVariant' => 'default',
-        'renderType' => 'adaptive-fluidtemplate',
-        'sources' => [
+        'renderMode' => 'fluidtemplate',
+        'cropVariants' => [
             'mobile' => [
                 'srcsetWidths' => '320,640',
                 'media' => '(max-width:767px)'

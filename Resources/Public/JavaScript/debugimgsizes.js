@@ -61,7 +61,7 @@
         imgEl.addEventListener('resize', action);
     };
 
-    document.querySelectorAll('[data-img-debug]').forEach(function (e) {
+    document.querySelectorAll('img[data-img-debug="1"]').forEach(function (e) {
         observe(e);
     });
 

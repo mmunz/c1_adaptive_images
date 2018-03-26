@@ -48,7 +48,7 @@ class ImageUtility
         if ($options) {
             $this->setOptions($options);
         };
-        $this->cropVariants = $this->options['sources'] ?? [];
+        $this->cropVariants = $this->options['cropVariants'] ?? [];
     }
 
     /**
@@ -93,7 +93,7 @@ class ImageUtility
 
         if ($options) {
             $this->setOptions($options);
-            $this->cropVariants = $this->options['sources'] ?? [];
+            $this->cropVariants = $this->options['cropVariants'] ?? [];
         }
 
         if ($settings) {
@@ -318,7 +318,7 @@ class ImageUtility
 
         if ($data && is_array($data)) {
             foreach ($data as $dataAttributeKey => $dataAttributeValue) {
-                $tmpData[] = "data-{$dataAttributeKey}={$dataAttributeValue}";
+                $tmpData[] = "data-{$dataAttributeKey}=\"{$dataAttributeValue}\"";
             }
         }
         return implode(' ', $tmpData);
@@ -335,7 +335,7 @@ class ImageUtility
 
         if ($data && is_array($data)) {
             foreach ($data as $dataAttributeKey => $dataAttributeValue) {
-                $tmpData[] = "{$dataAttributeKey}={$dataAttributeValue}";
+                $tmpData[] = sprintf('%s="%s"', $dataAttributeKey, $dataAttributeValue);
             }
         }
         return implode(' ', $tmpData);
@@ -356,12 +356,12 @@ class ImageUtility
             'crop' => $this->getCropAreaForVariant('default')
         ];
 
-        $this->formatDataAttributes();
-
         $processedImage = $this->processImage($processingConfiguration);
-
         // @Todo: unset unneeded keys
-        $mergedWithOptions = array_merge($this->options, $processedImage);
+        $this->options['additionalAttributes']['srcset'] = $this->settings['defaultImg'];
+        $this->options['data']['srcset'] = $this->cropVariants['default']['srcset'];
+        $mergedWithOptions = array_merge_recursive($this->options, $processedImage);
+
         $mergedWithOptions['dataString'] = $this->formatDataAttributes();
         $mergedWithOptions['additionalAttributesString'] = $this->formatAdditionalAttributes();
 
