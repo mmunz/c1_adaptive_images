@@ -142,6 +142,7 @@ class ImageRenderer implements FileRendererInterface
         //$viewTmpl->assign('this', $this);
         $cropVariants = $this->imageUtility->getCropVariants();
         $viewTmpl->assign('settings', $this->settings);
+        $viewTmpl->assign('file', $this->originalFile);
         $viewTmpl->assign('options', $this->options);
         $viewTmpl->assign('cropVariants', $cropVariants);
 

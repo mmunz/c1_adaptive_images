@@ -1,8 +1,36 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:data-namespace-typo3-fluid="true">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:ai="C1\ImageRenderer\ViewHelpers"
+      xmlns:data-namespace-typo3-fluid="true">
 
 <f:layout name="Default"/>
 
 <f:section name="Main">
+
+    <picture>
+        <f:for each="{cropVariants}" as="cropVariant" key="cropVariantKey">
+
+            <f:if condition="{cropVariant.media}">
+                <f:then>
+                    <source media="{cropVariant.media}"
+                            data-srcset="{cropVariant.srcset}"
+                            srcset="{ai:image.placeholder(image: file, width: '64', cropVariant: cropVariantKey)} 1w"
+                    >
+                </f:then>
+                <f:else>
+                    <img src="{defaultImage.url}"
+                         class="{defaultImage.class} img-responsive"
+                         alt="{defaultImage.alt}"
+                         srcset="{ai:image.placeholder(image: file, width: '64')} 1w"
+                         {defaultImage.dataString->f:format.raw()}
+                    >
+                </f:else>
+
+            </f:if>
+        </f:for>
+    </picture>
+</f:section>
+
+<f:section name="lazysizes">
     <picture>
         <f:for each="{cropVariants}" as="cropVariant">
             <f:if condition="{cropVariant.media}">
@@ -16,7 +44,7 @@
                          class="{defaultImage.class}"
                          alt="{defaultImage.alt}"
                          {defaultImage.dataString->f:format.raw()}
-                         {defaultImage.additionalAttributesString->f:format.raw()}
+                    {defaultImage.additionalAttributesString->f:format.raw()}
                     >
                 </f:else>
             </f:if>

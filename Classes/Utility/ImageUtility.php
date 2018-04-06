@@ -30,9 +30,9 @@ class ImageUtility
     protected $originalFile;
 
     /**
-     * @var CropVariantCollection $cropVariants
+     * @var array $cropVariants
      */
-    protected $cropVariants;
+    protected $cropVariants = [];
 
     /**
      * @var CropVariantCollection $cropVariantCollection
@@ -182,13 +182,13 @@ class ImageUtility
      *
      * Returns a calculated Area with coordinates for croppting the actual image
      *
-     * @param string $cropVariantKey
+     * @param string $key
      * @return null|Area
      */
-    public function getCropAreaForVariant($cropVariantKey)
+    public function getCropAreaForVariant($key)
     {
         $cropArea = $this->cropVariantCollection
-                ->getCropArea($cropVariantKey) ?? $this->cropVariantCollection->getCropArea('default');
+                ->getCropArea($key) ?? $this->cropVariantCollection->getCropArea('default');
         return $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($this->originalFile);
     }
 
@@ -224,6 +224,7 @@ class ImageUtility
         );
 
         $url = $imageService->getImageUri($processedImage);
+
         return [
             'url' => $url,
             'width' => $processedImage->getProperty('width'),
@@ -234,11 +235,11 @@ class ImageUtility
 
     /**
      * Renders a source tag (set of srcset candidates for one cropVariant)
-     * @param string $cropVariantKey
+     * @param string $key
      * @param array $cropVariantConfig
      * @return array
      */
-    public function processSrcsetImages($cropVariantKey, $cropVariantConfig)
+    public function processSrcsetImages($key, $cropVariantConfig)
     {
         $srcset = [];
         $srcWidths = explode(',', $cropVariantConfig['srcsetWidths']);
@@ -247,7 +248,7 @@ class ImageUtility
         $defaultProcessConfiguration = [
             'width' => $this->options['width'],
             'height' => $this->options['height'],
-            'crop' => $this->getCropAreaForVariant($cropVariantKey)
+            'crop' => $this->getCropAreaForVariant($key)
         ];
 
         foreach ($srcWidths as $width) {
@@ -307,6 +308,11 @@ class ImageUtility
         return reset($candidates)['ratio'];
     }
 
+//    public function getSvgPlaceholderFromFirstCandidate($candidates)
+//    {
+//        return $this->getSvgPlaceholder(reset($candidates)['width'], reset($candidates)['height'] ?? null);
+//    }
+
     /**
      * Returns a space separated string of data attributes
      * @return string
@@ -358,7 +364,7 @@ class ImageUtility
 
         $processedImage = $this->processImage($processingConfiguration);
         // @Todo: unset unneeded keys
-        $this->options['additionalAttributes']['srcset'] = $this->settings['defaultImg'];
+        // $this->options['additionalAttributes']['srcset'] = $this->settings['placeholder']['dataImage'] . ' 1w';
         $this->options['data']['srcset'] = $this->cropVariants['default']['srcset'];
         $mergedWithOptions = array_merge_recursive($this->options, $processedImage);
 
@@ -379,14 +385,15 @@ class ImageUtility
             $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
         }
 
-        foreach ($this->cropVariants as $cropVariantKey => $cropVariantConfig) {
-            $candidates = $this->processSrcsetImages($cropVariantKey, $cropVariantConfig);
-            $this->cropVariants[$cropVariantKey]['candidates'] = $candidates;
-            $this->cropVariants[$cropVariantKey]['srcset'] = $this->getSrcSetString($candidates);
-            $this->cropVariants[$cropVariantKey]['ratio'] = $this->getRatioFromFirstCandidate($candidates);
+        foreach ($this->cropVariants as $key => $cropVariantConfig) {
+            $candidates = $this->processSrcsetImages($key, $cropVariantConfig);
+            $this->cropVariants[$key]['candidates'] = $candidates;
+            $this->cropVariants[$key]['srcset'] = $this->getSrcSetString($candidates);
+            $this->cropVariants[$key]['ratio'] = $this->getRatioFromFirstCandidate($candidates);
+            //$this->cropVariants[$key]['svgPlaceholder'] = $this->getSvgPlaceholderFromFirstCandidate($candidates);
             // update srcsetWidths with actually generated candidate widths. Some of the configured sizes might
             // have been skipped for smaller images or when maxWidth for the image was reached.
-            $this->cropVariants[$cropVariantKey]['srcsetWidths'] = implode(',', array_keys($candidates));
+            $this->cropVariants[$key]['srcsetWidths'] = implode(',', array_keys($candidates));
         }
 
         return $this->cropVariants;
