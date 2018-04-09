@@ -104,11 +104,16 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         }
         $this->imageUtility->setOriginalFile($image);
 
+        $width = $image->getProperty('width');
+        $height = $image->getProperty('height');
+
         $cropArea = $this->imageUtility->getCropAreaForVariant($this->arguments['cropVariant']);
 
-        return $this->svgUtility->getSvgPlaceholder(
-            $cropArea->asArray()['width'],
-            $cropArea->asArray()['height']
-        );
+        if ($cropArea) {
+            $width = $cropArea->asArray()['width'];
+            $height = $cropArea->asArray()['height'];
+        }
+
+        return $this->svgUtility->getSvgPlaceholder($width, $height);
     }
 }
