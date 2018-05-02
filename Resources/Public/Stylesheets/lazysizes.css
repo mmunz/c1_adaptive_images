@@ -1,59 +1,16 @@
 .img-debug {
-  height: 0px;
+  height: 0;
   position: relative;
 }
-.img-debug ul {
 
+.img-debug ul {
   list-style: none;
   margin: 0;
+  min-width:140px;
+  font-size: 0.7rem;
   position: absolute;
   bottom: 100%;
   right: 0;
   padding: 0.25rem 0.5rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.5);
 }
-
-
-/*.ratio-box {*/
-  /*position: relative;*/
-  /*height: 0;*/
-  /*display: block;*/
-  /*width: 100%;*/
-  /*padding-bottom: 75%;*/
-  /*!* padding-bottom is calculated and rendered in to HTML *! }*/
-  /*.ratio-box img,*/
-  /*.ratio-box iframe,*/
-  /*.ratio-box video,*/
-  /*.ratio-box picture {*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*display: block; }*/
-  /*.ratio-box .img-debug {*/
-    /*position: absolute;*/
-    /*bottom: 0;*/
-    /*right: 0;*/
-    /*padding: 0.25rem 0.5rem;*/
-    /*background: rgba(255, 255, 255, 0.8); }*/
-    /*.ratio-box .img-debug ul {*/
-      /*list-style: none;*/
-      /*padding: 0;*/
-      /*margin: 0; }*/
-
-/*.no-js .ratio-box:after {*/
-  /*content: 'Congrats for blocking JavaScript. In general thats a good idea, but if you want to see images here you need to allow JavaScript for this site.';*/
-  /*display: flex;*/
-  /*text-align: center;*/
-  /*align-items: center;*/
-  /*border: 1px solid #fafafa;*/
-  /*padding: 10px;*/
-  /*position: absolute;*/
-  /*top: 0;*/
-  /*left: 0;*/
-  /*right: 0;*/
-  /*bottom: 0;*/
-  /*z-index: -1; }*/
-
-/*# sourceMappingURL=lazysizes.css.map */

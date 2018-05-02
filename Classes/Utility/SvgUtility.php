@@ -15,9 +15,8 @@ class SvgUtility
      * @return string
      *
      */
-    public function getSvgPlaceholder($width = 100, $height = 75, $backgroundColor = '#efefef')
+    public function getSvgPlaceholder($width = 100, $height = 75, $backgroundColor = 'transparent')
     {
-
         $svg = sprintf(
             "<svg xmlns='http://www.w3.org/2000/svg' width='%s' height='%s' viewBox='0 0 %s %s'>",
             $width,
@@ -25,6 +24,7 @@ class SvgUtility
             $width,
             $height
         );
+
 
         $svg .= sprintf(
             "<rect width='100%%' height='100%%' fill='%s'/></svg>",
