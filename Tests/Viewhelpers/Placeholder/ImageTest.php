@@ -3,7 +3,7 @@
 namespace C1\ImageRenderer\Tests\Unit\Viewhelpers\Placeholder;
 
 use C1\ImageRenderer\Utility\ImageUtility;
-use C1\ImageRenderer\ViewHelpers\Placeholder\ImageViewHelper;
+use C1\ImageRenderer\ViewHelpers\Placeholder\GetViewHelper;
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Resource\File;
@@ -13,14 +13,14 @@ class ImageTest extends ViewHelperBaseTestcase
 {
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|AccessibleMockObjectInterface|ImageViewHelper
+     * @var \PHPUnit_Framework_MockObject_MockObject|AccessibleMockObjectInterface|GetViewHelper
      */
     protected $viewHelper;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->viewHelper = $this->getAccessibleMock(ImageViewHelper::class, ['renderChildren']);
+        $this->viewHelper = $this->getAccessibleMock(GetViewHelper::class, ['renderChildren']);
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
         $this->viewHelper->initializeArguments();
     }

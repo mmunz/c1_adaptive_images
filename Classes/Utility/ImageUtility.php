@@ -144,14 +144,14 @@ class ImageUtility
         if ($processor === 'ImageMagick') {
             $text = sprintf(
                 '-pointsize 30 -gravity Center \
-                        -fill black -annotate +0+0 "%s x %s (%s)" -gravity NorthWest  -blur 2x5 ',
+                        -fill black -annotate +0+0 "%s x %s (%s)" -gravity NorthWest ',
                 $width,
                 $height,
                 $ratio
             );
 
             $text .= sprintf(
-                '-pointsize 30 -gravity Center -fill white -annotate +1+1 "%s x %s (%s)" -gravity NorthWest',
+                '-pointsize 30 -gravity Center -fill white -annotate +2+2 "%s x %s (%s)" -gravity NorthWest',
                 $width,
                 $height,
                 $ratio

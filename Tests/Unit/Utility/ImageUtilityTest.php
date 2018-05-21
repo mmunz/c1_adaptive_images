@@ -86,7 +86,7 @@ class ImageUtilityTest extends AbstractTestCase
 
         $this->assertEquals(
             '-pointsize 30 -gravity Center \
-                        -fill black -annotate +0+0 "400m x 400 (0.5)" -gravity NorthWest  -blur 2x5 -pointsize 30 ' .
+                        -fill black -annotate +0+0 "400m x 400 (0.5)" -gravity NorthWest -pointsize 30 ' .
                         '-gravity Center -fill white -annotate +1+1 "400m x 400 (0.5)" -gravity NorthWest',
             $utility->getDebugAnnotation('400m', '400', 0.5, 'ImageMagick')
         );
