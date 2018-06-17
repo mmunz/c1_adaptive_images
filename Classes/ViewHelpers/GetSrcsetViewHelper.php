@@ -101,7 +101,7 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 
         $cropString = '';
 
-        if ($file->hasProperty('crop') && $file->getProperty('crop')) {
+        if ($file->hasProperty('crop')) {
             $cropString = $file->getProperty('crop');
         }
 
