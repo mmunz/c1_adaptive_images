@@ -1,8 +1,8 @@
 <?php
 
-namespace C1\ImageRenderer\Tests\Unit\Utility;
+namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
-use C1\ImageRenderer\Utility\RatioBoxUtility;
+use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use Nimut\TestingFramework\TestCase\AbstractTestCase;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use PHPUnit\Framework\MockObject\MockObject;

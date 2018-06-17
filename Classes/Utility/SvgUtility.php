@@ -1,6 +1,6 @@
 <?php
 
-namespace C1\ImageRenderer\Utility;
+namespace C1\AdaptiveImages\Utility;
 
 class SvgUtility
 {

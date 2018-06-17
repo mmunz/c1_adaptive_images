@@ -1,7 +1,7 @@
 {
-    "name": "c1/c1-imagerenderer",
+    "name": "c1/c1-adaptive-images",
     "type": "typo3-cms-extension",
-    "description": "Imagerenderer for fluid_styled_content.",
+    "description": "Adaptive images for fluid_styled_content.",
     "authors": [
         {
             "name": "Manuel Munz",
@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "C1\\ImageRenderer\\": "Classes"
+            "C1\\AdaptiveImages\\": "Classes"
         }
     }
 }

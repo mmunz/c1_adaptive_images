@@ -1,9 +1,9 @@
 <?php
 
-namespace C1\ImageRenderer\Tests\Unit\Viewhelpers\Placeholder;
+namespace C1\AdaptiveImages\Tests\Unit\Viewhelpers\Placeholder;
 
-use C1\ImageRenderer\Utility\ImageUtility;
-use C1\ImageRenderer\ViewHelpers\Placeholder\GetViewHelper;
+use C1\AdaptiveImages\Utility\ImageUtility;
+use C1\AdaptiveImages\ViewHelpers\Placeholder\GetViewHelper;
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Resource\File;

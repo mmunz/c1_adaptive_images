@@ -1,8 +1,8 @@
 <?php
-namespace C1\ImageRenderer\ViewHelpers\Placeholder;
+namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
-use C1\ImageRenderer\Utility\ImageUtility;
-use C1\ImageRenderer\Utility\SvgUtility;
+use C1\AdaptiveImages\Utility\ImageUtility;
+use C1\AdaptiveImages\Utility\SvgUtility;
 
 /**
  * Create a placeholder svg for lazyloading

@@ -8,13 +8,13 @@
 .. _start:
 
 =============================================================
-imagerenderer
+c1_adaptive_images
 =============================================================
 
 .. only:: html
 
 	:Classification:
-		c1_imagerenderer
+		c1_adaptive_images
 
 	:Version:
 		|release|
@@ -23,7 +23,7 @@ imagerenderer
 		en
 
 	:Description:
-		Imagerenderer for fluid_styled_content.
+		Adaptive images for fluid_styled_content.
 
 	:Keywords:
 		comma,separated,list,of,keywords

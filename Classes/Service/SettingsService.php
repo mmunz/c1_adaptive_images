@@ -3,7 +3,7 @@
  * Get TypoScript settings and view configuration.
  */
 
-namespace C1\ImageRenderer\Service;
+namespace C1\AdaptiveImages\Service;
 
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
@@ -51,7 +51,7 @@ class SettingsService
         if ($this->frameworkConfiguration === null) {
             $this->frameworkConfiguration = $this->configurationManager->getConfiguration(
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
-                'c1imagerenderer'
+                'c1_adaptive_images'
             );
         }
         return $this->frameworkConfiguration;

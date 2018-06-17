@@ -1,7 +1,7 @@
 <?php
-namespace C1\ImageRenderer\ViewHelpers\Placeholder;
+namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
-use C1\ImageRenderer\Utility\ImageUtility;
+use C1\AdaptiveImages\Utility\ImageUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**

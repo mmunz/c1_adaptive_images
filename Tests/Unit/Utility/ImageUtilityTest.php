@@ -1,8 +1,8 @@
 <?php
 
-namespace C1\ImageRenderer\Tests\Unit\Utility;
+namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
-use C1\ImageRenderer\Utility\ImageUtility;
+use C1\AdaptiveImages\Utility\ImageUtility;
 use Nimut\TestingFramework\TestCase\AbstractTestCase;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;

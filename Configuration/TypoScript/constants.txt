@@ -1,8 +1,8 @@
-plugin.tx_c1imagerenderer {
+plugin.tx_c1_adaptive_images {
     view {
-        layoutRootPath = EXT:c1_imagerenderer/Resources/Private/Layouts
-        templateRootPath = EXT:c1_imagerenderer/Resources/Private/Templates
-        partialRootPath = EXT:c1_imagerenderer/Resources/Private/Partials
+        layoutRootPath = EXT:c1_adaptive_images/Resources/Private/Layouts
+        templateRootPath = EXT:c1_adaptive_images/Resources/Private/Templates
+        partialRootPath = EXT:c1_adaptive_images/Resources/Private/Partials
     }
     settings {
         # If enabled (1) then image size is rendered as text on the image
@@ -22,11 +22,11 @@ plugin.tx_c1imagerenderer {
         }
         assets {
             js {
-                lazysizes = EXT:c1_imagerenderer/Resources/Public/JavaScript/lazysizes.min.js
-                debugimgsizes = EXT:c1_imagerenderer/Resources/Public/JavaScript/debugimgsizes.js
+                lazysizes = EXT:c1_adaptive_images/Resources/Public/JavaScript/lazysizes.min.js
+                debugimgsizes = EXT:c1_adaptive_images/Resources/Public/JavaScript/debugimgsizes.js
             }
             css {
-                lazysizes = EXT:c1_imagerenderer/Resources/Public/Stylesheets/lazysizes.css
+                lazysizes = EXT:c1_adaptive_images/Resources/Public/Stylesheets/lazysizes.css
             }
         }
 

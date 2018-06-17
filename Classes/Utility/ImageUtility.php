@@ -1,6 +1,6 @@
 <?php
 
-namespace C1\ImageRenderer\Utility;
+namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Resource\FileInterface;
@@ -99,7 +99,7 @@ class ImageUtility
         if ($settings) {
             $this->settings = $settings;
         } else {
-            $pluginSettingsService = $this->objectManager->get('C1\\ImageRenderer\\Service\\SettingsService');
+            $pluginSettingsService = $this->objectManager->get('C1\\AdaptiveImages\\Service\\SettingsService');
             $this->settings = $pluginSettingsService->getSettings();
         };
 

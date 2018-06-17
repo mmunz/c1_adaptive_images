@@ -1,15 +1,15 @@
 <?php
 
-namespace C1\ImageRenderer\Resource\Rendering;
+namespace C1\AdaptiveImages\Resource\Rendering;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\Rendering\FileRendererInterface;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use C1\ImageRenderer\Utility\ImageUtility;
+use C1\AdaptiveImages\Utility\ImageUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use C1\ImageRenderer\Utility\RatioBoxUtility;
+use C1\AdaptiveImages\Utility\RatioBoxUtility;
 
 class ImageRenderer implements FileRendererInterface
 {
@@ -177,7 +177,7 @@ class ImageRenderer implements FileRendererInterface
         $this->imageUtility->setOriginalFile($file);
         $this->imageUtility->init($this->options);
 
-        $pluginSettingsService = $this->objectManager->get('C1\\ImageRenderer\\Service\\SettingsService');
+        $pluginSettingsService = $this->objectManager->get('C1\\AdaptiveImages\\Service\\SettingsService');
         $this->settings = $pluginSettingsService->getSettings();
 
         $this->viewConfiguration = $pluginSettingsService->getViewConfiguration();

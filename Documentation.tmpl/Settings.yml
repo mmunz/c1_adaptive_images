@@ -9,7 +9,7 @@
 ---
 conf.py:
   copyright: 2018
-  project: imagerenderer
+  project: c1_adaptive_images
   version: 0.0.1
   release: 0.0.1
   intersphinx_mapping:
@@ -18,8 +18,8 @@ conf.py:
     - null
   latex_documents:
   - - Index
-    - c1_imagerenderer.tex
-    - imagerenderer
+    - c1_adaptive_images.tex
+    - c1_adaptive_images
     - Manuel Munz
     - manual
   latex_elements:

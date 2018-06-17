@@ -1,4 +1,4 @@
-# c1_imagerenderer
+# c1_adaptive_images
 
 Another approach to responsive image rendering with fluid_styled_content for TYPO3.
 

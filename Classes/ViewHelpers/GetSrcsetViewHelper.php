@@ -1,5 +1,5 @@
 <?php
-namespace C1\ImageRenderer\ViewHelpers;
+namespace C1\AdaptiveImages\ViewHelpers;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
@@ -42,14 +42,14 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
     }
 
     /**
-     * @var \C1\ImageRenderer\Utility\ImageUtility
+     * @var \C1\AdaptiveImages\Utility\ImageUtility
      */
     protected $imageUtility;
 
     /**
-     * @param \C1\ImageRenderer\Utility\ImageUtility
+     * @param \C1\AdaptiveImages\Utility\ImageUtility
      */
-    public function injectImageUtility(\C1\ImageRenderer\Utility\ImageUtility $imageUtility)
+    public function injectImageUtility(\C1\AdaptiveImages\Utility\ImageUtility $imageUtility)
     {
         $this->imageUtility = $imageUtility;
     }

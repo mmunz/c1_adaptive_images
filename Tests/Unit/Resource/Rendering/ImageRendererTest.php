@@ -1,9 +1,9 @@
 <?php
 
-namespace C1\ImageRenderer\Tests\Unit\Resource\Rendering;
+namespace C1\AdaptiveImages\Tests\Unit\Resource\Rendering;
 
-use C1\ImageRenderer\Resource\Rendering\ImageRenderer;
-use C1\ImageRenderer\Service\SettingsService;
+use C1\AdaptiveImages\Resource\Rendering\ImageRenderer;
+use C1\AdaptiveImages\Service\SettingsService;
 use Nimut\TestingFramework\TestCase\AbstractTestCase;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;

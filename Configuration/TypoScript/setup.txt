@@ -1,33 +1,33 @@
 [GLOBAL]
-plugin.tx_c1imagerenderer {
+plugin.tx_c1_adaptive_images {
     view {
-        layoutRootPaths.10 = {$plugin.tx_c1imagerenderer.view.layoutRootPath}
-        templateRootPaths.10 = {$plugin.tx_c1imagerenderer.view.templateRootPath}
-        partialRootPaths.10 = {$plugin.tx_c1imagerenderer.view.partialRootPath}
+        layoutRootPaths.10 = {$plugin.tx_c1_adaptive_images.view.layoutRootPath}
+        templateRootPaths.10 = {$plugin.tx_c1_adaptive_images.view.templateRootPath}
+        partialRootPaths.10 = {$plugin.tx_c1_adaptive_images.view.partialRootPath}
     }
     settings {
-        debug = {$plugin.tx_c1imagerenderer.settings.debug}
+        debug = {$plugin.tx_c1_adaptive_images.settings.debug}
         placeholder {
             dataImage = data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
         }
-        defaultImgWidth = {$plugin.tx_c1imagerenderer.settings.defaultImgWidth}
-        srcsetWidths = {$plugin.tx_c1imagerenderer.settings.srcsetWidths}
+        defaultImgWidth = {$plugin.tx_c1_adaptive_images.settings.defaultImgWidth}
+        srcsetWidths = {$plugin.tx_c1_adaptive_images.settings.srcsetWidths}
         cssClasses {
-            img = {$plugin.tx_c1imagerenderer.settings.cssClasses.img}
-            ratioBoxBase = {$plugin.tx_c1imagerenderer.settings.cssClasses.ratioBoxBase}
-            ratioBoxAdditional = {$plugin.tx_c1imagerenderer.settings.cssClasses.ratioBoxAdditional}
+            img = {$plugin.tx_c1_adaptive_images.settings.cssClasses.img}
+            ratioBoxBase = {$plugin.tx_c1_adaptive_images.settings.cssClasses.ratioBoxBase}
+            ratioBoxAdditional = {$plugin.tx_c1_adaptive_images.settings.cssClasses.ratioBoxAdditional}
         }
     }
 }
 
 page {
     includeJSFooterlibs {
-        lazysizes = {$plugin.tx_c1imagerenderer.settings.assets.js.lazysizes}
-        debugimgsizes = {$plugin.tx_c1imagerenderer.settings.assets.js.debugimgsizes}
+        lazysizes = {$plugin.tx_c1_adaptive_images.settings.assets.js.lazysizes}
+        debugimgsizes = {$plugin.tx_c1_adaptive_images.settings.assets.js.debugimgsizes}
     }
     includeCSS {
-        lazysizes = {$plugin.tx_c1imagerenderer.settings.assets.css.lazysizes}
+        lazysizes = {$plugin.tx_c1_adaptive_images.settings.assets.css.lazysizes}
     }
 }
 
-mod.tx_c1imagerenderer.view < plugin.tx_c1imagerenderer.view
+mod.tx_c1_adaptive_images.view < plugin.tx_c1_adaptive_images.view
