@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Class RatioBoxUtility
+ * @package C1\AdaptiveImages\Utility
+ */
 class RatioBoxUtility
 {
     
@@ -16,6 +21,10 @@ class RatioBoxUtility
      */
     protected $ratioBoxClassNames;
 
+    /**
+     * RatioBoxUtility constructor.
+     * @param null|PageRenderer $pageRenderer
+     */
     public function __construct($pageRenderer = null)
     {
         if (!$pageRenderer) {
@@ -44,7 +53,7 @@ class RatioBoxUtility
      * Removes unwanted characters from css ClassNames
      *
      * @param $class
-     * @returns string
+     * @return string
      */
     public function sanitizeCssClassName($class)
     {

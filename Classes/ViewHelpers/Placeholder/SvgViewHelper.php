@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
 use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
+use TYPO3\CMS\Core\Resource\FileInterface;
 
 /**
  * Create a placeholder svg for lazyloading
@@ -93,6 +96,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      */
     public function render()
     {
+        /** @var FileInterface $image */
         $image = $this->arguments['image'];
         $imageUri = null;
 

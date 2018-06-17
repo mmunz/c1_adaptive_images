@@ -1,10 +1,11 @@
 <?php
+
+declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
 use C1\AdaptiveImages\Utility\ImageUtility;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3\CMS\Core\Resource\FileInterface;
 
 /**
  * Create placeholder images for lazyloading
@@ -55,7 +56,11 @@ class GetCropVariantsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
         if (is_null($this->arguments['file'])) {
             throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('You must specify a File object.', 1522176433);
         }
+
+        /** @var FileInterface $file */
         $file = $this->arguments['file'];
+
+        $cropString = '';
 
         if ($file->hasProperty('crop') && $file->getProperty('crop')) {
             $cropString = $file->getProperty('crop');

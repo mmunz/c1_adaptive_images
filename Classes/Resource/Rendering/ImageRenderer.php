@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace C1\AdaptiveImages\Resource\Rendering;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -11,6 +12,10 @@ use C1\AdaptiveImages\Utility\ImageUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
 
+/**
+ * Class ImageRenderer
+ * @package C1\AdaptiveImages\Resource\Rendering
+ */
 class ImageRenderer implements FileRendererInterface
 {
 
@@ -129,6 +134,9 @@ class ImageRenderer implements FileRendererInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function renderFluidTemplate()
     {
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $viewTmpl */

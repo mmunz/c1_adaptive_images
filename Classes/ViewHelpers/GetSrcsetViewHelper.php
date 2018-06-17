@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
+use TYPO3\CMS\Core\Resource\FileReference;
 
 /**
  * Create a srcset string from given widths
@@ -54,6 +57,9 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         $this->imageUtility = $imageUtility;
     }
 
+    /**
+     * @param $widths
+     */
     public function setWidths($widths)
     {
         if (!is_array($this->arguments['widths'])) {
@@ -97,6 +103,7 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
     public function render()
     {
 
+        $srcset = [];
         $this->setWidths($this->arguments['widths']);
 
         if (is_null($this->arguments['file'])) {
@@ -105,6 +112,8 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 
         /** @var FileInterface $file */
         $file = $this->arguments['file'];
+
+        $cropString = '';
 
         if ($file->hasProperty('crop') && $file->getProperty('crop')) {
             $cropString = $file->getProperty('crop');
@@ -116,8 +125,6 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         $processingConfiguration = [
             'crop' => $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($file),
         ];
-
-
 
         foreach ($this->widths as $width) {
             $processingConfiguration['width'] = $width . 'm';
@@ -149,6 +156,6 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
             );
         };
 
-        return implode(',', $srcset);
+        return implode(",", $srcset);
     }
 }

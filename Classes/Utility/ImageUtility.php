@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
@@ -10,6 +11,10 @@ use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
+/**
+ * Class ImageUtility
+ * @package C1\AdaptiveImages\Utility
+ */
 class ImageUtility
 {
 
@@ -302,6 +307,7 @@ class ImageUtility
      * array.
      *
      * @param $candidates
+     * @return array
      */
     public function getRatioFromFirstCandidate($candidates)
     {

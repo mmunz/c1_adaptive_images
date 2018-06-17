@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
+/**
+ * Class SvgUtility
+ * @package C1\AdaptiveImages\Utility
+ */
 class SvgUtility
 {
 

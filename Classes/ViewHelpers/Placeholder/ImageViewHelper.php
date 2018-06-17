@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
 use C1\AdaptiveImages\Utility\ImageUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3\CMS\Core\Resource\FileInterface;
 
 /**
  * Create placeholder images for lazyloading
@@ -100,6 +101,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      */
     public function render()
     {
+        /** @var FileInterface $image */
         $image = $this->arguments['image'];
         $imageUri = null;
 
