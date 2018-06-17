@@ -2,7 +2,6 @@
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 
 use C1\AdaptiveImages\ViewHelpers\GetSrcsetViewHelper;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 class GetSrcsetViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest

@@ -1,8 +1,4 @@
 <?php
-/**
- * Get TypoScript settings and view configuration.
- */
-
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Service;
 
@@ -12,6 +8,9 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 /**
  * Class SettingsService
  * @package C1\AdaptiveImages\Service
+ *
+ * Get TypoScript settings and view configuration.
+ *
  */
 class SettingsService
 {

@@ -3,7 +3,6 @@ declare(strict_types=1);
 //
 // currently unused. We might introduce an imagerenderer again later.
 //
-//declare(strict_types=1);
 //namespace C1\AdaptiveImages\Resource\Rendering;
 //
 //use TYPO3\CMS\Core\Utility\GeneralUtility;

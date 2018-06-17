@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
@@ -42,6 +41,18 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
      * @inject
      */
     protected $imageUtility;
+
+    /**
+     * @var \C1\AdaptiveImages\Utility\MathUtility
+     * @inject
+     */
+    protected $mathUtility;
+
+    /**
+     * @var \C1\AdaptiveImages\Utility\DebugUtility
+     * @inject
+     */
+    protected $debugUtility;
 
     /**
      * @param $widths
@@ -118,13 +129,11 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
             /** @var FileReference $processedImage */
             $processedImage = $this->imageService->applyProcessingInstructions($file, $processingConfiguration);
 
-            //DebuggerUtility::var_dump($processedImage, 'procimg');
-
             if ($this->arguments['debug'] === true) {
-                $processingConfiguration['additionalParameters'] = $this->imageUtility->getDebugAnnotation(
+                $processingConfiguration['additionalParameters'] = $this->debugUtility->getDebugAnnotation(
                     $processedImage->getProperty('width'),
                     $processedImage->getProperty('height'),
-                    $this->imageUtility->calculateRatio(
+                    $this->mathUtility->calculateRatio(
                         $processedImage->getProperty('height'),
                         $processedImage->getProperty('width')
                     )

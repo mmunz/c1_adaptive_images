@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
@@ -28,6 +27,18 @@ class ImageUtility
      * @var ObjectManager
      */
     protected $objectManager;
+
+    /**
+     * @var \C1\AdaptiveImages\Utility\DebugUtility
+     * @inject
+     */
+    protected $debugUtility;
+
+    /**
+     * @var \C1\AdaptiveImages\Utility\MathUtility
+     * @inject
+     */
+    protected $mathUtility;
 
     /**
      * @var \TYPO3\CMS\Core\Resource\File
@@ -123,68 +134,12 @@ class ImageUtility
         return $this->objectManager->get(ImageService::class);
     }
 
-    /**
-     * returns a string with debug information for additionalParameters of a processing configuration
-     * @param int $height
-     * @param int $width
-     * @param int|float $ratio
-     * @param string $processor
-     * @return string
-     */
-    public function getDebugAnnotation($width, $height, $ratio, $processor = null)
-    {
-        if (!$processor) {
-            $processor = $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'];
-        }
 
-        if ($processor === 'GraphicsMagick') {
-            return sprintf(
-                '-pointsize 30 -gravity center -fill white -draw "text 10,20 \'%s x %s (%s)\'"',
-                $width,
-                $height,
-                $ratio
-            );
-        }
 
-        if ($processor === 'ImageMagick') {
-            $text = sprintf(
-                '-pointsize 30 -gravity Center -fill black -annotate +0+0 "%s x %s (%s)" -gravity NorthWest ',
-                $width,
-                $height,
-                $ratio
-            );
-
-            $text .= sprintf(
-                '-pointsize 30 -gravity Center -fill white -annotate +2+2 "%s x %s (%s)" -gravity NorthWest',
-                $width,
-                $height,
-                $ratio
-            );
-            return $text;
-        };
-        return '';
-    }
 
     /**
      *
-     * Calculates the ratio of an image.
-     *
-     * Returns a float which is the percentage of height compared to the width
-     * Rounded to 2 decimals by default.
-     *
-     * @param int|float $height ;
-     * @param int|float $width ;
-     * @param int $precision;
-     * @return float
-     */
-    public function calculateRatio($height, $width, $precision = 2)
-    {
-        return round($height / $width * 100, $precision);
-    }
-
-    /**
-     *
-     * Returns a calculated Area with coordinates for croppting the actual image
+     * Returns a calculated Area with coordinates for cropping the actual image
      *
      * @param string $key
      * @return null|Area
@@ -210,13 +165,13 @@ class ImageUtility
             $processingConfiguration
         );
 
-        $ratio = $this->calculateRatio(
+        $ratio = $this->mathUtility->calculateRatio(
             $processedImage->getProperty('height'),
             $processedImage->getProperty('width')
         );
 
         //            if ($this->debugImgProperties) {
-        $processingConfiguration['additionalParameters'] .= $this->getDebugAnnotation(
+        $processingConfiguration['additionalParameters'] .= $this->debugUtility->getDebugAnnotation(
             $processedImage->getProperty('width'),
             $processedImage->getProperty('height'),
             $ratio

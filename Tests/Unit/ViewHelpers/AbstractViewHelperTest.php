@@ -1,8 +1,6 @@
 <?php
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
-use C1\AdaptiveImages\Utility\ImageUtility;
-use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
