@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
@@ -7,6 +8,10 @@ use Nimut\TestingFramework\TestCase\AbstractTestCase;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use PHPUnit\Framework\MockObject\MockObject;
 
+/**
+ * Class RatioBoxUtilityTest
+ * @package C1\AdaptiveImages\Tests\Unit\Utility
+ */
 class RatioBoxUtilityTest extends AbstractTestCase
 {
 
@@ -99,11 +104,11 @@ class RatioBoxUtilityTest extends AbstractTestCase
         ];
 
         $this->assertEquals(
-            array (
+            [
                 0 => 'ratio-box',
                 1 => 'ratio-box--56dot25',
                 2 => 'ratio-box--max-width767px-75'
-            ),
+            ],
             $utility->getRatioBoxClassNames($cropVariants)
         );
 
@@ -111,11 +116,11 @@ class RatioBoxUtilityTest extends AbstractTestCase
         $utility = new RatioBoxUtility($this->pageRendererMock);
         $utility->setRatioBoxBase('rbx');
         $this->assertEquals(
-            array (
+            [
                 0 => 'rbx',
                 1 => 'rbx--56dot25',
                 2 => 'rbx--max-width767px-75'
-            ),
+            ],
             $utility->getRatioBoxClassNames($cropVariants)
         );
     }

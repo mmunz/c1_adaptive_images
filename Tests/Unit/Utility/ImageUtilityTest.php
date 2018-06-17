@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
@@ -9,6 +10,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
+/**
+ * Class ImageUtilityTest
+ * @package C1\AdaptiveImages\Tests\Unit\Utility
+ */
 class ImageUtilityTest extends AbstractTestCase
 {
 
@@ -85,9 +90,9 @@ class ImageUtilityTest extends AbstractTestCase
         $utility = new ImageUtility($this->optionsMock, $this->settingsMock, $this->objectManagerMock);
 
         $this->assertEquals(
-            '-pointsize 30 -gravity Center \
-                        -fill black -annotate +0+0 "400m x 400 (0.5)" -gravity NorthWest -pointsize 30 ' .
-                        '-gravity Center -fill white -annotate +1+1 "400m x 400 (0.5)" -gravity NorthWest',
+            '-pointsize 30 -gravity Center -fill black -annotate +0+0 "400m x 400 (0.5)" -gravity ' .
+                        'NorthWest -pointsize 30 -gravity Center -fill white -annotate +2+2 "400m x 400 (0.5)" ' .
+                        '-gravity NorthWest',
             $utility->getDebugAnnotation('400m', '400', 0.5, 'ImageMagick')
         );
     }
@@ -169,12 +174,12 @@ class ImageUtilityTest extends AbstractTestCase
                 'srcset' => 'file-320.jpg 320w,file-640.jpg 640w',
                 'ratio' => 0.75
             ],
-            'default' => array (
+            'default' => [
                 'srcsetWidths' => '600,992',
                 'candidates' => $candidates['default'],
                 'srcset' => 'file-600.jpg 600w,file-992.jpg 992w',
                 'ratio' => 0.5
-            )
+            ]
         ];
 
         $mock->expects($this->at(0))

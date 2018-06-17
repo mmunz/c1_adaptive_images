@@ -116,7 +116,7 @@ class ImageUtility
     /**
      * Return an instance of ImageService
      *
-     * @return object
+     * @return \object|ImageService
      */
     protected function getImageService()
     {
@@ -148,8 +148,7 @@ class ImageUtility
 
         if ($processor === 'ImageMagick') {
             $text = sprintf(
-                '-pointsize 30 -gravity Center \
-                        -fill black -annotate +0+0 "%s x %s (%s)" -gravity NorthWest ',
+                '-pointsize 30 -gravity Center -fill black -annotate +0+0 "%s x %s (%s)" -gravity NorthWest ',
                 $width,
                 $height,
                 $ratio

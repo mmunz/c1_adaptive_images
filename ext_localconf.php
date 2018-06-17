@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 defined('TYPO3_MODE') or die();
 
 //call_user_func(function () {
@@ -7,4 +8,4 @@ defined('TYPO3_MODE') or die();
 //    $rendererRegistry->registerRendererClass(\C1\AdaptiveImages\Resource\Rendering\ImageRenderer::class);
 //});
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ai'] = ['C1\\AdaptiveImages\\ViewHelpers'];
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['ai'] = ['C1\\AdaptiveImages\\ViewHelper'];

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /***************************************************************
  * Extension Manager/Repository config file for ext: "c1_adaptive_images"

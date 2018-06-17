@@ -33,29 +33,15 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 
     /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
+     * @inject
      */
     protected $imageService;
 
     /**
-     * @param \TYPO3\CMS\Extbase\Service\ImageService $imageService
-     */
-    public function injectImageService(\TYPO3\CMS\Extbase\Service\ImageService $imageService)
-    {
-        $this->imageService = $imageService;
-    }
-
-    /**
      * @var \C1\AdaptiveImages\Utility\ImageUtility
+     * @inject
      */
     protected $imageUtility;
-
-    /**
-     * @param \C1\AdaptiveImages\Utility\ImageUtility
-     */
-    public function injectImageUtility(\C1\AdaptiveImages\Utility\ImageUtility $imageUtility)
-    {
-        $this->imageUtility = $imageUtility;
-    }
 
     /**
      * @param $widths
