@@ -88,9 +88,9 @@ Returns a placeholder image (base64 encoded data OR uri) width reduced quality a
 
 | argument | required | Default | Description |
 | --- | --- | --- | --- |
-| image | yes | |FileReference to use
+| file | yes | |FileReference to use
 | cropVariant | no | default | select a cropping variant, in case multiple croppings have been specified or stored in FileReference
-| width | no | | create placeholder image with this width
+| width | no | 128 | create placeholder image with this width
 | height | no | | create placeholder image with this height
 | absolute | no | false | Force absolute URL 
 | dataUri | no | true | Returns the base64 encoded dataUri of the image (for inline usage) 
@@ -125,7 +125,7 @@ height of that of the generated image.
 
 | argument | required | Default | Description |
 | --- | --- | --- | --- |
-| image | yes | |FileReference to use
+| file | yes | |FileReference to use
 | cropVariant | no | default | select a cropping variant, in case multiple croppings have been specified or stored in FileReference
 
 #### Examples

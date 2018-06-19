@@ -75,7 +75,9 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
             'string',
             'width of the image. This can be a numeric value representing the fixed width of the image in ' .
             'pixels. But you can also perform simple calculations by adding "m" or "c" to the value. ' .
-            'See imgResource.width for possible options.'
+            'See imgResource.width for possible options.',
+            false,
+            128
         );
         $this->registerArgument(
             'height',
