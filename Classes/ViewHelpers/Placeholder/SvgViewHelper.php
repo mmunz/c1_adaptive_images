@@ -72,7 +72,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     {
         parent::initializeArguments();
 
-        $this->registerArgument('image', '\TYPO3\CMS\Core\Resource\FileInterface', 'File or FileReference', true);
+        $this->registerArgument('file', '\TYPO3\CMS\Core\Resource\FileInterface', 'File or FileReference', true);
         $this->registerArgument(
             'cropVariant',
             'string',
@@ -96,7 +96,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     public function render()
     {
         /** @var FileInterface $image */
-        $image = $this->arguments['image'];
+        $image = $this->arguments['file'];
         $imageUri = null;
 
         if (is_null($image)) {

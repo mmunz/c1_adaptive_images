@@ -75,7 +75,7 @@ class ImageTest extends ViewHelperBaseTestcase
             ->with('cropVariant', 'string', $this->anything(), false, 'default');
 
         $this->viewHelper->setArguments([
-            'image' => $fileMock,
+            'file' => $fileMock,
             'width' => '128',
             'height' => null,
             'cropVariant' => 'default',
@@ -132,7 +132,7 @@ class ImageTest extends ViewHelperBaseTestcase
             ->with('cropVariant', 'string', $this->anything(), false, 'default');
 
         $this->viewHelper->setArguments([
-            'image' => $fileMock,
+            'file' => $fileMock,
             'width' => '128',
             'height' => null,
             'cropVariant' => 'default',
