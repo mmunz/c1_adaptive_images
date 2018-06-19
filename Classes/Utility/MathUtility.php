@@ -26,4 +26,3 @@ class MathUtility
         return round($height / $width * 100, $precision);
     }
 }
-

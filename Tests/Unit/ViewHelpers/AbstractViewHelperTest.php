@@ -113,5 +113,4 @@ abstract class AbstractViewHelperTest extends UnitTestCase
 
         return $managerMock;
     }
-
 }

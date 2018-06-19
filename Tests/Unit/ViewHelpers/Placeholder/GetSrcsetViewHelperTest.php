@@ -68,5 +68,4 @@ class GetSrcsetViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\
         $this->utility->setArguments($arguments);
         $this->assertEquals($output, $this->utility->render());
     }
-
 }
