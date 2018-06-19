@@ -98,7 +98,7 @@ Returns a placeholder image (base64 encoded data OR uri) width reduced quality a
 #### Examples
 
 ```
-<ai:placeholder.image image="{file}" cropVariant="mobile" width="192" />
+<ai:placeholder.image file="{file}" cropVariant="mobile" width="192" />
 ```
 returns the images as base64 encoded data-uri 
 ```
@@ -108,7 +108,7 @@ data:image/jpeg;base64,/9j/4AAQSkZJ[...]
 or return image uri instead:
 
 ```
-<ai:placeholder.image image="{file}" cropVariant="mobile" width="192" dataUri="0" />
+<ai:placeholder.image file="{file}" cropVariant="mobile" width="192" dataUri="0" />
 ```
 
 returns
@@ -131,7 +131,7 @@ height of that of the generated image.
 #### Examples
 
 ```
-<ai:placeholder.svg image="{file}" cropVariant="mobile"/>
+<ai:placeholder.svg file="{file}" cropVariant="mobile"/>
 ```
 returns the SVG as base64 encoded data-uri 
 ```
