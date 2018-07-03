@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
-use C1\AdaptiveImages\Utility\ImageUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
 /**
@@ -30,30 +29,16 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 {
 
     /**
-     * @var ImageUtility;
+     * @var \C1\AdaptiveImages\Utility\ImageUtility
+     * @inject
      */
     protected $imageUtility;
 
     /**
-     * @param ImageUtility $imageUtility
-     */
-    public function injectImageUtility(ImageUtility $imageUtility)
-    {
-        $this->imageUtility = $imageUtility;
-    }
-
-    /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
+     * @inject
      */
     protected $imageService;
-
-    /**
-     * @param \TYPO3\CMS\Extbase\Service\ImageService $imageService
-     */
-    public function injectImageService(\TYPO3\CMS\Extbase\Service\ImageService $imageService)
-    {
-        $this->imageService = $imageService;
-    }
 
     /**
      * Initialize arguments.
@@ -61,7 +46,6 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
     public function initializeArguments()
     {
         parent::initializeArguments();
-
         $this->registerArgument('file', '\TYPO3\CMS\Core\Resource\FileInterface', 'File or FileReference', true);
         $this->registerArgument(
             'cropVariant',
@@ -103,6 +87,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      */
     public function render()
     {
+
         /** @var FileInterface $image */
         $image = $this->arguments['file'];
         $imageUri = null;

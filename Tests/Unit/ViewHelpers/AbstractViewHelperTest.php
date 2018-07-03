@@ -5,12 +5,14 @@ use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3\TestingFramework\Fluid\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use C1\AdaptiveImages\Utility\ImageUtility;
 
 /**
  * Class AbstractViewHelper
  * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
-abstract class AbstractViewHelperTest extends UnitTestCase
+abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * set up
@@ -21,31 +23,29 @@ abstract class AbstractViewHelperTest extends UnitTestCase
     }
 
 
-//    protected function mockImageUtility()
-//    {
-//        $test = $this;
-//
-//        $imageUtilityMock = $this->getMockBuilder(ImageUtility::class)
-//            ->setMethods(['getDebugAnnotation'])
-//            ->getMock();
-//
-//        $imageUtilityMock
-//            ->method('getDebugAnnotation')
-//            ->will($this->returnCallback(function ($width, $height, $ratio = null) {
-//                return $width . 'x'. $height .'(' . $ratio .  ')';
-//            }));
-//
-////
-////
-////        $imageUtilityMock
-////            ->method('getImageUri')
-////            ->will($this->returnCallback(function ($file, $absolute) {
-////                print_r($file->getProperties());
-////                return (($absolute) ? 'http://domain.tld' : '') . '/image@' . $file->getProperty('width') . '.jpg';
-////            }));
-//
-//        return $imageUtilityMock;
-//    }
+    protected function mockImageUtility()
+    {
+        $test = $this;
+
+        $imageUtilityMock = $this->getMockBuilder(ImageUtility::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['setOriginalFile', 'getCropAreaForVariant'])
+            ->getMock();
+
+        $imageUtilityMock
+            ->method('setOriginalFile')
+            ->will($this->returnCallback(function ($file) {
+                return true;
+            }));
+
+        $imageUtilityMock
+            ->method('getCropAreaForVariant')
+            ->will($this->returnCallback(function ($cropVariant) {
+                return '';
+            }));
+
+        return $imageUtilityMock;
+    }
 
     protected function mockImageService()
     {
@@ -71,6 +71,8 @@ abstract class AbstractViewHelperTest extends UnitTestCase
                 return (($absolute) ? 'http://domain.tld' : '') . '/image@' . $file->getProperty('width') . '.jpg';
             }));
 
+
+
         return $imageServiceMock;
     }
 
@@ -78,7 +80,7 @@ abstract class AbstractViewHelperTest extends UnitTestCase
     {
         $fileMock = $this->getMockBuilder(FileReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getProperty', 'getProperties'])
+            ->setMethods(['getProperty', 'getProperties', 'getContents'])
             ->getMock();
 
         $fileMock
@@ -91,6 +93,12 @@ abstract class AbstractViewHelperTest extends UnitTestCase
             ->method('getProperties')
             ->will($this->returnCallback(function () use ($properties) {
                 return $properties;
+            }));
+
+        $fileMock
+            ->method('getContents')
+            ->will($this->returnCallback(function () {
+                return "the images content";
             }));
 
         return $fileMock;
