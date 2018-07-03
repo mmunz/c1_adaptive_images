@@ -1,20 +1,16 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
 .. include:: Includes.txt
+
 
 .. _start:
 
 =============================================================
-c1_adaptive_images
+Extension Name
 =============================================================
 
 .. only:: html
 
 	:Classification:
-		c1_adaptive_images
+		<extension key>
 
 	:Version:
 		|release|
@@ -23,29 +19,30 @@ c1_adaptive_images
 		en
 
 	:Description:
-		Adaptive images for fluid_styled_content.
+		Manual covering TYPO3 extension <extension name>
 
 	:Keywords:
 		comma,separated,list,of,keywords
 
 	:Copyright:
-		2018
+		2013-2015
 
 	:Author:
-		Manuel Munz
+		Your name
 
 	:Email:
-		t3dev@comuno.net
+		you@domain.tld
 
 	:License:
-		This document is published under the Open Content License
-		available from http://www.opencontent.org/opl.shtml
+		This document is published under the Open Publication License
+		available from http://www.opencontent.org/openpub/
 
 	:Rendered:
 		|today|
 
 	The content of this document is related to TYPO3,
-	a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
+	a GNU/GPL CMS/Framework available from `www.typo3.org <https://typo3.org/>`__.
+
 
 	**Table of Contents**
 
