@@ -1,6 +1,6 @@
 plugin.tx_c1_adaptive_images {
     settings {
-        # If 1 then image dimensions and ratio is rendered as annotation directly on the image
+        # If 1 then image dimensions and ratio are rendered as annotation directly on the image
         debug = 0
 
         # If 1 then some debug infos (loaded image dimensions, ratio, container width) are calculated via javascript

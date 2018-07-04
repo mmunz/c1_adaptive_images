@@ -6,13 +6,6 @@
 Configuration Reference
 =======================
 
-Technical information: Installation, Reference of TypoScript options,
-configuration options on system level, how to extend it, the technical
-details, how to debug it and so on.
-
-Language should be technical, assuming developer knowledge of TYPO3.
-Small examples/visuals are always encouraged.
-
 Target group: **Developers**
 
 
@@ -38,14 +31,25 @@ file for the declaration of cross-linking keys.
 Properties
 ^^^^^^^^^^
 
+
 .. container:: ts-properties
 
 	=========================== ===================================== ======================= ====================
 	Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
 	=========================== ===================================== ======================= ====================
 	allWrap_                    :ref:`t3tsref:data-type-wrap`         yes                     :code:`<div>|</div>`
-	`subst\_elementUid`_        :ref:`t3tsref:data-type-boolean`      no                      0
+	debug__        :ref:`t3tsref:data-type-boolean`      no                      0
 	wrapItemAndSub_             :ref:`t3tsref:data-type-wrap`
+	=========================== ===================================== ======================= ====================
+
+
+.. container:: ts-properties
+
+	=========================== ===================================== ======================= ====================
+	Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
+	=========================== ===================================== ======================= ====================
+	debug_                       :ref:`t3tsref:data-type-boolean`      no                     :code:`0`
+	jsdebug_                     :ref:`t3tsref:data-type-boolean`      no                     :code:`0`
 	=========================== ===================================== ======================= ====================
 
 
@@ -59,39 +63,20 @@ Property details
 		:depth: 1
 
 
-.. _ts-plugin-tx-extensionkey-stdwrap:
+debug
+"""""
 
-allWrap
-"""""""
+:typoscript:`plugin.tx_c1_adaptive_images.debug =` :ref:`t3tsref:data-type-boolean`
 
-:typoscript:`plugin.tx_extensionkey.allWrap =` :ref:`t3tsref:data-type-wrap`
+If set, debug info (width, height, ratio) is rendered as annotation directly on the image.
 
-Wraps the whole item.
+jsdebug
+"""""
 
+:typoscript:`plugin.tx_c1_adaptive_images.jsdebug =` :ref:`t3tsref:data-type-boolean`
 
-.. _ts-plugin-tx-extensionkey-wrapitemandsub:
-
-wrapItemAndSub
-""""""""""""""
-
-:typoscript:`plugin.tx_extensionkey.wrapItemAndSub =` :ref:`t3tsref:data-type-wrap`
-
-Wraps the whole item and any submenu concatenated to it.
-
-
-.. _ts-plugin-tx-extensionkey-substelementUid:
-
-subst_elementUid
-""""""""""""""""
-
-:typoscript:`plugin.tx_extensionkey.subst_elementUid =` :ref:`t3tsref:data-type-boolean`
-
-If set, all appearances of the string ``{elementUid}`` in the total
-element html-code (after wrapped in allWrap_) are substituted with the
-uid number of the menu item. This is useful if you want to insert an
-identification code in the HTML in order to manipulate properties with
-JavaScript.
-
+If set, then some debug infos (loaded image dimensions, ratio, container width) are calculated via javascript
+and shown near the image (positioning of the debug text with css)
 
 .. _configuration-faq:
 
