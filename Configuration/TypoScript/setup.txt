@@ -1,28 +1,22 @@
 [GLOBAL]
 plugin.tx_c1_adaptive_images {
-    view {
-        layoutRootPaths.10 = {$plugin.tx_c1_adaptive_images.view.layoutRootPath}
-        templateRootPaths.10 = {$plugin.tx_c1_adaptive_images.view.templateRootPath}
-        partialRootPaths.10 = {$plugin.tx_c1_adaptive_images.view.partialRootPath}
-    }
     settings {
         debug = {$plugin.tx_c1_adaptive_images.settings.debug}
-        placeholder {
-            dataImage = data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
-        }
-        defaultImgWidth = {$plugin.tx_c1_adaptive_images.settings.defaultImgWidth}
+        jsdebug = {$plugin.tx_c1_adaptive_images.settings.jsdebug}
+        #placeholder {
+        #    dataImage = data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
+        #}
         srcsetWidths = {$plugin.tx_c1_adaptive_images.settings.srcsetWidths}
-        cssClasses {
-            img = {$plugin.tx_c1_adaptive_images.settings.cssClasses.img}
-            ratioBoxBase = {$plugin.tx_c1_adaptive_images.settings.cssClasses.ratioBoxBase}
-            ratioBoxAdditional = {$plugin.tx_c1_adaptive_images.settings.cssClasses.ratioBoxAdditional}
-        }
+        #cssClasses {
+        #    img = {$plugin.tx_c1_adaptive_images.settings.cssClasses.img}
+        #    ratioBoxBase = {$plugin.tx_c1_adaptive_images.settings.cssClasses.ratioBoxBase}
+        #    ratioBoxAdditional = {$plugin.tx_c1_adaptive_images.settings.cssClasses.ratioBoxAdditional}
+        #}
     }
 }
 
 page {
     includeJSFooterlibs {
-        lazysizes = {$plugin.tx_c1_adaptive_images.settings.assets.js.lazysizes}
         debugimgsizes = {$plugin.tx_c1_adaptive_images.settings.assets.js.debugimgsizes}
     }
     includeCSS {
@@ -31,3 +25,8 @@ page {
 }
 
 mod.tx_c1_adaptive_images.view < plugin.tx_c1_adaptive_images.view
+
+# make settings available as settings.ai in all content elements
+lib.contentElement {
+    settings.ai < plugin.tx_c1_adaptive_images.settings
+}

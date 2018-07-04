@@ -26,13 +26,7 @@ class ImageUtilityTest extends AbstractTestCase
      */
     protected $settingsMock = [
         'debug' => '0',
-        'defaultImgWidth' => '768',
         'srcsetWidths' => '240,360,480,660,840,1024,1280,1440,1680,1920',
-        'cssClasses' => [
-            'img' => 'img-responsive lazyload',
-            'ratioBoxBase' => 'ratio-box',
-            'ratioBoxAdditional' => ''
-        ]
     ];
 
     /**

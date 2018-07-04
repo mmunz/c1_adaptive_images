@@ -9,7 +9,7 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
  * Class SettingsService
  * @package C1\AdaptiveImages\Service
  *
- * Get TypoScript settings and view configuration.
+ * Get TypoScript settings
  *
  */
 class SettingsService
@@ -23,11 +23,6 @@ class SettingsService
      * @var mixed
      */
     protected $settings = null;
-
-    /**
-     * @var mixed
-     */
-    protected $viewConfiguration = null;
 
     /**
      * @var ConfigurationManagerInterface
@@ -87,18 +82,5 @@ class SettingsService
             $this->settings = $this->getByPath('settings');
         }
         return $this->settings;
-    }
-
-    /**
-     * Returns the view configuration from TypoScript.
-     *
-     * @return array
-     */
-    public function getViewConfiguration()
-    {
-        if ($this->viewConfiguration === null) {
-            $this->viewConfiguration = $this->getByPath('view');
-        }
-        return $this->viewConfiguration;
     }
 }
