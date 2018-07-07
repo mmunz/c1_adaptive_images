@@ -1,6 +1,7 @@
 <?php
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\SvgUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -12,7 +13,7 @@ use C1\AdaptiveImages\Utility\ImageUtility;
  * Class AbstractViewHelper
  * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
-abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
+abstract class AbstractViewHelperTest extends UnitTestCase
 {
     /**
      * set up
@@ -25,8 +26,6 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
 
     protected function mockImageUtility()
     {
-        $test = $this;
-
         $imageUtilityMock = $this->getMockBuilder(ImageUtility::class)
             ->disableOriginalConstructor()
             ->setMethods(['setOriginalFile', 'getCropAreaForVariant'])
@@ -45,6 +44,25 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
             }));
 
         return $imageUtilityMock;
+    }
+
+    protected function mockSvgUtility()
+    {
+        $svgUtilityMock = $this->getMockBuilder(SvgUtility::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getSvgPlaceholder'])
+            ->getMock();
+
+        $svgUtilityMock
+            ->method('getSvgPlaceholder')
+            ->will($this->returnCallback(function ($width, $height, $backgroundColor, $content) {
+                if ($content) {
+                    return "data:image/svg+xml;base64,ABCDEFG...with_content...";
+                }
+                return "data:image/svg+xml;base64,ABCDEFG...";
+            }));
+
+        return $svgUtilityMock;
     }
 
     protected function mockImageService()

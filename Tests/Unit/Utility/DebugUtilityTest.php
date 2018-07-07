@@ -3,13 +3,12 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\DebugUtility;
-use Nimut\TestingFramework\TestCase\AbstractTestCase;
 
 /**
  * Class DebugUtilityTest
  * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
-class DebugUtilityTest extends AbstractTestCase
+class DebugUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
 {
 
     /**

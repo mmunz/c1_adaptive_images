@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
-use Nimut\TestingFramework\TestCase\AbstractTestCase;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -11,7 +10,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class RatioBoxUtilityTest
  * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
-class RatioBoxUtilityTest extends AbstractTestCase
+class RatioBoxUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
 {
 
     /**

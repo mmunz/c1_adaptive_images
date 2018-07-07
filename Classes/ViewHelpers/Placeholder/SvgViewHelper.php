@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Create a placeholder svg for lazyloading
@@ -71,7 +72,6 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-
         $this->registerArgument('file', '\TYPO3\CMS\Core\Resource\FileInterface', 'File or FileReference', true);
         $this->registerArgument(
             'cropVariant',
@@ -79,6 +79,35 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
             'cropVariant to use. (Default: "default")',
             false,
             'default'
+        );
+        $this->registerArgument(
+            'content',
+            'string',
+            'A string added inside the SVG tag',
+            false,
+            ''
+        );
+        $this->registerArgument(
+            'embedPreview',
+            'boolean',
+            'Embed small version of the image as preview inside the SVG.',
+            false,
+            false
+        );
+        $this->registerArgument(
+            'embedPreviewWidth',
+            'integer',
+            'width of the embedded preview image.',
+            false,
+            64
+        );
+        $this->registerArgument(
+            'embedPreviewAdditionalParameters',
+            'string',
+            'additional parameters to pass to IM/GM when rendering the preview image.',
+            false,
+            '-quality 50 -sampling-factor 4:2:0 -strip -posterize 136 -colorspace sRGB ' .
+                '-unsharp 0.25x0.25+8+0.065 -despeckle -noise 5'
         );
     }
 
@@ -117,6 +146,26 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
             $height = $cropArea->asArray()['height'];
         }
 
-        return $this->svgUtility->getSvgPlaceholder($width, $height);
+        $preview = '';
+        if ($this->arguments['embedPreview']) {
+            $this->imageUtility->setOriginalFile($image);
+
+            $processingInstructions = [
+                'width' => $this->arguments['embedPreviewWidth'],
+                'crop' =>$cropArea,
+                'additionalParameters' => $this->arguments['embedPreviewAdditionalParameters']
+            ];
+            $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
+
+            $previewImg = sprintf(
+                "data:%s;base64,%s",
+                $image->getProperty('mime_type'),
+                base64_encode($processedImage->getContents())
+            );
+
+            $preview = '<image xlink:href="' . $previewImg. '" x="0" y="0" height="100%" width="100%"></image>';
+        }
+
+        return $this->svgUtility->getSvgPlaceholder($width, $height, 'transparent', $this->arguments['content'] . $preview);
     }
 }

@@ -111,7 +111,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 
         $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
-        if ($this->arguments['dataUri']) {
+        if ($this->arguments['dataUri'] !== false) {
             return sprintf(
                 "data:%s;base64,%s",
                 $image->getProperty('mime_type'),

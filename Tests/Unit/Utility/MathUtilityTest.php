@@ -2,14 +2,13 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
-use Nimut\TestingFramework\TestCase\AbstractTestCase;
 use C1\AdaptiveImages\Utility\MathUtility;
 
 /**
  * Class MathUtilityTest
  * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
-class MathUtilityTest extends AbstractTestCase
+class MathUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
 {
     protected function setUp()
     {

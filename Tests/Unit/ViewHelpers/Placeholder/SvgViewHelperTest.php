@@ -2,16 +2,14 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
-use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
+use C1\AdaptiveImages\ViewHelpers\Placeholder\SvgViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperInterface;
-use TYPO3Fluid\Fluid\Tests\Unit\Core\Rendering\RenderingContextFixture;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 
 /**
  * Class ImageViewHelperTest
  * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
-class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest
+class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest
 {
 
     /** @var ViewHelperInterface */
@@ -24,10 +22,11 @@ class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abst
     {
 
         parent::setUp();
-        $this->utility = new ImageViewHelper;
+        $this->utility = new SvgViewHelper();
 
         $this->inject($this->utility, 'imageService', $this->mockImageService());
         $this->inject($this->utility, 'imageUtility', $this->mockImageUtility());
+        $this->inject($this->utility, 'svgUtility', $this->mockSvgUtility());
         $this->inject($this->utility, 'objectManager', $this->mockObjectManager());
     }
 
@@ -45,40 +44,26 @@ class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abst
     public function renderProvider()
     {
         return [
-            'file-uri' => [
+            'empty-svg' => [
                 [
-                    'dataUri' => false,
-                    'width' => '192',
                     'file' => $this->mockFileObject([
                         'width' => '1200',
                         'height' => '768',
                         'mime_type' => 'jpg'
                     ])
                 ],
-                '/image@192.jpg'
+                'data:image/svg+xml;base64,ABCDEFG...'
             ],
-            'data-uri' => [
+            'svg-with-preview' => [
                 [
-                    'width' => '192',
-                    'dataUri' => true,
                     'file' => $this->mockFileObject([
                         'width' => '1200',
                         'height' => '768',
                         'mime_type' => 'jpg'
-                    ])
+                    ]),
+                    'embedPreview' => '1'
                 ],
-                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50'
-            ],
-            'without_dataUri_argument_should render_data-uri' => [
-                [
-                    'width' => '192',
-                    'file' => $this->mockFileObject([
-                        'width' => '1200',
-                        'height' => '768',
-                        'mime_type' => 'jpg'
-                    ])
-                ],
-                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50'
+                'data:image/svg+xml;base64,ABCDEFG...with_content...'
             ],
         ];
     }
