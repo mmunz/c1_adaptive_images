@@ -163,9 +163,14 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
                 base64_encode($processedImage->getContents())
             );
 
-            $preview = '<image xlink:href="' . $previewImg. '" x="0" y="0" height="100%" width="100%"></image>';
+            $preview = sprintf(
+                '<image preserveAspectRatio="xMidYMid slice" xlink:href="' . $previewImg. '" x="0" y="0" width="%s" height="%s"></image>',
+                $width,
+                $height
+            );
         }
+        $res = $this->svgUtility->getSvgPlaceholder($width, $height, $this->arguments['content'] . $preview);
 
-        return $this->svgUtility->getSvgPlaceholder($width, $height, 'transparent', $this->arguments['content'] . $preview);
+        return $res;
     }
 }

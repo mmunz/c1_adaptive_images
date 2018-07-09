@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Class SvgUtility
@@ -16,26 +16,31 @@ class SvgUtility
      *
      * @param int $width
      * @param int $height
-     * @param string $backgroundColor
      * @param string $content
      *
      * @return string
      *
      */
-    public function getSvgPlaceholder($width = 100, $height = 75, $backgroundColor = 'transparent', $content = '')
+    public function getSvgPlaceholder($width = 100, $height = 75, $content = '')
     {
-        $svg = sprintf(
-            "<svg style='background-color: %s' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='%s' height='%s' viewBox='0 0 %s %s'>",
-            $backgroundColor,
-            $width,
-            $height,
-            $width,
-            $height
-        );
-        $svg .= $content;
-        $svg .= "</svg>";
 
-        $dataImage = "data:image/svg+xml;base64," . base64_encode($svg);
+        $svgTag = new TagBuilder('svg');
+
+        $svgTag->addAttributes([
+            'xmlns' => 'http://www.w3.org/2000/svg',
+            'width' => $width,
+            'height' => $height
+        ]);
+
+        if ($content && $content !== '') {
+            if (strpos($content, 'xlink') !== false) {
+                // svg tag needs xlink namespace if xlink is used in $content
+                $svgTag->addAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+            }
+            $svgTag->setContent($content);
+        }
+
+        $dataImage = "data:image/svg+xml," . rawurlencode($svgTag->render());
 
         return $dataImage;
     }

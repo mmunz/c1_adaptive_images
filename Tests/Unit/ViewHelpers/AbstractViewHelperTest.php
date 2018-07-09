@@ -55,7 +55,7 @@ abstract class AbstractViewHelperTest extends UnitTestCase
 
         $svgUtilityMock
             ->method('getSvgPlaceholder')
-            ->will($this->returnCallback(function ($width, $height, $backgroundColor, $content) {
+            ->will($this->returnCallback(function ($width, $height, $content) {
                 if ($content) {
                     return "data:image/svg+xml;base64,ABCDEFG...with_content...";
                 }
