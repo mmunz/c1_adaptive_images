@@ -1,9 +1,19 @@
+'use strict';
+
 {
 
-    const getImageDimensions = (src) => {
-        const t = new Image();
+    var bindEvent = function bindEvent(el, eventName, eventHandler) {
+        if (el.addEventListener){
+            el.addEventListener(eventName, eventHandler, false);
+        } else if (el.attachEvent){
+            el.attachEvent('on'+eventName, eventHandler);
+        }
+    };
+
+    var getImageDimensions = function getImageDimensions(src) {
+        var t = new Image();
         t.src = src;
-        let data = {
+        var data = {
             'width': t.width,
             'height': t.height,
             'ratio': (t.height / t.width * 100).toFixed(2)
@@ -11,59 +21,59 @@
         return data;
     };
 
-    const addDebugMessage = (imgEl, data) => {
-        let parent = imgEl.parentNode;
+    var addDebugMessage = function addDebugMessage(imgEl, data) {
+        var parent = imgEl.parentNode;
 
-        let msg = document.createElement('ul');
+        var msg = document.createElement('ul');
 
-        let elementWidth = document.createElement('li');
-        elementWidth.appendChild(
-            document.createTextNode(
-                'container: ' + data.elementWidth
-            )
-        );
+        var elementWidth = document.createElement('li');
+        elementWidth.appendChild(document.createTextNode('container: ' + data.elementWidth));
 
-        let currentSrcWidth = document.createElement('li');
-        currentSrcWidth.appendChild(
-            document.createTextNode(
-                'current: ' + data.currentSrcWidth + 'x' + data.currentSrcHeight + ' (' + data.ratio + ')'
-            )
-        );
+        var currentSrcWidth = document.createElement('li');
+        currentSrcWidth.appendChild(document.createTextNode('current: ' + data.currentSrcWidth + 'x' + data.currentSrcHeight + ' (' + data.ratio + ')'));
 
         msg.appendChild(currentSrcWidth);
         msg.appendChild(elementWidth);
 
         if (typeof parent.getElementsByClassName('img-debug')[0] === "undefined") {
-            let container = document.createElement("div");
+            var container = document.createElement("div");
             container.setAttribute('class', 'img-debug');
             container.appendChild(msg);
             parent.appendChild(container);
         } else {
-            let debugContainer = parent.getElementsByClassName('img-debug')[0];
-            debugContainer.replaceChild(msg, debugContainer.childNodes[0])
+            var debugContainer = parent.getElementsByClassName('img-debug')[0];
+            debugContainer.replaceChild(msg, debugContainer.childNodes[0]);
         }
     };
 
-    window.observe = imgEl => {
-        const action = () => {
-            let dimensions = getImageDimensions(imgEl.currentSrc);
-            const data = {
-                currentSrc: imgEl.currentSrc,
+    window.observe = function (imgEl) {
+        var action = function action() {
+            console.log(imgEl);
+            var dimensions = getImageDimensions(imgEl.currentSrc || imgEl.src);
+            var parent = imgEl.parentNode;
+            var data = {
+                currentSrc: imgEl.currentSrc  || imgEl.src,
                 currentSrcWidth: dimensions.width,
                 currentSrcHeight: dimensions.height,
                 ratio: dimensions.ratio,
-                elementWidth: imgEl.width
+                elementWidth: imgEl.width,
+                html: parent.outerHTML
             };
             addDebugMessage(imgEl, data);
         };
         action();
-        imgEl.addEventListener('load', action);
-        imgEl.addEventListener('resize', action);
+        bindEvent(imgEl, 'load', function () {
+            action();
+        });
+        bindEvent(imgEl, 'resize', function () {
+            action();
+        });
+
     };
 
-    document.querySelectorAll('img[data-img-debug="1"]').forEach(function (e) {
-        observe(e);
-    });
+    var images = document.querySelectorAll('img[data-img-debug="1"]');
 
-
+    for(var i = 0; i < images.length; i++) {
+        observe(images[i]);
+    }
 }
