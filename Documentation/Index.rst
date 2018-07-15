@@ -47,15 +47,15 @@ Extension Name
 	**Table of Contents**
 
 .. toctree::
-	:maxdepth: 3
-	:titlesonly:
+    :maxdepth: 3
+    :titlesonly:
 
-	Introduction/Index
-	User/Index
-	Administrator/Index
-	Configuration/Index
-	Developer/Index
-	KnownProblems/Index
-	ToDoList/Index
-	ChangeLog/Index
-	Links
+    Introduction/Index
+    User/Index
+    Administrator/Index
+    Configuration/Index
+    Developer/Index
+    KnownProblems/Index
+    ToDoList/Index
+    ChangeLog/Index
+    Links

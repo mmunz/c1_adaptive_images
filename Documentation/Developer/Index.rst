@@ -1,14 +1,16 @@
 .. include:: ../Includes.txt
 
-
 .. _developer:
 
+================
 Developer Corner
 ================
 
-Target group: **Developers**
+.. toctree::
+	:maxdepth: 5
+	:titlesonly:
 
-Use this section for *providing code examples* or any **useful** information code wise.
+        ViewHelpers/Index
 
 
 .. _developer-hooks:
