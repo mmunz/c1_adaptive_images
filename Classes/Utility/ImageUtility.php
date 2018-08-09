@@ -268,11 +268,6 @@ class ImageUtility
         return reset($candidates)['ratio'];
     }
 
-//    public function getSvgPlaceholderFromFirstCandidate($candidates)
-//    {
-//        return $this->getSvgPlaceholder(reset($candidates)['width'], reset($candidates)['height'] ?? null);
-//    }
-
     /**
      * Returns a space separated string of data attributes
      * @return string

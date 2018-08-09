@@ -14,3 +14,33 @@
   padding: 0.25rem 0.5rem;
   background: rgba(255, 255, 255, 0.5);
 }
+
+.rb {
+  position: relative;
+  height: 0;
+  display: block;
+  width: 100%;
+  /* actual padding-bottom is calculated and rendered in to HTML */
+  padding-bottom: 75%;
+}
+
+.rb img,
+.rb.iframe,
+.rb.video,
+.rb.picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.rb .img-debug {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+}
+
