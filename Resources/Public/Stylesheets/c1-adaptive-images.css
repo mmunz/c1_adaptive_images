@@ -25,15 +25,17 @@
 }
 
 .rb img,
-.rb.iframe,
-.rb.video,
-.rb.picture {
+.rb picture,
+.rb picture,
+.rb iframe,
+.rb video {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   display: block;
+  max-width: inherit;
 }
 
 .rb .img-debug {

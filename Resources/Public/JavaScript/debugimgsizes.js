@@ -38,7 +38,14 @@
             var container = document.createElement("div");
             container.setAttribute('class', 'img-debug');
             container.appendChild(msg);
-            parent.appendChild(container);
+            // check if parent has an img tag. If so, place the element after the img, else at the end of the parent
+            var imgTag = parent.getElementsByTagName('img')[0];
+            if (imgTag !== "undefined" ) {
+                imgTag.parentNode.insertBefore(container, imgTag.nextSibling);
+
+            } else {
+                parent.appendChild(container);
+            }
         } else {
             var debugContainer = parent.getElementsByClassName('img-debug')[0];
             debugContainer.replaceChild(msg, debugContainer.childNodes[0]);
