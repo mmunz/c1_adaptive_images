@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
 use C1\AdaptiveImages\Utility\ImageUtility;
@@ -20,7 +21,6 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
  * </output>
  *
  */
-
 class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
@@ -107,7 +107,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
             'additional parameters to pass to IM/GM when rendering the preview image.',
             false,
             '-quality 50 -sampling-factor 4:2:0 -strip -posterize 136 -colorspace sRGB ' .
-                '-unsharp 0.25x0.25+8+0.065 -despeckle -noise 5'
+            '-unsharp 0.25x0.25+8+0.065 -despeckle -noise 5'
         );
     }
 
@@ -152,7 +152,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 
             $processingInstructions = [
                 'width' => $this->arguments['embedPreviewWidth'],
-                'crop' =>$cropArea,
+                'crop' => $cropArea,
                 'additionalParameters' => $this->arguments['embedPreviewAdditionalParameters']
             ];
             $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
@@ -163,14 +163,20 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
                 base64_encode($processedImage->getContents())
             );
 
-            $preview = sprintf(
-                '<image preserveAspectRatio="xMidYMid slice" xlink:href="' . $previewImg. '" x="0" y="0" width="%s" height="%s"></image>',
-                $width,
-                $height
-            );
+            $preview = $this->createPreviewImageTag($previewImg, $width, $height);
         }
         $res = $this->svgUtility->getSvgPlaceholder($width, $height, $this->arguments['content'] . $preview);
 
         return $res;
+    }
+
+    public function createPreviewImageTag($img, $width, $height)
+    {
+        return sprintf(
+            '<image preserveAspectRatio="xMidYMid slice" xlink:href="%s" x="0" y="0" width="%s" height="%s"></image>',
+            $img,
+            $width,
+            $height
+        );
     }
 }
