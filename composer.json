@@ -1,19 +1,93 @@
 {
     "name": "c1/c1-adaptive-images",
-    "type": "typo3-cms-extension",
     "description": "Adaptive images for fluid_styled_content.",
+    "type": "typo3-cms-extension",
+    "homepage": "https://github.com/mmunz/c1_adaptive_images",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Manuel Munz",
+            "email": "t3dev@comuno.net",
+            "homepage": "https://www.comuno.net/",
             "role": "Developer"
         }
     ],
+    "support": {
+        "issues": "https://github.com/mmunz/c1_adaptive_images/issues",
+        "source": "https://github.com/mmunz/c1_adaptive_images"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "vendor-dir": ".Build/vendor",
+        "scripts": {
+            "ci:php:lint": "find *.php Classes/ Configuration/ Tests/ -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+            "ci:ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
+            "ci:tests:unit": "phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/",
+            "ci:tests:functional": "phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional/",
+            "ci:tests": [
+                "@ci:tests:unit",
+                "@ci:tests:functional"
+            ],
+            "ci:dynamic": [
+                "@ci:tests"
+            ],
+            "ci:static": [
+                "@ci:php:lint",
+                "@ci:ts:lint"
+            ],
+            "ci": [
+                "@ci:static"
+            ],
+            "link-extension": [
+                "@php -r 'is_dir($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
+                "@php -r 'file_exists($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/tea\") || symlink(__DIR__,$extFolder);'"
+            ],
+            "post-autoload-dump": [
+                "@link-extension"
+            ]
+        },
+        "extra": {
+            "typo3/cms": {
+                "extension-key": "c1_adaptive_images",
+                "cms-package-dir": "{$vendor-dir}/typo3/cms",
+                "web-dir": ".Build/public"
+            }
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://composer.typo3.org/"
+        }
+    ],
     "require": {
-        "typo3/cms-core": "^8.7.1"
+        "php": "~7.0.0 || ~7.1.0 || ~7.2.0",
+        "typo3/cms-core": "^7.6.23 || ^8.7.10",
+        "typo3/cms-fluid": "^7.6.23 || ^8.7.10",
+        "typo3/cms-frontend": "^7.6.23 || ^8.7.10"
+    },
+    "require-dev": {
+        "typo3/cms-fluid-styled-content": "^7.6.23 || ^8.7.10",
+        "helhum/typo3-composer-setup": "^0.5.1",
+        "helmich/typo3-typoscript-lint": "^1.4.4",
+        "nimut/testing-framework": "^3.0",
+        "codeception/codeception": "^2.4",
+        "roave/security-advisories": "dev-master"
+    },
+    "prefer-stable": true,
+    "conflict": {
+        "typo3/cms-composer-installers": "<1.4.6"
     },
     "autoload": {
         "psr-4": {
-            "C1\\AdaptiveImages\\": "Classes"
+            "C1\\AdaptiveImages\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "C1\\AdaptiveImages\\Tests\\" : "Tests/"
         }
     }
 }
