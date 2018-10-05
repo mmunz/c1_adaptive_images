@@ -47,13 +47,13 @@
             "post-autoload-dump": [
                 "@link-extension"
             ]
-        },
-        "extra": {
-            "typo3/cms": {
-                "extension-key": "c1_adaptive_images",
-                "cms-package-dir": "{$vendor-dir}/typo3/cms",
-                "web-dir": ".Build/public"
-            }
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "cms-package-dir": ".Build/vendor/typo3/cms",
+            "extension-key": "c1_adaptive_images",
+            "web-dir": ".Build/web"
         }
     },
     "repositories": [
@@ -63,16 +63,13 @@
         }
     ],
     "require": {
-        "php": "~7.0.0 || ~7.1.0 || ~7.2.0",
-        "typo3/cms-core": "^7.6.23 || ^8.7.10",
-        "typo3/cms-fluid": "^7.6.23 || ^8.7.10",
-        "typo3/cms-frontend": "^7.6.23 || ^8.7.10"
+        "php": "~7.1.0 || ~7.2.0",
+        "typo3/cms": "^8.7"
     },
     "require-dev": {
-        "typo3/cms-fluid-styled-content": "^7.6.23 || ^8.7.10",
-        "helhum/typo3-composer-setup": "^0.5.1",
+        "typo3/cms-fluid-styled-content": "^8.7.10",
         "helmich/typo3-typoscript-lint": "^1.4.4",
-        "nimut/testing-framework": "^3.0",
+        "typo3/testing-framework": "8.x-dev",
         "codeception/codeception": "^2.4",
         "roave/security-advisories": "dev-master"
     },
