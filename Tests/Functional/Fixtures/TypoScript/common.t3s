@@ -1,0 +1,51 @@
+config {
+    doctype = html5
+    language = de
+    locale_all = de_DE.UTF-8
+    htmlTag_langKey = de-DE
+    sys_language_uid = 0
+    uniqueLinkVars = 1
+    linkVars = L(0-1)
+    contentObjectExceptionHandler = 0
+}
+
+lib.dynamicContent = COA
+lib.dynamicContent {
+10 = LOAD_REGISTER
+10.colPos.cObject = TEXT
+10.colPos.cObject {
+field = colPos
+ifEmpty.cObject = TEXT
+ifEmpty.cObject {
+value.current = 1
+ifEmpty = 0
+}
+}
+20 = CONTENT
+20 {
+table = tt_content
+select {
+orderBy = sorting
+where = colPos={register:colPos}
+where.insertData = 1
+}
+}
+90 = RESTORE_REGISTER
+}
+
+page = PAGE
+page {
+10 = FLUIDTEMPLATE
+10 {
+templateName = Default
+templateRootPaths {
+0 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Templates/Page/
+}
+partialRootPaths {
+0 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Partials/Page/
+}
+layoutRootPaths {
+0 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Layouts/Page/
+}
+}
+}

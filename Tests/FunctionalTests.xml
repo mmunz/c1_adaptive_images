@@ -1,22 +1,23 @@
 <phpunit
 	backupGlobals="true"
 	backupStaticAttributes="false"
-	bootstrap="../Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php"
+	bootstrap="../Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php"
 	colors="true"
 	convertErrorsToExceptions="true"
 	convertWarningsToExceptions="true"
 	forceCoversAnnotation="true"
-	processIsolation="false"
+	processIsolation="true"
 	stopOnError="false"
 	stopOnFailure="false"
 	stopOnIncomplete="false"
 	stopOnSkipped="false"
 	verbose="true"
-	beStrictAboutTestsThatDoNotTestAnything="true"
+	beStrictAboutTestsThatDoNotTestAnything="false"
 >
 	<testsuites>
-		<testsuite name="Unit Tests">
-			<directory>./Unit/</directory>
+		<testsuite name="Functional Tests">
+			<directory>./Functional/</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>
+

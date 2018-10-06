@@ -20,40 +20,41 @@
         "preferred-install": {
             "*": "dist"
         },
-        "vendor-dir": ".Build/vendor",
-        "scripts": {
-            "ci:php:lint": "find *.php Classes/ Configuration/ Tests/ -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
-            "ci:ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
-            "ci:tests:unit": "phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/",
-            "ci:tests:functional": "phpunit -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional/",
-            "ci:tests": [
-                "@ci:tests:unit",
-                "@ci:tests:functional"
-            ],
-            "ci:dynamic": [
-                "@ci:tests"
-            ],
-            "ci:static": [
-                "@ci:php:lint",
-                "@ci:ts:lint"
-            ],
-            "ci": [
-                "@ci:static"
-            ],
-            "link-extension": [
-                "@php -r 'is_dir($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
-                "@php -r 'file_exists($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/tea\") || symlink(__DIR__,$extFolder);'"
-            ],
-            "post-autoload-dump": [
-                "@link-extension"
-            ]
-        }
+        "vendor-dir": "Build/vendor"
+    },
+    "scripts": {
+        "ci:php:lint": "find *.php Classes/ Configuration/ Tests/ -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+        "ci:ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
+        "ci:tests:unit": "docker-compose run php /app/web/typo3conf/ext/c1_adaptive_images/Build/vendor/bin/phpunit -c /app/web/typo3conf/ext/c1_adaptive_images/Tests/UnitTests.xml",
+        "ci:tests:functional": "docker-compose run php /app/web/typo3conf/ext/c1_adaptive_images/Build/vendor/bin/phpunit --bootstrap /app/web/typo3conf/ext/c1_adaptive_images/Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php -c /app/web/typo3conf/ext/c1_adaptive_images/Tests/FunctionalTests.xml",
+        "ci:tests": [
+            "@ci:tests:unit",
+            "@ci:tests:functional"
+        ],
+        "ci:dynamic": [
+            "@ci:tests"
+        ],
+        "ci:static": [
+            "@ci:php:lint",
+            "@ci:ts:lint"
+        ],
+        "ci": [
+            "@ci:static"
+        ],
+        "workaround-vendor-symlink": [
+            "echo Workaround for https://github.com/TYPO3/CmsComposerInstallers/issues/75",
+            "test -h Build/web/vendor && unlink Build/web/vendor || echo",
+            "cd Build/web && ln -s ../vendor ."
+        ],
+        "post-autoload-dump": [
+            "@workaround-vendor-symlink"
+        ]
     },
     "extra": {
         "typo3/cms": {
-            "cms-package-dir": ".Build/vendor/typo3/cms",
+            "cms-package-dir": "Build/vendor/typo3/cms",
             "extension-key": "c1_adaptive_images",
-            "web-dir": ".Build/web"
+            "web-dir": "Build/web"
         }
     },
     "repositories": [
@@ -64,10 +65,13 @@
     ],
     "require": {
         "php": "~7.1.0 || ~7.2.0",
-        "typo3/cms": "^8.7"
+        "typo3/cms-core": "^8.7",
+        "typo3/cms-fluid": "^8.7",
+        "typo3/cms-frontend": "^8.7",
+        "typo3/cms-fluid-styled-content": "^8.7"
     },
     "require-dev": {
-        "typo3/cms-fluid-styled-content": "^8.7.10",
+        "helhum/typo3-composer-setup": "^0.5.3",
         "helmich/typo3-typoscript-lint": "^1.4.4",
         "typo3/testing-framework": "8.x-dev",
         "codeception/codeception": "^2.4",
