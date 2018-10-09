@@ -2,10 +2,18 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\DebugUtility;
+use C1\AdaptiveImages\Utility\MathUtility;
+use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
  * Create a srcset string from given widths
@@ -22,19 +30,17 @@ use TYPO3\CMS\Core\Resource\FileReference;
  */
 class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    use CompileWithRenderStatic;
+
+    /**
+     * @var bool Reset singletons created by subject
+     */
+    protected $resetSingletonInstances = true;
+
     /**
      * @var bool
      */
     protected $escapeOutput = false;
-
-    /** var array $widths */
-    protected $widths = [];
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Service\ImageService
-     * @inject
-     */
-    protected $imageService;
 
     /**
      * @var \C1\AdaptiveImages\Utility\ImageUtility
@@ -42,28 +48,15 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
      */
     protected $imageUtility;
 
-    /**
-     * @var \C1\AdaptiveImages\Utility\MathUtility
-     * @inject
-     */
-    protected $mathUtility;
+    /** @var ImageService */
+    protected static $imageService;
 
     /**
-     * @var \C1\AdaptiveImages\Utility\DebugUtility
-     * @inject
+     * @param \TYPO3\CMS\Extbase\Service\ImageService $imageService
      */
-    protected $debugUtility;
-
-    /**
-     * @param $widths
-     */
-    public function setWidths($widths)
+    public static function injectImageService(\TYPO3\CMS\Extbase\Service\ImageService $imageService)
     {
-        if (!is_array($this->arguments['widths'])) {
-            $this->widths = explode(',', $widths);
-        } else {
-            $this->widths = $widths;
-        }
+        self::$imageService = $imageService;
     }
 
     /**
@@ -72,7 +65,6 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
     public function initializeArguments()
     {
         parent::initializeArguments();
-
         $this->registerArgument('file', 'object', 'a file or file reference', true);
         $this->registerArgument(
             'widths',
@@ -89,60 +81,72 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
             'default'
         );
         $this->registerArgument('debug', 'bool', 'Use IM/GM to write image infos on the srcset candidates');
+        $this->registerArgument('absolute', 'bool', 'Force absolute URL', false, false);
+
     }
 
     /**
-     * Returns the cropVariants array
-     *
-     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
-     * @return string
-     */
-    public function render()
+    * @param array $arguments
+    * @param \Closure $renderChildrenClosure
+    * @param RenderingContextInterface $renderingContext
+    * @return string
+    * @throws Exception
+    */
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
 
         $srcset = [];
-        $this->setWidths($this->arguments['widths']);
+        $widths = $arguments['widths'] ?? '';
 
-        if (is_null($this->arguments['file'])) {
-            throw new Exception('You must specify a File object.', 1522176433);
+        if (!is_array($widths)) {
+            $widths = explode(',', $widths);
         }
 
         /** @var FileInterface $file */
-        $file = $this->arguments['file'];
+
+        $file = $arguments['file'];
+
+        if (! $file instanceof FileInterface) {
+            throw new Exception('You must specify a File object.', 1522176433);
+        }
 
         $cropString = '';
-
         if ($file->hasProperty('crop')) {
             $cropString = $file->getProperty('crop');
         }
 
+
         $cropVariantCollection = CropVariantCollection::create((string)$cropString);
-        $cropVariant = $this->arguments['cropVariant'] ?: 'default';
+        $cropVariant = $arguments['cropVariant'] ?: 'default';
         $cropArea = $cropVariantCollection->getCropArea($cropVariant);
         $processingConfiguration = [
             'crop' => $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($file),
         ];
 
-        foreach ($this->widths as $width) {
+        foreach ($widths as $width) {
             $processingConfiguration['width'] = $width . 'm';
 
-            /** @var FileReference $processedImage */
-            $processedImage = $this->imageService->applyProcessingInstructions($file, $processingConfiguration);
+            $imageService = self::getImageService();
 
-            if ($this->arguments['debug'] === true) {
-                $processingConfiguration['additionalParameters'] = $this->debugUtility->getDebugAnnotation(
+            /** @var FileReference $processedImage */
+            $processedImage = $imageService->applyProcessingInstructions($file, $processingConfiguration);
+
+            if ($arguments['debug'] === true) {
+                $mathUtility = self::getMathUtility();
+                $debugUtility = self::getDebugUtility();
+                $processingConfiguration['additionalParameters'] = $debugUtility->getDebugAnnotation(
                     $processedImage->getProperty('width'),
                     $processedImage->getProperty('height'),
-                    $this->mathUtility->calculateRatio(
+                    $mathUtility->calculateRatio(
                         $processedImage->getProperty('height'),
                         $processedImage->getProperty('width')
                     )
                 );
-                $processedImage = $this->imageService->applyProcessingInstructions($file, $processingConfiguration);
+                $processedImage = $imageService->applyProcessingInstructions($file, $processingConfiguration);
             }
 
             /** @var string $imageUri */
-            $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
+            $imageUri = $imageService->getImageUri($processedImage, $arguments['absolute']);
 
             $srcset[] = sprintf(
                 "%s %dw",
@@ -153,4 +157,40 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 
         return implode(",", $srcset);
     }
+
+    /**
+     * Return an instance of ImageService using object manager
+     *
+     * @return ImageService
+     */
+    protected static function getImageService()
+    {
+        return self::$imageService;
+    }
+
+    /**
+     * Return an instance of mathUtility using object manager
+     *
+     * @return MathUtility
+     */
+    protected static function getMathUtility()
+    {
+        /** @var ObjectManager $objectManager */
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        return $objectManager->get(MathUtility::class);
+    }
+
+    /**
+     * Return an instance of getDebugUtility using object manager
+     *
+     * @return DebugUtility
+     */
+    protected static function getDebugUtility()
+    {
+        /** @var ObjectManager $objectManager */
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        return $objectManager->get(DebugUtility::class);
+    }
+
+
 }

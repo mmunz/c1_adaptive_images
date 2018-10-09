@@ -3,7 +3,7 @@
     <tt_content>
         <uid>1</uid>
         <pid>1</pid>
-        <CType>text</CType>
+        <CType>textmedia</CType>
         <header>Test content</header>
         <bodytext>foobar</bodytext>
         <header_layout>2</header_layout>

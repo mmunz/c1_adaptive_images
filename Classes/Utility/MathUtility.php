@@ -21,7 +21,7 @@ class MathUtility
      * @param int $precision
      * @return float
      */
-    public function calculateRatio($height, $width, $precision = 2)
+    public function calculateRatio($height, $width, int $precision = 2)
     {
         return round($height / $width * 100, $precision);
     }

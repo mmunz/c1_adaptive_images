@@ -24,11 +24,10 @@ class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abst
     {
 
         parent::setUp();
-        $this->utility = new ImageViewHelper;
+        $this->utility = new ImageViewHelper();
 
         $this->inject($this->utility, 'imageService', $this->mockImageService());
         $this->inject($this->utility, 'imageUtility', $this->mockImageUtility());
-        $this->inject($this->utility, 'objectManager', $this->mockObjectManager());
     }
 
     /**
@@ -90,6 +89,6 @@ class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abst
     public function render($arguments, $output)
     {
         $this->utility->setArguments($arguments);
-        $this->assertEquals($output, $this->utility->render());
+        $this->assertEquals($output, $this->utility->initializeArgumentsAndRender());
     }
 }

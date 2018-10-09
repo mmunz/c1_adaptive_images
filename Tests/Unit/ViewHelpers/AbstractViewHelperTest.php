@@ -13,7 +13,7 @@ use C1\AdaptiveImages\Utility\ImageUtility;
  * Class AbstractViewHelper
  * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
-abstract class AbstractViewHelperTest extends UnitTestCase
+abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
 {
     /**
      * set up

@@ -27,7 +27,6 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
         $this->inject($this->utility, 'imageService', $this->mockImageService());
         $this->inject($this->utility, 'imageUtility', $this->mockImageUtility());
         $this->inject($this->utility, 'svgUtility', $this->mockSvgUtility());
-        $this->inject($this->utility, 'objectManager', $this->mockObjectManager());
     }
 
     /**
@@ -75,6 +74,7 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
     public function render($arguments, $output)
     {
         $this->utility->setArguments($arguments);
+        $this->utility->validateArguments();
         $this->assertEquals($output, $this->utility->render());
     }
 }
