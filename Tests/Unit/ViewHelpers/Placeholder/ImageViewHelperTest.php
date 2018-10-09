@@ -14,6 +14,8 @@ use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest
 {
 
+    protected $resetSingletonInstances = true;
+
     /** @var ViewHelperInterface */
     protected $utility;
 

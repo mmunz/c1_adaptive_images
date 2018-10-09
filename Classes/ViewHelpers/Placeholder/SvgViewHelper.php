@@ -6,7 +6,6 @@ namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Create a placeholder svg for lazyloading
@@ -128,18 +127,51 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         $image = $this->arguments['file'];
         $imageUri = null;
 
+
+        /* following variables should be set by the defaults above. But this fails in unit tests. Find out why and then
+        probably  remove them again */
+        $cropVariant = 'Default';
+        $width = null;
+        $content = null;
+        $embedPreview = false;
+        $embedPreviewWidth = 64;
+        $embedPreviewAdditionalParameters = "-quality 50 -sampling-factor 4:2:0 -strip -posterize 136 ' .
+            '-colorspace sRGB -unsharp 0.25x0.25+8+0.065 -despeckle -noise 5";
+
+        if (array_key_exists('cropVariant', $this->arguments)) {
+            $cropVariant = $this->arguments['cropVariant'];
+        }
+
+        if (array_key_exists('embedPreview', $this->arguments)) {
+            $embedPreview = $this->arguments['embedPreview'];
+        }
+
+        if (array_key_exists('embedPreviewWidth', $this->arguments)) {
+            $embedPreviewWidth = $this->arguments['embedPreviewWidth'];
+        }
+
+        if (array_key_exists('embedPreviewAdditionalParameters', $this->arguments)) {
+            $embedPreviewAdditionalParameters = $this->arguments['embedPreviewAdditionalParameters'];
+        }
+
+        if (array_key_exists('$content', $this->arguments)) {
+            $content = $this->arguments['$content'];
+        }
+
         if (is_null($image)) {
             throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception(
                 'You must specify a File object.',
                 1523050131
             );
         }
+
+
         $this->imageUtility->setOriginalFile($image);
 
         $width = $image->getProperty('width');
         $height = $image->getProperty('height');
 
-        $cropArea = $this->imageUtility->getCropAreaForVariant($this->arguments['cropVariant']);
+        $cropArea = $this->imageUtility->getCropAreaForVariant($cropVariant);
 
         if ($cropArea) {
             $width = $cropArea->asArray()['width'];
@@ -147,13 +179,13 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         }
 
         $preview = '';
-        if ($this->arguments['embedPreview']) {
+        if ($embedPreview) {
             $this->imageUtility->setOriginalFile($image);
 
             $processingInstructions = [
-                'width' => $this->arguments['embedPreviewWidth'],
+                'width' => $embedPreviewWidth,
                 'crop' => $cropArea,
-                'additionalParameters' => $this->arguments['embedPreviewAdditionalParameters']
+                'additionalParameters' => $embedPreviewAdditionalParameters
             ];
             $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
@@ -165,7 +197,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 
             $preview = $this->createPreviewImageTag($previewImg, $width, $height);
         }
-        $res = $this->svgUtility->getSvgPlaceholder($width, $height, $this->arguments['content'] . $preview);
+        $res = $this->svgUtility->getSvgPlaceholder($width, $height, $content . $preview);
 
         return $res;
     }

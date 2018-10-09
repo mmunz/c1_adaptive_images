@@ -20,8 +20,10 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
      */
     protected function setUp()
     {
-
         parent::setUp();
+        // reset singletons in testing framework after each test
+        $this->resetSingletonInstances = true;
+
         $this->utility = new SvgViewHelper();
 
         $this->inject($this->utility, 'imageService', $this->mockImageService());
@@ -60,7 +62,7 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
                         'height' => '768',
                         'mime_type' => 'jpg'
                     ]),
-                    'embedPreview' => '1'
+                    'embedPreview' => true
                 ],
                 'data:image/svg+xml;base64,ABCDEFG...with_content...'
             ],
