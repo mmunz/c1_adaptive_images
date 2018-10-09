@@ -27,7 +27,7 @@
         "ci:ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
         "ci:tests:unit": "docker-compose run php /app/Build/vendor/bin/phpunit -c /app/Build/web/typo3conf/ext/c1_adaptive_images/Tests/UnitTests.xml",
         "ci:tests:functional": "docker-compose run php /app/Build/vendor/bin/phpunit --bootstrap /app/Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php -c /app/Build/web/typo3conf/ext/c1_adaptive_images/Tests/FunctionalTests.xml",
-        "ci:flushcache": "docker-compose run php rm -rf /app/Build/web/typo3temp/",
+        "ci:cache:flush": "docker-compose run php rm -rf /app/Build/web/typo3temp/",
         "ci:tests": [
             "@ci:tests:unit",
             "@ci:tests:functional"
