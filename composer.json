@@ -41,45 +41,15 @@
         ],
         "ci": [
             "@ci:static"
-        ],
-        "workaround-vendor-symlink": [
-            "echo Workaround for https://github.com/TYPO3/CmsComposerInstallers/issues/75",
-            "test -h Build/web/vendor && unlink Build/web/vendor || echo",
-            "cd Build/web && ln -s ../vendor ."
-        ],
-        "post-autoload-dump": [
-            "@workaround-vendor-symlink"
         ]
     },
     "extra": {
-        "typo3/class-alias-loader": {
-            "always-add-alias-loader": true,
-            "class-alias-maps": [
-                "Build/web/typo3/sysext/adminpanel/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/backend/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/core/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/extbase/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/fluid/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/info/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/lowlevel/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/recordlist/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/reports/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/t3editor/Migrations/Code/ClassAliasMap.php",
-                "Build/web/typo3/sysext/workspaces/Migrations/Code/ClassAliasMap.php"
-            ]
-        },
         "typo3/cms": {
             "cms-package-dir": "Build/vendor/typo3/cms",
             "extension-key": "c1_adaptive_images",
             "web-dir": "Build/web"
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://composer.typo3.org/"
-        }
-    ],
     "require": {
         "php": "~7.1.0 || ~7.2.0",
         "typo3/cms-core": "9.5.x-dev",
@@ -93,12 +63,8 @@
         "helhum/typo3-composer-setup": "^0.5.3",
         "helmich/typo3-typoscript-lint": "^1.4.4",
         "typo3/testing-framework": "^4.9",
-        "typo3/class-alias-loader": "^1.0",
         "codeception/codeception": "^2.4",
         "roave/security-advisories": "dev-master"
-    },
-    "conflict": {
-        "typo3/cms-composer-installers": "<1.4.6"
     },
     "autoload": {
         "psr-4": {
@@ -107,15 +73,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "C1\\AdaptiveImages\\Tests\\" : "Tests/",
-            "TYPO3\\CMS\\Fluid\\Tests\\": "Build/web/typo3/sysext/fluid/Tests/"
-        },
-        "classmap": [
-            "Build/vendor/phpunit/phpunit-mock-objects/src/"
-        ]
-    },
-    "classmap": [
-        "Build/web/typo3/sysextextbase/Tests/Unit/Object/Container/Fixtures/",
-        "Build/vendor/phpunit/phpunit-mock-objects/src"
-    ]
+            "C1\\AdaptiveImages\\Tests\\" : "Tests/"
+        }
+    }
 }
