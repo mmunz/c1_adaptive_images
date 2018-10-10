@@ -55,15 +55,14 @@
         "typo3/cms-core": "9.5.x-dev",
         "typo3/cms-fluid": "9.5.x-dev",
         "typo3/cms-frontend": "9.5.x-dev",
-        "typo3/cms-fluid-styled-content": "9.5.x-dev"
+        "typo3/cms-fluid-styled-content": "9.5.x-dev",
+        "nimut/testing-framework": "^4.0@dev"
     },
     "minimum-stability": "dev",
     "require-dev": {
         "typo3fluid/fluid": "dev-master as 2.5.4",
         "helhum/typo3-composer-setup": "^0.5.3",
         "helmich/typo3-typoscript-lint": "^1.4.4",
-        "typo3/testing-framework": "^4.9",
-        "codeception/codeception": "^2.4",
         "roave/security-advisories": "dev-master"
     },
     "autoload": {

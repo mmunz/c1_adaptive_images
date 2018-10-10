@@ -19,4 +19,4 @@ before_script:
 test:
   script:
   - Build/vendor/bin/phpunit -c Tests/UnitTests.xml
-  # - ./Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml --bootstrap Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php
+  # - ./Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml
