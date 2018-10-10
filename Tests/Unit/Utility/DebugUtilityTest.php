@@ -3,23 +3,17 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\DebugUtility;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Class DebugUtilityTest
  * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
-class DebugUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
+class DebugUtilityTest extends UnitTestCase
 {
-
     /**
-     * Set up
+     * @test
      */
-    protected function setUp()
-    {
-        parent::setUp();
-    }
-
-    /** @test */
     public function getDebugInformationReturnsAnnotationForImageMagick()
     {
         $utility = new DebugUtility();
@@ -32,7 +26,9 @@ class DebugUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function getDebugInformationReturnsAnnotationForGraphicsMagick()
     {
         $utility = new DebugUtility();
@@ -43,7 +39,9 @@ class DebugUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function getDebugInformationReturnsEmptyStringForUnknownProcessor()
     {
         $utility = new DebugUtility();

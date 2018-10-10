@@ -3,36 +3,49 @@ declare(strict_types=1);
 
 namespace T23\SwaCity\Tests\Unit\Controller;
 
+use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 /**
  * Class ActivationControllerTest
  * @package T23\SwaCity\Tests\Unit\Controller
  *
  */
-class RatioBoxTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTestCase
+class RatioBoxTest extends FunctionalTestCase
 {
-
-
-    /** @var array */
-    protected $testExtensionsToLoad = ['typo3conf/ext/c1_adaptive_images'];
 
     /**
      * @var array
      */
-    protected $coreExtensionsToLoad = ['core', 'extensionmanager', 'frontend', 'fluid', 'fluid_styled_content'];
+    protected $testExtensionsToLoad = [
+        'typo3conf/ext/c1_adaptive_images',
+    ];
 
+    /**
+     * @var array
+     */
+    protected $coreExtensionsToLoad = [
+        'fluid_styled_content',
+    ];
 
-    protected $pathsToLinkInTestInstance = ['../../../../../../Tests/Functional/Fixtures/fileadmin/user_upload' => 'fileadmin/user_upload'];
+    /**
+     * @var array
+     */
+    protected $pathsToLinkInTestInstance = [
+        '../../../../../../Tests/Functional/Fixtures/fileadmin/user_upload' => 'fileadmin/user_upload',
+    ];
 
-    /** @var int $pageId to use in these tests */
+    /**
+     * @var int $pageId to use in these tests
+     */
     protected $pageId = 1;
 
-    /** @var ResourceStorage */
+    /**
+     * @var ResourceStorage
+     */
     protected $storage;
 
     /**
@@ -65,8 +78,7 @@ class RatioBoxTest extends \TYPO3\TestingFramework\Core\Functional\FunctionalTes
         $resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
         $this->storage = $resourceFactory->getStorageObject(1);
 
-        $indexer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\Index\Indexer::class,
-            $this->storage);
+        $indexer = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\Index\Indexer::class, $this->storage);
         $indexer->processChangesInStorages();
 
     }

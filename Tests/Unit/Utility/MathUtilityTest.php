@@ -3,19 +3,17 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\MathUtility;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Class MathUtilityTest
  * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
-class MathUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
+class MathUtilityTest extends UnitTestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
-    }
-
-    /** @test */
+    /**
+     * @test
+     */
     public function calculateRatioReturnsCorrectRatio()
     {
         $utility = new MathUtility();

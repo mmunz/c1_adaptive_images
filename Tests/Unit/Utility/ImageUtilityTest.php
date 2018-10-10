@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\ImageUtility;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Resource\File;
@@ -12,7 +13,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  * Class ImageUtilityTest
  * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
-class ImageUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
+class ImageUtilityTest extends UnitTestCase
 {
 
     /**
@@ -64,7 +65,9 @@ class ImageUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
         $this->objectManagerMock = $this->createMock(ObjectManager::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function setOriginalFileSetsFile()
     {
         /** @var File $fileMock */
@@ -76,7 +79,9 @@ class ImageUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
     }
 
 
-    /** @test */
+    /**
+     * @test
+     */
     public function getCropVariantsReturnsCropVariants()
     {
         /** @var MockObject|ImageUtility $mock */

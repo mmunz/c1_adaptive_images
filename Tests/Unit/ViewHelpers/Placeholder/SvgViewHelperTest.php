@@ -9,10 +9,12 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperInterface;
  * Class ImageViewHelperTest
  * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
-class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest
+class SvgViewHelperTest extends AbstractViewHelperTest
 {
 
-    /** @var ViewHelperInterface */
+    /**
+     * @var ViewHelperInterface
+     */
     protected $utility;
 
     /**

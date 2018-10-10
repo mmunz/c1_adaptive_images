@@ -4,19 +4,19 @@ namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperInterface;
-use TYPO3Fluid\Fluid\Tests\Unit\Core\Rendering\RenderingContextFixture;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 
 /**
  * Class ImageViewHelperTest
  * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
-class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest
+class ImageViewHelperTest extends AbstractViewHelperTest
 {
 
     protected $resetSingletonInstances = true;
 
-    /** @var ViewHelperInterface */
+    /**
+     * @var ViewHelperInterface
+     */
     protected $utility;
 
     /**

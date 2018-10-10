@@ -3,14 +3,15 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
-use TYPO3\CMS\Core\Page\PageRenderer;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use TYPO3\CMS\Core\Page\PageRenderer;
 
 /**
  * Class RatioBoxUtilityTest
  * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
-class RatioBoxUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
+class RatioBoxUtilityTest extends UnitTestCase
 {
 
     /**
@@ -24,14 +25,18 @@ class RatioBoxUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
         $this->pageRendererMock = $this->createMock(PageRenderer::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function sanitizeCssClassNameWorksAsExpected()
     {
         $utility = new RatioBoxUtility($this->pageRendererMock);
         $this->assertEquals('test-test', $utility->sanitizeCssClassName('TEST_test!?$%&'));
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function getRatioClassForCropVariantReturnsValidClass()
     {
         $utility = new RatioBoxUtility($this->pageRendererMock);
@@ -58,7 +63,9 @@ class RatioBoxUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function getRatioBoxStyleReturnsCorrectStyle()
     {
         $utility = new RatioBoxUtility($this->pageRendererMock);
@@ -85,7 +92,9 @@ class RatioBoxUtilityTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function getRatioBoxClassNamesReturnsCorrectClassNames()
     {
         $utility = new RatioBoxUtility($this->pageRendererMock);

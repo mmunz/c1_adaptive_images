@@ -3,12 +3,10 @@
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
 use C1\AdaptiveImages\ViewHelpers\GetSrcsetViewHelper;
-use TYPO3\TestingFramework\Fluid\Unit\ViewHelpers\ViewHelperBaseTestcase;
+use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Service\ImageService;
-use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
-use TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\NodeInterface;
 /**
  * Class GetSrcsetViewHelperTest
  * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
