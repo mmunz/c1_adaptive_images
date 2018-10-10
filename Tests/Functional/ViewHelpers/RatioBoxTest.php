@@ -63,8 +63,9 @@ class RatioBoxTest extends FunctionalTestCase
         $this->setUpFrontendRootPage(
             1,
             [
-                __DIR__ . '/../../../Configuration/TypoScript/setup.txt',
-                __DIR__ . '/../Fixtures/TypoScript/common.t3s'
+                'EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript',
+                'EXT:c1_adaptive_images/Configuration/TypoScript/setup.txt',
+                __DIR__ . '/../Fixtures/TypoScript/common.t3s',
             ]
         );
 
