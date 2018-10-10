@@ -59,6 +59,7 @@
         "nimut/testing-framework": "^4.0@dev"
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require-dev": {
         "typo3fluid/fluid": "dev-master as 2.5.4",
         "helhum/typo3-composer-setup": "^0.5.3",
