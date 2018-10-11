@@ -25,9 +25,9 @@
     "scripts": {
         "ci:php:lint": "find *.php Classes/ Configuration/ Tests/ -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
         "ci:ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
-        "ci:tests:unit": "docker-compose run php /app/Build/vendor/bin/phpunit -c /app/Build/web/typo3conf/ext/c1_adaptive_images/Tests/UnitTests.xml",
-        "ci:tests:functional": "docker-compose run php /app/Build/vendor/bin/phpunit --bootstrap /app/Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php -c /app/Build/web/typo3conf/ext/c1_adaptive_images/Tests/FunctionalTests.xml",
-        "ci:cache:flush": "docker-compose run php rm -rf /app/Build/web/typo3temp/",
+        "ci:tests:unit": "php Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
+        "ci:tests:functional": "php Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml",
+        "ci:cache:flush": "rm -rf Build/web/typo3temp/; rm -rf ./var",
         "ci:tests": [
             "@ci:tests:unit",
             "@ci:tests:functional"
