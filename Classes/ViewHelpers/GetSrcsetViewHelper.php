@@ -102,9 +102,9 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         /** @var FileInterface $file */
         $file = $arguments['file'];
 
-        if (! $file instanceof FileInterface) {
-            throw new Exception('You must specify a File object.', 1522176433);
-        }
+//        if (! $file instanceof FileInterface) {
+//            throw new Exception('You must specify a File object.', 1522176433);
+//        }
 
         $cropString = '';
         if ($file->hasProperty('crop')) {
