@@ -1,7 +1,25 @@
 language: php
-php: 7.0.21
+php: 7.2
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.sonar/cache
+
 install:
+  - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
   - pear install pear/PHP_CodeSniffer
   - phpenv rehash
+  - composer install
+  - mkdir -p Build/web/typo3conf/ext/
+  - if [ ! -L Build/web/typo3conf/ext/c1_adaptive_images ]; then ln -snvf ../../../../. Build/web/typo3conf/ext/c1_adaptive_images; fi
+  - export TYPO3_PATH_ROOT=$PWD/Build/web
+  - export typo3DatabaseName=typo3
+  - export typo3DatabaseHost=localhost
+  - export typo3DatabaseUsername=root
+  - export typo3DatabasePassword=
+
 script:
-  - phpcs --extensions=php --standard=PSR2 .
+  - phpcs --extensions=php --standard=PSR2  --ignore=*/Build/* .
+  - ./Build/vendor/bin/phpunit -c Tests/UnitTests.xml
+  - ./Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml

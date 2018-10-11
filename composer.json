@@ -51,7 +51,7 @@
         }
     },
     "require": {
-        "php": "~7.1.0 || ~7.2.0",
+        "php": "~7.2.0",
         "typo3/cms-core": "9.5.x-dev",
         "typo3/cms-fluid": "9.5.x-dev",
         "typo3/cms-frontend": "9.5.x-dev",
