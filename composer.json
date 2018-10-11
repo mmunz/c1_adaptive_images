@@ -41,6 +41,13 @@
         ],
         "ci": [
             "@ci:static"
+        ],
+        "link-extension": [
+            "@php -r 'is_dir($extFolder=__DIR__.\"/Build/web/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
+            "@php -r 'file_exists($extFolder=__DIR__.\"/Build/web/typo3conf/ext/c1_adaptive_images\") || symlink(__DIR__,$extFolder);'"
+        ],
+        "post-autoload-dump": [
+            "@link-extension"
         ]
     },
     "extra": {
