@@ -7,11 +7,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class RatioBoxUtility
- * @package C1\AdaptiveImages\Utility
  */
 class RatioBoxUtility
 {
-    
+
     /** @var PageRenderer */
     protected $pageRenderer;
 
@@ -60,7 +59,7 @@ class RatioBoxUtility
         // remove all characters not allowed in HTML class names
         $regex = '/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0041}-\\x{005A}\\x{005F}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u';
         $class = \preg_replace($regex, '', $class);
-        $class = \preg_replace("/[\s_]/", "-", $class);
+        $class = \preg_replace("/[\s_]/", '-', $class);
         return $class;
     }
 
@@ -95,7 +94,6 @@ class RatioBoxUtility
                 \preg_replace('/\./i', 'dot', $ratio)
             );
         }
-
 
         return $this->sanitizeCssClassName($ratioBoxClass);
     }
@@ -132,7 +130,7 @@ class RatioBoxUtility
      *
      * @param string $class
      * @param string $css
-     * @param boolean $compress
+     * @param bool $compress
      */
     public function addStyleToHeader($class, $css, $compress = true)
     {
@@ -148,7 +146,6 @@ class RatioBoxUtility
      */
     public function getRatioBoxClassNames($cropVariants)
     {
-
         $this->ratioBoxClassNames[] = $this->ratioBoxBase;
 
         foreach (array_reverse($cropVariants) as $cropVariantKey => $cropVariantConfig) {
@@ -157,7 +154,7 @@ class RatioBoxUtility
             $this->ratioBoxClassNames[] = $className;
             $css = $this->getRatioBoxStyle($cropVariantConfig['ratio'], $mq);
             $this->addStyleToHeader($className, $css, 1);
-        };
+        }
 
         return $this->ratioBoxClassNames;
     }

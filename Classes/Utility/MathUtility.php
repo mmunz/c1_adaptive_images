@@ -4,7 +4,6 @@ namespace C1\AdaptiveImages\Utility;
 
 /**
  * Class MathUtility
- * @package C1\AdaptiveImages\Utility
  */
 class MathUtility
 {

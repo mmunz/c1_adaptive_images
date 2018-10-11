@@ -7,9 +7,6 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
  * Class SettingsService
- * @package C1\AdaptiveImages\Service
- *
- * Get TypoScript settings
  *
  */
 class SettingsService

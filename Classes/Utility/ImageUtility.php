@@ -3,16 +3,15 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
-use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
+use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
  * Class ImageUtility
- * @package C1\AdaptiveImages\Utility
  */
 class ImageUtility
 {
@@ -55,7 +54,6 @@ class ImageUtility
      */
     protected $cropVariantCollection;
 
-
     /**
      * @param array $options
      */
@@ -63,7 +61,7 @@ class ImageUtility
     {
         if ($options) {
             $this->setOptions($options);
-        };
+        }
         $this->cropVariants = $this->options['cropVariants'] ?? [];
     }
 
@@ -117,7 +115,7 @@ class ImageUtility
         } else {
             $pluginSettingsService = $this->objectManager->get('C1\\AdaptiveImages\\Service\\SettingsService');
             $this->settings = $pluginSettingsService->getSettings();
-        };
+        }
 
         if (!array_key_exists('default', $this->cropVariants)) {
             $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
@@ -133,9 +131,6 @@ class ImageUtility
     {
         return $this->objectManager->get(ImageService::class);
     }
-
-
-
 
     /**
      *
@@ -155,7 +150,6 @@ class ImageUtility
      * @param array $processingConfiguration
      * @return array
      */
-
     public function processImage($processingConfiguration)
     {
         $imageService = $this->getImageService();
@@ -225,8 +219,8 @@ class ImageUtility
 
             if ($cropVariantConfig['image_format'] > 0) {
                 $img_format = $this->options['image_format'];
-                $localProcessingConfiguration['width'] = $width . "c";
-                $localProcessingConfiguration['height'] = round(intval($width) / $img_format) . "c";
+                $localProcessingConfiguration['width'] = $width . 'c';
+                $localProcessingConfiguration['height'] = round(intval($width) / $img_format) . 'c';
             } else {
                 $localProcessingConfiguration['width'] = $width . 'm';
             }
@@ -234,7 +228,7 @@ class ImageUtility
             $processedImage = $this->processImage($localProcessingConfiguration);
 
             $srcset[$width] = $processedImage;
-        };
+        }
 
         return $srcset;
     }
@@ -310,7 +304,6 @@ class ImageUtility
      */
     public function getDefaultImage()
     {
-
         $processingConfiguration = [
             'width' => $this->options['width'],
             'height' => $this->options['height'],
@@ -329,13 +322,11 @@ class ImageUtility
         return $mergedWithOptions;
     }
 
-
     /**
      *
      */
     public function getCropVariants()
     {
-
         if (!array_key_exists('default', $this->cropVariants)) {
             $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
         }

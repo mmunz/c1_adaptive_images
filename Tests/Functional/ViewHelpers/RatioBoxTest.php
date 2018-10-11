@@ -11,7 +11,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class ActivationControllerTest
- * @package T23\SwaCity\Tests\Unit\Controller
  *
  */
 class RatioBoxTest extends FunctionalTestCase
@@ -81,7 +80,6 @@ class RatioBoxTest extends FunctionalTestCase
 
         $indexer = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\Index\Indexer::class, $this->storage);
         $indexer->processChangesInStorages();
-
     }
 
     /**
@@ -152,21 +150,21 @@ class RatioBoxTest extends FunctionalTestCase
     ) {
         // Assemble DataHandler data
         $newId = 'NEW1234';
-        $data = array();
-        $baseData = array(
+        $data = [];
+        $baseData = [
             'uid_local' => $fileObject->getUid(),
             'tablenames' => $tablenames,
             'uid_foreign' => $uid_foreign,
             'fieldname' => $fieldname,
             'pid' => $pid,
-        );
+        ];
         $data['sys_file_reference'][$newId] = array_merge($baseData, $properties);
         $data['tt_content'][1][$fieldname] = $newId;
 
         // Get an instance of the DataHandler and process the data
         /** @var DataHandler $dataHandler */
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
-        $dataHandler->start($data, array());
+        $dataHandler->start($data, []);
         $dataHandler->process_datamap();
 
         if (count($dataHandler->errorLog) !== 0) {

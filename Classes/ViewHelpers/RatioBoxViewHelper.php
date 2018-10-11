@@ -4,11 +4,10 @@ namespace C1\AdaptiveImages\ViewHelpers;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
-use TYPO3\CMS\Core\Resource\FileReference;
 
 /**
  *
@@ -108,8 +107,6 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
      */
     public function render()
     {
-
-
         if (is_null($this->arguments['file'])) {
             throw new Exception('You must specify a File object.', 1522176433);
         }
@@ -128,8 +125,6 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
         $cropVariantCollection = CropVariantCollection::create((string)$cropString);
 
         $cropVariants = [];
-
-
 
         if (array_key_exists('default', $mediaQueries) === false) {
             $mediaQueries['default'] = '';
@@ -163,14 +158,12 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
             ];
         }
 
-
         $this->ratioBoxUtility->setRatioBoxBase('rb');
         $classNames = $this->ratioBoxUtility->getRatioBoxClassNames($cropVariants);
 
         $this->tag->setTagName('div');
         $this->tag->setContent($this->renderChildren());
-        $this->tag->addAttribute('class', implode(" ", $classNames));
-
+        $this->tag->addAttribute('class', implode(' ', $classNames));
 
         return $this->tag->render();
     }

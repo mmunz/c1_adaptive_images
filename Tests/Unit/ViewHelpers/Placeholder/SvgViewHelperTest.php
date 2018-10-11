@@ -7,7 +7,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 /**
  * Class ImageViewHelperTest
- * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
 class SvgViewHelperTest extends AbstractViewHelperTest
 {

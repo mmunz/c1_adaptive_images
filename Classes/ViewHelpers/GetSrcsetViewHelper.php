@@ -4,15 +4,14 @@ namespace C1\AdaptiveImages\ViewHelpers;
 
 use C1\AdaptiveImages\Utility\DebugUtility;
 use C1\AdaptiveImages\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Service\ImageService;
+use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
@@ -71,7 +70,7 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
             'string',
             'String or array of integers describing the widths of candidates for srcset to be created',
             false,
-            [320,640,1024,1440,1920]
+            [320, 640, 1024, 1440, 1920]
         );
         $this->registerArgument(
             'cropVariant',
@@ -82,7 +81,6 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         );
         $this->registerArgument('debug', 'bool', 'Use IM/GM to write image infos on the srcset candidates');
         $this->registerArgument('absolute', 'bool', 'Force absolute URL', false, false);
-
     }
 
     /**
@@ -94,7 +92,6 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
     */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
-
         $srcset = [];
         $widths = $arguments['widths'] ?? '';
 
@@ -103,7 +100,6 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         }
 
         /** @var FileInterface $file */
-
         $file = $arguments['file'];
 
         if (! $file instanceof FileInterface) {
@@ -114,7 +110,6 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         if ($file->hasProperty('crop')) {
             $cropString = $file->getProperty('crop');
         }
-
 
         $cropVariantCollection = CropVariantCollection::create((string)$cropString);
         $cropVariant = $arguments['cropVariant'] ?: 'default';
@@ -149,13 +144,13 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
             $imageUri = $imageService->getImageUri($processedImage, $arguments['absolute']);
 
             $srcset[] = sprintf(
-                "%s %dw",
+                '%s %dw',
                 $imageUri,
                 $width
             );
-        };
+        }
 
-        return implode(",", $srcset);
+        return implode(',', $srcset);
     }
 
     /**
@@ -191,6 +186,4 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         return $objectManager->get(DebugUtility::class);
     }
-
-
 }

@@ -127,7 +127,6 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         $image = $this->arguments['file'];
         $imageUri = null;
 
-
         /* following variables should be set by the defaults above. But this fails in unit tests. Find out why and then
         probably  remove them again */
         $cropVariant = 'Default';
@@ -165,7 +164,6 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
             );
         }
 
-
         $this->imageUtility->setOriginalFile($image);
 
         $width = $image->getProperty('width');
@@ -190,7 +188,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
             $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
             $previewImg = sprintf(
-                "data:%s;base64,%s",
+                'data:%s;base64,%s',
                 $image->getProperty('mime_type'),
                 base64_encode($processedImage->getContents())
             );

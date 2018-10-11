@@ -7,7 +7,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Class MathUtilityTest
- * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
 class MathUtilityTest extends UnitTestCase
 {

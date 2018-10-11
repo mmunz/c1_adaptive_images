@@ -1,16 +1,15 @@
 <?php
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
-use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use C1\AdaptiveImages\Utility\ImageUtility;
+use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
  * Class AbstractViewHelper
- * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
 abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
 {
@@ -21,7 +20,6 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
     {
         parent::setUp();
     }
-
 
     protected function mockImageUtility()
     {
@@ -56,9 +54,9 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
             ->method('getSvgPlaceholder')
             ->will($this->returnCallback(function ($width, $height, $content) {
                 if ($content) {
-                    return "data:image/svg+xml;base64,ABCDEFG...with_content...";
+                    return 'data:image/svg+xml;base64,ABCDEFG...with_content...';
                 }
-                return "data:image/svg+xml;base64,ABCDEFG...";
+                return 'data:image/svg+xml;base64,ABCDEFG...';
             }));
 
         return $svgUtilityMock;
@@ -88,8 +86,6 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
                 return (($absolute) ? 'http://domain.tld' : '') . '/image@' . $file->getProperty('width') . '.jpg';
             }));
 
-
-
         return $imageServiceMock;
     }
 
@@ -115,7 +111,7 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
         $fileMock
             ->method('getContents')
             ->will($this->returnCallback(function () {
-                return "the images content";
+                return 'the images content';
             }));
 
         return $fileMock;

@@ -9,7 +9,6 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 
 /**
  * Class RatioBoxUtilityTest
- * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
 class RatioBoxUtilityTest extends UnitTestCase
 {

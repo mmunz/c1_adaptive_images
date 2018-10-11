@@ -24,7 +24,6 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  * </output>
  *
  */
-
 class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
@@ -39,7 +38,6 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      * @inject
      */
     protected $imageService;
-
 
     /**
      * Initialize arguments.
@@ -139,7 +137,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 
         if ($dataUri !== false) {
             return sprintf(
-                "data:%s;base64,%s",
+                'data:%s;base64,%s',
                 $image->getProperty('mime_type'),
                 base64_encode($processedImage->getContents())
             );

@@ -11,7 +11,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class ImageUtilityTest
- * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
 class ImageUtilityTest extends UnitTestCase
 {
@@ -78,7 +77,6 @@ class ImageUtilityTest extends UnitTestCase
         Assert::assertAttributeInstanceOf('TYPO3\CMS\Core\Resource\File', 'originalFile', $utility);
     }
 
-
     /**
      * @test
      */
@@ -140,7 +138,6 @@ class ImageUtilityTest extends UnitTestCase
         $mock->expects($this->at(1))
             ->method('processSrcsetImages')
             ->will($this->returnValue($candidates['default']));
-
 
         $this->assertEquals(
             $expectation,

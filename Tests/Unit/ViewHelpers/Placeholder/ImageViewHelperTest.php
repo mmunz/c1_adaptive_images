@@ -7,11 +7,9 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 /**
  * Class ImageViewHelperTest
- * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
 class ImageViewHelperTest extends AbstractViewHelperTest
 {
-
     protected $resetSingletonInstances = true;
 
     /**
@@ -24,7 +22,6 @@ class ImageViewHelperTest extends AbstractViewHelperTest
      */
     protected function setUp()
     {
-
         parent::setUp();
         $this->utility = new ImageViewHelper();
 

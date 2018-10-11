@@ -7,13 +7,12 @@ use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Service\ImageService;
+
 /**
  * Class GetSrcsetViewHelperTest
- * @package C1\AdaptiveImages\Tests\Unit\ViewHelpers
  */
 class GetSrcsetViewHelperTest extends ViewHelperBaseTestcase
 {
-
     protected $runTestInSeparateProcess = false;
 
     /**
@@ -50,11 +49,11 @@ class GetSrcsetViewHelperTest extends ViewHelperBaseTestcase
             ],
             [
                 [
-                    'absolute' => "1",
+                    'absolute' => '1',
                 ],
                 'exception' => \TYPO3Fluid\Fluid\Core\ViewHelper\Exception::class,
                 'code' => 1522176433,
-                'message' => "You must specify a File object"
+                'message' => 'You must specify a File object'
             ]
         ];
     }
@@ -98,7 +97,7 @@ class GetSrcsetViewHelperTest extends ViewHelperBaseTestcase
         } catch (\TYPO3Fluid\Fluid\Core\ViewHelper\Exception $e) {
             $exception = $e;
             $this->assertEquals(1522176433, $exception->getCode());
-            $this->assertEquals("You must specify a File object.", $exception->getMessage());
+            $this->assertEquals('You must specify a File object.', $exception->getMessage());
         }
         $this->assertNotNull($exception);
     }
@@ -108,7 +107,6 @@ class GetSrcsetViewHelperTest extends ViewHelperBaseTestcase
      */
     public function createSrcsetString()
     {
-
         $properties = [
             'width' => '1200',
             'height' => '768',
@@ -124,7 +122,6 @@ class GetSrcsetViewHelperTest extends ViewHelperBaseTestcase
         $originalFile->expects($this->any())->method('getProperties')->willReturn([]);
         $this->inject($image, 'originalFile', $originalFile);
         $this->inject($image, 'propertiesOfFileReference', []);
-
 
         $imageService = $this->getMockBuilder(ImageService::class)
             ->setMethods(['getImage', 'applyProcessingInstructions', 'getImageUri'])
@@ -155,7 +152,6 @@ class GetSrcsetViewHelperTest extends ViewHelperBaseTestcase
 
         $this->inject($this->viewHelper, 'imageService', $imageService);
 
-
         $arguments = [
             'widths' => '240,320,480',
             'file' => $image,
@@ -184,7 +180,7 @@ class GetSrcsetViewHelperTest extends ViewHelperBaseTestcase
         $image->expects($this->any())
             ->method('getContents')
             ->willReturnCallback(function () {
-                return "the images content";
+                return 'the images content';
             });
 
         return $image;

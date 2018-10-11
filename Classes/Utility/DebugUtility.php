@@ -4,7 +4,6 @@ namespace C1\AdaptiveImages\Utility;
 
 /**
  * Class DebugUtility
- * @package C1\AdaptiveImages\Utility
  */
 class DebugUtility
 {
@@ -19,7 +18,6 @@ class DebugUtility
      */
     public function getDebugAnnotation($width, $height, $ratio, $processor = null)
     {
-
         if (!$processor) {
             $processor = $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] ?? null;
         }
@@ -48,7 +46,7 @@ class DebugUtility
                 $ratio
             );
             return $text;
-        };
+        }
         return '';
     }
 }

@@ -6,7 +6,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Class SvgUtility
- * @package C1\AdaptiveImages\Utility
  */
 class SvgUtility
 {
@@ -23,7 +22,6 @@ class SvgUtility
      */
     public function getSvgPlaceholder($width = 100, $height = 75, $content = '')
     {
-
         $svgTag = new TagBuilder('svg');
 
         $svgTag->addAttributes([
@@ -40,7 +38,7 @@ class SvgUtility
             $svgTag->setContent($content);
         }
 
-        $dataImage = "data:image/svg+xml," . rawurlencode($svgTag->render());
+        $dataImage = 'data:image/svg+xml,' . rawurlencode($svgTag->render());
 
         return $dataImage;
     }

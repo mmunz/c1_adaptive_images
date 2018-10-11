@@ -7,7 +7,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /**
  * Class DebugUtilityTest
- * @package C1\AdaptiveImages\Tests\Unit\Utility
  */
 class DebugUtilityTest extends UnitTestCase
 {
@@ -51,7 +50,6 @@ class DebugUtilityTest extends UnitTestCase
             $utility->getDebugAnnotation('400m', '400', 0.5, 'NoMagick')
         );
     }
-
 
 //    /** @test */
 //    public function calculateRatioReturnsCorrectRatio()
