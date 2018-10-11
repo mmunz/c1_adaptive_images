@@ -8,7 +8,6 @@ cache:
 
 install:
   - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
-  - pear install pear/PHP_CodeSniffer
   - phpenv rehash
   - composer install
   - mkdir -p Build/web/typo3conf/ext/
@@ -20,6 +19,6 @@ install:
   - export typo3DatabasePassword=
 
 script:
-  - phpcs --extensions=php --standard=PSR2  --ignore=*/Build/* .
+  - composer ci:php:lint
   - ./Build/vendor/bin/phpunit -c Tests/UnitTests.xml
   - ./Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml
