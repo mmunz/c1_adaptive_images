@@ -79,7 +79,7 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
             false,
             'default'
         );
-        $this->registerArgument('debug', 'bool', 'Use IM/GM to write image infos on the srcset candidates');
+        $this->registerArgument('debug', 'bool', 'Use IM/GM to write image infos on the srcset candidates', false, false);
         $this->registerArgument('absolute', 'bool', 'Force absolute URL', false, false);
     }
 

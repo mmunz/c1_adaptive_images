@@ -22,9 +22,6 @@ class SvgViewHelperTest extends AbstractViewHelperTest
     protected function setUp()
     {
         parent::setUp();
-        // reset singletons in testing framework after each test
-        $this->resetSingletonInstances = true;
-
         $this->utility = new SvgViewHelper();
 
         $this->inject($this->utility, 'imageService', $this->mockImageService());
@@ -73,6 +70,9 @@ class SvgViewHelperTest extends AbstractViewHelperTest
     /**
      * @test
      * @dataProvider renderProvider
+     *
+     * @param array $arguments
+     * @param string $output
      */
     public function render($arguments, $output)
     {
