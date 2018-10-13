@@ -42,6 +42,7 @@ class GetCropVariantsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
         parent::initializeArguments();
 
         $this->registerArgument('file', 'object', 'a file or file reference');
+        $this->registerArgument('asString', 'bool', 'return as string or array', false, false);
     }
 
     /**
@@ -59,13 +60,22 @@ class GetCropVariantsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
         /** @var FileInterface $file */
         $file = $this->arguments['file'];
 
+        $asString = false;
+        if ($this->arguments['asString']) {
+            $asString = true;
+        }
+
         $cropString = '';
 
         if ($file->hasProperty('crop') && $file->getProperty('crop')) {
             $cropString = $file->getProperty('crop');
         }
 
-        $cropVariantCollection = CropVariantCollection::create((string)$cropString)->asArray();
-        return $cropVariantCollection;
+        $cropVariantString = CropVariantCollection::create((string)$cropString);
+        if ($asString) {
+            return $cropVariantString;
+        } else {
+            return $cropVariantString->asArray();
+        }
     }
 }

@@ -8,9 +8,23 @@
     <f:else>(max-width:767px)</f:else>
 </f:if>
 
-<ai:ratioBox file="{file}" mediaQueries="{mobile: mq-mobile, default: ''}">
-    <f:media class="image-embed-item" file="{file}" width="{dimensions.width}" height="{dimensions.height}"
-             alt="{file.alternative}" title="{file.title}"/>
-</ai:ratioBox>
+<f:variable name="mode">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mode')}</f:variable>
+
+<f:switch expression="{mode}">
+    <f:case value="RatioBox1"><f:render section="RatioBox1" arguments="{_all}" /></f:case>
+    <f:case value="GetCropVariantsAsString"><f:render section="GetCropVariantsAsString" arguments="{_all}" /></f:case>
+    <f:defaultCase>No mode</f:defaultCase>
+</f:switch>
+
+<f:section name="RatioBox1">
+    <ai:ratioBox file="{file}" mediaQueries="{mobile: mq-mobile, default: ''}">
+        <f:media class="image-embed-item" file="{file}" width="{dimensions.width}" height="{dimensions.height}"
+                 alt="{file.alternative}" title="{file.title}"/>
+    </ai:ratioBox>
+</f:section>
+
+<f:section name="GetCropVariantsAsString">
+    <pre class="cropString"><f:format.raw><ai:getCropVariants file="{file}" asString="true" /></f:format.raw></pre>
+</f:section>
 
 </html>

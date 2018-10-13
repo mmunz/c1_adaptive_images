@@ -18,6 +18,7 @@ Arguments
 argument    required    default     Description
 =========== =========== =========== ==================================================================================
 file        yes                     FileReference to get the cropVariants from.
+asString    no          false       Return the result as string (instaed array)
 =========== =========== =========== ==================================================================================
 
 Examples
