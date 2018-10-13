@@ -20,5 +20,6 @@ install:
 
 script:
   - composer ci:php:lint
+  - composer ci:ts:lint
   - ./.Build/vendor/bin/phpunit -c Tests/UnitTests.xml
   - ./.Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml
