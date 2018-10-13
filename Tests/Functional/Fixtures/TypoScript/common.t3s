@@ -1,3 +1,5 @@
+<INCLUDE_TYPOSCRIPT: source="DIR:EXT:c1_adaptive_images/Tests/Functional/Fixtures/TypoScript/lib/" extensions="t3s">
+
 config {
     doctype = html5
     language = de
@@ -7,51 +9,6 @@ config {
     uniqueLinkVars = 1
     linkVars = L(0-1)
     contentObjectExceptionHandler = 0
-}
-
-lib.gpvar = COA
-lib.gpvar {
-    stdWrap.htmlSpecialChars = 1
-    10 = TEXT
-    10 {
-        value = GP:{current}
-        wrap3 = {^}
-        wrap3.splitChar = ^
-        insertData = 1
-        stdWrap.insertData = 1
-    }
-}
-
-lib.contentElement {
-    templateName = Default
-    partialRootPaths {
-        20 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Partials/Content/
-    }
-}
-lib.dynamicContent = COA
-lib.dynamicContent {
-    10 = LOAD_REGISTER
-    10.colPos.cObject = TEXT
-    10.colPos.cObject {
-        field = colPos
-        ifEmpty.cObject = TEXT
-        ifEmpty.cObject {
-            value.current = 1
-            ifEmpty = 0
-        }
-    }
-
-    20 = CONTENT
-    20 {
-        table = tt_content
-        select {
-            orderBy = sorting
-            where = colPos={register:colPos}
-            where.insertData = 1
-        }
-    }
-
-    90 = RESTORE_REGISTER
 }
 
 page = PAGE
