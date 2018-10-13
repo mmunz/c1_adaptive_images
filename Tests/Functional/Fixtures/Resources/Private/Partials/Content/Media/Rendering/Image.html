@@ -1,0 +1,16 @@
+<html xmlns:ai="C1\AdaptiveImages\ViewHelpers"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:variable name="mq-mobile">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mq-mobile')}</f:variable>
+<f:if condition="{mq-mobile}">
+    <f:then></f:then>
+    <f:else>(max-width:767px)</f:else>
+</f:if>
+
+<ai:ratioBox file="{file}" mediaQueries="{mobile: mq-mobile, default: ''}">
+    <f:media class="image-embed-item" file="{file}" width="{dimensions.width}" height="{dimensions.height}"
+             alt="{file.alternative}" title="{file.title}"/>
+</ai:ratioBox>
+
+</html>

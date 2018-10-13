@@ -9,6 +9,25 @@ config {
     contentObjectExceptionHandler = 0
 }
 
+lib.gpvar = COA
+lib.gpvar {
+    stdWrap.htmlSpecialChars = 1
+    10 = TEXT
+    10 {
+        value = GP:{current}
+        wrap3 = {^}
+        wrap3.splitChar = ^
+        insertData = 1
+        stdWrap.insertData = 1
+    }
+}
+
+lib.contentElement {
+    templateName = Default
+    partialRootPaths {
+        20 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Partials/Content/
+    }
+}
 lib.dynamicContent = COA
 lib.dynamicContent {
     10 = LOAD_REGISTER
