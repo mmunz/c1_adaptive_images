@@ -1,11 +1,11 @@
 <html xmlns:ai="C1\AdaptiveImages\ViewHelpers"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       data-namespace-typo3-fluid="true">
-
+<f:spaceless>
 <f:variable name="mq-mobile">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mq-mobile')}</f:variable>
 <f:if condition="{mq-mobile}">
     <f:then></f:then>
-    <f:else>(max-width:767px)</f:else>
+    <f:else><f:variable name="mq-mobile">(max-width:767px)</f:variable></f:else>
 </f:if>
 
 <f:variable name="mode">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mode')}</f:variable>
@@ -26,5 +26,5 @@
 <f:section name="GetCropVariantsAsString">
     <pre class="cropString"><f:format.raw><ai:getCropVariants file="{file}" asString="true" /></f:format.raw></pre>
 </f:section>
-
+</f:spaceless>
 </html>

@@ -32,7 +32,7 @@ class RatioBoxTest extends AbstractFunctionalTest
         $arguments = '&mode=RatioBox1';
         $response = $this->getFrontendResponse($this->pageId, 0, 0, 0, true, 0, $arguments);
 
-        $expected = "<style type=\"text/css\">\n/*<![CDATA[*/\n<!-- \n/*rb--62dot5*/\n.rb--62dot5{padding-bottom:62.5%}\n-->\n/*]]>*/\n</style>\n";
+        $expected = "<style type=\"text/css\">\n/*<![CDATA[*/\n<!-- \n/*rb--62dot5*/\n.rb--62dot5{padding-bottom:62.5%}\n/*rb--max-width767px-62dot5*/\n@media (max-width:767px){.rb--max-width767px-62dot5{padding-bottom:62.5%}}\n-->\n/*]]>*/\n</style>";
         $this::assertContains($expected, $response->getContent());
     }
 
@@ -49,7 +49,7 @@ class RatioBoxTest extends AbstractFunctionalTest
         $arguments = '&mode=RatioBox1';
         $response = $this->getFrontendResponse($this->pageId, 0, 0, 0, true, 0, $arguments);
 
-        $expected = '<div class="rb rb--62dot5 rb--62dot5"><img';
+        $expected = '<div class="rb rb--62dot5 rb--max-width767px-62dot5">';
         $this::assertContains($expected, $response->getContent());
     }
 }

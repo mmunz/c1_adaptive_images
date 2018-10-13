@@ -26,6 +26,8 @@ class GetCropVariantsViewHelperTest extends AbstractFunctionalTest
         $arguments = '&mode=GetCropVariantsAsString';
         $response = $this->getFrontendResponse($this->pageId, 0, 0, 0, true, 0, $arguments);
 
+        //print_r($response);
+
         $expected = '<pre class="cropString">{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":null,"focusArea":{"x":0.3333333333333333,"y":0.3333333333333333,"width":0.3333333333333333,"height":0.3333333333333333}}}</pre>';
         $this::assertContains($expected, $response->getContent());
     }
