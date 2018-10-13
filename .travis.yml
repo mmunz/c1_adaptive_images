@@ -10,9 +10,9 @@ install:
   - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
   - phpenv rehash
   - composer install
-  - mkdir -p Build/web/typo3conf/ext/
-  - if [ ! -L Build/web/typo3conf/ext/c1_adaptive_images ]; then ln -snvf ../../../../. Build/web/typo3conf/ext/c1_adaptive_images; fi
-  - export TYPO3_PATH_ROOT=$PWD/Build/web
+  - mkdir -p .Build/web/typo3conf/ext/
+  - if [ ! -L .Build/web/typo3conf/ext/c1_adaptive_images ]; then ln -snvf ../../../../. .Build/web/typo3conf/ext/c1_adaptive_images; fi
+  - export TYPO3_PATH_ROOT=$PWD/.Build/web
   - export typo3DatabaseName=typo3
   - export typo3DatabaseHost=localhost
   - export typo3DatabaseUsername=root
@@ -20,5 +20,5 @@ install:
 
 script:
   - composer ci:php:lint
-  - ./Build/vendor/bin/phpunit -c Tests/UnitTests.xml
-  - ./Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml
+  - ./.Build/vendor/bin/phpunit -c Tests/UnitTests.xml
+  - ./.Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml

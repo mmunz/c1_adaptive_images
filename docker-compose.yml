@@ -19,7 +19,7 @@ services:
     volumes:
       # As a convention we provide the project repository as /app
       - ./:/app/:cached
-      - .:/app/Build/web/typo3conf/ext/c1_adaptive_images/
+      - .:/app/.Build/web/typo3conf/ext/c1_adaptive_images/
     depends_on:
       - db
     environment:

@@ -20,15 +20,15 @@
         "preferred-install": {
             "*": "dist"
         },
-        "vendor-dir": "Build/vendor"
+        "vendor-dir": ".Build/vendor"
     },
     "scripts": {
-        "ci:php:lint": "Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php_cs",
-        "ci:php:fix": "Build/vendor/bin/php-cs-fixer fix --diff --config .php_cs",
+        "ci:php:lint": ".Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php_cs",
+        "ci:php:fix": ".Build/vendor/bin/php-cs-fixer fix --diff --config .php_cs",
         "ci:ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
-        "ci:tests:unit": "php Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
-        "ci:tests:functional": "php Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml",
-        "ci:cache:flush": "rm -rf Build/web/typo3temp/; rm -rf ./var",
+        "ci:tests:unit": "php .Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
+        "ci:tests:functional": "php .Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml",
+        "ci:cache:flush": "rm -rf .Build/web/typo3temp/; rm -rf ./var",
         "ci:tests": [
             "@ci:tests:unit",
             "@ci:tests:functional"
@@ -44,8 +44,8 @@
             "@ci:static"
         ],
         "link-extension": [
-            "@php -r 'is_dir($extFolder=__DIR__.\"/Build/web/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
-            "@php -r 'file_exists($extFolder=__DIR__.\"/Build/web/typo3conf/ext/c1_adaptive_images\") || symlink(__DIR__,$extFolder);'"
+            "@php -r 'is_dir($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
+            "@php -r 'file_exists($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/c1_adaptive_images\") || symlink(__DIR__,$extFolder);'"
         ],
         "post-autoload-dump": [
             "@link-extension"
@@ -55,7 +55,7 @@
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "extension-key": "c1_adaptive_images",
-            "web-dir": "Build/web"
+            "web-dir": ".Build/public"
         }
     },
     "require": {
