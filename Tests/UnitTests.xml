@@ -5,7 +5,7 @@
 	colors="true"
 	convertErrorsToExceptions="true"
 	convertWarningsToExceptions="true"
-	forceCoversAnnotation="true"
+	forceCoversAnnotation="false"
 	processIsolation="false"
 	stopOnError="false"
 	stopOnFailure="false"
@@ -19,4 +19,12 @@
 			<directory>./Unit/</directory>
 		</testsuite>
 	</testsuites>
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../Classes</directory>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-clover" target="../.Build/logs/clover.xml"/>
+	</logging>
 </phpunit>

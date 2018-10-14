@@ -5,19 +5,20 @@
 	colors="true"
 	convertErrorsToExceptions="true"
 	convertWarningsToExceptions="true"
-	forceCoversAnnotation="true"
-	processIsolation="true"
+	forceCoversAnnotation="false"
+	processIsolation="false"
 	stopOnError="false"
 	stopOnFailure="false"
 	stopOnIncomplete="false"
 	stopOnSkipped="false"
 	verbose="true"
-	beStrictAboutTestsThatDoNotTestAnything="false"
+	beStrictAboutTestsThatDoNotTestAnything="true"
 >
 	<testsuites>
 		<testsuite name="Functional Tests">
 			<directory>./Functional/</directory>
 		</testsuite>
 	</testsuites>
+
 </phpunit>
 
