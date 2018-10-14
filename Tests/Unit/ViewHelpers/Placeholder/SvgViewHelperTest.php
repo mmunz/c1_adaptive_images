@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
 use C1\AdaptiveImages\ViewHelpers\Placeholder\SvgViewHelper;
@@ -15,7 +16,7 @@ class SvgViewHelperTest extends AbstractViewHelperTest
     /**
      * @var ViewHelperInterface
      */
-    protected $utility;
+    protected $viewHelper;
 
     /**
      * set up
@@ -23,11 +24,13 @@ class SvgViewHelperTest extends AbstractViewHelperTest
     protected function setUp()
     {
         parent::setUp();
-        $this->utility = new SvgViewHelper();
+        $this->viewHelper = new SvgViewHelper();
+        $this->injectDependenciesIntoViewHelper($this->viewHelper);
+        //$this->viewHelper->initializeArguments();
 
-        $this->inject($this->utility, 'imageService', $this->mockImageService());
-        $this->inject($this->utility, 'imageUtility', $this->mockImageUtility());
-        $this->inject($this->utility, 'svgUtility', $this->mockSvgUtility());
+        $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
+        $this->inject($this->viewHelper, 'imageUtility', $this->mockImageUtility());
+        $this->inject($this->viewHelper, 'svgUtility', $this->mockSvgUtility());
     }
 
     /**
@@ -36,11 +39,40 @@ class SvgViewHelperTest extends AbstractViewHelperTest
     public function testInitializeArguments()
     {
         $instance = $this->getAccessibleMock(SvgViewHelper::class, ['registerArgument']);
-        $instance->expects($this->at(0))->method('registerArgument')->with('file', '\TYPO3\CMS\Core\Resource\FileInterface', $this->anything(), true);
-        $instance->expects($this->at(1))->method('registerArgument')->with('cropVariant', 'string', $this->anything(), false, 'default');
-        $instance->expects($this->at(2))->method('registerArgument')->with('content', 'string', $this->anything(), false, '');
-        $instance->expects($this->at(3))->method('registerArgument')->with('embedPreview', 'boolean', $this->anything(), false, false);
-        $instance->expects($this->at(4))->method('registerArgument')->with('embedPreviewWidth', 'integer', $this->anything(), false, 64);
+        $instance->expects($this->at(0))->method('registerArgument')->with(
+            'file',
+            '\TYPO3\CMS\Core\Resource\FileInterface',
+            $this->anything(),
+            true
+        );
+        $instance->expects($this->at(1))->method('registerArgument')->with(
+            'cropVariant',
+            'string',
+            $this->anything(),
+            false,
+            'default'
+        );
+        $instance->expects($this->at(2))->method('registerArgument')->with(
+            'content',
+            'string',
+            $this->anything(),
+            false,
+            ''
+        );
+        $instance->expects($this->at(3))->method('registerArgument')->with(
+            'embedPreview',
+            'boolean',
+            $this->anything(),
+            false,
+            false
+        );
+        $instance->expects($this->at(4))->method('registerArgument')->with(
+            'embedPreviewWidth',
+            'integer',
+            $this->anything(),
+            false,
+            64
+        );
         $instance->expects($this->at(5))->method('registerArgument')->with(
             'embedPreviewAdditionalParameters',
             'string',
@@ -51,6 +83,17 @@ class SvgViewHelperTest extends AbstractViewHelperTest
         $instance->setRenderingContext(new RenderingContextFixture());
         $instance->initializeArguments();
     }
+
+//    /**
+//     * @test
+//     */
+//    public function exceptionWhenNoFileGiven()
+//    {
+//        $arguments = [];
+//        $this->setArgumentsUnderTest($this->viewHelper, $arguments);
+//        $result = $this->viewHelper->render();
+//        $this->assertEquals("foo", $result);
+//    }
 
     /**
      * @return array
@@ -74,7 +117,6 @@ class SvgViewHelperTest extends AbstractViewHelperTest
                         'height' => '768',
                         'mime_type' => 'jpg'
                     ]),
-                    'cropVariant' => 'default'
                 ],
                 'data:image/svg+xml;base64,ABCDEFG...'
             ],
@@ -101,8 +143,8 @@ class SvgViewHelperTest extends AbstractViewHelperTest
      */
     public function render($arguments, $output)
     {
-        $this->utility->setArguments($arguments);
-        $result = $this->utility->render();
+        $this->setArgumentsUnderTest($this->viewHelper, $arguments);
+        $result = $this->viewHelper->render();
         $this->assertEquals($output, $result);
     }
 
@@ -111,7 +153,7 @@ class SvgViewHelperTest extends AbstractViewHelperTest
      */
     public function createPreviewImageTag()
     {
-        $previewImgTag = $this->utility->createPreviewImageTag('imageUri', 1024, 768);
+        $previewImgTag = $this->viewHelper->createPreviewImageTag('imageUri', 1024, 768);
         $this->assertEquals(
             '<image preserveAspectRatio="xMidYMid slice" xlink:href="imageUri" x="0" y="0" width="1024" height="768"></image>',
             $previewImgTag

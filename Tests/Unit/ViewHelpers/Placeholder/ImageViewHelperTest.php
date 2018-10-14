@@ -24,6 +24,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
     {
         parent::setUp();
         $this->viewHelper = new ImageViewHelper();
+        $this->injectDependenciesIntoViewHelper($this->viewHelper);
 
         $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
         $this->inject($this->viewHelper, 'imageUtility', $this->mockImageUtility());
@@ -87,7 +88,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
      */
     public function render($arguments, $output)
     {
-        $this->viewHelper->setArguments($arguments);
+        $this->setArgumentsUnderTest($this->viewHelper, $arguments);
         $this->assertEquals($output, $this->viewHelper->initializeArgumentsAndRender());
     }
 }

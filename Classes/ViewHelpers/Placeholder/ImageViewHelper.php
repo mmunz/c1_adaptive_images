@@ -90,32 +90,6 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
         $image = $this->arguments['file'];
         $imageUri = null;
 
-        $width = 0;
-        $height = 0;
-        $cropVariant = '';
-        $dataUri = true;
-        $absolute = false;
-
-        if (array_key_exists('width', $this->arguments)) {
-            $width = $this->arguments['width'];
-        }
-
-        if (array_key_exists('height', $this->arguments)) {
-            $width = $this->arguments['height'];
-        }
-
-        if (array_key_exists('cropVariant', $this->arguments)) {
-            $width = $this->arguments['cropVariant'];
-        }
-
-        if (array_key_exists('dataUri', $this->arguments)) {
-            $dataUri = $this->arguments['dataUri'];
-        }
-
-        if (array_key_exists('absolute', $this->arguments)) {
-            $absolute = $this->arguments['absolute'];
-        }
-
         if (is_null($image)) {
             throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception(
                 'You must specify a File object.',
@@ -125,9 +99,9 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
         $this->imageUtility->setOriginalFile($image);
 
         $processingInstructions = [
-            'width' => $width,
-            'height' => $height,
-            'crop' =>$this->imageUtility->getCropAreaForVariant($cropVariant),
+            'width' => $this->arguments['width'],
+            'height' => $this->arguments['height'],
+            'crop' =>$this->imageUtility->getCropAreaForVariant($this->arguments['cropVariant']),
             'additionalParameters' =>
                 '-quality 50 -sampling-factor 4:2:0 -strip -posterize 136 -colorspace sRGB ' .
                 '-unsharp 0.25x0.25+8+0.065 -despeckle -noise 5'
@@ -135,14 +109,14 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 
         $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
-        if ($dataUri !== false) {
+        if ($this->arguments['dataUri'] !== false) {
             return sprintf(
                 'data:%s;base64,%s',
                 $image->getProperty('mime_type'),
                 base64_encode($processedImage->getContents())
             );
         } else {
-            $imageUri = $this->imageService->getImageUri($processedImage, $absolute);
+            $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
             return $imageUri;
         }
     }
