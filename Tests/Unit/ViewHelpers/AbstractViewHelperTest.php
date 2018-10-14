@@ -36,20 +36,7 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
     {
         $imageUtilityMock = $this->getMockBuilder(ImageUtility::class)
             ->disableOriginalConstructor()
-            ->setMethods(['setOriginalFile', 'getCropAreaForVariant'])
             ->getMock();
-
-        $imageUtilityMock
-            ->method('setOriginalFile')
-            ->will($this->returnCallback(function ($file) {
-                return true;
-            }));
-
-        $imageUtilityMock
-            ->method('getCropAreaForVariant')
-            ->will($this->returnCallback(function ($cropVariant) {
-                return '';
-            }));
 
         return $imageUtilityMock;
     }
@@ -110,7 +97,10 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
         $fileMock
             ->method('getProperty')
             ->will($this->returnCallback(function ($property) use ($properties) {
-                return $properties[$property];
+                if (array_key_exists($property, $properties)) {
+                    return $properties[$property];
+                }
+                return false;
             }));
 
         $fileMock

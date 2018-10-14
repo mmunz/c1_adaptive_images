@@ -122,6 +122,19 @@ class SvgViewHelperTest extends AbstractViewHelperTest
                 ],
                 'data:image/svg+xml;base64,ABCDEFG...with_content...'
             ],
+            'svg-with-preview-and-cropVariants' => [
+                [
+                    'file' => $this->mockFileObject([
+                        'width' => '1200',
+                        'height' => '768',
+                        'mime_type' => 'jpg',
+                        'crop' => '{"default":{"cropArea":{"height":0.8992,"width":1,"x":0,"y":0.0096},"selectedRatio":"16:9","focusArea":{"x":0.3333333333333333,"y":0.3333333333333333,"width":0.3333333333333333,"height":0.3333333333333333}},"mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3","focusArea":{"x":0.3333333333333333,"y":0.3333333333333333,"width":0.3333333333333333,"height":0.3333333333333333}}}',
+                    ]),
+                    'cropVariant' => 'default',
+                    'embedPreview' => true
+                ],
+                'data:image/svg+xml;base64,ABCDEFG...with_content...'
+            ],
         ];
     }
 
