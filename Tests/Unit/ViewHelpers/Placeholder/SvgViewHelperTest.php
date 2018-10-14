@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\SvgUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\SvgViewHelper;
 use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
 use Nimut\TestingFramework\Rendering\RenderingContextFixture;
@@ -21,7 +22,7 @@ class SvgViewHelperTest extends AbstractViewHelperTest
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
         $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
         $this->inject($this->viewHelper, 'imageUtility', $this->mockImageUtility());
-        $this->inject($this->viewHelper, 'svgUtility', $this->mockSvgUtility());
+        $this->inject($this->viewHelper, 'svgUtility', new SvgUtility());
     }
 
     /**
@@ -109,7 +110,7 @@ class SvgViewHelperTest extends AbstractViewHelperTest
                         'mime_type' => 'jpg'
                     ]),
                 ],
-                'data:image/svg+xml;base64,ABCDEFG...'
+                'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22768%22%20%2F%3E'
             ],
             'svg-with-preview' => [
                 [
@@ -120,7 +121,7 @@ class SvgViewHelperTest extends AbstractViewHelperTest
                     ]),
                     'embedPreview' => true
                 ],
-                'data:image/svg+xml;base64,ABCDEFG...with_content...'
+                'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22768%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cimage%20preserveAspectRatio%3D%22xMidYMid%20slice%22%20xlink%3Ahref%3D%22data%3Ajpg%3Bbase64%2CdGhlIGltYWdlcyBjb250ZW50%22%20x%3D%220%22%20y%3D%220%22%20width%3D%221200%22%20height%3D%22768%22%3E%3C%2Fimage%3E%3C%2Fsvg%3E'
             ],
             'svg-with-preview-and-cropVariants' => [
                 [
@@ -133,7 +134,7 @@ class SvgViewHelperTest extends AbstractViewHelperTest
                     'cropVariant' => 'default',
                     'embedPreview' => true
                 ],
-                'data:image/svg+xml;base64,ABCDEFG...with_content...'
+                'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22768%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cimage%20preserveAspectRatio%3D%22xMidYMid%20slice%22%20xlink%3Ahref%3D%22data%3Ajpg%3Bbase64%2CdGhlIGltYWdlcyBjb250ZW50%22%20x%3D%220%22%20y%3D%220%22%20width%3D%221200%22%20height%3D%22768%22%3E%3C%2Fimage%3E%3C%2Fsvg%3E'
             ],
         ];
     }

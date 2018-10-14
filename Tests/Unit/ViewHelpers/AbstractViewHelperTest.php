@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
 use C1\AdaptiveImages\Utility\ImageUtility;
-use C1\AdaptiveImages\Utility\SvgUtility;
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
 use TYPO3\CMS\Backend\Form\NodeInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
@@ -39,25 +38,6 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
             ->getMock();
 
         return $imageUtilityMock;
-    }
-
-    protected function mockSvgUtility()
-    {
-        $svgUtilityMock = $this->getMockBuilder(SvgUtility::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getSvgPlaceholder'])
-            ->getMock();
-
-        $svgUtilityMock
-            ->method('getSvgPlaceholder')
-            ->will($this->returnCallback(function ($width, $height, $content) {
-                if ($content) {
-                    return 'data:image/svg+xml;base64,ABCDEFG...with_content...';
-                }
-                return 'data:image/svg+xml;base64,ABCDEFG...';
-            }));
-
-        return $svgUtilityMock;
     }
 
     protected function mockImageService()
@@ -145,7 +125,7 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
      *
      * @param ViewHelperInterface $viewHelper
      * @param array $arguments
-     * @return void()
+     * @return string
      */
     protected function setArgumentsUnderTest($viewHelper, array $arguments = [])
     {
@@ -180,10 +160,8 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
             $viewHelper->setRenderingContext($this->renderingContext);
             $viewHelper->setArguments($evaluatedArguments);
             $viewHelper->handleAdditionalArguments($undeclaredArguments);
-            return $viewHelper->initializeArgumentsAndRender();
         } catch (Exception $error) {
             return $this->renderingContext->getErrorHandler()->handleViewHelperError($error);
         }
-        $viewHelper->setArguments($arguments);
     }
 }
