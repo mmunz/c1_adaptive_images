@@ -3,20 +3,12 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
-use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 /**
  * Class ImageViewHelperTest
  */
 class ImageViewHelperTest extends AbstractViewHelperTest
 {
-    protected $resetSingletonInstances = true;
-
-    /**
-     * @var ViewHelperInterface
-     */
-    protected $viewHelper;
-
     /**
      * set up
      */
@@ -25,7 +17,6 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         parent::setUp();
         $this->viewHelper = new ImageViewHelper();
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
-
         $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
         $this->inject($this->viewHelper, 'imageUtility', $this->mockImageUtility());
     }
@@ -94,11 +85,13 @@ class ImageViewHelperTest extends AbstractViewHelperTest
 
     /**
      * @test
+     * @param array $arguments
+     * @param string $expected
      * @dataProvider renderProvider
      */
-    public function render($arguments, $output)
+    public function render($arguments, $expected)
     {
         $this->setArgumentsUnderTest($this->viewHelper, $arguments);
-        $this->assertEquals($output, $this->viewHelper->initializeArgumentsAndRender());
+        $this->assertEquals($expected, $this->viewHelper->initializeArgumentsAndRender());
     }
 }

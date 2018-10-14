@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
 use C1\AdaptiveImages\Utility\ImageUtility;
@@ -9,12 +10,20 @@ use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
+use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 /**
  * Class AbstractViewHelper
  */
 abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
 {
+    protected $resetSingletonInstances = true;
+
+    /**
+     * @var ViewHelperInterface
+     */
+    protected $viewHelper;
+
     /**
      * set up
      */
@@ -146,6 +155,7 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
      *
      * @param ViewHelperInterface $viewHelper
      * @param array $arguments
+     * @return void()
      */
     protected function setArgumentsUnderTest($viewHelper, array $arguments = [])
     {

@@ -1,23 +1,16 @@
 <?php
 declare(strict_types=1);
-
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
 use C1\AdaptiveImages\ViewHelpers\Placeholder\SvgViewHelper;
+use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
 use Nimut\TestingFramework\Rendering\RenderingContextFixture;
-use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelperInterface;
 
 /**
  * Class ImageViewHelperTest
  */
 class SvgViewHelperTest extends AbstractViewHelperTest
 {
-
-    /**
-     * @var ViewHelperInterface
-     */
-    protected $viewHelper;
-
     /**
      * set up
      */
@@ -26,7 +19,6 @@ class SvgViewHelperTest extends AbstractViewHelperTest
         parent::setUp();
         $this->viewHelper = new SvgViewHelper();
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
-
         $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
         $this->inject($this->viewHelper, 'imageUtility', $this->mockImageUtility());
         $this->inject($this->viewHelper, 'svgUtility', $this->mockSvgUtility());
@@ -37,6 +29,7 @@ class SvgViewHelperTest extends AbstractViewHelperTest
      */
     public function testInitializeArguments()
     {
+        /** @var AccessibleMockObjectInterface|SvgViewHelper $instance */
         $instance = $this->getAccessibleMock(SvgViewHelper::class, ['registerArgument']);
         $instance->expects($this->at(0))->method('registerArgument')->with(
             'file',
@@ -137,13 +130,13 @@ class SvgViewHelperTest extends AbstractViewHelperTest
      * @dataProvider renderProvider
      *
      * @param array $arguments
-     * @param string $output
+     * @param string $expected
      */
-    public function render($arguments, $output)
+    public function render($arguments, $expected)
     {
         $this->setArgumentsUnderTest($this->viewHelper, $arguments);
         $result = $this->viewHelper->render();
-        $this->assertEquals($output, $result);
+        $this->assertEquals($expected, $result);
     }
 
     /**

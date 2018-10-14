@@ -152,7 +152,6 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
                 $image->getProperty('mime_type'),
                 base64_encode($processedImage->getContents())
             );
-
             $preview = $this->createPreviewImageTag($previewImg, $width, $height);
         }
         $res = $this->svgUtility->getSvgPlaceholder($width, $height, $this->arguments['content'] . $preview);
