@@ -21,6 +21,7 @@ class RatioBoxUtility
 
     /**
      * RatioBoxUtility constructor.
+     * @codeCoverageIgnore
      * @param null|PageRenderer $pageRenderer
      */
     public function __construct($pageRenderer = null)
@@ -101,7 +102,6 @@ class RatioBoxUtility
     /**
      *
      * Get the default style for the ratio box
-     *
      * @param int|float $ratio
      * @param string $mq
      * @return string

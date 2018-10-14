@@ -27,9 +27,19 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
+     * @var \TYPO3\CMS\Extbase\Service\ImageService
+     */
+    protected $imageService;
+
+    /**
      * @var ImageUtility;
      */
     protected $imageUtility;
+
+    /**
+     * @var svgUtility;
+     */
+    protected $svgUtility;
 
     /**
      * @param ImageUtility $imageUtility
@@ -40,22 +50,12 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     }
 
     /**
-     * @var svgUtility;
-     */
-    protected $svgUtility;
-
-    /**
      * @param SvgUtility $svgUtility
      */
     public function injectSvgUtility(SvgUtility $svgUtility)
     {
         $this->svgUtility = $svgUtility;
     }
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Service\ImageService
-     */
-    protected $imageService;
 
     /**
      * @param \TYPO3\CMS\Extbase\Service\ImageService $imageService
@@ -128,7 +128,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         $imageUri = null;
 
         /* following variables should be set by the defaults above. But this fails in unit tests. Find out why and then
-        probably  remove them again */
+        probably remove them again */
         $cropVariant = 'Default';
         $width = null;
         $content = null;
@@ -200,6 +200,16 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         return $res;
     }
 
+    /**
+     * createPreviewImageTag
+     *
+     * @param string $img
+     * @param int $width
+     * @param int $height
+     *
+     * @return string
+     *
+     */
     public function createPreviewImageTag($img, $width, $height)
     {
         return sprintf(
