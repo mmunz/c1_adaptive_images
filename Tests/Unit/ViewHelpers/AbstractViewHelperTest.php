@@ -35,6 +35,7 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
     {
         $imageUtilityMock = $this->getMockBuilder(ImageUtility::class)
             ->disableOriginalConstructor()
+            ->setMethods()
             ->getMock();
 
         return $imageUtilityMock;
@@ -52,9 +53,9 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
             ->method('applyProcessingInstructions')
             ->will($this->returnCallback(function ($file, $instructions) use ($test) {
                 // no upscaling of images
-                $instructions['width'] = min(intval($file->getProperty('width')), intval($instructions['width']));
-                //print_r($instructions);
-                return $test->mockFileObject($instructions);
+                $newProperties = $file->getProperties();
+                $newProperties['width'] = min(intval($file->getProperty('width')), intval($instructions['width']));
+                return $test->mockFileObject($newProperties);
             }));
 
         $imageServiceMock

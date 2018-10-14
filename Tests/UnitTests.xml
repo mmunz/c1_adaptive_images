@@ -20,7 +20,7 @@
 		</testsuite>
 	</testsuites>
 	<filter>
-		<whitelist>
+		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">../Classes</directory>
 		</whitelist>
 	</filter>

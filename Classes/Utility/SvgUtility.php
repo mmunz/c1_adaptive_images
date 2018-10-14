@@ -9,7 +9,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
  */
 class SvgUtility
 {
-
     /**
      *  Get a SVG Placeholder image as placeholder
      *
@@ -23,7 +22,6 @@ class SvgUtility
     public function getSvgPlaceholder($width = 100, $height = 75, $content = '')
     {
         $svgTag = new TagBuilder('svg');
-
         $svgTag->addAttributes([
             'xmlns' => 'http://www.w3.org/2000/svg',
             'width' => $width,

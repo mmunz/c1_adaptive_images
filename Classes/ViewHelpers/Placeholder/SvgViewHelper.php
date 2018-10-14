@@ -154,7 +154,6 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
             );
             $preview = $this->createPreviewImageTag($previewImg, $width, $height);
         }
-        print_r($preview);
         $res = $this->svgUtility->getSvgPlaceholder($width, $height, $this->arguments['content'] . $preview);
 
         return $res;

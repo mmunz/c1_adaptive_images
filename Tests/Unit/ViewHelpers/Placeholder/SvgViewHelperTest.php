@@ -20,8 +20,9 @@ class SvgViewHelperTest extends AbstractViewHelperTest
         parent::setUp();
         $this->viewHelper = new SvgViewHelper();
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
+        $this->imageUtility = $this->mockImageUtility();
         $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
-        $this->inject($this->viewHelper, 'imageUtility', $this->mockImageUtility());
+        $this->inject($this->viewHelper, 'imageUtility', $this->imageUtility);
         $this->inject($this->viewHelper, 'svgUtility', new SvgUtility());
     }
 
@@ -134,7 +135,7 @@ class SvgViewHelperTest extends AbstractViewHelperTest
                     'cropVariant' => 'default',
                     'embedPreview' => true
                 ],
-                'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22768%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cimage%20preserveAspectRatio%3D%22xMidYMid%20slice%22%20xlink%3Ahref%3D%22data%3Ajpg%3Bbase64%2CdGhlIGltYWdlcyBjb250ZW50%22%20x%3D%220%22%20y%3D%220%22%20width%3D%221200%22%20height%3D%22768%22%3E%3C%2Fimage%3E%3C%2Fsvg%3E'
+                'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22690.5856%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cimage%20preserveAspectRatio%3D%22xMidYMid%20slice%22%20xlink%3Ahref%3D%22data%3Ajpg%3Bbase64%2CdGhlIGltYWdlcyBjb250ZW50%22%20x%3D%220%22%20y%3D%220%22%20width%3D%221200%22%20height%3D%22690.5856%22%3E%3C%2Fimage%3E%3C%2Fsvg%3E'
             ],
         ];
     }
