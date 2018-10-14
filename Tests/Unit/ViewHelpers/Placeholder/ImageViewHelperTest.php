@@ -31,6 +31,16 @@ class ImageViewHelperTest extends AbstractViewHelperTest
     }
 
     /**
+     * @test
+     */
+    public function exceptionWhenNoFileGiven()
+    {
+        $arguments = [];
+        $this->expectExceptionCode(1237823699);
+        $this->setArgumentsUnderTest($this->viewHelper, $arguments);
+    }
+
+    /**
      * @return array
      *
      * array of test data for the viewHelpers render() method.

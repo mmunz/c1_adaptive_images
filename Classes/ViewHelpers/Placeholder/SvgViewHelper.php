@@ -123,25 +123,12 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      */
     public function render()
     {
-
-        //print_r($this->arguments);
-
         /** @var FileInterface $image */
         $image = $this->arguments['file'];
         $imageUri = null;
-
-        if (is_null($image)) {
-            throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception(
-                'You must specify a File object.',
-                1523050131
-            );
-        }
-
         $this->imageUtility->setOriginalFile($image);
-
         $width = $image->getProperty('width');
         $height = $image->getProperty('height');
-
         $cropArea = $this->imageUtility->getCropAreaForVariant($this->arguments['cropVariant']);
 
         if ($cropArea) {

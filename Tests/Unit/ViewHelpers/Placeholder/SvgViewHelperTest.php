@@ -26,7 +26,6 @@ class SvgViewHelperTest extends AbstractViewHelperTest
         parent::setUp();
         $this->viewHelper = new SvgViewHelper();
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
-        //$this->viewHelper->initializeArguments();
 
         $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
         $this->inject($this->viewHelper, 'imageUtility', $this->mockImageUtility());
@@ -84,16 +83,15 @@ class SvgViewHelperTest extends AbstractViewHelperTest
         $instance->initializeArguments();
     }
 
-//    /**
-//     * @test
-//     */
-//    public function exceptionWhenNoFileGiven()
-//    {
-//        $arguments = [];
-//        $this->setArgumentsUnderTest($this->viewHelper, $arguments);
-//        $result = $this->viewHelper->render();
-//        $this->assertEquals("foo", $result);
-//    }
+    /**
+     * @test
+     */
+    public function exceptionWhenNoFileGiven()
+    {
+        $arguments = [];
+        $this->expectExceptionCode(1237823699);
+        $this->setArgumentsUnderTest($this->viewHelper, $arguments);
+    }
 
     /**
      * @return array

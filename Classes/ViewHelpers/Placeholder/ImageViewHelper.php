@@ -90,12 +90,6 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
         $image = $this->arguments['file'];
         $imageUri = null;
 
-        if (is_null($image)) {
-            throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception(
-                'You must specify a File object.',
-                1522176433
-            );
-        }
         $this->imageUtility->setOriginalFile($image);
 
         $processingInstructions = [

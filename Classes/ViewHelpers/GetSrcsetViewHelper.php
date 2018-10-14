@@ -93,8 +93,8 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         $srcset = [];
-        $widths = $arguments['widths'] ?? '';
 
+        $widths = $arguments['widths'];
         if (!is_array($widths)) {
             $widths = explode(',', $widths);
         }
@@ -102,17 +102,13 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
         /** @var FileInterface $file */
         $file = $arguments['file'];
 
-//        if (! $file instanceof FileInterface) {
-//            throw new Exception('You must specify a File object.', 1522176433);
-//        }
-
         $cropString = '';
         if ($file->hasProperty('crop')) {
             $cropString = $file->getProperty('crop');
         }
 
         $cropVariantCollection = CropVariantCollection::create((string)$cropString);
-        $cropVariant = $arguments['cropVariant'] ?: 'default';
+        $cropVariant = $arguments['cropVariant'];
         $cropArea = $cropVariantCollection->getCropArea($cropVariant);
         $processingConfiguration = [
             'crop' => $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($file),
@@ -120,7 +116,6 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 
         foreach ($widths as $width) {
             $processingConfiguration['width'] = $width . 'm';
-
             $imageService = self::getImageService();
 
             /** @var FileReference $processedImage */
@@ -149,7 +144,6 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
                 $width
             );
         }
-
         return implode(',', $srcset);
     }
 
@@ -170,7 +164,7 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
      */
     protected static function getMathUtility()
     {
-        /** @var ObjectManager $objectManager */
+        /** @var object|ObjectManager $objectManager */
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         return $objectManager->get(MathUtility::class);
     }
@@ -182,7 +176,7 @@ class GetSrcsetViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
      */
     protected static function getDebugUtility()
     {
-        /** @var ObjectManager $objectManager */
+        /** @var object|ObjectManager $objectManager */
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         return $objectManager->get(DebugUtility::class);
     }
