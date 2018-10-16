@@ -2,8 +2,6 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
-use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
-use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -50,19 +48,10 @@ class ImageUtility
     protected $cropVariants = [];
 
     /**
-     * @var CropVariantCollection $cropVariantCollection
+     * @var \C1\AdaptiveImages\Utility\CropVariantUtility
+     * @inject
      */
-    protected $cropVariantCollection;
-
-    /**
-     * Return an instance of ImageService
-     *
-     * @return \object|ImageService
-     */
-    protected function getImageService()
-    {
-        return $this->objectManager->get(ImageService::class);
-    }
+    protected $cropVariantUtility;
 
     /**
      * ImageUtility constructor.
@@ -93,6 +82,18 @@ class ImageUtility
         if (!array_key_exists('default', $this->cropVariants)) {
             $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
         }
+        $this->cropVariantUtility = $this->objectManager->get('C1\\AdaptiveImages\\Utility\\CropVariantUtility');
+    }
+
+    /**
+     * @param array $options
+     */
+    public function init($options = null)
+    {
+        if ($options) {
+            $this->setOptions($options);
+        }
+        $this->cropVariants = $this->options['cropVariants'] ?? [];
     }
 
     /**
@@ -109,33 +110,16 @@ class ImageUtility
     public function setOriginalFile($file)
     {
         $this->originalFile = $file;
-        $this->setCropVariantCollection();
     }
 
     /**
-    Create a CropVariantCollection from file reference.
-     */
-    public function setCropVariantCollection()
-    {
-        $cropString = '';
-        if ($this->originalFile->hasProperty('crop')) {
-            $cropString = $this->originalFile->getProperty('crop');
-        }
-        $this->cropVariantCollection = CropVariantCollection::create((string)$cropString);
-    }
-
-    /**
+     * Return an instance of ImageService
      *
-     * Returns a calculated Area with coordinates for cropping the actual image
-     *
-     * @param string $key
-     * @return null|Area
+     * @return \object|ImageService
      */
-    public function getCropAreaForVariant($key)
+    protected function getImageService()
     {
-        $cropArea = $this->cropVariantCollection
-                ->getCropArea($key) ?? $this->cropVariantCollection->getCropArea('default');
-        return $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($this->originalFile);
+        return $this->objectManager->get(ImageService::class);
     }
 
     /**
@@ -192,7 +176,7 @@ class ImageUtility
         $defaultProcessConfiguration = [
             'width' => $this->options['width'],
             'height' => $this->options['height'],
-            'crop' => $this->getCropAreaForVariant($key)
+            'crop' => $this->cropVariantUtility->getCropAreaForVariant($key)
         ];
 
         foreach ($srcWidths as $width) {
@@ -254,8 +238,68 @@ class ImageUtility
     }
 
     /**
+     * Returns a space separated string of data attributes
+     * @return string
+     */
+    public function formatDataAttributes()
+    {
+        $data = $this->options['data'];
+        $tmpData = [];
+
+        if ($data && is_array($data)) {
+            foreach ($data as $dataAttributeKey => $dataAttributeValue) {
+                $tmpData[] = "data-{$dataAttributeKey}=\"{$dataAttributeValue}\"";
+            }
+        }
+        return implode(' ', $tmpData);
+    }
+
+    /**
+     * Returns a space separated string of additionalAttributes
+     * @return string
+     */
+    public function formatAdditionalAttributes()
+    {
+        $data = $this->options['additionalAttributes'];
+        $tmpData = [];
+
+        if ($data && is_array($data)) {
+            foreach ($data as $dataAttributeKey => $dataAttributeValue) {
+                $tmpData[] = sprintf('%s="%s"', $dataAttributeKey, $dataAttributeValue);
+            }
+        }
+        return implode(' ', $tmpData);
+    }
+
+    /**
+     * Get the default image
+     * This can for example be used as fallback image if the browser supports no srcset/sources attributes
      *
-    */
+     * @return array
+     */
+    public function getDefaultImage()
+    {
+        $processingConfiguration = [
+            'width' => $this->options['width'],
+            'height' => $this->options['height'],
+            'crop' => $this->cropVariantUtility->getCropAreaForVariant('default')
+        ];
+
+        $processedImage = $this->processImage($processingConfiguration);
+        // @Todo: unset unneeded keys
+        // $this->options['additionalAttributes']['srcset'] = $this->settings['placeholder']['dataImage'] . ' 1w';
+        $this->options['data']['srcset'] = $this->cropVariants['default']['srcset'];
+        $mergedWithOptions = array_merge_recursive($this->options, $processedImage);
+
+        $mergedWithOptions['dataString'] = $this->formatDataAttributes();
+        $mergedWithOptions['additionalAttributesString'] = $this->formatAdditionalAttributes();
+
+        return $mergedWithOptions;
+    }
+
+    /**
+     *
+     */
     public function getCropVariants()
     {
         if (!array_key_exists('default', $this->cropVariants)) {

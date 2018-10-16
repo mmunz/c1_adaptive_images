@@ -103,7 +103,6 @@ class GetSrcsetViewHelperTest extends AbstractViewHelperTest
             'debug' => true,
         ];
         $this->setArgumentsUnderTest($this->viewHelper, $arguments);
-
         $result = $this->viewHelper->initializeArgumentsAndRender();
         $this->assertEquals('image@240.jpg 240w,image@320.jpg 320w,image@480.jpg 480w', $result);
     }

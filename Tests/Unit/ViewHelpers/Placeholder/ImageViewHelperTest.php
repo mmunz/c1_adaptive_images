@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
 
 /**
@@ -9,6 +10,7 @@ use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
  */
 class ImageViewHelperTest extends AbstractViewHelperTest
 {
+
     /**
      * set up
      */
@@ -18,7 +20,8 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         $this->viewHelper = new ImageViewHelper();
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
         $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
-        $this->inject($this->viewHelper, 'imageUtility', $this->mockImageUtility());
+        $cropVariantUtility = $this->getMockBuilder(CropVariantUtility::class)->getMock();
+        $this->inject($this->viewHelper, 'cropVariantUtility', $cropVariantUtility);
     }
 
     /**

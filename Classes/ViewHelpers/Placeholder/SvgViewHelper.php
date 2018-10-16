@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
-use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
@@ -32,22 +31,15 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     protected $imageService;
 
     /**
-     * @var ImageUtility;
-     */
-    protected $imageUtility;
-
-    /**
      * @var SvgUtility svgUtility;
      */
     protected $svgUtility;
 
     /**
-     * @param ImageUtility $imageUtility
+     * @var \C1\AdaptiveImages\Utility\CropVariantUtility
+     * @inject
      */
-    public function injectImageUtility(ImageUtility $imageUtility)
-    {
-        $this->imageUtility = $imageUtility;
-    }
+    protected $cropVariantUtility;
 
     /**
      * @param SvgUtility $svgUtility
@@ -126,10 +118,11 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         /** @var FileInterface $image */
         $image = $this->arguments['file'];
         $imageUri = null;
-        $this->imageUtility->setOriginalFile($image);
+        $this->cropVariantUtility->setCropVariantCollection($image);
         $width = $image->getProperty('width');
         $height = $image->getProperty('height');
-        $cropArea = $this->imageUtility->getCropAreaForVariant($this->arguments['cropVariant']);
+        $this->cropVariantUtility->setCropVariantCollection($image);
+        $cropArea = $this->cropVariantUtility->getCropAreaForVariant($this->arguments['cropVariant']);
 
         if ($cropArea) {
             $width = $cropArea->asArray()['width'];
@@ -138,8 +131,6 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 
         $preview = '';
         if ($this->arguments['embedPreview']) {
-            $this->imageUtility->setOriginalFile($image);
-
             $processingInstructions = [
                 'width' => $this->arguments['embedPreviewWidth'],
                 'crop' => $cropArea,

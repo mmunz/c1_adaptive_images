@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\SvgViewHelper;
 use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
@@ -22,7 +23,7 @@ class SvgViewHelperTest extends AbstractViewHelperTest
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
         $this->imageUtility = $this->mockImageUtility();
         $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
-        $this->inject($this->viewHelper, 'imageUtility', $this->imageUtility);
+        $this->inject($this->viewHelper, 'cropVariantUtility', new CropVariantUtility());
         $this->inject($this->viewHelper, 'svgUtility', new SvgUtility());
     }
 

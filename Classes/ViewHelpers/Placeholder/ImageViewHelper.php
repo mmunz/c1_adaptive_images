@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
@@ -28,16 +29,16 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 {
 
     /**
-     * @var \C1\AdaptiveImages\Utility\ImageUtility
-     * @inject
-     */
-    protected $imageUtility;
-
-    /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
      * @inject
      */
     protected $imageService;
+
+    /**
+     * @var \C1\AdaptiveImages\Utility\CropVariantUtility
+     * @inject
+     */
+    protected $cropVariantUtility;
 
     /**
      * Initialize arguments.
@@ -89,13 +90,12 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
         /** @var FileInterface $image */
         $image = $this->arguments['file'];
         $imageUri = null;
-
-        $this->imageUtility->setOriginalFile($image);
+        $this->cropVariantUtility->setCropVariantCollection($image);
 
         $processingInstructions = [
             'width' => $this->arguments['width'],
             'height' => $this->arguments['height'],
-            'crop' =>$this->imageUtility->getCropAreaForVariant($this->arguments['cropVariant']),
+            'crop' => $this->cropVariantUtility->getCropAreaForVariant($this->arguments['cropVariant']),
             'additionalParameters' =>
                 '-quality 50 -sampling-factor 4:2:0 -strip -colorspace sRGB ' .
                 '-unsharp 0.25x0.25+8+0.065 -despeckle -noise 5'
