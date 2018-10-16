@@ -97,7 +97,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
             'height' => $this->arguments['height'],
             'crop' =>$this->imageUtility->getCropAreaForVariant($this->arguments['cropVariant']),
             'additionalParameters' =>
-                '-quality 50 -sampling-factor 4:2:0 -strip -posterize 136 -colorspace sRGB ' .
+                '-quality 50 -sampling-factor 4:2:0 -strip -colorspace sRGB ' .
                 '-unsharp 0.25x0.25+8+0.065 -despeckle -noise 5'
         ];
 
