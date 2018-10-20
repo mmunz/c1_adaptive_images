@@ -134,22 +134,21 @@ class ImageUtility
             $this->originalFile,
             $processingConfiguration
         );
-
-        $ratio = $this->mathUtility->calculateRatio(
-            $processedImage->getProperty('height'),
-            $processedImage->getProperty('width')
-        );
-
-        $processingConfiguration['additionalParameters'] .= $this->debugUtility->getDebugAnnotation(
-            $processedImage->getProperty('width'),
-            $processedImage->getProperty('height'),
-            $ratio
-        );
-
-        $processedImage = $imageService->applyProcessingInstructions(
-            $this->originalFile,
-            $processingConfiguration
-        );
+        if ($this->options['debug'] && $this->options['debug'] === true) {
+            $ratio = $this->mathUtility->calculateRatio(
+                $processedImage->getProperty('height'),
+                $processedImage->getProperty('width')
+            );
+            $processingConfiguration['additionalParameters'] .= $this->debugUtility->getDebugAnnotation(
+                $processedImage->getProperty('width'),
+                $processedImage->getProperty('height'),
+                $ratio
+            );
+            $processedImage = $imageService->applyProcessingInstructions(
+                $this->originalFile,
+                $processingConfiguration
+            );
+        }
 
         $url = $imageService->getImageUri($processedImage);
 
@@ -172,6 +171,8 @@ class ImageUtility
         $srcset = [];
         $srcWidths = explode(',', $cropVariantConfig['srcsetWidths']);
         $maxWidthReached = false;
+
+        $this->cropVariantUtility->setCropVariantCollection($this->originalFile);
 
         $defaultProcessConfiguration = [
             'width' => $this->options['width'],
@@ -235,66 +236,6 @@ class ImageUtility
     public function getRatioFromFirstCandidate($candidates)
     {
         return reset($candidates)['ratio'];
-    }
-
-    /**
-     * Returns a space separated string of data attributes
-     * @return string
-     */
-    public function formatDataAttributes()
-    {
-        $data = $this->options['data'];
-        $tmpData = [];
-
-        if ($data && is_array($data)) {
-            foreach ($data as $dataAttributeKey => $dataAttributeValue) {
-                $tmpData[] = "data-{$dataAttributeKey}=\"{$dataAttributeValue}\"";
-            }
-        }
-        return implode(' ', $tmpData);
-    }
-
-    /**
-     * Returns a space separated string of additionalAttributes
-     * @return string
-     */
-    public function formatAdditionalAttributes()
-    {
-        $data = $this->options['additionalAttributes'];
-        $tmpData = [];
-
-        if ($data && is_array($data)) {
-            foreach ($data as $dataAttributeKey => $dataAttributeValue) {
-                $tmpData[] = sprintf('%s="%s"', $dataAttributeKey, $dataAttributeValue);
-            }
-        }
-        return implode(' ', $tmpData);
-    }
-
-    /**
-     * Get the default image
-     * This can for example be used as fallback image if the browser supports no srcset/sources attributes
-     *
-     * @return array
-     */
-    public function getDefaultImage()
-    {
-        $processingConfiguration = [
-            'width' => $this->options['width'],
-            'height' => $this->options['height'],
-            'crop' => $this->cropVariantUtility->getCropAreaForVariant('default')
-        ];
-
-        $processedImage = $this->processImage($processingConfiguration);
-        // @Todo: unset unneeded keys
-        // $this->options['additionalAttributes']['srcset'] = $this->settings['placeholder']['dataImage'] . ' 1w';
-        $this->options['data']['srcset'] = $this->cropVariants['default']['srcset'];
-        $mergedWithOptions = array_merge_recursive($this->options, $processedImage);
-
-        $mergedWithOptions['dataString'] = $this->formatDataAttributes();
-        $mergedWithOptions['additionalAttributesString'] = $this->formatAdditionalAttributes();
-
-        return $mergedWithOptions;
     }
 
     /**

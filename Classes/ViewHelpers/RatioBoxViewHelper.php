@@ -5,7 +5,6 @@ namespace C1\AdaptiveImages\ViewHelpers;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 
@@ -34,12 +33,6 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
      * @inject
      */
     protected $imageService;
-
-    /**
-     * @var \C1\AdaptiveImages\Utility\ImageUtility
-     * @inject
-     */
-    protected $imageUtility;
 
     /**
      * @var \C1\AdaptiveImages\Utility\MathUtility
@@ -129,8 +122,6 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
         if (array_key_exists('default', $mediaQueries) === false) {
             $mediaQueries['default'] = '';
         }
-
-        //DebuggerUtility::var_dump($mediaQueries);
 
         foreach ($mediaQueries as $key => $mediaQuery) {
             $cropVariant = $key;

@@ -2,29 +2,61 @@
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       data-namespace-typo3-fluid="true">
 <f:spaceless>
-<f:variable name="mq-mobile">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mq-mobile')}</f:variable>
-<f:if condition="{mq-mobile}">
-    <f:then></f:then>
-    <f:else><f:variable name="mq-mobile">(max-width:767px)</f:variable></f:else>
-</f:if>
+    <f:variable name="mq-mobile">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mq-mobile')}</f:variable>
+    <f:if condition="{mq-mobile}">
+        <f:then></f:then>
+        <f:else>
+            <f:variable name="mq-mobile">(max-width:767px)</f:variable>
+        </f:else>
+    </f:if>
 
-<f:variable name="mode">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mode')}</f:variable>
+    <f:variable name="mode">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mode')}</f:variable>
+    <f:variable name="placeholderWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'placeholderWidth')}</f:variable>
 
-<f:switch expression="{mode}">
-    <f:case value="RatioBox1"><f:render section="RatioBox1" arguments="{_all}" /></f:case>
-    <f:case value="GetCropVariantsAsString"><f:render section="GetCropVariantsAsString" arguments="{_all}" /></f:case>
-    <f:defaultCase>No mode</f:defaultCase>
-</f:switch>
+    <f:comment>Setting boolean vars</f:comment>
+    <f:for each="{0: 'placeholderInline', 1: 'lazy', 2: 'debug', 3: 'jsdebug'}" as="argName">
+        <f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '0'">
+            <f:then><f:variable name="{argName}">0</f:variable></f:then>
+            <f:else><f:variable name="{argName}">1</f:variable></f:else>
+        </f:if>
+    </f:for>
 
-<f:section name="RatioBox1">
-    <ai:ratioBox file="{file}" mediaQueries="{mobile: mq-mobile, default: ''}">
-        <f:media class="image-embed-item" file="{file}" width="{dimensions.width}" height="{dimensions.height}"
-                 alt="{file.alternative}" title="{file.title}"/>
-    </ai:ratioBox>
-</f:section>
+    <f:switch expression="{mode}">
+        <f:case value="RatioBox1">
+            <f:render section="RatioBox1" arguments="{_all}"/>
+        </f:case>
+        <f:case value="ImageViewHelper">
+            <f:render section="ImageViewHelper" arguments="{_all}"/>
+        </f:case>
+        <f:case value="GetCropVariantsAsString">
+            <f:render section="GetCropVariantsAsString" arguments="{_all}"/>
+        </f:case>
+        <f:defaultCase>No mode</f:defaultCase>
+    </f:switch>
 
-<f:section name="GetCropVariantsAsString">
-    <pre class="cropString"><f:format.raw><ai:getCropVariants file="{file}" asString="true" /></f:format.raw></pre>
-</f:section>
+    <f:section name="RatioBox1">
+        <ai:ratioBox file="{file}" mediaQueries="{mobile: mq-mobile, default: ''}">
+            <f:media class="image-embed-item" file="{file}" width="{dimensions.width}" height="{dimensions.height}"
+                     alt="{file.alternative}" title="{file.title}"/>
+        </ai:ratioBox>
+    </f:section>
+
+    <f:section name="ImageViewHelper">
+        <ai:image image="{file}" width="{dimensions.width}" height="{dimensions.height}"
+                  alt="{file.alternative}" title="{file.title}"
+                  srcsetWidths="200,400"
+                  placeholderInline="{placeholderInline}"
+                  placeholderWidth="{placeholderWidth}"
+                  lazy="{lazy}"
+                  debug="{debug}"
+                  data="{
+                    'img-debug':'{jsdebug}'
+                 }"
+        />
+    </f:section>
+
+    <f:section name="GetCropVariantsAsString">
+        <pre class="cropString"><f:format.raw><ai:getCropVariants file="{file}" asString="true"/></f:format.raw></pre>
+    </f:section>
 </f:spaceless>
 </html>

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace C1\AdaptiveImages\Tests\ViewHelpers;
+namespace C1\AdaptiveImages\Tests\Functional\ViewHelpers;
 
 use C1\AdaptiveImages\Tests\Functional\Traits\CreateFileReference;
 use C1\AdaptiveImages\Tests\Functional\Traits\GetFrontendResponse;
