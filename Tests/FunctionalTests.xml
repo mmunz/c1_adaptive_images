@@ -19,6 +19,13 @@
 			<directory>./Functional/</directory>
 		</testsuite>
 	</testsuites>
-
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../Classes</directory>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-clover" target="../.Build/logs/clover.xml"/>
+	</logging>
 </phpunit>
 

@@ -57,6 +57,7 @@ trait GetFrontendResponse
             ]
         );
 
+        /** @var DefaultPhpProcess $php */
         $php = DefaultPhpProcess::factory();
         $response = $php->runJob($template->render());
         $result = json_decode($response['stdout'], true);
