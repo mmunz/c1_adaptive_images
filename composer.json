@@ -28,7 +28,7 @@
         "ci:ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
         "ci:tests:unit": "php .Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
         "ci:tests:functional": "php .Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml",
-        "ci:cache:flush": "rm -rf .Build/web/typo3temp/; rm -rf ./var",
+        "ci:cache:flush": "rm -rf .Build/public/typo3temp/; rm -rf ./var/*",
         "ci:tests": [
             "@ci:tests:unit",
             "@ci:tests:functional"
