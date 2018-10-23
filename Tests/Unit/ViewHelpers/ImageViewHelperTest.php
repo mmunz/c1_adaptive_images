@@ -14,14 +14,6 @@ class ImageViewHelperTest extends AbstractViewHelperTest
 {
 
     /**
-     * @var bool Reset singletons created by subject
-     */
-    protected $resetSingletonInstances = true;
-
-    /** @var ImageViewHelper */
-    protected $viewHelper;
-
-    /**
      * set up
      */
     protected function setUp()
