@@ -1,5 +1,14 @@
 language: php
-php: 7.2
+
+matrix:
+    include:
+      - php: 7.1
+        env:
+          - TYPO3VERSION=^8.7
+      - php: 7.2
+        env:
+          - TYPO3VERSION=^9.5
+
 
 cache:
   directories:
@@ -9,7 +18,7 @@ cache:
 install:
   - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
   - phpenv rehash
-  - composer install
+  - rm -f composer.lock; composer require typo3/minimal:$TYPO3VERSION; git checkout composer.json
   - mkdir -p .Build/public/typo3conf/ext/
   - if [ ! -L .Build/public/typo3conf/ext/c1_adaptive_images ]; then ln -snvf ../../../../. .Build/public/typo3conf/ext/c1_adaptive_images; fi
   - export TYPO3_PATH_ROOT=$PWD/.Build/public
