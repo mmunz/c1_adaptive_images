@@ -108,6 +108,8 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      * - data-uri string with base64 encoded image (default) or
      * - url to the image
      *
+     * @see https://docs.typo3.org/typo3cms/TyposcriptReference/ContentObjects/Image/
+     *
      * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception
      * @return string Rendered tag
      */

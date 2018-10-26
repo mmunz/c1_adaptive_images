@@ -21,6 +21,7 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
         parent::setUp();
         $this->viewHelper = new SvgViewHelper();
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
+        $this->imageUtility = $this->mockImageUtility();
         $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
         $this->inject($this->viewHelper, 'cropVariantUtility', new CropVariantUtility());
         $this->inject($this->viewHelper, 'svgUtility', new SvgUtility());

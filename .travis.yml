@@ -1,10 +1,5 @@
 language: php
-
 php: 7.2
-
-env:
-  - TYPO3_VERSION="^9.5"
-  - TYPO3_VERSION="^8.7"
 
 cache:
   directories:
@@ -12,10 +7,9 @@ cache:
     - $HOME/.sonar/cache
 
 install:
-  - phpenv rehash
   - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
   - phpenv rehash
-  - composer install typo3/cms-core=$TYPO3_VERSION
+  - composer install
   - mkdir -p .Build/public/typo3conf/ext/
   - if [ ! -L .Build/public/typo3conf/ext/c1_adaptive_images ]; then ln -snvf ../../../../. .Build/public/typo3conf/ext/c1_adaptive_images; fi
   - export TYPO3_PATH_ROOT=$PWD/.Build/public

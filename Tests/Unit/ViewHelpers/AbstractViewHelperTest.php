@@ -128,7 +128,7 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
      * @param array $arguments
      * @return string
      */
-    protected function setArgumentsUnderTest(ViewHelperInterface $viewHelper, array $arguments = [])
+    protected function setArgumentsUnderTest($viewHelper, array $arguments = [])
     {
         $expectedViewHelperArguments = $viewHelper->prepareArguments();
         // Rendering process
