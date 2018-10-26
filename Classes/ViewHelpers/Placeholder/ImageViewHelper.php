@@ -29,6 +29,17 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 {
 
     /**
+     * No need to analyse the doc comment above the render method.
+     * This also caused failed tests when testing TYPO3 8.7
+     *
+     * @throws \TYPO3Fluid\Fluid\Core\Parser\Exception
+     */
+    protected function registerRenderMethodArguments()
+    {
+        return;
+    }
+
+    /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
      * @inject
      */

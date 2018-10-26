@@ -33,6 +33,17 @@ class GetSrcsetViewHelper extends AbstractViewHelper
     use CompileWithRenderStatic;
 
     /**
+     * No need to analyse the doc comment above the render method.
+     * This also caused failed tests when testing TYPO3 8.7
+     *
+     * @throws \TYPO3Fluid\Fluid\Core\Parser\Exception
+     */
+    protected function registerRenderMethodArguments()
+    {
+        return;
+    }
+
+    /**
      * @var bool
      */
     protected $escapeOutput = false;

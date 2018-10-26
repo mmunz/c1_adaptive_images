@@ -22,6 +22,17 @@ use TYPO3\CMS\Core\Resource\FileInterface;
 class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
+    /**
+     * No need to analyse the doc comment above the render method.
+     * This also caused failed tests when testing TYPO3 8.7
+     *
+     * @throws \TYPO3Fluid\Fluid\Core\Parser\Exception
+     */
+    protected function registerRenderMethodArguments()
+    {
+        return;
+    }
+
     /** @var bool $escapeOutput */
     protected $escapeOutput = false;
 
