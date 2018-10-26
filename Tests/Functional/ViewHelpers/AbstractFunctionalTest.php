@@ -54,6 +54,7 @@ abstract class AbstractFunctionalTest extends FunctionalTestCase
      */
     protected $typoScriptIncludes = [
         'EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript',
+        'EXT:fluid_styled_content/Configuration/TypoScript/setup.txt',
         'EXT:c1_adaptive_images/Configuration/TypoScript/setup.txt',
         __DIR__ . '/../Fixtures/TypoScript/common.t3s',
     ];
