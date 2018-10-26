@@ -58,7 +58,6 @@ trait CreateFileReference
         $dataHandler->process_datamap();
 
         if (count($dataHandler->errorLog) !== 0) {
-            print_r($dataHandler->printLogErrorMessages());
             return false;
         }
         $fileRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\FileRepository::class);

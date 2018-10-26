@@ -2,18 +2,10 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use C1\AdaptiveImages\Utility\DebugUtility;
-use C1\AdaptiveImages\Utility\MathUtility;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
  * Create a srcset string from given widths
@@ -30,8 +22,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  */
 class GetSrcsetViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
     /**
      * No need to analyse the doc comment above the render method.
      * This also caused failed tests when testing TYPO3 8.7
@@ -48,16 +38,23 @@ class GetSrcsetViewHelper extends AbstractViewHelper
      */
     protected $escapeOutput = false;
 
-    /** @var ImageService */
-    protected static $imageService;
+    /**
+     * @var \TYPO3\CMS\Extbase\Service\ImageService
+     * @inject
+     */
+    protected $imageService;
 
     /**
-     * @param \TYPO3\CMS\Extbase\Service\ImageService $imageService
+     * @var \C1\AdaptiveImages\Utility\MathUtility
+     * @inject
      */
-    public static function injectImageService(\TYPO3\CMS\Extbase\Service\ImageService $imageService)
-    {
-        self::$imageService = $imageService;
-    }
+    protected $mathUtility;
+
+    /**
+     * @var \C1\AdaptiveImages\Utility\DebugUtility
+     * @inject
+     */
+    protected $debugUtility;
 
     /**
      * Initialize arguments.
@@ -85,23 +82,19 @@ class GetSrcsetViewHelper extends AbstractViewHelper
     }
 
     /**
-    * @param array $arguments
-    * @param \Closure $renderChildrenClosure
-    * @param RenderingContextInterface $renderingContext
     * @return string
-    * @throws Exception
     */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public function render()
     {
         $srcset = [];
 
-        $widths = $arguments['widths'];
+        $widths = $this->arguments['widths'];
         if (!is_array($widths)) {
             $widths = explode(',', $widths);
         }
 
         /** @var FileInterface $file */
-        $file = $arguments['file'];
+        $file = $this->arguments['file'];
 
         $cropString = '';
         if ($file->hasProperty('crop')) {
@@ -109,7 +102,7 @@ class GetSrcsetViewHelper extends AbstractViewHelper
         }
 
         $cropVariantCollection = CropVariantCollection::create((string)$cropString);
-        $cropVariant = $arguments['cropVariant'];
+        $cropVariant = $this->arguments['cropVariant'];
         $cropArea = $cropVariantCollection->getCropArea($cropVariant);
         $processingConfiguration = [
             'crop' => $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($file),
@@ -117,27 +110,24 @@ class GetSrcsetViewHelper extends AbstractViewHelper
 
         foreach ($widths as $width) {
             $processingConfiguration['width'] = $width . 'm';
-            $imageService = self::getImageService();
 
             /** @var FileReference $processedImage */
-            $processedImage = $imageService->applyProcessingInstructions($file, $processingConfiguration);
+            $processedImage = $this->imageService->applyProcessingInstructions($file, $processingConfiguration);
 
-            if ($arguments['debug'] === true) {
-                $mathUtility = self::getMathUtility();
-                $debugUtility = self::getDebugUtility();
-                $processingConfiguration['additionalParameters'] = $debugUtility->getDebugAnnotation(
+            if ($this->arguments['debug'] === true) {
+                $processingConfiguration['additionalParameters'] = $this->debugUtility->getDebugAnnotation(
                     $processedImage->getProperty('width'),
                     $processedImage->getProperty('height'),
-                    $mathUtility->calculateRatio(
+                    $this->mathUtility->calculateRatio(
                         $processedImage->getProperty('height'),
                         $processedImage->getProperty('width')
                     )
                 );
-                $processedImage = $imageService->applyProcessingInstructions($file, $processingConfiguration);
+                $processedImage = $this->imageService->applyProcessingInstructions($file, $processingConfiguration);
             }
 
             /** @var string $imageUri */
-            $imageUri = $imageService->getImageUri($processedImage, $arguments['absolute']);
+            $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
 
             $srcset[] = sprintf(
                 '%s %dw',
@@ -146,39 +136,5 @@ class GetSrcsetViewHelper extends AbstractViewHelper
             );
         }
         return implode(',', $srcset);
-    }
-
-    /**
-     * Return an instance of ImageService using object manager
-     *
-     * @return ImageService
-     */
-    protected static function getImageService()
-    {
-        return self::$imageService;
-    }
-
-    /**
-     * Return an instance of mathUtility using object manager
-     *
-     * @return MathUtility
-     */
-    protected static function getMathUtility()
-    {
-        /** @var object|ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        return $objectManager->get(MathUtility::class);
-    }
-
-    /**
-     * Return an instance of getDebugUtility using object manager
-     *
-     * @return DebugUtility
-     */
-    protected static function getDebugUtility()
-    {
-        /** @var object|ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        return $objectManager->get(DebugUtility::class);
     }
 }

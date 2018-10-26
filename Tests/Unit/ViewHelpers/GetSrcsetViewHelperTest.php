@@ -100,7 +100,7 @@ class GetSrcsetViewHelperTest extends AbstractViewHelperTest
         $arguments = [
             'widths' => '240,320,480',
             'file' => $image,
-            'debug' => true,
+            'debug' => false,
         ];
         $this->setArgumentsUnderTest($this->viewHelper, $arguments);
         $result = $this->viewHelper->initializeArgumentsAndRender();

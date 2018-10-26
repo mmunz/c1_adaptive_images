@@ -61,7 +61,6 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
         $imageServiceMock
             ->method('getImageUri')
             ->will($this->returnCallback(function ($file, $absolute) {
-                //print_r($file->getProperties());
                 return (($absolute) ? 'http://domain.tld' : '') . '/image@' . $file->getProperty('width') . '.jpg';
             }));
 
