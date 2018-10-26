@@ -63,13 +63,13 @@
         "typo3/cms-core": "^8.7.10 || ^9.5.0",
         "typo3/cms-fluid": "^8.7.10 || ^9.5.0",
         "typo3/cms-frontend": "^8.7.10 || ^9.5.0",
-        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0"
+        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0",
+        "typo3/minimal": "^8.7"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "nimut/testing-framework": "^4.0",
-        "typo3fluid/fluid": "^2.5.0",
+        "nimut/testing-framework": "^2 | ^4.0",
         "helhum/typo3-composer-setup": "^0.5.3",
         "helmich/typo3-typoscript-lint": "^1.4.4",
         "friendsofphp/php-cs-fixer": "^2.13",
