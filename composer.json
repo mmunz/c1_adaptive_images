@@ -28,10 +28,12 @@
         "ci:ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
         "ci:tests:unit": "php .Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
         "ci:tests:functional": "php .Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml",
+        "ci:tests:acceptance": ".Build/vendor/bin/codecept run",
         "ci:cache:flush": "rm -rf .Build/public/typo3temp/; rm -rf ./var/*",
         "ci:tests": [
             "@ci:tests:unit",
-            "@ci:tests:functional"
+            "@ci:tests:functional",
+            "@ci:tests:acceptance"
         ],
         "ci:dynamic": [
             "@ci:tests"
@@ -59,7 +61,6 @@
         }
     },
     "require": {
-        "php": "~7.1.0 || ~7.2.0",
         "typo3/cms-core": "^8.7.10 || ^9.5.0",
         "typo3/cms-fluid": "^8.7.10 || ^9.5.0",
         "typo3/cms-frontend": "^8.7.10 || ^9.5.0",
@@ -71,10 +72,16 @@
     "require-dev": {
         "nimut/testing-framework": "^4.0",
         "typo3fluid/fluid": "^2.5.0",
+        "typo3/cms-scheduler": "^8.7.10 || ^9.5.0",
+        "typo3/cms-tstemplate": "^8.7.10 || ^9.5.0",
         "helhum/typo3-composer-setup": "^0.5.3",
         "helmich/typo3-typoscript-lint": "^1.4.4",
         "friendsofphp/php-cs-fixer": "^2.13",
-        "roave/security-advisories": "dev-master"
+        "roave/security-advisories": "dev-master",
+        "codeception/codeception": "^2.5",
+        "helhum/typo3-console": "^5.0",
+        "portrino/codeception-helper-module": "*",
+        "kolyunya/codeception-markup-validator": "^3.0"
     },
     "autoload": {
         "psr-4": {

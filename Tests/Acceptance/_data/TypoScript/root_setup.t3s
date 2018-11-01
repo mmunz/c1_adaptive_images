@@ -1,0 +1,66 @@
+# for 9.5
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript">
+# for 8.7
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:fluid_styled_content/Configuration/TypoScript/setup.txt">
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:c1_adaptive_images/Configuration/TypoScript/setup.txt">
+<INCLUDE_TYPOSCRIPT: source="DIR:EXT:c1_adaptive_images/Tests/Functional/Fixtures/TypoScript/lib/" extensions="t3s">
+
+config {
+    doctype = html5
+    language = de
+    locale_all = de_DE.UTF-8
+    htmlTag_langKey = de-DE
+    sys_language_uid = 0
+    uniqueLinkVars = 1
+    linkVars = L(0-1)
+    contentObjectExceptionHandler = 0
+    no_cache = 0
+}
+
+page = PAGE
+page {
+    headerData {
+        10 = TEXT
+        10.value = <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        11 = TEXT
+        11.value = <script>document.querySelector('html').classList.remove('no-js');document.querySelector('html').classList.add('js');</script>
+
+        12 = TEXT
+        12.value = "<script>window.lazySizesConfig = window.lazySizesConfig || {}; window.lazySizesConfig.init = false;</script>"
+
+        100 = TEXT
+        100.value (
+        <style>
+            .img-responsive {
+                max-width: 100%;height: auto
+            }
+            .img-responsive-full{
+                width: 100%;height: auto
+            }
+            body, figure {
+                margin: 0;
+            }
+        </style>
+        )
+    }
+    10 = FLUIDTEMPLATE
+    10 {
+        templateName = Default
+        templateRootPaths {
+            0 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Templates/Page/
+        }
+        partialRootPaths {
+            0 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Partials/Page/
+        }
+        layoutRootPaths {
+            0 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Layouts/Page/
+        }
+    }
+    includeJSFooter {
+        lazysizes = https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.1.4/lazysizes.min.js
+        lazysizes.external = 1
+    }
+
+    # footerData.100 = <script>$(function() {lazySizes.init()});)</script>
+}

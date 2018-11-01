@@ -5,3 +5,5 @@
 
 # the var folder ist created when running the functional tests because TYPO3 gets its temp dir wrong
 /var
+
+/Tests/Functional/Fixtures/fileadmin/user_upload/_

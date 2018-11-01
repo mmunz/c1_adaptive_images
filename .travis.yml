@@ -1,14 +1,17 @@
 language: php
 
 matrix:
-    include:
-      - php: 7.1
-        env:
-          - TYPO3VERSION=^8.7
-      - php: 7.2
-        env:
-          - TYPO3VERSION=^9.5
+  include:
+    - php: 7.1
+      env:
+        - TYPO3VERSION="^8.7"
+        - ACCEPTANCE="1"
+    - php: 7.2
+      env:
+        - TYPO3VERSION="^9.5"
 
+addons:
+  chrome: stable
 
 cache:
   directories:
@@ -26,9 +29,18 @@ install:
   - export typo3DatabaseHost=localhost
   - export typo3DatabaseUsername=root
   - export typo3DatabasePassword=
+  - if [ "$ACCEPTANCE" = "1" ]; then curl -s -L -o chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip; fi
+  - if [ "$ACCEPTANCE" = "1" ]; then unzip -o -d $HOME chromedriver_linux64.zip; fi
+  - if [ "$ACCEPTANCE" = "1" ]; then chmod +x $HOME/chromedriver; fi
+
+before_script:
+  - if [ "$ACCEPTANCE" = "1" ]; then bash Tests/Acceptance/_setup/setup.sh; fi
+  - if [ "$ACCEPTANCE" = "1" ]; then $HOME/chromedriver --url-base=/wd/hub & fi
+  - if [ "$ACCEPTANCE" = "1" ]; then php -S 127.0.0.1:8888 -t .Build/public/ &>/dev/null & fi
 
 script:
   - composer ci:php:lint
   - composer ci:ts:lint
+  - if [ "$ACCEPTANCE" = "1" ]; then composer ci:tests:acceptance -- -vvv; fi
   - ./.Build/vendor/bin/phpunit -c Tests/UnitTests.xml
   - ./.Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml

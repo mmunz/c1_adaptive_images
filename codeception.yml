@@ -1,0 +1,59 @@
+# suite config
+suites:
+    acceptance:
+        actor: AcceptanceTester
+        path: .
+        modules:
+            enabled:
+                - WebDriver:
+                    url: http://127.0.0.1:8888/
+                    browser: chrome
+                - Asserts
+                - \Helper\Acceptance
+                - Kolyunya\Codeception\Module\MarkupValidator
+                - \Portrino\Codeception\Module\Typo3:
+                    depends: Asserts
+                    bin-dir: .Build/vendor/bin/
+                    data-dir: Tests/Acceptance/_data/
+                    domain: dummy
+                - Db:
+                    dsn: 'mysql:host=%typo3DatabaseHost%;dbname=%typo3DatabaseName%'
+                    user: '%typo3DatabaseUsername%'
+                    password: '%typo3DatabasePassword%'
+                    populate: 'true'
+                    populator: Tests/Acceptance/_support/populateDB.sh
+                    cleanup: false
+
+extensions:
+    enabled: [Codeception\Extension\RunFailed]
+
+params:
+    - env
+
+gherkin: []
+
+# additional paths
+paths:
+    tests: Tests/Acceptance
+    output: .Build/public/typo3temp/var/tests/_output
+    data: .Build/public/typo3temp/var/tests/_data
+    support: Tests/Acceptance/_support
+    envs: .Build/public/typo3temp/var/tests/_envs
+
+settings:
+    shuffle: false
+    lint: true
+
+modules:
+  config:
+    WebDriver:
+      browser: chrome
+      port: 9515 # ChromeDriver port
+      window_size: 640x768
+      capabilities:
+        loggingPrefs:
+          browser: ALL
+          driver:   ALL
+          performance: ALL
+        chromeOptions:
+          args: ["--disable-gpu", "--headless"]

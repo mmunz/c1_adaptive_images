@@ -64,7 +64,7 @@ class ImageViewHelperTest extends AbstractFunctionalTest
     {
         $expectedAttributes = [
             'sizes' => '100vw',
-            'srcset' => 'data:image/jpeg;base64,' . $this->patterns['base64'],
+            'srcset' => 'data:image/jpeg;base64,' . $this->patterns['base64'] . ' [0-9]?w',
             'data-sizes' => 'auto',
             'data-srcset' => 'fileadmin/_processed_/.*.jpg 200w,fileadmin/_processed_/.*.jpg 400w',
             'src' => 'fileadmin/_processed_/.*.jpg',
@@ -95,7 +95,7 @@ class ImageViewHelperTest extends AbstractFunctionalTest
     public function placeHolderAsImg()
     {
         $expectedAttributes = [
-            'srcset' => 'fileadmin/_processed_/.*.jpg',
+            'srcset' => 'fileadmin/_processed_/.*.jpg 4w',
         ];
 
         $properties = [

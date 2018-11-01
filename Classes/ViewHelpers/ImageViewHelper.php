@@ -121,7 +121,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
             $this->arguments['cropVariant'],
             $this->arguments['placeholderWidth']
         );
-        return $placeholder;
+        return $placeholder . ' ' . $this->arguments['placeholderWidth'] . 'w';
     }
 
     /** isLazyLoading

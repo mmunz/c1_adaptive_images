@@ -10,10 +10,14 @@
         }
     };
 
-    var getImageDimensions = function getImageDimensions(src) {
+
+    var getImageDimensions = function getImageDimensions(imgEl) {
+
+        var src = imgEl.currentSrc || imgEl.src;
         var t = new Image();
         t.src = src;
         return {
+            'src': src,
             'width': t.width,
             'height': t.height,
             'ratio': (t.height / t.width * 100).toFixed(2)
@@ -54,7 +58,7 @@
 
     window.observe = function (imgEl) {
         var action = function action() {
-            var dimensions = getImageDimensions(imgEl.currentSrc || imgEl.src);
+            var dimensions = getImageDimensions(imgEl);
             var parent = imgEl.parentNode;
             var data = {
                 currentSrc: imgEl.currentSrc || imgEl.src,
