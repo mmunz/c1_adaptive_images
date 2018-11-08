@@ -27,7 +27,7 @@ page {
         11.value = <script>document.querySelector('html').classList.remove('no-js');document.querySelector('html').classList.add('js');</script>
 
         12 = TEXT
-        12.value = "<script>window.lazySizesConfig = window.lazySizesConfig || {}; window.lazySizesConfig.init = false;</script>"
+        12.value = <script>window.lazySizesConfig = window.lazySizesConfig || {}; window.lazySizesConfig.init = false;</script>
 
         100 = TEXT
         100.value (
