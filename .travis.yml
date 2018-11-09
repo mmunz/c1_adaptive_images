@@ -1,5 +1,13 @@
 language: php
 
+env:
+  global:
+    - TYPO3_PATH_ROOT=$PWD/.Build/public
+    - typo3DatabaseName=typo3
+    - typo3DatabaseHost=localhost
+    - typo3DatabaseUsername=root
+    - typo3DatabasePassword=
+
 matrix:
   include:
     - php: 7.1
@@ -23,11 +31,6 @@ install:
   - phpenv rehash
   - rm -f composer.lock; composer require typo3/minimal:$TYPO3VERSION; git checkout composer.json
   - mkdir -p .Build/public/typo3conf/ext/
-  - export TYPO3_PATH_ROOT=$PWD/.Build/public
-  - export typo3DatabaseName=typo3
-  - export typo3DatabaseHost=localhost
-  - export typo3DatabaseUsername=root
-  - export typo3DatabasePassword=
   - if [ "$ACCEPTANCE" = "1" ]; then curl -s -L -o chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip; fi
   - if [ "$ACCEPTANCE" = "1" ]; then unzip -o -d $HOME chromedriver_linux64.zip; fi
   - if [ "$ACCEPTANCE" = "1" ]; then chmod +x $HOME/chromedriver; fi
