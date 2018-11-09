@@ -23,7 +23,6 @@ install:
   - phpenv rehash
   - rm -f composer.lock; composer require typo3/minimal:$TYPO3VERSION; git checkout composer.json
   - mkdir -p .Build/public/typo3conf/ext/
-  - if [ ! -L .Build/public/typo3conf/ext/c1_adaptive_images ]; then ln -snvf ../../../../. .Build/public/typo3conf/ext/c1_adaptive_images; fi
   - export TYPO3_PATH_ROOT=$PWD/.Build/public
   - export typo3DatabaseName=typo3
   - export typo3DatabaseHost=localhost
@@ -39,8 +38,7 @@ before_script:
   - if [ "$ACCEPTANCE" = "1" ]; then php -S 127.0.0.1:8888 -t .Build/public/ &>/dev/null & fi
 
 script:
-  - composer ci:php:lint
-  - composer ci:ts:lint
-  - if [ "$ACCEPTANCE" = "1" ]; then composer ci:tests:acceptance -- -vvv; fi
-  - ./.Build/vendor/bin/phpunit -c Tests/UnitTests.xml
-  - ./.Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml
+  - composer ci:static
+  - composer tests:unit
+  - composer tests:functional
+  - if [ "$ACCEPTANCE" = "1" ]; then composer tests:acceptance -- -vvv; fi
