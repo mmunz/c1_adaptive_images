@@ -2,7 +2,7 @@
 DB_HOST="${typo3DatabaseHost}"
 DB_PORT="${typo3DatabasePort:-3306}"
 DB_USERNAME="${typo3DatabaseUsername}"
-DB_DATABASE="${typo3DatabaseName}"
+DB_DATABASE="${typo3DatabaseName}_acceptancetest"
 DB_PASSWORD="${typo3DatabasePassword}"
 
 ARGS="-h ${DB_HOST} -P ${DB_PORT} --protocol=TCP -u ${DB_USERNAME}  -D ${DB_DATABASE}"

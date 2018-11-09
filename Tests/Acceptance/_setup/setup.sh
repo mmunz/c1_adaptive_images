@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -ev
 
 if [ -z "$typo3DatabaseUsername" ] || [ -z "$typo3DatabaseHost" ] || [ -z "$typo3DatabaseName" ]; then
@@ -12,6 +11,8 @@ if [ -z "$TYPO3_PATH_ROOT" ]; then
     exit 1
 fi
 
+DBNAME="${typo3DatabaseName}_acceptancetest"
+
 ARGS="-u $typo3DatabaseUsername -h $typo3DatabaseHost -P ${typo3DatabasePort:-3306}"
 
 if [ -n "${typo3DatabasePassword}" ]; then
@@ -19,12 +20,12 @@ if [ -n "${typo3DatabasePassword}" ]; then
 fi
 
 mysql $ARGS -e """
-    DROP DATABASE IF EXISTS ${typo3DatabaseName};
-    CREATE DATABASE ${typo3DatabaseName} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+    DROP DATABASE IF EXISTS "${DBNAME}";
+    CREATE DATABASE "${DBNAME}" DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 """
 
 ./.Build/vendor/bin/typo3cms -vvv install:setup --database-user-name=$typo3DatabaseUsername --database-user-password=$typo3DatabasePassword \
-        --database-host-name=$typo3DatabaseHost --database-port=${typo3DatabasePort:-3306} --database-name=$typo3DatabaseName \
+        --database-host-name=$typo3DatabaseHost --database-port=${typo3DatabasePort:-3306} --database-name=$DBNAME \
         --use-existing-database --admin-user-name=test --admin-password=test1234 \
         --site-name="testsite" --site-setup-type=none --no-interaction --force
 

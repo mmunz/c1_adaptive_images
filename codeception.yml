@@ -6,7 +6,7 @@ suites:
         modules:
             enabled:
               - Db:
-                  dsn: 'mysql:host=%typo3DatabaseHost%;dbname=%typo3DatabaseName%'
+                  dsn: 'mysql:host=%typo3DatabaseHost%;dbname=%typo3DatabaseName%_acceptancetest'
                   user: '%typo3DatabaseUsername%'
                   password: '%typo3DatabasePassword%'
                   populate: 'true'
