@@ -20,11 +20,19 @@
         <f:else><f:variable name="srcsetWidths">200,400</f:variable></f:else>
     </f:if>
 
-    <f:comment>Setting boolean vars</f:comment>
+    <f:comment>Setting boolean vars which default to true</f:comment>
     <f:for each="{0: 'placeholderInline', 1: 'lazy', 2: 'debug', 3: 'jsdebug'}" as="argName">
         <f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '0'">
             <f:then><f:variable name="{argName}">0</f:variable></f:then>
             <f:else><f:variable name="{argName}">1</f:variable></f:else>
+        </f:if>
+    </f:for>
+
+    <f:comment>Setting boolean vars which default to false</f:comment>
+    <f:for each="{0: 'ratiobox'}" as="argName">
+        <f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '1'">
+            <f:then><f:variable name="{argName}">1</f:variable></f:then>
+            <f:else><f:variable name="{argName}">0</f:variable></f:else>
         </f:if>
     </f:for>
 
@@ -60,6 +68,7 @@
                   placeholderWidth="{placeholderWidth}"
                   lazy="{lazy}"
                   debug="{debug}"
+                  ratiobox="{ratiobox}"
                   data="{
                     'img-debug':'{jsdebug}'
                  }"

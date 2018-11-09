@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
+
 namespace C1\AdaptiveImages\Tests\Acceptance;
 
 /**
@@ -61,5 +62,44 @@ class ImageViewHelperCest
         $I->waitForImagesLoaded();
         $I->expect('a 1024px image is loaded');
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
+    }
+
+    public function seeLazyImageWithRatioBox(\AcceptanceTester $I)
+    {
+        $I->restartBrowser();
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
+
+        $I->expect('Page has valid markup.');
+        /* style in head inside CDATA is htmlspecialchar'ed by webdriver which causes validation to fail, see
+         * https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/4264
+         * Workaround for now: ignore CSS errors in test
+         */
+        $I->validateMarkup([
+            'ignoredErrors' => [
+                '/CSS: Parse Error./',
+            ],
+        ]);
+
+        $I->initLazySizes();
+
+        $I->expect('a 640px image is loaded');
+        $I->seeCurrentImageDimensions(640, 400, '62.50');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+        $I->expect('a 1024px image is loaded');
+        $I->seeCurrentImageDimensions(1024, 640, '62.50');
+
+        $I->expect('ratio box style in header');
+        $I->seeInPageSource('.rb--62dot5{padding-bottom:62.5%}');
+
+        $I->expect('ratio box wrapper exists and has correct classes');
+        $I->seeElement('div.rb.rb--62dot5');
     }
 }
