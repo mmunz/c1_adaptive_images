@@ -34,7 +34,7 @@
         ],
         "tests:acceptance": [
             "@link-extension",
-            ".Build/vendor/bin/typo3cms extension:setupactive",
+            "bash Tests/Acceptance/_setup/setup.sh",
             ".Build/vendor/bin/codecept run",
             "@unlink-extension"
         ],

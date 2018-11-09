@@ -23,11 +23,11 @@ mysql $ARGS -e """
     CREATE DATABASE ${typo3DatabaseName} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 """
 
-
 ./.Build/vendor/bin/typo3cms -vvv install:setup --database-user-name=$typo3DatabaseUsername --database-user-password=$typo3DatabasePassword \
         --database-host-name=$typo3DatabaseHost --database-port=${typo3DatabasePort:-3306} --database-name=$typo3DatabaseName \
         --use-existing-database --admin-user-name=test --admin-password=test1234 \
         --site-name="testsite" --site-setup-type=none --no-interaction --force
+
 
 # symlink fileadmin/user_upload to fixtures folder
 (

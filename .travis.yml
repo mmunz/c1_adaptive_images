@@ -33,7 +33,6 @@ install:
   - if [ "$ACCEPTANCE" = "1" ]; then chmod +x $HOME/chromedriver; fi
 
 before_script:
-  - if [ "$ACCEPTANCE" = "1" ]; then bash Tests/Acceptance/_setup/setup.sh; fi
   - if [ "$ACCEPTANCE" = "1" ]; then $HOME/chromedriver --url-base=/wd/hub & fi
   - if [ "$ACCEPTANCE" = "1" ]; then php -S 127.0.0.1:8888 -t .Build/public/ &>/dev/null & fi
 
@@ -41,4 +40,4 @@ script:
   - composer ci:static
   - composer tests:unit
   - composer tests:functional
-  - if [ "$ACCEPTANCE" = "1" ]; then composer tests:acceptance -- -vvv; fi
+  - if [ "$ACCEPTANCE" = "1" ]; then composer tests:acceptance; fi
