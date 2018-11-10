@@ -99,6 +99,8 @@ class ImageViewHelperCest
         $I->expect('ratio box style in header');
         $I->seeInPageSource('.rb--62dot5{padding-bottom:62.5%}');
 
+        //$webdriver->findElement(WebDriverBy::cssSelector('#t3-login-submit'))->getCSSValue('background-color');
+
         $I->expect('ratio box wrapper exists and has correct classes');
         $I->seeElement('div.rb.rb--62dot5');
     }

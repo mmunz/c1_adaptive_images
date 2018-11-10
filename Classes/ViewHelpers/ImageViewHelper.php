@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
@@ -46,6 +45,11 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
      * @inject
      */
     protected $ratioBoxUtility;
+
+    /** @var \C1\AdaptiveImages\Utility\CropVariantUtility
+     *  @inject
+     */
+    protected $cropVariantUtility;
 
     /** @var \C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility
      * @inject
@@ -132,6 +136,24 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
     }
 
     /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     * @throws Exception
+     */
+    public function render()
+    {
+        $image = parent::render();
+
+        if ($this->arguments['ratiobox'] === true) {
+            return $this->wrapInRatioBox($image);
+        } else {
+            return $image;
+        }
+    }
+
+    /**
      * getPlaceHolder
      * @return string
      */
@@ -213,58 +235,36 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
         }
     }
 
-    public function wrapInRatioBox($content)
+    /**
+     * Wrap $content inside a ratio box using RatioBoxUtility
+     * @param string $content
+     * @return string
+     */
+    public function wrapInRatioBox(string $content)
     {
-
-        /* @ToDo refactor. same code as in ratioboxviewhelper */
-
         /** @var FileInterface $file */
         $file = $this->arguments['image'];
 
-        /** @var TagBuilder */
-        $tagBuilder = new TagBuilder('div', $content);
-
-        $mediaQueries = [];
-        $cropString = '';
-
-        if ($file->hasProperty('crop')) {
-            $cropString = $file->getProperty('crop');
-        }
-        $cropVariantCollection = CropVariantCollection::create((string)$cropString);
-
-        $cropVariants = [];
-
-        if (array_key_exists($this->arguments['cropVariant'], $mediaQueries) === false) {
-            $mediaQueries['default'] = '';
-        }
-
-        $cropVariant = $this->arguments['cropVariant'];
-        $cropArea = $cropVariantCollection->getCropArea($cropVariant);
-
-//        if (!$cropArea) {
-//            continue;
-//        }
-
-        $crop = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($file)->asArray();
-
-        if ($crop) {
-            $width = $crop['width'];
-            $height = $crop['height'];
-        } else {
-            $width = $file->getProperty('width');
-            $height = $file->getProperty('height');
-        }
-
-        $ratio = $this->mathUtility->calculateRatio($height, $width, 2);
-
-        $cropVariants[] = [
-            'ratio' => $ratio,
-            'media' => ''
-        ];
+        $mediaQueries[$this->arguments['cropVariant']] = '';
+        $this->cropVariantUtility->setCropVariantCollection($file);
+        $cropVariants = $this->cropVariantUtility->getCropVariants($mediaQueries);
 
         $this->ratioBoxUtility->setRatioBoxBase('rb');
         $classNames = $this->ratioBoxUtility->getRatioBoxClassNames($cropVariants);
 
+        return $this->buildRatioBoxTag($content, $classNames);
+    }
+
+    /**
+     * Build the ratio box tag
+     * @param string $content
+     * @param array $classNames
+     * @return string
+     */
+    public function buildRatioBoxTag($content, $classNames)
+    {
+        /** @var TagBuilder */
+        $tagBuilder = new TagBuilder('div', $content);
         $tagBuilder->setTagName('div');
         $tagBuilder->setContent($content);
         $tagBuilder->addAttribute('class', implode(' ', $classNames));
@@ -278,23 +278,5 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
     {
         $cropVariants = $this->imageUtility->getCropVariants();
         return $this->imageUtility->getSrcSetString($cropVariants[$this->arguments['cropVariant']]['candidates']);
-    }
-
-    /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return string
-     * @throws Exception
-     */
-    public function render()
-    {
-        $image = parent::render();
-
-        if ($this->arguments['ratiobox'] === true) {
-            return $this->wrapInRatioBox($image);
-        } else {
-            return $image;
-        }
     }
 }

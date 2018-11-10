@@ -134,11 +134,11 @@ class ImageUtility
             $this->originalFile,
             $processingConfiguration
         );
+        $ratio = $this->mathUtility->calculateRatio(
+            $processedImage->getProperty('height'),
+            $processedImage->getProperty('width')
+        );
         if ($this->options['debug'] && $this->options['debug'] === true) {
-            $ratio = $this->mathUtility->calculateRatio(
-                $processedImage->getProperty('height'),
-                $processedImage->getProperty('width')
-            );
             $processingConfiguration['additionalParameters'] .= $this->debugUtility->getDebugAnnotation(
                 $processedImage->getProperty('width'),
                 $processedImage->getProperty('height'),
