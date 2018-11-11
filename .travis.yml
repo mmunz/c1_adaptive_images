@@ -19,12 +19,12 @@ matrix:
         - ACCEPTANCE="1"
     - php: 7.2
       env:
+        - TYPO3VERSION="^9.5"
         - LINT="1"
         - UNIT="1"
         - FUNCTIONAL="1"
-        - TYPO3VERSION="^9.5"
     - env:
-      - BUILD_DOC="1"
+        - BUILD_DOC="1"
 
 addons:
   chrome: stable
