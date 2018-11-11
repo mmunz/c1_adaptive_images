@@ -3,14 +3,14 @@
 
 .. _start:
 
-=============================================================
-Extension Name
-=============================================================
+=====
+Index
+=====
 
 .. only:: html
 
 	:Classification:
-		<extension key>
+		c1_adaptive_images
 
 	:Version:
 		|release|
@@ -19,19 +19,19 @@ Extension Name
 		en
 
 	:Description:
-		Manual covering TYPO3 extension <extension name>
+		Manual covering TYPO3 extension c1_adaptive_images
 
 	:Keywords:
-		comma,separated,list,of,keywords
+		adaptive images,fluid-styled-content,lazysizes
 
 	:Copyright:
-		2013-2015
+		2018
 
 	:Author:
-		Your name
+		Manuel Munz
 
 	:Email:
-		you@domain.tld
+		t3dev@comuno.net
 
 	:License:
 		This document is published under the Open Publication License
@@ -57,5 +57,6 @@ Extension Name
     Developer/Index
     KnownProblems/Index
     ToDoList/Index
+    Contribution/Index
     ChangeLog/Index
     Links

@@ -31,18 +31,6 @@ file for the declaration of cross-linking keys.
 Properties
 ^^^^^^^^^^
 
-
-.. container:: ts-properties
-
-	=========================== ===================================== ======================= ====================
-	Property                    Data type                             :ref:`t3tsref:stdwrap`  Default
-	=========================== ===================================== ======================= ====================
-	allWrap_                    :ref:`t3tsref:data-type-wrap`         yes                     :code:`<div>|</div>`
-	debug__        :ref:`t3tsref:data-type-boolean`      no                      0
-	wrapItemAndSub_             :ref:`t3tsref:data-type-wrap`
-	=========================== ===================================== ======================= ====================
-
-
 .. container:: ts-properties
 
 	=========================== ===================================== ======================= ====================
