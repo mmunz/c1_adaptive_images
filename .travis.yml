@@ -13,10 +13,18 @@ matrix:
     - php: 7.1
       env:
         - TYPO3VERSION="^8.7"
+        - UNIT="1"
+        - FUNCTIONAL="1"
         - ACCEPTANCE="1"
     - php: 7.2
       env:
+        - UNIT="1"
+        - FUNCTIONAL="1"
         - TYPO3VERSION="^9.5"
+    - php: 7.2
+      env:
+      - TYPO3VERSION="^9.5"
+      - BUILD_DOC="1"
 
 addons:
   chrome: stable
@@ -41,7 +49,7 @@ before_script:
 
 script:
   - composer ci:static
-  - composer tests:unit
-  - composer tests:functional
+  - if [ "$UNIT" = "1" ]; composer tests:unit; fi
+  - if [ "$FUNCTIONAL" = "1" ]; composer tests:functional; fi
   - if [ "$ACCEPTANCE" = "1" ]; then composer tests:acceptance; fi
-  - composer build:doc
+  - if [ "$BUILD_DOC" = "1" ]; composer build:doc; fi
