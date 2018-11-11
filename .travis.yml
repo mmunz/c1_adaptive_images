@@ -44,3 +44,4 @@ script:
   - composer tests:unit
   - composer tests:functional
   - if [ "$ACCEPTANCE" = "1" ]; then composer tests:acceptance; fi
+  - composer build:doc
