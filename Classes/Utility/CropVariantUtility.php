@@ -72,7 +72,7 @@ class CropVariantUtility
     }
 
     /**
-     * Return a CropVariants array (beware: not related to TYPO3's CropVariants, needs a better naming @ToDo)
+     * Return a CropVariants array (beware: not related to TYPO3's CropVariants, needs a better naming - ToDo)
      * @param array $mediaQueries
      * @return array
      */
