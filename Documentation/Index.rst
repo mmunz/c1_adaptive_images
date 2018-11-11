@@ -54,7 +54,7 @@ Index
     User/Index
     Administrator/Index
     Configuration/Index
-    Developer/Index
+    ViewHelpers/Index
     KnownProblems/Index
     ToDoList/Index
     Contribution/Index

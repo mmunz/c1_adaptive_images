@@ -86,4 +86,41 @@ class Acceptance extends \Codeception\Module
 //            10
 //        );
     }
+
+    /** getJsDebug
+     *
+     *  get the debug tag inserted by javascript
+     *
+     * @param int $index 0: debug tag for the first image, 1: second image, ...
+     * @return array
+     */
+    public function getJsDebug($index = 0)
+    {
+        $debugMarkup = $this->webdriver->executeJS("try {return document.querySelectorAll('.img-debug')[" . $index . '].innerHTML} catch {return null}');
+        return $debugMarkup;
+    }
+
+    /** seeJsDebug
+     *
+     *  check if the debug tag was inserted using javascript
+     *
+     * @param int $index 0: debug tag for the first image, 1: second image, ...
+     * @return array
+     */
+    public function seeJsDebug($index = 0)
+    {
+        $this->assertRegexp('/.*640x400.*(62.50).*640.*/', $this->getJsDebug($index));
+    }
+
+    /** dontSeeJsDebug
+     *
+     *  true if no debug tag was inserted using javascript
+     *
+     * @param int $index 0: debug tag for the first image, 1: second image, ...
+     * @return array
+     */
+    public function cantSeeJsDebug($index = 0)
+    {
+        $this->assertEquals(null, $this->getJsDebug($index));
+    }
 }

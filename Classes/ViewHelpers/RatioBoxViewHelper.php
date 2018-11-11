@@ -43,17 +43,11 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
 
         $this->registerArgument('file', 'object', 'a file or file reference', true);
         $this->registerArgument(
-            'cropVariant',
-            'string',
-            'select a cropping variant, in case multiple croppings have been specified or stored in FileReference',
-            false,
-            'default'
-        );
-        $this->registerArgument(
             'mediaQueries',
             'array',
             'media queries to use for the different cropVariants',
-            false
+            false,
+            [['default' => '']]
         );
     }
 
@@ -67,10 +61,10 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
      */
     public function render()
     {
-        $mediaQueries = $this->arguments['mediaQueries'];
-//        if (array_key_exists('default', $mediaQueries) === false) {
-//            $mediaQueries['default'] = '';
-//        }
-        return $this->ratioBoxUtility->wrapInRatioBox($this->renderChildren(), $this->arguments['file'], $mediaQueries);
+        return $this->ratioBoxUtility->wrapInRatioBox(
+            $this->renderChildren(),
+            $this->arguments['file'],
+            $this->arguments['mediaQueries']
+        );
     }
 }

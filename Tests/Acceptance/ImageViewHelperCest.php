@@ -104,4 +104,29 @@ class ImageViewHelperCest
         $I->expect('ratio box wrapper exists and has correct classes');
         $I->seeElement('div.rb.rb--62dot5');
     }
+
+    public function canSwitchJsDebugOutput(\AcceptanceTester $I)
+    {
+        $I->restartBrowser();
+        $I->flushCache();
+
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1.0,"height":1.0},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=ImageViewHelper&srcsetWidths=640');
+        $I->expect('Default: Loaded without jsdebug, can\'t see debug output added by javascript.');
+        $I->cantSeeJsDebug();
+
+        $I->flushCache();
+        $I->amOnPage('/index.php?mode=ImageViewHelper&srcsetWidths=640&jsdebug=0');
+        $I->expect('jsdebug disabled, can\'t see debug output added by javascript.');
+        $I->cantSeeJsDebug();
+
+        $I->flushCache();
+        $I->amOnPage('/index.php?mode=ImageViewHelper&jsdebug=1&srcsetWidths=640');
+        $I->expect('can see debug output added by javascript');
+        $I->seeJsDebug();
+    }
 }

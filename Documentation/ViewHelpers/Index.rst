@@ -6,6 +6,9 @@
 ViewHelpers
 ===========
 
+.. contents:: :local:
+    :depth: 1
+
 ai:getCropVariants
 ------------------
 
@@ -93,6 +96,39 @@ returns
 
     /fileadmin/_processed_/7/9/image_cbb4289869.jpg 0w,/fileadmin/_processed_/7/9/image_3e7a2d9258.jpg 720w
 
+
+ai:ratioBox
+-----------
+
+Wraps an image or picture tag in a ratio box. This also adds generated css style to the header of the page to set the
+correct padding-bottom to always maintain the ratio and thus prevent page reflows.
+
+Arguments
+^^^^^^^^^
+=============== =========== =========================== ===============================================================
+argument        required    Default                     Description
+=============== =========== =========================== ===============================================================
+file            yes                                     FileReference to use
+mediaQueries    no          [['default' => '']]         Array of arrays containing ratio and media for cropVariants
+=============== =========== =========================== ===============================================================
+
+Examples
+^^^^^^^^
+
+.. code-block:: html
+
+    <ai:ratioBox file="{file}" mediaQueries="{mobile: '(max-width:767px)', default: ''}">
+        <f:comment>Your picture/image tag (f:image, ai:image etc.)</f:comment>
+    </ai:ratioBox>
+
+Assuming that the image has cropVariants default (16:9) and mobile (4:3) this will add css style to the head of the
+website and return:
+
+.. code-block:: html
+
+ <div class="rb rb--62dot5 rb--max-width767px-75">
+   <f:comment>Your picture/image tag (f:image, ai:image etc.)</f:comment>
+ </div>
 
 ai:placeholder.image
 --------------------

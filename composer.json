@@ -35,7 +35,7 @@
         "tests:acceptance": [
             "@link-extension",
             "bash Tests/Acceptance/_setup/setup.sh",
-            ".Build/vendor/bin/codecept run",
+            ".Build/vendor/bin/codecept run -vvv",
             "@unlink-extension"
         ],
         "tests:clearcache": "rm -rf .Build/public/typo3temp/; rm -rf ./var/*",

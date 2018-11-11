@@ -70,11 +70,25 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
             false
         );
         $this->registerArgument(
+            'jsdebug',
+            'bool',
+            'Add debug information about the current image using javascript.',
+            false,
+            false
+        );
+        $this->registerArgument(
             'srcsetWidths',
             'string',
             'comma seperated list of integers containing the widths of srcset candidates to create',
             false,
             '360,768,1024,1920'
+        );
+        $this->registerArgument(
+            'sizes',
+            'string',
+            'sizes attribute for the img tag. Takes precedence over additionalAttributes["sizes"] if both are given.',
+            false,
+            '100vw'
         );
         $this->registerArgument(
             'placeholderInline',
@@ -192,11 +206,16 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
 
         if ($this->hasArgument('additionalAttributes') && is_array($this->arguments['additionalAttributes'])) {
             $additionalAttributes = array_merge($extraAdditionalAttributes, $this->arguments['additionalAttributes']);
-            $this->tag->addAttributes($additionalAttributes);
         } else {
             $additionalAttributes = $extraAdditionalAttributes;
-            $this->tag->addAttributes($additionalAttributes);
         }
+
+        // argument sizes always overwrites $additionalAttributes['sizes']
+        if ($this->hasArgument('sizes')) {
+            $additionalAttributes['sizes'] = $this->arguments['sizes'];
+        }
+
+        $this->tag->addAttributes($additionalAttributes);
         $this->arguments['additionalAttributes'] = $additionalAttributes;
     }
 
@@ -218,6 +237,9 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
 
         if ($this->hasArgument('data') && is_array($this->arguments['data'])) {
             $data = array_merge($data, $this->arguments['data']);
+        }
+        if ($this->hasArgument('jsdebug')) {
+            $data['img-debug'] = $this->arguments['jsdebug'];
         }
         $this->arguments['data'] = $data;
         foreach ($data as $dataAttributeKey => $dataAttributeValue) {
