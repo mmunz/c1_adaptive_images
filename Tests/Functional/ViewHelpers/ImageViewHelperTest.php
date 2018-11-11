@@ -78,7 +78,7 @@ class ImageViewHelperTest extends AbstractFunctionalTest
         ];
         $this->createAndReturnFileReference('user_upload/nightlife-4.jpg', 'tt_content', 'assets', 1, 0, $properties);
 
-        $arguments = '&mode=ImageViewHelper&placeholderWidth=4&debug=1';
+        $arguments = '&mode=ImageViewHelper&placeholderWidth=4&debug=1&lazy=1';
         $response = $this->getFrontendResponse($this->pageId, 0, 0, 0, true, 0, $arguments);
 
         $tagAttributes = $this->getFirstImgTagAttributes($response->getContent());
@@ -103,7 +103,7 @@ class ImageViewHelperTest extends AbstractFunctionalTest
         ];
         $this->createAndReturnFileReference('user_upload/nightlife-4.jpg', 'tt_content', 'assets', 1, 0, $properties);
 
-        $arguments = '&mode=ImageViewHelper&placeholderWidth=4&placeholderInline=0';
+        $arguments = '&mode=ImageViewHelper&placeholderWidth=4&placeholderInline=0&lazy=1';
         $response = $this->getFrontendResponse($this->pageId, 0, 0, 0, true, 0, $arguments);
 
         $tagAttributes = $this->getFirstImgTagAttributes($response->getContent());

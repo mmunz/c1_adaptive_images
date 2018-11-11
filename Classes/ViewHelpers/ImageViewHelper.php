@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
-use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
@@ -35,21 +33,10 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
     protected $imageUtility;
 
     /**
-     * @var \C1\AdaptiveImages\Utility\MathUtility
-     * @inject
-     */
-    protected $mathUtility;
-
-    /**
      * @var \C1\AdaptiveImages\Utility\RatioBoxUtility
      * @inject
      */
     protected $ratioBoxUtility;
-
-    /** @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     *  @inject
-     */
-    protected $cropVariantUtility;
 
     /** @var \C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility
      * @inject
@@ -73,7 +60,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
             'bool',
             'lazy load images with lazyload.js',
             false,
-            true
+            false
         );
         $this->registerArgument(
             'debug',
@@ -124,7 +111,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
             [
                 'debug' => $this->arguments['debug'],
                 'cropVariants' => [
-                    'default' => [
+                    $this->arguments['cropVariant'] => [
                         'srcsetWidths' => $this->arguments['srcsetWidths']
                     ]
                 ]
@@ -147,7 +134,10 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
         $image = parent::render();
 
         if ($this->arguments['ratiobox'] === true) {
-            return $this->wrapInRatioBox($image);
+            $mediaQueries = [
+                $this->arguments['cropVariant'] => ''
+            ];
+            return $this->ratioBoxUtility->wrapInRatioBox($image, $this->arguments['image'], $mediaQueries);
         } else {
             return $image;
         }
@@ -233,42 +223,6 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
         foreach ($data as $dataAttributeKey => $dataAttributeValue) {
             $this->tag->addAttribute('data-' . $dataAttributeKey, $dataAttributeValue);
         }
-    }
-
-    /**
-     * Wrap $content inside a ratio box using RatioBoxUtility
-     * @param string $content
-     * @return string
-     */
-    public function wrapInRatioBox(string $content)
-    {
-        /** @var FileInterface $file */
-        $file = $this->arguments['image'];
-
-        $mediaQueries[$this->arguments['cropVariant']] = '';
-        $this->cropVariantUtility->setCropVariantCollection($file);
-        $cropVariants = $this->cropVariantUtility->getCropVariants($mediaQueries);
-
-        $this->ratioBoxUtility->setRatioBoxBase('rb');
-        $classNames = $this->ratioBoxUtility->getRatioBoxClassNames($cropVariants);
-
-        return $this->buildRatioBoxTag($content, $classNames);
-    }
-
-    /**
-     * Build the ratio box tag
-     * @param string $content
-     * @param array $classNames
-     * @return string
-     */
-    public function buildRatioBoxTag($content, $classNames)
-    {
-        /** @var TagBuilder */
-        $tagBuilder = new TagBuilder('div', $content);
-        $tagBuilder->setTagName('div');
-        $tagBuilder->setContent($content);
-        $tagBuilder->addAttribute('class', implode(' ', $classNames));
-        return $tagBuilder->render();
     }
 
     /** getSrcSetString

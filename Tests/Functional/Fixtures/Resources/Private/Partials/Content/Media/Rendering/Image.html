@@ -21,7 +21,7 @@
     </f:if>
 
     <f:comment>Setting boolean vars which default to true</f:comment>
-    <f:for each="{0: 'placeholderInline', 1: 'lazy', 2: 'debug', 3: 'jsdebug'}" as="argName">
+    <f:for each="{0: 'placeholderInline', 1: 'debug', 2: 'jsdebug'}" as="argName">
         <f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '0'">
             <f:then><f:variable name="{argName}">0</f:variable></f:then>
             <f:else><f:variable name="{argName}">1</f:variable></f:else>
@@ -29,7 +29,7 @@
     </f:for>
 
     <f:comment>Setting boolean vars which default to false</f:comment>
-    <f:for each="{0: 'ratiobox'}" as="argName">
+    <f:for each="{0: 'ratiobox', 1: 'lazy'}" as="argName">
         <f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '1'">
             <f:then><f:variable name="{argName}">1</f:variable></f:then>
             <f:else><f:variable name="{argName}">0</f:variable></f:else>

@@ -21,7 +21,7 @@ class ImageViewHelperCest
         ];
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
-        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1');
+        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1');
         $I->expect('Page has valid markup.');
         $I->validateMarkup();
 

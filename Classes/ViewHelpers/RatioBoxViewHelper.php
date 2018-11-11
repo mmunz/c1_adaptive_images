@@ -2,9 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
-use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 
 /**
  * = Examples =
@@ -35,11 +33,6 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
      * @inject
      */
     protected $ratioBoxUtility;
-
-    /** @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     *  @inject
-     */
-    protected $cropVariantUtility;
 
     /**
      * Initialize arguments.
@@ -74,28 +67,10 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
      */
     public function render()
     {
-        /** @var FileInterface $file */
-        $file = $this->arguments['file'];
-
-        if (is_null($file)) {
-            throw new Exception('You must specify a File object.', 1522176433);
-        }
-
         $mediaQueries = $this->arguments['mediaQueries'];
-        if (array_key_exists('default', $mediaQueries) === false) {
-            $mediaQueries['default'] = '';
-        }
-
-        $this->cropVariantUtility->setCropVariantCollection($file);
-        $cropVariants = $this->cropVariantUtility->getCropVariants($mediaQueries);
-
-        $this->ratioBoxUtility->setRatioBoxBase('rb');
-        $classNames = $this->ratioBoxUtility->getRatioBoxClassNames($cropVariants);
-
-        $this->tag->setTagName('div');
-        $this->tag->setContent($this->renderChildren());
-        $this->tag->addAttribute('class', implode(' ', $classNames));
-
-        return $this->tag->render();
+//        if (array_key_exists('default', $mediaQueries) === false) {
+//            $mediaQueries['default'] = '';
+//        }
+        return $this->ratioBoxUtility->wrapInRatioBox($this->renderChildren(), $this->arguments['file'], $mediaQueries);
     }
 }

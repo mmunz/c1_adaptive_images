@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -18,6 +19,16 @@ class RatioBoxUtility
      * @var array $ratioBoxClassNames
      */
     protected $ratioBoxClassNames;
+
+    /** @var \C1\AdaptiveImages\Utility\CropVariantUtility
+     *  @inject
+     */
+    protected $cropVariantUtility;
+
+    /** @var \C1\AdaptiveImages\Utility\TagUtility
+     *  @inject
+     */
+    protected $tagUtility;
 
     /**
      * RatioBoxUtility constructor.
@@ -144,7 +155,7 @@ class RatioBoxUtility
      *
      * @return array
      */
-    public function getRatioBoxClassNames($cropVariants)
+    public function getRatioBoxClassNames(array $cropVariants)
     {
         $this->ratioBoxClassNames[] = $this->ratioBoxBase;
 
@@ -157,5 +168,23 @@ class RatioBoxUtility
         }
 
         return $this->ratioBoxClassNames;
+    }
+
+    /**
+     * Wrap $content inside a ratio box
+     * @param string $content
+     * @param FileInterface $file
+     * @param array $mediaQueries
+     * @return string
+     */
+    public function wrapInRatioBox(string $content, FileInterface $file, array $mediaQueries)
+    {
+        $this->cropVariantUtility->setCropVariantCollection($file);
+        $cropVariants = $this->cropVariantUtility->getCropVariants($mediaQueries);
+
+        $this->setRatioBoxBase('rb');
+        $classNames = $this->getRatioBoxClassNames($cropVariants);
+
+        return $this->tagUtility->buildRatioBoxTag($content, $classNames);
     }
 }
