@@ -14,8 +14,9 @@ Code
 ----
 Please use the repository at github (https://github.com/mmunz/c1_adaptive_images) for issues and pull requests.
 
-* make sure your code passes phpcs-fixer linting by running composer php:cs:lint or/and composer:php:fix scripts
-* Run tests and make sure they all pass before commiting or opening a pull request.
+* make sure your code passes phpcs-fixer linting by running ``composer php:cs:lint`` or/and ``composer:php:fix`` scripts
+* Run tests (see :ref:`testing`) and make sure they all pass before commiting or opening a pull request.
+
 
 Documentation
 -------------
