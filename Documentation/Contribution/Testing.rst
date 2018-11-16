@@ -23,3 +23,6 @@ Also some environment variables are required:
   export typo3DatabasePassword=testing
   export typo3DatabaseHost=127.0.0.1
   export TYPO3_PATH_ROOT=$PWD/.Build/public/
+
+For **acceptance** tests you also need to start a local webserver serving from the test-instance. This can be done with
+the builtin webserver in php: ``php -S 127.0.0.1:8888 -t .Build/public/``
