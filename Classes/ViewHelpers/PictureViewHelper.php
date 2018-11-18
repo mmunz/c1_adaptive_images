@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
+use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Create a adaptive image tag
@@ -18,7 +19,7 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
  * </output>
  *
  */
-class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
+class PictureViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
 {
     /**
      * @var bool
@@ -32,6 +33,12 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
     protected $imageUtility;
 
     /**
+     * @var \C1\AdaptiveImages\Utility\TagUtility
+     * @inject
+     */
+    protected $tagUtility;
+
+    /**
      * @var \C1\AdaptiveImages\Utility\RatioBoxUtility
      * @inject
      */
@@ -41,6 +48,9 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
      * @inject
      */
     protected $imagePlaceholderUtility;
+
+    /** @var array $cropVariants */
+    protected $cropVariants;
 
     /**
      * Initialize arguments.
@@ -98,6 +108,13 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
             false,
             false
         );
+        $this->registerArgument(
+            'sources',
+            'array',
+            'media queries to use for the different cropVariants',
+            false,
+            [['default' => '']]
+        );
     }
 
     /**
@@ -112,18 +129,21 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
     public function initialize()
     {
         parent::initialize();
-
         $this->imageUtility->setOriginalFile($this->arguments['image']);
+        $cropVariantForImg = [
+            $this->arguments['cropVariant'] => [
+                'srcsetWidths' => $this->arguments['srcsetWidths']
+            ]
+        ];
+        $cropVariantsMerged = array_merge_recursive($this->arguments['sources'], $cropVariantForImg);
+
         $this->imageUtility->init(
             [
                 'debug' => $this->arguments['debug'],
-                'cropVariants' => [
-                    $this->arguments['cropVariant'] => [
-                        'srcsetWidths' => $this->arguments['srcsetWidths']
-                    ]
-                ]
+                'cropVariants' => $cropVariantsMerged
             ]
         );
+        $this->cropVariants = $this->imageUtility->getCropVariants();
 
         $this->addAdditionalAttributes();
         $this->addDataAttributes();
@@ -135,28 +155,82 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
      */
     public function render()
     {
-        $image = parent::render();
+        $imageTag = parent::render();
+        $sources = $this->cropVariants;
+        unset($sources[$this->arguments['cropVariant']]);
+        $picture = $this->buildPictureTag($imageTag, $sources);
+
+        $mq = [];
+        foreach ($this->cropVariants as $key => $config) {
+            $mq[$key] = $config['media'];
+        }
 
         if ($this->arguments['ratiobox'] === true) {
-            $mediaQueries = [
-                $this->arguments['cropVariant'] => ''
-            ];
-            return $this->ratioBoxUtility->wrapInRatioBox($image, $this->arguments['image'], $mediaQueries);
+            return $this->ratioBoxUtility->wrapInRatioBox(
+                $picture,
+                $this->arguments['image'],
+                $mq
+            );
         } else {
-            return $image;
+            return $picture;
         }
+    }
+
+    /**
+     * Build a source tag with media and srcset attributes
+     * @param string $media
+     * @param string $srcset
+     * @param string $cropVariant
+     * @return string
+     */
+    public function buildSourceTag(string $media, string $srcset, string $cropVariant)
+    {
+        $tagBuilder = new TagBuilder('source');
+        if ($media) {
+            $tagBuilder->addAttribute('media', $media);
+        }
+        if ($srcset) {
+            if ($this->arguments['lazy']) {
+                $tagBuilder->addAttribute('data-srcset', $srcset);
+                $tagBuilder->addAttribute('data-sizes', 'auto');
+                $tagBuilder->addAttribute('srcset', $this->getPlaceholder($cropVariant));
+            } else {
+                $tagBuilder->addAttribute('srcset', $srcset);
+            }
+            $tagBuilder->addAttribute('sizes', $this->arguments['additionalAttributes']['sizes']);
+        }
+        return $tagBuilder->render();
+    }
+
+    /**
+     * Build the picture tag
+     * @param string $imgTag
+     * @param array $sources
+     * @param bool $lazy
+     * @return string
+     */
+    public function buildPictureTag(string $imgTag, array $sources)
+    {
+        $content = '';
+        foreach ($sources as $key => $config) {
+            $content .= $this->buildSourceTag($config['media'], $config['srcset'], $key);
+        }
+        $content .= $imgTag;
+        $tagBuilder = new TagBuilder('picture');
+        $tagBuilder->setContent($content);
+        return $tagBuilder->render();
     }
 
     /**
      * getPlaceHolder
      * @return string
      */
-    public function getPlaceholder()
+    public function getPlaceholder(string $cropVariant)
     {
         $placeholder = $this->imagePlaceholderUtility->getPlaceholderImage(
             $this->arguments['image'],
             $this->arguments['placeholderInline'],
-            $this->arguments['cropVariant'],
+            $cropVariant,
             $this->arguments['placeholderWidth']
         );
         return $placeholder . ' ' . $this->arguments['placeholderWidth'] . 'w';
@@ -189,7 +263,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
         ];
 
         if ($this->isLazyLoading()) {
-            $extraAdditionalAttributes['srcset'] = $this->getPlaceholder();
+            $extraAdditionalAttributes['srcset'] = $this->getPlaceholder($this->arguments['cropVariant']);
         } else {
             $extraAdditionalAttributes['srcset'] = $this->getSrcSetString();
         }
@@ -242,7 +316,6 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
      */
     public function getSrcSetString()
     {
-        $cropVariants = $this->imageUtility->getCropVariants();
-        return $this->imageUtility->getSrcSetString($cropVariants[$this->arguments['cropVariant']]['candidates']);
+        return $this->imageUtility->getSrcSetString($this->cropVariants[$this->arguments['cropVariant']]['candidates']);
     }
 }

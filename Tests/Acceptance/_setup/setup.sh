@@ -12,23 +12,30 @@ if [ -z "$TYPO3_PATH_ROOT" ]; then
 fi
 
 DBNAME="${typo3DatabaseName}_acceptancetest"
-
 ARGS="-u $typo3DatabaseUsername -h $typo3DatabaseHost -P ${typo3DatabasePort:-3306}"
 
 if [ -n "${typo3DatabasePassword}" ]; then
     ARGS="$ARGS -p${typo3DatabasePassword}"
 fi
 
+# delete database
 mysql $ARGS -e """
     DROP DATABASE IF EXISTS "${DBNAME}";
     CREATE DATABASE "${DBNAME}" DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 """
 
+# install typo3
 ./.Build/vendor/bin/typo3cms -vvv install:setup --database-user-name=$typo3DatabaseUsername --database-user-password=$typo3DatabasePassword \
         --database-host-name=$typo3DatabaseHost --database-port=${typo3DatabasePort:-3306} --database-name=$DBNAME \
         --use-existing-database --admin-user-name=test --admin-password=test1234 \
         --site-name="testsite" --site-setup-type=none --no-interaction --force
 
+# populate the database
+for db in `ls ./Tests/Acceptance/_data/sql/*.sql`; do
+    echo "Import table: $db"
+    echo "truncate table $(basename -s '.sql' $db)" | mysql -D $DBNAME $ARGS
+    cat $db | mysql -D $DBNAME $ARGS
+done
 
 # symlink fileadmin/user_upload to fixtures folder
 (
@@ -38,6 +45,7 @@ mysql $ARGS -e """
     }
 )
 
+# TYPO3_CONF_VARS
  ./.Build/vendor/bin/typo3cms configuration:set SYS/trustedHostsPattern '.*'
  ./.Build/vendor/bin/typo3cms configuration:set SYS/displayErrors '1'
- ./.Build/vendor/bin/typo3cms configuration:set SYS/devIPmask '1'
+ ./.Build/vendor/bin/typo3cms configuration:set SYS/devIPmask '*'

@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Utility;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class CropVariantUtility
@@ -79,7 +80,9 @@ class CropVariantUtility
     public function getCropVariants(array $mediaQueries)
     {
         $cropVariants = [];
+
         foreach ($mediaQueries as $key => $mediaQuery) {
+            //DebuggerUtility::var_dump($mediaQuery);
             $crop = $this->getCropAreaForVariantAsArray($key);
 
             if (is_array($crop)) {
@@ -92,7 +95,7 @@ class CropVariantUtility
 
             $ratio = $this->mathUtility->calculateRatio($height, $width, 2);
 
-            $cropVariants[] = [
+            $cropVariants[$key] = [
                 'ratio' => $ratio,
                 'media' => $mediaQuery
             ];

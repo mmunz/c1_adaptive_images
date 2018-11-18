@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Utility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class RatioBoxUtility
@@ -158,7 +159,6 @@ class RatioBoxUtility
     public function getRatioBoxClassNames(array $cropVariants)
     {
         $this->ratioBoxClassNames[] = $this->ratioBoxBase;
-
         foreach (array_reverse($cropVariants) as $cropVariantKey => $cropVariantConfig) {
             $mq = $cropVariantConfig['media'] ?? null;
             $className = $this->getRatioClassForCropVariant($cropVariantConfig['ratio'], $mq);
@@ -180,11 +180,12 @@ class RatioBoxUtility
     public function wrapInRatioBox(string $content, FileInterface $file, array $mediaQueries)
     {
         $this->cropVariantUtility->setCropVariantCollection($file);
+
         $cropVariants = $this->cropVariantUtility->getCropVariants($mediaQueries);
 
+        //DebuggerUtility::var_dump($cropVariants);
         $this->setRatioBoxBase('rb');
         $classNames = $this->getRatioBoxClassNames($cropVariants);
-
         return $this->tagUtility->buildRatioBoxTag($content, $classNames);
     }
 }

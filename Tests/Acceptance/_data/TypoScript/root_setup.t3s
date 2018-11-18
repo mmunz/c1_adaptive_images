@@ -19,6 +19,7 @@ config {
 
 page = PAGE
 page {
+    typeNum = 0
     headerData {
         10 = TEXT
         10.value = <meta name="viewport" content="width=device-width, initial-scale=1.0">

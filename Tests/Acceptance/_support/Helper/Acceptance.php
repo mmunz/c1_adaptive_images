@@ -109,7 +109,7 @@ class Acceptance extends \Codeception\Module
      */
     public function seeJsDebug($index = 0)
     {
-        $this->assertRegexp('/.*640x400.*(62.50).*640.*/', $this->getJsDebug($index));
+        $this->assertRegexp('/.*640x400.*(62.50).*container: \d.*/', $this->getJsDebug($index));
     }
 
     /** dontSeeJsDebug
@@ -122,5 +122,32 @@ class Acceptance extends \Codeception\Module
     public function cantSeeJsDebug($index = 0)
     {
         $this->assertEquals(null, $this->getJsDebug($index));
+    }
+
+    /**
+     * See if padding bottom value on a ratio box matches an expected value
+     *
+     * @param int $index 0: use the first ratio box, 1: use second, ...
+     * @param string $class: css selector (e.g. 'rb')
+     * @param string $expectedPaddingBottom expected padding bottom value (e.g. '75%')
+     */
+    public function seeRatioBoxHasPaddingBottom($index, $class, $expectedPaddingBottom)
+    {
+        $actualPaddingBottom = $ratioBoxStyle = $this->webdriver->executeJS(
+            "function getDefaultStyle(element, prop) {
+                var parent = element.parentNode,
+                    computedStyle = getComputedStyle(element),
+                    value;
+                parent.style.display = 'none';
+                value = computedStyle.getPropertyValue(prop);
+                parent.style.removeProperty('display');
+                return value;
+            }
+            try {
+                return getDefaultStyle(document.querySelectorAll('" . $class . "')[" . $index . "], 'padding-bottom')
+            }
+            catch {return null}"
+        );
+        $this->assertEquals($expectedPaddingBottom, $actualPaddingBottom);
     }
 }

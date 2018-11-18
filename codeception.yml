@@ -9,8 +9,8 @@ suites:
                   dsn: 'mysql:host=%typo3DatabaseHost%;dbname=%typo3DatabaseName%_acceptancetest'
                   user: '%typo3DatabaseUsername%'
                   password: '%typo3DatabasePassword%'
-                  populate: 'true'
-                  populator: Tests/Acceptance/_support/populateDB.sh
+                  populate: 'false'
+                  # populator: Tests/Acceptance/_support/populateDB.sh
                   cleanup: false
               - WebDriver:
                   url: http://127.0.0.1:8888/
@@ -54,6 +54,6 @@ modules:
         loggingPrefs:
           browser: ALL
           driver:   ALL
-          performance: ALL
+          #performance: ALL
         chromeOptions:
-          args: ["--disable-gpu", "--headless"]
+          args: ["--disable-gpu"]

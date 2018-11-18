@@ -49,6 +49,7 @@ class ImageUtility
 
     /**
      * @var \C1\AdaptiveImages\Utility\CropVariantUtility
+     * @var \C1\AdaptiveImages\Utility\CropVariantUtility
      * @inject
      */
     protected $cropVariantUtility;
@@ -257,7 +258,6 @@ class ImageUtility
             // have been skipped for smaller images or when maxWidth for the image was reached.
             $this->cropVariants[$key]['srcsetWidths'] = implode(',', array_keys($candidates));
         }
-
         return $this->cropVariants;
     }
 }

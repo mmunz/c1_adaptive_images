@@ -2,6 +2,11 @@
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       data-namespace-typo3-fluid="true">
 <f:spaceless>
+    <f:variable name="containerWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'containerWidth')}</f:variable>
+    <f:if condition="{containerWidth}">
+        <f:then></f:then>
+        <f:else><f:variable name="containerWidth">100%</f:variable></f:else>
+    </f:if>
     <f:variable name="mq-mobile">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mq-mobile')}</f:variable>
     <f:if condition="{mq-mobile}">
         <f:then></f:then>
@@ -12,7 +17,12 @@
 
 
     <f:variable name="mode">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mode')}</f:variable>
+
     <f:variable name="placeholderWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'placeholderWidth')}</f:variable>
+    <f:if condition="{placeholderWidth}">
+        <f:then></f:then>
+        <f:else><f:variable name="placeholderWidth">100</f:variable></f:else>
+    </f:if>
 
     <f:variable name="srcsetWidths">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'srcsetWidths')}</f:variable>
     <f:if condition="{srcsetWidths}">
@@ -36,18 +46,23 @@
         </f:if>
     </f:for>
 
-    <f:switch expression="{mode}">
-        <f:case value="RatioBox1">
-            <f:render section="RatioBox1" arguments="{_all}"/>
-        </f:case>
-        <f:case value="ImageViewHelper">
-            <f:render section="ImageViewHelper" arguments="{_all}"/>
-        </f:case>
-        <f:case value="GetCropVariantsAsString">
-            <f:render section="GetCropVariantsAsString" arguments="{_all}"/>
-        </f:case>
-        <f:defaultCase>No mode</f:defaultCase>
-    </f:switch>
+    <div style="width: {containerWidth->f:format.raw()}">
+        <f:switch expression="{mode}">
+            <f:case value="RatioBox1">
+                <f:render section="RatioBox1" arguments="{_all}"/>
+            </f:case>
+            <f:case value="ImageViewHelper">
+                <f:render section="ImageViewHelper" arguments="{_all}"/>
+            </f:case>
+            <f:case value="PictureViewHelper">
+                <f:render section="PictureViewHelper" arguments="{_all}"/>
+            </f:case>
+            <f:case value="GetCropVariantsAsString">
+                <f:render section="GetCropVariantsAsString" arguments="{_all}"/>
+            </f:case>
+            <f:defaultCase>No mode</f:defaultCase>
+        </f:switch>
+    </div>
 
     <f:section name="RatioBox1">
         <ai:ratioBox file="{file}" mediaQueries="{mobile: mq-mobile, default: ''}">
@@ -71,6 +86,30 @@
                   ratiobox="{ratiobox}"
                   jsdebug="{jsdebug}"
                   sizes="{sizesAttr}"
+        />
+    </f:section>
+
+    <f:section name="PictureViewHelper">
+        <ai:picture image="{file}"
+                  class="img-responsive-full lazyload"
+                    width="{dimensions.width}"
+                    height="{dimensions.height}"
+                    alt="{file.alternative}"
+                    title="{file.title}"
+                    sources="{
+                        'mobile': {
+                            'srcsetWidths': '320,640,768',
+                            'media': '(max-width: 767px)'
+                        }
+                      }"
+                    srcsetWidths="{srcsetWidths}"
+                    placeholderInline="{placeholderInline}"
+                    placeholderWidth="{placeholderWidth}"
+                    lazy="{lazy}"
+                    debug="{debug}"
+                    ratiobox="{ratiobox}"
+                    jsdebug="{jsdebug}"
+                    sizes="{sizesAttr}"
         />
     </f:section>
 

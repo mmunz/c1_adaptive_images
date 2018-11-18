@@ -90,6 +90,7 @@ class ImageViewHelperCest
 
         $I->expect('a 640px image is loaded');
         $I->seeCurrentImageDimensions(640, 400, '62.50');
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
 
         $I->resizeWindow(1024, 768);
         $I->waitForImagesLoaded();
@@ -98,6 +99,7 @@ class ImageViewHelperCest
 
         $I->expect('ratio box style in header');
         $I->seeInPageSource('.rb--62dot5{padding-bottom:62.5%}');
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
 
         //$webdriver->findElement(WebDriverBy::cssSelector('#t3-login-submit'))->getCSSValue('background-color');
 

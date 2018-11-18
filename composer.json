@@ -35,7 +35,7 @@
         "tests:acceptance": [
             "@link-extension",
             "bash Tests/Acceptance/_setup/setup.sh",
-            ".Build/vendor/bin/codecept run -vvv",
+            ".Build/vendor/bin/codecept run --debug -vvv",
             "@unlink-extension"
         ],
         "tests:clearcache": "rm -rf .Build/public/typo3temp/; rm -rf ./var/*",
@@ -69,20 +69,21 @@
         "typo3/cms-core": "^8.7.10 || ^9.5.0",
         "typo3/cms-fluid": "^8.7.10 || ^9.5.0",
         "typo3/cms-frontend": "^8.7.10 || ^9.5.0",
-        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0"
+        "typo3/cms-backend": "^8.7.10 || ^9.5.0",
+        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0",
+        "typo3/minimal": "^8.7"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
         "nimut/testing-framework": "^4.0",
-        "typo3fluid/fluid": "^2.5.0",
         "typo3/cms-tstemplate": "^8.7.10 || ^9.5.0",
         "helhum/typo3-composer-setup": "^0.5.3",
         "helmich/typo3-typoscript-lint": "^1.4.4",
+        "helhum/typo3-console": "^5.0",
         "friendsofphp/php-cs-fixer": "^2.13",
         "roave/security-advisories": "dev-master",
         "codeception/codeception": "^2.5",
-        "helhum/typo3-console": "^5.0",
         "portrino/codeception-helper-module": "*",
         "kolyunya/codeception-markup-validator": "^3.0"
     },
