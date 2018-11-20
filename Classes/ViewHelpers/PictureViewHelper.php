@@ -82,7 +82,7 @@ class PictureViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
         $this->registerArgument(
             'srcsetWidths',
             'string',
-            'comma seperated list of integers containing the widths of srcset candidates to create',
+            'comma seperated list of integers containing the widths of srcset candidates to create for the img tag',
             false,
             '360,768,1024,1920'
         );

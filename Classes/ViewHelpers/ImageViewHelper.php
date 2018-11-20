@@ -51,7 +51,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
         $this->registerArgument(
             'lazy',
             'bool',
-            'lazy load images with lazyload.js',
+            'lazy load images and auto-sizes with lazysizes.js',
             false,
             false
         );

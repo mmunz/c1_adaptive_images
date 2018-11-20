@@ -205,6 +205,124 @@ returns the SVG as base64 encoded data-uri
 
     data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0[...]
 
+ai:image
+--------
+
+This viewHelper outputs a complete adaptive image *img* tag, optionally with ratio box and a placeholder image.
+Use this when you don't need art direction/different cropVariants. If you need art direction see
+:ref:`aiPictureViewHelper`.
+
+Arguments
+^^^^^^^^^
+
+This viewHelper has all arguments which are available to the
+`f:image viewHelper <https://docs.typo3.org/typo3cms/ExtbaseGuide/Fluid/ViewHelper/Image.html>`_
+including `fluids universal tag attributes <https://docs.typo3.org/typo3cms/ExtbaseGuide/Fluid/UniversalTagAttributes.html#universaltagattributes>`_
+plus the following:
+
+================== =========== =========================== ===============================================================
+argument           required    Default                     Description
+================== =========== =========================== ===============================================================
+lazy               no          false                       lazy load images and auto-sizes with lazysizes.js
+debug              no          false                       Add debug output (width, height, ratio) to the generated images using IM/GM
+jsdebug            no          false                       Add debug output (width, height, ratio) near the image using javascript
+srcsetWidths       no          [320,640,1024,1440,1920]    create srcset candidates with these widths
+cropVariant        no          default                     select a cropping variant, in case multiple croppings have been
+                                                           specified or stored in FileReference
+sizes              no          100vw                       sizes attribute for the img tag.
+                                                           Takes precedence over additionalAttributes["sizes"] if both are given.
+placeholderInline  no          true                        Include placeholder inline in HTML (base64 encoded)
+ratiobox           no          false                       The image is wrapped in a ratio box if true.
+================== =========== =========================== ===============================================================
+
+Examples
+^^^^^^^^
+
+.. code-block:: html
+
+    <ai:image image="{file}"
+          class="img-responsive lazyload"
+          width="{dimensions.width}"
+          height="{dimensions.height}"
+          alt="{file.alternative}"
+          title="{file.title}"
+          srcsetWidths="320,640"
+          placeholderInline="1"
+          placeholderWidth="128"
+          lazy="1"
+          debug="1"
+          ratiobox="1"
+          jsdebug="1"
+          sizes="100vw"
+    />
+
+returns a complete image tag with lazysizes loading and a placeholder image.
+**Important** For lazysizes to work you have to add the class *lazyload* here.
+
+.. _aiPictureViewHelper:
+
+ai:picture
+----------
+
+This viewHelper outputs a complete adaptive image *picture* tag, optionally with ratio box and a placeholder image.
+If you need to show different cropVariants for different device widths you need to use this viewHelper.
+
+Arguments
+^^^^^^^^^
+
+This viewHelper has all arguments which are available to the
+`f:image viewHelper <https://docs.typo3.org/typo3cms/ExtbaseGuide/Fluid/ViewHelper/Image.html>`_
+including `fluids universal tag attributes <https://docs.typo3.org/typo3cms/ExtbaseGuide/Fluid/UniversalTagAttributes.html#universaltagattributes>`_
+plus the following:
+
+================== =========== =========================== ===============================================================
+argument           required    Default                     Description
+================== =========== =========================== ===============================================================
+lazy               no          false                       lazy load images and auto-sizes with lazysizes.js
+debug              no          false                       Add debug output (width, height, ratio) to the generated images using IM/GM
+jsdebug            no          false                       Add debug output (width, height, ratio) near the image using javascript
+srcsetWidths       no          [320,640,1024,1440,1920]    create srcset candidates with these widths
+cropVariant        no          default                     select a cropping variant, in case multiple croppings have been
+                                                           specified or stored in FileReference
+sizes              no          100vw                       sizes attribute for the img tag.
+                                                           Takes precedence over additionalAttributes["sizes"] if both are given.
+placeholderInline  no          true                        Include placeholder inline in HTML (base64 encoded)
+ratiobox           no          false                       The image is wrapped in a ratio box if true.
+sources            no          [['default' => '']]         Array of arrays containing candidates for source tags
+================== =========== =========================== ===============================================================
+
+Examples
+^^^^^^^^
+
+.. code-block:: html
+
+    <ai:picture image="{file}"
+          class="img-responsive-full lazyload"
+            width="{dimensions.width}"
+            height="{dimensions.height}"
+            alt="{file.alternative}"
+            title="{file.title}"
+            sources="{
+                'mobile': {
+                    'srcsetWidths': '320,640,768',
+                    'media': '(max-width: 767px)'
+                }
+              }"
+            srcsetWidths="768,1024"
+            placeholderInline="1"
+            placeholderWidth="128"
+            lazy="1"
+            debug="1"
+            ratiobox="1"
+            jsdebug="1"
+            sizes="100vw"
+    />
+
+returns a complete picture tag with one source for the cropVariant mobile. With lazysizes loading and a placeholder image.
+**Important** For lazysizes to work you have to add the class *lazyload* here.
+
+
+
 
 
 
