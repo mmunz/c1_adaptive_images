@@ -60,20 +60,22 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         return [
             'without additionalAttributes from viewhelper' => [
                 ['sizes' => '100vw', 'srcset' => ''],
-                []
+                ['cropVariant' => 'default']
             ],
             'with merged additionalAttributes from viewHelper' => [
                 ['sizes' => '100vw', 'srcset' => '', 'debug' => '1'],
                 [
                     'additionalAttributes' => [
                         'debug' => '1'
-                    ]
+                    ],
+                    'cropVariant' => 'default'
                 ]
             ],
             'overwrite default additionalAttributes array item from viewHelper' => [
                 ['sizes' => '50vw', 'srcset' => ''],
                 [
-                    'additionalAttributes' => ['sizes' => '50vw', 'srcset' => '']
+                    'additionalAttributes' => ['sizes' => '50vw', 'srcset' => ''],
+                    'cropVariant' => 'default'
                 ]
             ]
         ];
