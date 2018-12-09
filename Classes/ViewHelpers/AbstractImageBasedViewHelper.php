@@ -81,6 +81,7 @@ abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers
             false
         );
     }
+
     /** isLazyLoading
      * @return bool
      */
@@ -89,7 +90,7 @@ abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers
         if ($this->hasArgument('lazy')) {
             return $this->arguments['lazy'] === true;
         } else {
-            return true;
+            return false;
         }
     }
     /**
@@ -107,7 +108,6 @@ abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers
         );
         return $placeholder . ' ' . $this->arguments['placeholderWidth'] . 'w';
     }
-
 
     /**
      * addDataAttributes

@@ -90,7 +90,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
     public function addAdditionalAttributesTest($expected, $arguments)
     {
         /** @var AccessibleMockObjectInterface|ImageViewHelper $imageViewHelperMock */
-        $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getPlaceholder']);
+        $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getPlaceholder', 'getSrcSetString']);
         $imageViewHelperMock->setArguments($arguments);
         $imageViewHelperMock->_set('imagePlaceholderUtility', new ImagePlaceholderUtility());
         $imageViewHelperMock->addAdditionalAttributes();
@@ -98,46 +98,12 @@ class ImageViewHelperTest extends AbstractViewHelperTest
     }
 
     /**
-     * @return array
-     */
-    public function addDataAttributesProvider()
-    {
-        return [
-            'without data argument from viewhelper' => [
-                ['data-sizes' => 'auto', 'data-srcset' => ''],
-                [
-                    'data' => [],
-                    'srcsetWidths' => '256,512'
-                ]
-            ],
-            'with data argument from viewhelper' => [
-                ['data-sizes' => 'auto', 'data-srcset' => '', 'data-debug' => '1'],
-                [
-                    'data' => [
-                        'debug' => true
-                    ],
-                    'srcsetWidths' => '256,512'
-                ]
-            ],
-            'overwrite default with data argument from viewhelper' => [
-                ['data-sizes' => '33vw', 'data-srcset' => ''],
-                [
-                    'srcsetWidths' => '256,512',
-                    'data' => [
-                        'sizes' => '33vw'
-                    ]
-                ]
-            ],
-        ];
-    }
-
-    /**
      * @test
-     * @param array $expected
      * @param array $arguments
+     * @param array $expected
      * @dataProvider addDataAttributesProvider
      */
-    public function addDataAttributesTest($expected, $arguments)
+    public function addDataAttributesTest($arguments, $expected)
     {
         /** @var AccessibleMockObjectInterface|ImageViewHelper $imageViewHelperMock */
         $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getSrcSetString']);
@@ -164,5 +130,103 @@ class ImageViewHelperTest extends AbstractViewHelperTest
             $imageViewHelperMock->_get('tag')->getAttributes(),
             'data attributes not properly added to tag'
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function addDataAttributesProvider()
+    {
+        return [
+            'without data argument from viewhelper' => [
+                [
+                    'lazy' => true,
+                    'data' => [],
+                    'srcsetWidths' => '256,512'
+                ],
+                ['data-sizes' => 'auto', 'data-srcset' => ''],
+            ],
+            'with data argument from viewhelper' => [
+                [
+                    'lazy' => true,
+                    'data' => [
+                        'debug' => true
+                    ],
+                    'srcsetWidths' => '256,512'
+                ],
+                ['data-sizes' => 'auto', 'data-srcset' => '', 'data-debug' => '1'],
+            ],
+            'overwrite default with data argument from viewhelper' => [
+                [
+                    'lazy' => true,
+                    'srcsetWidths' => '256,512',
+                    'data' => [
+                        'sizes' => '33vw'
+                    ]
+                ],
+                ['data-sizes' => '33vw', 'data-srcset' => ''],
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     */
+    public function getPlaceholderTest()
+    {
+        $imagePlaceholderUtilityMock = $this->getMockBuilder(ImagePlaceholderUtility::class)
+            ->setMethods(['getPlaceholderImage'])
+            ->getMock();
+
+        $imagePlaceholderUtilityMock
+            ->method('getPlaceholderImage')
+            ->will($this->returnCallback(function ($image, $placeholderInline, $cropVariant, $placeholderWidth) {
+                return ($placeholderInline) ? 'base64encodedimage' : 'placeholderimage.jpg';
+            }));
+
+        $arguments = [
+            'image' => 'image.jpg',
+            'placeholderInline' => true,
+            'placeholderWidth' => 64
+        ];
+        $this->viewHelper->setArguments($arguments);
+        $this->inject($this->viewHelper, 'imagePlaceholderUtility', $imagePlaceholderUtilityMock);
+        $this->assertEquals('base64encodedimage 64w', $this->viewHelper->getPlaceholder('default'));
+
+        $arguments['placeholderInline'] = false;
+        $this->viewHelper->setArguments($arguments);
+        $this->assertEquals('placeholderimage.jpg 64w', $this->viewHelper->getPlaceholder('default'));
+    }
+
+    /**
+     * @return array
+     */
+    public function isLazyLoadingProvider()
+    {
+        return [
+            'no lazy argument' => [
+                false,
+                [],
+            ],
+            'with lazy = false' => [
+                false,
+                ['lazy' => false],
+            ],
+            'with lazy = true' => [
+                true,
+                ['lazy' => true]
+            ],
+        ];
+    }
+    /**
+     * @test
+     * @param array $expected
+     * @param array $arguments
+     * @dataProvider isLazyLoadingProvider
+     */
+    public function isLazyLoadingTest($expected, $arguments)
+    {
+        $this->viewHelper->setArguments($arguments);
+        $this->assertEquals($expected, $this->viewHelper->isLazyLoading());
     }
 }

@@ -2,7 +2,10 @@ plugin.tx_c1_adaptive_images {
     settings {
         debug = {$plugin.tx_c1_adaptive_images.settings.debug}
         jsdebug = {$plugin.tx_c1_adaptive_images.settings.jsdebug}
+        ratio_box = {$plugin.tx_c1_adaptive_images.settings.ratio_box}
         srcsetWidths = {$plugin.tx_c1_adaptive_images.settings.srcsetWidths}
+        srcsetWidthsMobile = {$plugin.tx_c1_adaptive_images.settings.srcsetWidthsMobile}
+        srcsetWidthsDesktop = {$plugin.tx_c1_adaptive_images.settings.srcsetWidthsDesktop}
         placeholder {
             dataImage = {$plugin.tx_c1_adaptive_images.settings.placeholder.dataImage}
         }
