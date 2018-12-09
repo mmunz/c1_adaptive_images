@@ -70,8 +70,7 @@
         "typo3/cms-fluid": "^8.7.10 || ^9.5.0",
         "typo3/cms-frontend": "^8.7.10 || ^9.5.0",
         "typo3/cms-backend": "^8.7.10 || ^9.5.0",
-        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0",
-        "typo3/minimal": "^8.7"
+        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
