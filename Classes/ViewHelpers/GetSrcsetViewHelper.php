@@ -90,7 +90,7 @@ class GetSrcsetViewHelper extends AbstractViewHelper
 
         $widths = $this->arguments['widths'];
         if (!is_array($widths)) {
-            $widths = explode(',', $widths);
+            $widths = explode(',', (string) $widths);
         }
 
         /** @var FileInterface $file */
