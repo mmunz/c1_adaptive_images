@@ -167,10 +167,10 @@ class ImageUtility
      * @param array $cropVariantConfig
      * @return array
      */
-    public function processSrcsetImages($key, $cropVariantConfig)
+    public function processSrcsetImages(string $key, array $cropVariantConfig)
     {
         $srcset = [];
-        $srcWidths = explode(',', $cropVariantConfig['srcsetWidths']);
+        $srcWidths = explode(',', (string) $cropVariantConfig['srcsetWidths']);
         $maxWidthReached = false;
 
         $this->cropVariantUtility->setCropVariantCollection($this->originalFile);
