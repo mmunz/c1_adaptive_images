@@ -48,9 +48,43 @@ class GetSrcsetViewHelperTest extends AbstractViewHelperTest
     }
 
     /**
-     * @test
+     * @return array
      */
-    public function createSrcsetString()
+    public function createSrcsetStringProvider()
+    {
+        return [
+            'with 1 srcset width' => [
+                [
+                    'widths' => '240',
+                    'debug' => false,
+                ],
+                'image@240.jpg 240w'
+            ],
+            // If only one width is given in the viewhelpers arguments then it might be converted to integer.
+            'with 1 srcset width given as int' => [
+                [
+                    'widths' => 240,
+                    'debug' => false,
+                ],
+                'image@240.jpg 240w'
+            ],
+            'with 3 srcset widths' => [
+                [
+                    'widths' => '240,320,480',
+                    'debug' => false,
+                ],
+                'image@240.jpg 240w,image@320.jpg 320w,image@480.jpg 480w'
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @param array $arguments
+     * @param string $expected
+     * @dataProvider createSrcsetStringProvider
+     */
+    public function createSrcsetString($arguments, $expected)
     {
         $properties = [
             'width' => '1200',
@@ -95,15 +129,10 @@ class GetSrcsetViewHelperTest extends AbstractViewHelperTest
                 return (($absolute) ? 'http://domain.tld/' : '') . 'image@' . $image->getProperty('width') . '.jpg';
             });
 
+        $arguments['file'] = $image;
         $this->inject($this->viewHelper, 'imageService', $imageService);
-
-        $arguments = [
-            'widths' => '240,320,480',
-            'file' => $image,
-            'debug' => false,
-        ];
         $this->setArgumentsUnderTest($this->viewHelper, $arguments);
         $result = $this->viewHelper->initializeArgumentsAndRender();
-        $this->assertEquals('image@240.jpg 240w,image@320.jpg 320w,image@480.jpg 480w', $result);
+        $this->assertEquals($expected, $result);
     }
 }
