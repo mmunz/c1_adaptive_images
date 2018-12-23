@@ -57,6 +57,9 @@
             <f:case value="PictureViewHelper">
                 <f:render section="PictureViewHelper" arguments="{_all}"/>
             </f:case>
+            <f:case value="PictureViewHelperWithMultipleSources">
+                <f:render section="PictureViewHelperWithMultipleSources" arguments="{_all}"/>
+            </f:case>
             <f:case value="GetCropVariantsAsString">
                 <f:render section="GetCropVariantsAsString" arguments="{_all}"/>
             </f:case>
@@ -100,6 +103,34 @@
                         'mobile': {
                             'srcsetWidths': '320,640,768',
                             'media': '(max-width: 767px)'
+                        }
+                      }"
+                    srcsetWidths="{srcsetWidths}"
+                    placeholderInline="{placeholderInline}"
+                    placeholderWidth="{placeholderWidth}"
+                    lazy="{lazy}"
+                    debug="{debug}"
+                    ratiobox="{ratiobox}"
+                    jsdebug="{jsdebug}"
+                    sizes="{sizesAttr}"
+        />
+    </f:section>
+
+    <f:section name="PictureViewHelperWithMultipleSources">
+        <ai:picture image="{file}"
+                    class="img-responsive-full lazyload"
+                    width="{dimensions.width}"
+                    height="{dimensions.height}"
+                    alt="{file.alternative}"
+                    title="{file.title}"
+                    sources="{
+                        'mobile': {
+                            'srcsetWidths': '320,640,768',
+                            'media': '(max-width: 767px)'
+                        },
+                        'tablet': {
+                            'srcsetWidths': '992',
+                            'media': '(min-width: 768px) AND (max-width: 992px)'
                         }
                       }"
                     srcsetWidths="{srcsetWidths}"
