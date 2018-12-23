@@ -13,7 +13,6 @@ class PictureViewHelperCest
         $I->pauseExecution();
     }
 
-
     public function seePictureLoadInCorrectDimensions(\AcceptanceTester $I)
     {
         $I->flushCache();
@@ -74,6 +73,8 @@ class PictureViewHelperCest
     public function seePictureLoadInCorrectDimensionsWithMultipleSourcesAndRatioBox(\AcceptanceTester $I)
     {
         $I->flushCache();
+        $I->restartBrowser();
+
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}, "tablet":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
         ];
