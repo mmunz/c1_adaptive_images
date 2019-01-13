@@ -12,14 +12,17 @@
             "role": "Developer"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:mmunz/codeception-helper-module.git"
+        }
+    ],
     "support": {
         "issues": "https://github.com/mmunz/c1_adaptive_images/issues",
         "source": "https://github.com/mmunz/c1_adaptive_images"
     },
     "config": {
-        "preferred-install": {
-            "*": "dist"
-        },
         "vendor-dir": ".Build/vendor"
     },
     "scripts": {
@@ -70,20 +73,20 @@
         "typo3/cms-fluid": "^8.7.10 || ^9.5.0",
         "typo3/cms-frontend": "^8.7.10 || ^9.5.0",
         "typo3/cms-backend": "^8.7.10 || ^9.5.0",
-        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0"
+        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0",
+        "typo3/minimal": "^9.5"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
     "require-dev": {
         "nimut/testing-framework": "^4.0",
         "typo3/cms-tstemplate": "^8.7.10 || ^9.5.0",
         "helhum/typo3-composer-setup": "^0.5.3",
         "helmich/typo3-typoscript-lint": "^1.4.4",
-        "helhum/typo3-console": "5.0.4",
+        "helhum/typo3-console": "^5.5",
         "friendsofphp/php-cs-fixer": "^2.13",
         "roave/security-advisories": "dev-master",
         "codeception/codeception": "^2.5",
-        "portrino/codeception-helper-module": "dev-master",
+        "portrino/codeception-helper-module": "@dev",
         "kolyunya/codeception-markup-validator": "^3.0"
     },
     "autoload": {
