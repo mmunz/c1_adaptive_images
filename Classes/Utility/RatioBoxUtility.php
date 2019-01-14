@@ -158,6 +158,7 @@ class RatioBoxUtility
      */
     public function getRatioBoxClassNames(array $cropVariants)
     {
+        $this->ratioBoxClassNames = [];
         $this->ratioBoxClassNames[] = $this->ratioBoxBase;
         foreach (array_reverse($cropVariants) as $cropVariantKey => $cropVariantConfig) {
             $mq = $cropVariantConfig['media'] ?? null;
