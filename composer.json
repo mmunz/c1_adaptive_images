@@ -23,7 +23,10 @@
         "source": "https://github.com/mmunz/c1_adaptive_images"
     },
     "config": {
-        "vendor-dir": ".Build/vendor"
+        "vendor-dir": ".Build/vendor",
+        "preferred-install": {
+            "*": "dist"
+        }
     },
     "scripts": {
         "php:lint": ".Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php_cs",
@@ -85,7 +88,7 @@
         "friendsofphp/php-cs-fixer": "^2.13",
         "roave/security-advisories": "dev-master",
         "codeception/codeception": "^2.5",
-        "portrino/codeception-helper-module": "@dev",
+        "portrino/codeception-helper-module": "dev-master",
         "kolyunya/codeception-markup-validator": "^3.0"
     },
     "autoload": {
