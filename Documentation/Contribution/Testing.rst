@@ -41,4 +41,4 @@ Start chromedriver with:
 
 .. code-block:: bash
 
-  chromedriver --url=wd/hub
+  chromedriver --url-base=wd/hub
