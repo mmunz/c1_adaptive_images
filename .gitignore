@@ -3,6 +3,9 @@
 /composer.lock
 .php_cs.cache
 
+# codeception.yml should be used fpr local config only
+/codeception.yml
+
 # the var folder ist created when running the functional tests because TYPO3 gets its temp dir wrong
 /var
 
