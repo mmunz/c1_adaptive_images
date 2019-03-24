@@ -6,7 +6,7 @@ Tests
 -----
 For tests you first need to prepare a local typo3 instance for testing inside this extensions root folder using composer.
 
-You can test different TYPO3 versions:
+You can install different TYPO3 versions for testing. From inside the extension folder (typo3conf/ext/c1_adaptive_images):
 
 * for 9.5.x: ``composer require typo3/minimal=^9.5 && git checkout composer.json``
 * for 8.7.x: ``composer require typo3/minimal=^8.7 && git checkout composer.json``
@@ -14,7 +14,7 @@ You can test different TYPO3 versions:
 **Unit** tests should just work OOTB with: ``composer tests:unit``
 
 **Functional and acceptance tests** require a working mysql database where the testuser is allowed to create tables.
-Also some environment variables are required:
+Also some environment variables are required (adapt to your database credentials):
 
 .. code-block:: bash
 
@@ -24,5 +24,21 @@ Also some environment variables are required:
   export typo3DatabaseHost=127.0.0.1
   export TYPO3_PATH_ROOT=$PWD/.Build/public/
 
-For **acceptance** tests you also need to start a local webserver serving from the test-instance. This can be done with
-the builtin webserver in php: ``php -S 127.0.0.1:8888 -t .Build/public/``
+For acceptance tests
+====================
+
+you also need to start a local webserver serving from the test-instance. This can be done with
+the builtin webserver in php:
+
+.. code-block:: bash
+
+  cd typo3conf/ext/c1_adaptive/images
+  php -S 127.0.0.1:8888 -t .Build/public/
+
+Also selenium or chromedriver is required.
+
+Start chromedriver with:
+
+.. code-block:: bash
+
+  chromedriver --url=wd/hub
