@@ -35,7 +35,7 @@ cache:
     - $HOME/.sonar/cache
 
 install:
-  - composer config --global github-oauth.github.com $GH_TOKEN
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
   - if php -i | grep -q xdebug; then phpenv config-rm xdebug.ini; fi
   - phpenv rehash
   - if [ -n "$TYPO3VERSION" ]; then rm -f composer.lock; composer require typo3/minimal:$TYPO3VERSION; git checkout composer.json; fi
