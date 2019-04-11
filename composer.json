@@ -15,7 +15,8 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/mmunz/codeception-helper-module.git"
+            "url": "https://github.com/mmunz/codeception-helper-module.git",
+            "no-api": true
         }
     ],
     "support": {
@@ -76,7 +77,8 @@
         "typo3/cms-fluid": "^8.7.10 || ^9.5.0",
         "typo3/cms-frontend": "^8.7.10 || ^9.5.0",
         "typo3/cms-backend": "^8.7.10 || ^9.5.0",
-        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0"
+        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0",
+        "typo3/minimal": "^8.7"
     },
     "minimum-stability": "dev",
     "require-dev": {
