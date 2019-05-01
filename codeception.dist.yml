@@ -56,4 +56,4 @@ modules:
           driver:   ALL
           #performance: ALL
         chromeOptions:
-          args: ["--disable-gpu", "--headless"]
+          args: ["--disable-gpu", "%CHROME_OPTION_1%"]
