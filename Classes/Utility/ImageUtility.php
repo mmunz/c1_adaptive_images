@@ -13,7 +13,6 @@ use TYPO3\CMS\Extbase\Service\ImageService;
  */
 class ImageUtility
 {
-
     /** @var array $options */
     protected $options;
 
@@ -184,7 +183,20 @@ class ImageUtility
         foreach ($srcWidths as $width) {
             $localProcessingConfiguration = $defaultProcessConfiguration;
 
-            if ($localProcessingConfiguration['width'] > 0 && $width > $localProcessingConfiguration['width']) {
+            if (! $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor_allowUpscaling']) {
+                $originalFileWidth = $this->originalFile->getProperty('width');
+                if ($width >= $originalFileWidth) {
+                    if ($maxWidthReached === true) {
+                        continue;
+                    } else {
+                        // create one last srcset candidate with the width of the original image
+                        $maxWidthReached = true;
+                        $width = $originalFileWidth;
+                    }
+                }
+            }
+
+            if ($localProcessingConfiguration['width'] > 0 && (width > $localProcessingConfiguration['width'])) {
                 if ($maxWidthReached === true) {
                     continue;
                 } else {

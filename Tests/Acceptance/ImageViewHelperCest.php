@@ -13,6 +13,11 @@ class ImageViewHelperCest
         $I->pauseExecution();
     }
 
+    public function _before(\AcceptanceTester $I)
+    {
+        $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', true]);
+    }
+
     public function seeImageLoadInCorrectDimensions(\AcceptanceTester $I)
     {
         $I->flushCache();
@@ -130,5 +135,36 @@ class ImageViewHelperCest
         $I->amOnPage('/index.php?mode=ImageViewHelper&jsdebug=1&srcsetWidths=640');
         $I->expect('can see debug output added by javascript');
         $I->seeJsDebug();
+    }
+
+    public function canSeeUpscaledImageWhenUpscaleIsEnabled(\AcceptanceTester $I)
+    {
+        $I->restartBrowser();
+        $I->flushCache();
+
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1.0,"height":1.0},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?debug=1&mode=ImageViewHelper&srcsetWidths=360,2560');
+        $I->expect('The image which is 1920px source size is upscaled to 2560px.');
+        $I->seeCurrentImageDimensions(2560, 1600, '62.50');
+    }
+
+    public function cantSeeUpscaledImageWhenUpscaleIsDisabled(\AcceptanceTester $I)
+    {
+        $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', false]);
+        $I->restartBrowser();
+        $I->flushCache();
+
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1.0,"height":1.0},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?debug=1&mode=ImageViewHelper&srcsetWidths=360,2560');
+        $I->expect('The image which is 1920px is not upscaled to 2560px.');
+        $I->seeCurrentImageDimensions(1920, 1200, '62.50');
     }
 }

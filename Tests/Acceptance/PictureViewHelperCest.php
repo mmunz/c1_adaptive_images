@@ -8,6 +8,11 @@ namespace C1\AdaptiveImages\Tests\Acceptance;
  */
 class PictureViewHelperCest
 {
+    public function _before(\AcceptanceTester $I)
+    {
+        $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', true]);
+    }
+
     public function _failed(\AcceptanceTester $I)
     {
         $I->pauseExecution();
@@ -216,5 +221,46 @@ class PictureViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.5', 0);
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
         $I->seeRatioBoxHasPaddingBottom(1, '.rb.rb--62dot5', '62.5%');
+    }
+
+    public function seePictureLoadInCorrectDimensionsWhenUpscaleIsEnabled(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,2560&debug=1&lazy=0');
+
+        $I->expect('Page has valid markup.');
+        $I->validateMarkup();
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('An upscaled 2560px image is loaded');
+        $I->seeCurrentImageDimensions(2560, 1600, '62.50');
+    }
+
+    public function seePictureLoadInCorrectDimensionsWhenUpscaleIsDisabled(\AcceptanceTester $I)
+    {
+        $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', false]);
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,2560&debug=1&lazy=0');
+
+        $I->expect('Page has valid markup.');
+        $I->validateMarkup();
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('The image is loaded in the sources max size which is 1920px width.');
+        $I->seeCurrentImageDimensions(1920, 1200, '62.50');
     }
 }
