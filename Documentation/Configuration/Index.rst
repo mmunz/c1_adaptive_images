@@ -14,19 +14,7 @@ Target group: **Developers**
 TypoScript Reference
 --------------------
 
-Possible subsections: Reference of TypoScript options.
-The construct below show the recommended structure for
-TypoScript properties listing and description.
-
-Properties should be listed in the order in which they
-are executed by your extension, but the first should be
-alphabetical for easier access.
-
-When detailing data types or standard TypoScript
-features, don't hesitate to cross-link to the TypoScript
-Reference as shown below. See the :file:`Settings.yml`
-file for the declaration of cross-linking keys.
-
+These typoscript settings are meant as defaults and can be overwritten by viewHelper arguments.
 
 Properties
 ^^^^^^^^^^
@@ -54,21 +42,14 @@ Property details
 debug
 """""
 
-:typoscript:`plugin.tx_c1_adaptive_images.debug =` :ref:`t3tsref:data-type-boolean`
+:typoscript:`plugin.tx_c1_adaptive_images.settings.debug =` :ref:`t3tsref:data-type-boolean`
 
 If set, debug info (width, height, ratio) is rendered as annotation directly on the image.
 
 jsdebug
-"""""
+"""""""
 
-:typoscript:`plugin.tx_c1_adaptive_images.jsdebug =` :ref:`t3tsref:data-type-boolean`
+:typoscript:`plugin.tx_c1_adaptive_images.settings.jsdebug =` :ref:`t3tsref:data-type-boolean`
 
 If set, then some debug infos (loaded image dimensions, ratio, container width) are calculated via javascript
 and shown near the image (positioning of the debug text with css)
-
-.. _configuration-faq:
-
-FAQ
----
-
-Possible subsection: FAQ

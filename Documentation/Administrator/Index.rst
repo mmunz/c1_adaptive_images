@@ -21,11 +21,6 @@ To install the extension, perform the following steps:
 
 .. _admin-configuration:
 
-Configuration
--------------
-
-* overwrite default constants and default setup with your own values.
-
 Relevant TYPO3_CONF_VARS
 ------------------------
 see https://docs.typo3.org/typo3cms/CoreApiReference/ApiOverview/GlobalValues/Typo3ConfVars/Index.html
@@ -39,3 +34,4 @@ On the other hand, if this setting is true, then images will be upscaled to matc
 candidates.
 
 Respecting this setting was introduced with c1_adaptive_images version 0.1.5
+
