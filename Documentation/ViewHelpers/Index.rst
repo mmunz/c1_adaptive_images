@@ -9,6 +9,25 @@ ViewHelpers
 .. contents:: :local:
     :depth: 1
 
+General
+-------
+
+Add the fluid namespace declaration to fluid templates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Before version 0.1.5 registering of the global viewhelper namespace *ai* was not working.
+
+Even if you use a version >= 0.1.5 you might still want to add this namespace declaration to your templates and
+partials:
+
+.. code-block:: html
+
+    <html xmlns:ai="C1\AdaptiveImages\ViewHelpers"
+          xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+          data-namespace-typo3-fluid="true">
+       ...
+    </html>
+
 ai:getCropVariants
 ------------------
 
