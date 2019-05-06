@@ -49,7 +49,7 @@ The script should be included early, e.g.:
 
 .. code-block:: none
 
-    page.includeJSFooterlibs = EXT:yourtheme/Resources/Public/Js/lazysizes.min.js
+    page.includeJSFooterlibs.lazysizes = EXT:yourtheme/Resources/Public/Js/lazysizes.min.js
 
 picturefill
 ^^^^^^^^^^^
@@ -60,7 +60,7 @@ This script should be included early in the head of the website:
 
 .. code-block:: none
 
-    page.picturefill = EXT:yourtheme/Resources/Public/Js/picturefill.min.js
+    page.includeJSLibs.picturefill = EXT:yourtheme/Resources/Public/Js/picturefill.min.js
 
 **Hint:** As a simpler alternative one could also use https://github.com/aFarkas/lazysizes/tree/gh-pages/plugins/respimg as a
 picture polyfill.
