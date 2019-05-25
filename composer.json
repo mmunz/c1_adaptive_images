@@ -12,13 +12,6 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/mmunz/codeception-helper-module.git",
-            "no-api": true
-        }
-    ],
     "support": {
         "issues": "https://github.com/mmunz/c1_adaptive_images/issues",
         "source": "https://github.com/mmunz/c1_adaptive_images"
