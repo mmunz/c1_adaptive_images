@@ -28,7 +28,8 @@ mysql $ARGS -e """
 ./.Build/vendor/bin/typo3cms -vvv install:setup --database-user-name=$typo3DatabaseUsername --database-user-password=$typo3DatabasePassword \
         --database-host-name=$typo3DatabaseHost --database-port=${typo3DatabasePort:-3306} --database-name=$DBNAME \
         --use-existing-database --admin-user-name=test --admin-password=test1234 \
-        --site-name="testsite" --site-setup-type=none --no-interaction --force
+        --site-name="testsite" --site-setup-type=no --no-interaction --force
+
 
 # populate the database
 for db in `ls ./Tests/Acceptance/_data/sql/*.sql`; do

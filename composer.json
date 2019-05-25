@@ -79,11 +79,9 @@
         "typo3/cms-backend": "^8.7.10 || ^9.5.0",
         "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0"
     },
-    "minimum-stability": "dev",
     "require-dev": {
         "nimut/testing-framework": "^4.0",
         "typo3/cms-tstemplate": "^8.7.10 || ^9.5.0",
-        "helhum/typo3-composer-setup": "^0.5.3",
         "helmich/typo3-typoscript-lint": "^1.4.4",
         "helhum/typo3-console": "^5.6",
         "friendsofphp/php-cs-fixer": "^2.13",
