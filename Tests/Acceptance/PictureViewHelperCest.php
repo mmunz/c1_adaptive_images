@@ -6,18 +6,8 @@ namespace C1\AdaptiveImages\Tests\Acceptance;
 /**
  * Test case.
  */
-class PictureViewHelperCest
+class PictureViewHelperCest extends AbstractViewHelperCest
 {
-    public function _before(\AcceptanceTester $I)
-    {
-        $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', true]);
-    }
-
-    public function _failed(\AcceptanceTester $I)
-    {
-        $I->pauseExecution();
-    }
-
     public function seePictureLoadInCorrectDimensions(\AcceptanceTester $I)
     {
         $I->flushCache();
@@ -29,7 +19,7 @@ class PictureViewHelperCest
         $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,1024&debug=1&lazy=0');
 
         $I->expect('Page has valid markup.');
-        $I->validateMarkup();
+        $this->validateMarkup($I);
 
         $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors but close to 4:3.');
         $I->seeCurrentImageDimensions(640, 479, '74.84');
@@ -88,15 +78,8 @@ class PictureViewHelperCest
         $I->amOnPage('/index.php?mode=PictureViewHelperWithMultipleSources&srcsetWidths=640,1024&debug=1&lazy=0&ratiobox=1');
 
         $I->expect('Page has valid markup.');
-        /* style in head inside CDATA is htmlspecialchar'ed by webdriver which causes validation to fail, see
-         * https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/4264
-         * Workaround for now: ignore CSS errors in test
-         */
-        $I->validateMarkup([
-            'ignoredErrors' => [
-                '/CSS: Parse Error./',
-            ],
-        ]);
+
+        $this->validateMarkup($I);
 
         $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors but close to 4:3.');
         $I->seeCurrentImageDimensions(640, 479, '74.84');
@@ -129,7 +112,7 @@ class PictureViewHelperCest
         $I->amOnPage('/index.php?mode=PictureViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1');
         $I->expect('Page has valid markup.');
 
-        $I->validateMarkup();
+        $this->validateMarkup($I);
 
         $I->expect('a placeholder image in mobile format (4:3 aspect ratio) is loaded');
         $I->seeCurrentImageDimensions(128, 96, '75.00');
@@ -137,7 +120,7 @@ class PictureViewHelperCest
         $I->initLazySizes();
 
         $I->expect('Page still has valid markup.');
-        $I->validateMarkup();
+        $this->validateMarkup($I);
 
         $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors.');
         $I->seeCurrentImageDimensions(640, 479, '74.84');
@@ -161,7 +144,7 @@ class PictureViewHelperCest
         $I->amOnPage('/index.php?mode=PictureViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1&containerWidth=50%25');
         $I->expect('Page has valid markup.');
 
-        $I->validateMarkup();
+        $this->validateMarkup($I);
 
         $I->expect('a placeholder image in mobile format (4:3 aspect ratio) is loaded');
         $I->seeCurrentImageDimensions(128, 96, '75.0');
@@ -169,7 +152,7 @@ class PictureViewHelperCest
         $I->initLazySizes();
 
         $I->expect('Page still has valid markup.');
-        $I->validateMarkup();
+        $this->validateMarkup($I);
 
         $I->expect('a 320px image is loaded with 4:3 ratio.');
         $I->seeCurrentImageDimensions(320, 240, '75.00');
@@ -234,7 +217,7 @@ class PictureViewHelperCest
         $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,2560&debug=1&lazy=0');
 
         $I->expect('Page has valid markup.');
-        $I->validateMarkup();
+        $this->validateMarkup($I);
 
         $I->resizeWindow(1024, 768);
         $I->waitForImagesLoaded();
@@ -255,7 +238,7 @@ class PictureViewHelperCest
         $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,2560&debug=1&lazy=0');
 
         $I->expect('Page has valid markup.');
-        $I->validateMarkup();
+        $this->validateMarkup($I);
 
         $I->resizeWindow(1024, 768);
         $I->waitForImagesLoaded();

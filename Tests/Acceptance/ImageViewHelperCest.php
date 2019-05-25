@@ -6,18 +6,8 @@ namespace C1\AdaptiveImages\Tests\Acceptance;
 /**
  * Test case.
  */
-class ImageViewHelperCest
+class ImageViewHelperCest extends AbstractViewHelperCest
 {
-    public function _failed(\AcceptanceTester $I)
-    {
-        $I->pauseExecution();
-    }
-
-    public function _before(\AcceptanceTester $I)
-    {
-        $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', true]);
-    }
-
     public function seeImageLoadInCorrectDimensions(\AcceptanceTester $I)
     {
         $I->flushCache();
@@ -28,7 +18,7 @@ class ImageViewHelperCest
 
         $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1');
         $I->expect('Page has valid markup.');
-        $I->validateMarkup();
+        $this->validateMarkup($I);
 
         $I->expect('a small placeholder image is loaded');
         $I->seeCurrentImageDimensions(128, 80, '62.50');
@@ -36,7 +26,7 @@ class ImageViewHelperCest
         $I->initLazySizes();
         //$I->wait(5);
         $I->expect('Page still has valid markup.');
-        $I->validateMarkup();
+        $this->validateMarkup($I);
 
         $I->expect('a 640px image is loaded');
         $I->seeCurrentImageDimensions(640, 400, '62.50');
@@ -59,7 +49,7 @@ class ImageViewHelperCest
         $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=0');
 
         $I->expect('Page has valid markup.');
-        $I->validateMarkup();
+        $this->validateMarkup($I);
         $I->expect('a 640px image is loaded');
         $I->seeCurrentImageDimensions(640, 400, '62.50');
 
