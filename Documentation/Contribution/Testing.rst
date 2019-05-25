@@ -32,7 +32,7 @@ the builtin webserver in php:
 
 .. code-block:: bash
 
-  cd typo3conf/ext/c1_adaptive/images
+  cd typo3conf/ext/c1_adaptive_images
   php -S 127.0.0.1:8888 -t .Build/public/
 
 Also selenium or chromedriver is required.
