@@ -215,4 +215,39 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->expect('The image is loaded in the sources max size which is 1920px width.');
         $I->seeCurrentImageDimensions(1920, 1200, '62.50');
     }
+
+    public function laterCssClassesDoNotOverwritePreviousWithMediaQuery(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $I->restartBrowser();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.2,"width":0.4,"x":0.2,"y":0.2},"selectedRatio":"free"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 2]);
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":0.75},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.2,"width":0.4,"x":0.2,"y":0.2},"selectedRatio":"free"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 3]);
+
+        $I->amOnPage('/index.php?id=2&mode=PictureViewHelper&srcsetWidths=640,1024&debug=1&lazy=0&ratiobox=1');
+
+        $this->validateMarkup($I);
+
+        $I->expect('a 640px image is loaded.');
+        $I->seeCurrentImageDimensions(640, 200, '31.25', 0);
+        $I->seeCurrentImageDimensions(640, 200, '31.25', 1);
+
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb--max-width767px-31dot25', '31.25%');
+        $I->seeRatioBoxHasPaddingBottom(1, '.rb--max-width767px-31dot25', '31.25%');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('a 1024px image is loaded.');
+        $I->seeCurrentImageDimensions(1024, 640, '62.5', 0);
+        $I->seeCurrentImageDimensions(1024, 480, '46.88', 1);
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
+        // still index = 0 because it's the only image with this class on this page
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--46dot88', '46.88%');
+    }
 }

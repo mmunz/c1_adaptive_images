@@ -122,8 +122,9 @@ class RatioBoxUtility
     {
         if ($mq) {
             return sprintf(
-                '@media %s{.%s{padding-bottom:%s%%}}',
+                '@media %s{.%s.%s{padding-bottom:%s%%}}',
                 $mq,
+                $this->ratioBoxBase,
                 $this->getRatioClassForCropVariant($ratio, $mq),
                 $ratio
             );

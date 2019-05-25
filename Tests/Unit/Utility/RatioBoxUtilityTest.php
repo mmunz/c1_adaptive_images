@@ -75,18 +75,18 @@ class RatioBoxUtilityTest extends UnitTestCase
 
         // with media query
         $this->assertEquals(
-            '@media max-width: 768px{.ratio-box--max-width768px-42{padding-bottom:42%}}',
+            '@media max-width: 768px{.ratio-box.ratio-box--max-width768px-42{padding-bottom:42%}}',
             $utility->getRatioBoxStyle(42, 'max-width: 768px')
         );
         $this->assertEquals(
-            '@media max-width: 768px{.ratio-box--max-width768px-42dot23{padding-bottom:42.23%}}',
+            '@media max-width: 768px{.ratio-box.ratio-box--max-width768px-42dot23{padding-bottom:42.23%}}',
             $utility->getRatioBoxStyle(42.23, 'max-width: 768px')
         );
 
         // with changed ratioBoxBase
         $utility->setRatioBoxBase('rbx');
         $this->assertEquals(
-            '@media max-width: 768px{.rbx--max-width768px-42{padding-bottom:42%}}',
+            '@media max-width: 768px{.rbx.rbx--max-width768px-42{padding-bottom:42%}}',
             $utility->getRatioBoxStyle(42, 'max-width: 768px')
         );
     }

@@ -32,7 +32,7 @@ class RatioBoxViewHelperTest extends AbstractFunctionalTest
         $arguments = '&mode=RatioBox1';
         $response = $this->getFrontendResponse($this->pageId, 0, 0, 0, true, 0, $arguments);
 
-        $expected = "<style type=\"text/css\">\n/*<![CDATA[*/\n<!-- \n/*rb--62dot5*/\n.rb--62dot5{padding-bottom:62.5%}\n/*rb--max-width767px-62dot5*/\n@media (max-width:767px){.rb--max-width767px-62dot5{padding-bottom:62.5%}}\n-->\n/*]]>*/\n</style>";
+        $expected = "<style type=\"text/css\">\n/*<![CDATA[*/\n<!-- \n/*rb--62dot5*/\n.rb--62dot5{padding-bottom:62.5%}\n/*rb--max-width767px-62dot5*/\n@media (max-width:767px){.rb.rb--max-width767px-62dot5{padding-bottom:62.5%}}\n-->\n/*]]>*/\n</style>";
         $this::assertContains($expected, $response->getContent());
     }
 
@@ -69,7 +69,7 @@ class RatioBoxViewHelperTest extends AbstractFunctionalTest
         $arguments = '&mode=RatioBox1';
         $response = $this->getFrontendResponse($this->pageId, 0, 0, 0, true, 0, $arguments);
 
-        $expected = "<style type=\"text/css\">\n/*<![CDATA[*/\n<!-- \n/*rb--56dot2*/\n.rb--56dot2{padding-bottom:56.2%}\n/*rb--max-width767px-74dot86*/\n@media (max-width:767px){.rb--max-width767px-74dot86{padding-bottom:74.86%}}\n-->\n/*]]>*/\n</style>\n";
+        $expected = "<style type=\"text/css\">\n/*<![CDATA[*/\n<!-- \n/*rb--56dot2*/\n.rb--56dot2{padding-bottom:56.2%}\n/*rb--max-width767px-74dot86*/\n@media (max-width:767px){.rb.rb--max-width767px-74dot86{padding-bottom:74.86%}}\n-->\n/*]]>*/\n</style>\n";
         $this::assertContains($expected, $response->getContent());
     }
 
