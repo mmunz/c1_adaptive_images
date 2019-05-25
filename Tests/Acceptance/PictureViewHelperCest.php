@@ -17,8 +17,6 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,1024&debug=1&lazy=0');
-
-        $I->expect('Page has valid markup.');
         $this->validateMarkup($I);
 
         $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors but close to 4:3.');
@@ -42,16 +40,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
 
         $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,1024&debug=1&lazy=0&ratiobox=1');
 
-        $I->expect('Page has valid markup.');
-        /* style in head inside CDATA is htmlspecialchar'ed by webdriver which causes validation to fail, see
-         * https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/4264
-         * Workaround for now: ignore CSS errors in test
-         */
-        $I->validateMarkup([
-            'ignoredErrors' => [
-                '/CSS: Parse Error./',
-            ],
-        ]);
+        $this->validateMarkup($I);
 
         $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors but close to 4:3.');
         $I->seeCurrentImageDimensions(640, 479, '74.84');
@@ -76,9 +65,6 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->amOnPage('/index.php?mode=PictureViewHelperWithMultipleSources&srcsetWidths=640,1024&debug=1&lazy=0&ratiobox=1');
-
-        $I->expect('Page has valid markup.');
-
         $this->validateMarkup($I);
 
         $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors but close to 4:3.');
@@ -110,8 +96,6 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->amOnPage('/index.php?mode=PictureViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1');
-        $I->expect('Page has valid markup.');
-
         $this->validateMarkup($I);
 
         $I->expect('a placeholder image in mobile format (4:3 aspect ratio) is loaded');
@@ -142,8 +126,6 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->amOnPage('/index.php?mode=PictureViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1&containerWidth=50%25');
-        $I->expect('Page has valid markup.');
-
         $this->validateMarkup($I);
 
         $I->expect('a placeholder image in mobile format (4:3 aspect ratio) is loaded');
@@ -178,16 +160,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
 
         $I->amOnPage('/index.php?id=2&mode=PictureViewHelper&srcsetWidths=640,1024&debug=1&lazy=0&ratiobox=1');
 
-        $I->expect('Page has valid markup.');
-        /* style in head inside CDATA is htmlspecialchar'ed by webdriver which causes validation to fail, see
-         * https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/4264
-         * Workaround for now: ignore CSS errors in test
-         */
-        $I->validateMarkup([
-            'ignoredErrors' => [
-                '/CSS: Parse Error./',
-            ],
-        ]);
+        $this->validateMarkup($I);
 
         $I->expect('a 640px image is loaded.');
         $I->seeCurrentImageDimensions(640, 200, '31.25', 0);
@@ -215,8 +188,6 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,2560&debug=1&lazy=0');
-
-        $I->expect('Page has valid markup.');
         $this->validateMarkup($I);
 
         $I->resizeWindow(1024, 768);
@@ -236,8 +207,6 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,2560&debug=1&lazy=0');
-
-        $I->expect('Page has valid markup.');
         $this->validateMarkup($I);
 
         $I->resizeWindow(1024, 768);

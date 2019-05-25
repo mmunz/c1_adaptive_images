@@ -17,7 +17,6 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1');
-        $I->expect('Page has valid markup.');
         $this->validateMarkup($I);
 
         $I->expect('a small placeholder image is loaded');
@@ -48,7 +47,6 @@ class ImageViewHelperCest extends AbstractViewHelperCest
 
         $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=0');
 
-        $I->expect('Page has valid markup.');
         $this->validateMarkup($I);
         $I->expect('a 640px image is loaded');
         $I->seeCurrentImageDimensions(640, 400, '62.50');
@@ -70,16 +68,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
 
         $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
 
-        $I->expect('Page has valid markup.');
-        /* style in head inside CDATA is htmlspecialchar'ed by webdriver which causes validation to fail, see
-         * https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/4264
-         * Workaround for now: ignore CSS errors in test
-         */
-        $I->validateMarkup([
-            'ignoredErrors' => [
-                '/CSS: Parse Error./',
-            ],
-        ]);
+        $this->validateMarkup($I);
 
         $I->initLazySizes();
 
@@ -145,8 +134,8 @@ class ImageViewHelperCest extends AbstractViewHelperCest
     public function cantSeeUpscaledImageWhenUpscaleIsDisabled(\AcceptanceTester $I)
     {
         $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', false]);
-        $I->restartBrowser();
         $I->flushCache();
+        $I->restartBrowser();
 
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1.0,"height":1.0},"selectedRatio":"NaN"}}'

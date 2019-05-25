@@ -26,6 +26,7 @@ abstract class AbstractViewHelperCest
          * Another problem was that the validator started complaining about missing doctype while it was there.
          * So this error is ignored now, too
          */
+        $I->expect('Page has valid markup.');
         $I->validateMarkup([
             'ignoredErrors' => [
                 '/CSS: Parse Error./',
