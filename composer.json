@@ -85,7 +85,7 @@
         "typo3/cms-tstemplate": "^8.7.10 || ^9.5.0",
         "helhum/typo3-composer-setup": "^0.5.3",
         "helmich/typo3-typoscript-lint": "^1.4.4",
-        "helhum/typo3-console": "^5.5",
+        "helhum/typo3-console": "^5.6",
         "friendsofphp/php-cs-fixer": "^2.13",
         "roave/security-advisories": "dev-master",
         "codeception/codeception": "^2.5",
