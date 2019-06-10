@@ -27,7 +27,7 @@ class GetCropVariantsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
     {
         parent::initializeArguments();
 
-        $this->registerArgument('file', 'object', 'a file or file reference');
+        $this->registerArgument('file', FileInterface::class, 'a file or file reference', true);
         $this->registerArgument('asString', 'bool', 'return as string or array', false, false);
     }
 
@@ -40,7 +40,7 @@ class GetCropVariantsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
     public function render()
     {
         if (is_null($this->arguments['file'])) {
-            throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('You must specify a File object.', 1522176433);
+            throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('You must specify a File or FileReference object implementing FileInterface', 1522176433);
         }
 
         /** @var FileInterface $file */

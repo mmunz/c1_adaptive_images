@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
+use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
@@ -41,7 +42,7 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
     {
         parent::initializeArguments();
 
-        $this->registerArgument('file', 'object', 'a file or file reference', true);
+        $this->registerArgument('file', FileInterface::class, 'a file or file reference', true);
         $this->registerArgument(
             'mediaQueries',
             'array',

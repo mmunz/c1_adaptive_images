@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 use C1\AdaptiveImages\ViewHelpers\GetSrcsetViewHelper;
 use Nimut\TestingFramework\Rendering\RenderingContextFixture;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
@@ -38,7 +39,7 @@ class GetSrcsetViewHelperTest extends AbstractViewHelperTest
     public function testInitializeArguments()
     {
         $instance = $this->getAccessibleMock(GetSrcsetViewHelper::class, ['registerArgument']);
-        $instance->expects($this->at(0))->method('registerArgument')->with('file', 'object', $this->anything(), true);
+        $instance->expects($this->at(0))->method('registerArgument')->with('file', FileInterface::class, $this->anything(), true);
         $instance->expects($this->at(1))->method('registerArgument')->with('widths', 'string', $this->anything(), false, [320, 640, 1024, 1440, 1920]);
         $instance->expects($this->at(2))->method('registerArgument')->with('cropVariant', 'string', $this->anything(), false, 'default');
         $instance->expects($this->at(3))->method('registerArgument')->with('debug', 'bool', $this->anything(), false, false);
