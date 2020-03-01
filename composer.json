@@ -2,6 +2,7 @@
     "name": "c1/c1-adaptive-images",
     "description": "Adaptive images for fluid_styled_content.",
     "type": "typo3-cms-extension",
+    "version": "0.2.0",
     "homepage": "https://github.com/mmunz/c1_adaptive_images",
     "license": "GPL-3.0-or-later",
     "authors": [
@@ -66,15 +67,15 @@
         }
     },
     "require": {
-        "typo3/cms-core": "^8.7.10 || ^9.5.0",
-        "typo3/cms-fluid": "^8.7.10 || ^9.5.0",
-        "typo3/cms-frontend": "^8.7.10 || ^9.5.0",
-        "typo3/cms-backend": "^8.7.10 || ^9.5.0",
-        "typo3/cms-fluid-styled-content": "^8.7.10 || ^9.5.0"
+        "typo3/cms-core": "^9.5.0 || ^10.3.0",
+        "typo3/cms-fluid": "^9.5.0 || ^10.3.0",
+        "typo3/cms-frontend": "^9.5.0 || ^10.3.0",
+        "typo3/cms-backend": "^9.5.0 || ^10.3.0",
+        "typo3/cms-fluid-styled-content": "^9.5.0 || ^10.3.0"
     },
     "require-dev": {
         "nimut/testing-framework": "^4.0",
-        "typo3/cms-tstemplate": "^8.7.10 || ^9.5.0",
+        "typo3/cms-tstemplate": "^9.5.0 || ^10.3.0",
         "helmich/typo3-typoscript-lint": "^1.4.4",
         "helhum/typo3-console": "^5.6",
         "friendsofphp/php-cs-fixer": "^2.13",
