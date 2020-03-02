@@ -1,5 +1,9 @@
 plugin.tx_c1_adaptive_images {
     settings {
+
+        # default mode
+        mode = 2
+
         # If 1 then image dimensions and ratio are rendered as annotation directly on the image
         debug = 0
 
