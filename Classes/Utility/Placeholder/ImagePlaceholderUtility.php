@@ -14,13 +14,13 @@ class ImagePlaceholderUtility
 {
     /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $imageService;
 
     /**
      * @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $cropVariantUtility;
 

@@ -6,6 +6,7 @@ namespace C1\AdaptiveImages\Tests\Functional\ViewHelpers;
 use C1\AdaptiveImages\Tests\Functional\Traits\CreateFileReference;
 use C1\AdaptiveImages\Tests\Functional\Traits\GetFrontendResponse;
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -83,7 +84,7 @@ abstract class AbstractFunctionalTest extends FunctionalTestCase
         $backendUser->workspace = 0;
         $GLOBALS['BE_USER'] = $backendUser;
 
-        $resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
+        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class)
         $this->storage = $resourceFactory->getStorageObject(1);
         $this->storage->setEvaluatePermissions(false);
 

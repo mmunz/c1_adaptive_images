@@ -26,13 +26,13 @@ class ImageUtility
 
     /**
      * @var \C1\AdaptiveImages\Utility\DebugUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $debugUtility;
 
     /**
      * @var \C1\AdaptiveImages\Utility\MathUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $mathUtility;
 
@@ -49,7 +49,7 @@ class ImageUtility
     /**
      * @var \C1\AdaptiveImages\Utility\CropVariantUtility
      * @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $cropVariantUtility;
 
@@ -68,6 +68,7 @@ class ImageUtility
         }
 
         if ($options) {
+            // @extensionScannerIgnoreLine
             $this->setOptions($options);
             $this->cropVariants = $this->options['cropVariants'] ?? [];
         }
@@ -91,6 +92,7 @@ class ImageUtility
     public function init($options = null)
     {
         if ($options) {
+            // @extensionScannerIgnoreLine
             $this->setOptions($options);
         }
         $this->cropVariants = $this->options['cropVariants'] ?? [];

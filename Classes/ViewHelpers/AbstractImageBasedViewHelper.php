@@ -12,18 +12,18 @@ abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers
 
     /**
      * @var \C1\AdaptiveImages\Utility\ImageUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $imageUtility;
 
     /**
      * @var \C1\AdaptiveImages\Utility\RatioBoxUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $ratioBoxUtility;
 
     /** @var \C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $imagePlaceholderUtility;
 

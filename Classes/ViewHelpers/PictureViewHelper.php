@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
-use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Create a adaptive image tag
@@ -23,7 +23,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
 {
     /**
      * @var \C1\AdaptiveImages\Utility\TagUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $tagUtility;
 
@@ -63,7 +63,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
             ]
         ];
         $cropVariantsMerged = array_merge_recursive($this->arguments['sources'], $cropVariantForImg);
-
+        // @extensionScannerIgnoreLine
         $this->imageUtility->init(
             [
                 'debug' => $this->arguments['debug'],

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
  * = Examples =
@@ -31,7 +31,7 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
 
     /**
      * @var \C1\AdaptiveImages\Utility\RatioBoxUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $ratioBoxUtility;
 

@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
 use C1\AdaptiveImages\Utility\SvgUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Create a placeholder svg for lazyloading
@@ -19,14 +20,14 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  * </output>
  *
  */
-class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class SvgViewHelper extends AbstractViewHelper
 {
 
     /**
      * No need to analyse the doc comment above the render method.
      * This also caused failed tests when testing TYPO3 8.7
      *
-     * @throws \TYPO3Fluid\Fluid\Core\Parser\Exception
+     * @throws \TYPO3\CMS\Fluid\Core\Parser\Exception
      */
     protected function registerRenderMethodArguments()
     {
@@ -48,7 +49,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 
     /**
      * @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $cropVariantUtility;
 
@@ -121,7 +122,7 @@ class SvgViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      *
      * @see https://docs.typo3.org/typo3cms/TyposcriptReference/ContentObjects/Image/
      *
-     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception
+     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
      * @return string Rendered tag
      */
     public function render()

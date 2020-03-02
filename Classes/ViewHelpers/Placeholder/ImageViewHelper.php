@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Create placeholder images for lazyloading
@@ -25,7 +26,7 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  * </output>
  *
  */
-class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ImageViewHelper extends AbstractViewHelper
 {
 
     /**
@@ -41,13 +42,13 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
 
     /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $imageService;
 
     /**
      * @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $cropVariantUtility;
 
@@ -93,7 +94,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelpe
      *
      * @see https://docs.typo3.org/typo3cms/TyposcriptReference/ContentObjects/Image/
      *
-     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception
+     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
      * @return string Rendered tag
      */
     public function render()

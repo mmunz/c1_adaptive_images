@@ -25,7 +25,7 @@ class CropVariantUtility
 
     /**
      * @var \C1\AdaptiveImages\Utility\MathUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $mathUtility;
 

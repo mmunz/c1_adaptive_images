@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
+
 
 /**
  * Create a adaptive image tag
@@ -33,6 +34,7 @@ class ImageViewHelper extends AbstractImageBasedViewHelper
         parent::initialize();
 
         $this->imageUtility->setOriginalFile($this->arguments['image']);
+        // @extensionScannerIgnoreLine
         $this->imageUtility->init(
             [
                 'debug' => $this->arguments['debug'],

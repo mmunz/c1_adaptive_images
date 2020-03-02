@@ -5,7 +5,8 @@ namespace C1\AdaptiveImages\ViewHelpers;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 
 /**
  * Create a srcset string from given widths
@@ -26,7 +27,7 @@ class GetSrcsetViewHelper extends AbstractViewHelper
      * No need to analyse the doc comment above the render method.
      * This also caused failed tests when testing TYPO3 8.7
      *
-     * @throws \TYPO3Fluid\Fluid\Core\Parser\Exception
+     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
      */
     protected function registerRenderMethodArguments()
     {
@@ -40,19 +41,19 @@ class GetSrcsetViewHelper extends AbstractViewHelper
 
     /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $imageService;
 
     /**
      * @var \C1\AdaptiveImages\Utility\MathUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $mathUtility;
 
     /**
      * @var \C1\AdaptiveImages\Utility\DebugUtility
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $debugUtility;
 

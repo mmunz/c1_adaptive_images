@@ -4,6 +4,7 @@ namespace C1\AdaptiveImages\ViewHelpers;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Create placeholder images for lazyloading
@@ -18,7 +19,7 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  * </output>
  *
  */
-class GetCropVariantsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class GetCropVariantsViewHelper extends AbstractViewHelper
 {
     /**
      * Initialize arguments.
@@ -34,13 +35,14 @@ class GetCropVariantsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
     /**
      * Returns the cropVariants array
      *
-     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception
+     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
+
      * @return array
      */
     public function render()
     {
         if (is_null($this->arguments['file'])) {
-            throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('You must specify a File or FileReference object implementing FileInterface', 1522176433);
+            throw new \TYPO3Fluid\Fluid\Core\ViewHelper\Exception('You must specify a File or FileReference object implementing FileInterface', 1522176433);
         }
 
         /** @var FileInterface $file */

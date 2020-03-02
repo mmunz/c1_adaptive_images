@@ -22,12 +22,12 @@ class RatioBoxUtility
     protected $ratioBoxClassNames;
 
     /** @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     *  @inject
+     *  @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $cropVariantUtility;
 
     /** @var \C1\AdaptiveImages\Utility\TagUtility
-     *  @inject
+     *  @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $tagUtility;
 

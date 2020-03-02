@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Class TagUtility
