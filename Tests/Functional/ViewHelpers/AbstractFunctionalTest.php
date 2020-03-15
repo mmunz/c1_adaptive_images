@@ -71,7 +71,7 @@ abstract class AbstractFunctionalTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/../Fixtures/Database/tt_content.xml');
         $this->importDataSet(__DIR__ . '/../Fixtures/Database/sys_file_storage.xml');
 
-        /* activation controller tested on PID 1 */
+        // activation controller tested on PID 1
         $this->setUpFrontendRootPage(
             1,
             $this->typoScriptIncludes
@@ -84,7 +84,7 @@ abstract class AbstractFunctionalTest extends FunctionalTestCase
         $backendUser->workspace = 0;
         $GLOBALS['BE_USER'] = $backendUser;
 
-        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class)
+        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         $this->storage = $resourceFactory->getStorageObject(1);
         $this->storage->setEvaluatePermissions(false);
 

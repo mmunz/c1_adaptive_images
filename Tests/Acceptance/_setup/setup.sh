@@ -1,6 +1,8 @@
 #!/bin/bash
 set -ev
 
+TYPO3_PATH_ROOT=$PWD/.Build/public
+
 if [ -z "$typo3DatabaseUsername" ] || [ -z "$typo3DatabaseHost" ] || [ -z "$typo3DatabaseName" ]; then
     echo "No database configuration."
     exit 1

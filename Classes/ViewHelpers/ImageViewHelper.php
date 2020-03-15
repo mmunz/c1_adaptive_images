@@ -5,7 +5,6 @@ namespace C1\AdaptiveImages\ViewHelpers;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
-
 /**
  * Create a adaptive image tag
  *

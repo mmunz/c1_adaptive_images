@@ -7,7 +7,6 @@ use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-
 /**
  * Create a srcset string from given widths
  *
