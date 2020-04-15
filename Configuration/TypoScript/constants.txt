@@ -12,7 +12,7 @@ plugin.tx_c1_adaptive_images {
         jsdebug = 0
 
         # wrap all images inside a ratio box (absolute positioned in a container with padding-bottom-hack)
-        ratio_box = 0
+        ratioBox = 0
 
         # comma seperated list of default srcset candidates
         srcsetWidths = 240,360,480,660,840,1024,1280,1440,1680,1920
