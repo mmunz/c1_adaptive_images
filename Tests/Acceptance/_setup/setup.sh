@@ -32,6 +32,7 @@ mysql $ARGS -e """
         --use-existing-database --admin-user-name=test --admin-password=test1234 \
         --site-name="testsite" --site-setup-type=no --no-interaction --force
 
+./.Build/vendor/bin/typo3cms install:generatepackagestates
 
 # populate the database
 for db in `ls ./Tests/Acceptance/_data/sql/*.sql`; do
