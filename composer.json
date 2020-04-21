@@ -74,7 +74,7 @@
         "typo3/cms-fluid-styled-content": "^9.5.0 || ^10.3.0"
     },
     "require-dev": {
-        "nimut/testing-framework": "^4.0",
+        "nimut/testing-framework": "^5.0",
         "typo3/cms-tstemplate": "^9.5.0 || ^10.3.0",
         "helmich/typo3-typoscript-lint": "^1.4.4",
         "helhum/typo3-console": "^5.6",
