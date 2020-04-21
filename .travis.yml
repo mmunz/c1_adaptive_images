@@ -4,7 +4,7 @@ env:
   global:
     - TYPO3_PATH_ROOT=$PWD/.Build/public
     - typo3DatabaseName=typo3
-    - typo3DatabaseHost=localhost
+    - typo3DatabaseHost=127.0.0.1
     - typo3DatabaseUsername=root
     - typo3DatabasePassword=
     - CHROME_OPTION_1="--headless"
