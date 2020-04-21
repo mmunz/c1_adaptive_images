@@ -1,5 +1,8 @@
 language: php
 
+services:
+  - mysql
+
 env:
   global:
     - TYPO3_PATH_ROOT=$PWD/.Build/public
@@ -24,6 +27,7 @@ matrix:
         - LINT="1"
         - UNIT="1"
         - FUNCTIONAL="1"
+        - ACCEPTANCE="1"
     - env:
         - BUILD_DOC="1"
 
