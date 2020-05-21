@@ -13,6 +13,10 @@
             "role": "Developer"
         }
     ],
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/mmunz/codeception-helper-module.git"
+    }],
     "support": {
         "issues": "https://github.com/mmunz/c1_adaptive_images/issues",
         "source": "https://github.com/mmunz/c1_adaptive_images"
@@ -76,8 +80,8 @@
     "require-dev": {
         "nimut/testing-framework": "^5.0",
         "typo3/cms-tstemplate": "^9.5.0 || ^10.4.0",
-        "helmich/typo3-typoscript-lint": "^1.4.4",
-        "helhum/typo3-console": "^5.6",
+        "helmich/typo3-typoscript-lint": "^2.0.0",
+        "helhum/typo3-console": "^5.6 || ^6.0",
         "friendsofphp/php-cs-fixer": "^2.13",
         "roave/security-advisories": "dev-master",
         "codeception/codeception": "^2.5",
