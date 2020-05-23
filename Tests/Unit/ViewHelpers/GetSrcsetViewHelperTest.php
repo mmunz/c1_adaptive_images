@@ -104,6 +104,7 @@ class GetSrcsetViewHelperTest extends AbstractViewHelperTest
         $this->inject($image, 'propertiesOfFileReference', []);
 
         $imageService = $this->getMockBuilder(ImageService::class)
+            ->disableOriginalConstructor()
             ->setMethods(['getImage', 'applyProcessingInstructions', 'getImageUri'])
             ->getMock();
 
@@ -120,7 +121,7 @@ class GetSrcsetViewHelperTest extends AbstractViewHelperTest
                     'width' => min(intval($image->getProperty('width')), intval($instructions['width']))
                 ];
                 // mocked "processed" image
-                return $this->mockFileObject($instructions);
+                return $this->mockProcessedFileObject($instructions);
             });
 
         $imageService
