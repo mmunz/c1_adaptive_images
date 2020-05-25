@@ -148,4 +148,19 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->expect('The image which is 1920px is not upscaled to 2560px.');
         $I->seeCurrentImageDimensions(1920, 1200, '62.50');
     }
+
+    public function seeNoExceptionOnMissingImage(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 4]);
+
+        $I->amOnPage('/index.php?id=3&mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1');
+        $this->validateMarkup($I);
+
+        $I->expect('No exception is thrown on missing image');
+        $I->dontSeeInSource('Call to undefined method TYPO3\CMS\Core\Resource\ProcessedFile::setMissing()');
+    }
 }

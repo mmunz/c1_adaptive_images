@@ -131,15 +131,19 @@ class ImageViewHelper extends AbstractViewHelper
 
         $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
-        if ($this->arguments['dataUri'] !== false) {
-            return sprintf(
-                'data:%s;base64,%s',
-                $image->getProperty('mime_type'),
-                base64_encode($processedImage->getContents())
-            );
+        if ($processedImage) {
+            if ($this->arguments['dataUri'] !== false) {
+                return sprintf(
+                    'data:%s;base64,%s',
+                    $image->getProperty('mime_type'),
+                    base64_encode($processedImage->getContents())
+                );
+            } else {
+                $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
+                return $imageUri;
+            }
         } else {
-            $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
-            return $imageUri;
+            return $image->getPublicUrl();
         }
     }
 }

@@ -150,7 +150,9 @@ class SvgViewHelper extends AbstractViewHelper
         }
 
         $preview = '';
+
         if ($this->arguments['embedPreview']) {
+            $previewImg = '';
             $processingInstructions = [
                 'width' => $this->arguments['embedPreviewWidth'],
                 'crop' => $cropArea,
@@ -158,16 +160,19 @@ class SvgViewHelper extends AbstractViewHelper
             ];
             $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
-            $previewImg = sprintf(
-                'data:%s;base64,%s',
-                $image->getProperty('mime_type'),
-                base64_encode($processedImage->getContents())
-            );
+            if ($processedImage) {
+                $previewImg = sprintf(
+                    'data:%s;base64,%s',
+                    $image->getProperty('mime_type'),
+                    base64_encode($processedImage->getContents())
+                );
+            } else {
+                $previewImg = $image->getPublicUrl();
+            }
+
             $preview = $this->createPreviewImageTag($previewImg, $width, $height);
         }
-        $res = $this->svgUtility->getSvgPlaceholder($width, $height, $this->arguments['content'] . $preview);
-
-        return $res;
+        return $this->svgUtility->getSvgPlaceholder($width, $height, $this->arguments['content'] . $preview);
     }
 
     /**

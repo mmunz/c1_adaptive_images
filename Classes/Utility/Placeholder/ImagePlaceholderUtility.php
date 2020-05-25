@@ -62,16 +62,19 @@ class ImagePlaceholderUtility
                 '-unsharp 0.25x0.25+8+0.065 -despeckle -noise 5'
         ];
         $processedImage = $this->imageService->applyProcessingInstructions($file, $processingInstructions);
-
-        if ($base64 === false) {
-            $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
-            return $imageUri;
+        if ($processedImage->exists()) {
+            if ($base64 === false) {
+                $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
+                return $imageUri;
+            } else {
+                return sprintf(
+                    'data:%s;base64,%s',
+                    $file->getProperty('mime_type'),
+                    base64_encode($processedImage->getContents())
+                );
+            }
         } else {
-            return sprintf(
-                'data:%s;base64,%s',
-                $file->getProperty('mime_type'),
-                base64_encode($processedImage->getContents())
-            );
+            return $processedImage->getPublicUrl();
         }
     }
 }
