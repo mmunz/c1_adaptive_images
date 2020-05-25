@@ -1,8 +1,0 @@
-lib.contentElement {
-    templateName = Default
-    partialRootPaths {
-        20 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Partials/Content/
-    }
-}
-
-lib.fluidContent =< lib.contentElement

@@ -1,7 +1,7 @@
 # for 9.5
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript">
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:c1_adaptive_images/Configuration/TypoScript/setup.txt">
-<INCLUDE_TYPOSCRIPT: source="DIR:EXT:c1_adaptive_images/Tests/Functional/Fixtures/TypoScript/lib/" extensions="t3s">
+<INCLUDE_TYPOSCRIPT: source="DIR:EXT:c1_adaptive_images/Tests/Fixtures/TypoScript/lib/" extensions="t3s">
 
 config {
     doctype = html5
@@ -47,13 +47,13 @@ page {
     10 {
         templateName = Default
         templateRootPaths {
-            0 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Templates/Page/
+            0 = EXT:c1_adaptive_images/Tests/Fixtures/Resources/Private/Templates/Page/
         }
         partialRootPaths {
-            0 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Partials/Page/
+            0 = EXT:c1_adaptive_images/Tests/Fixtures/Resources/Private/Partials/Page/
         }
         layoutRootPaths {
-            0 = EXT:c1_adaptive_images/Tests/Functional/Fixtures/Resources/Private/Layouts/Page/
+            0 = EXT:c1_adaptive_images/Tests/Fixtures/Resources/Private/Layouts/Page/
         }
     }
     includeJSFooter {

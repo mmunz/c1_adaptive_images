@@ -34,21 +34,15 @@
         "php:fix": ".Build/vendor/bin/php-cs-fixer fix --diff --config .php_cs",
         "ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
         "tests:unit": "@php .Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
-        "tests:functional": [
-            "@link-extension",
-            "@php .Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml",
-            "@unlink-extension"
-        ],
         "tests:acceptance": [
             "@link-extension",
             "bash Tests/Acceptance/_setup/setup.sh",
-            ".Build/vendor/bin/codecept run -vvv",
+            ".Build/vendor/bin/codecept run --debug -vvv ",
             "@unlink-extension"
         ],
         "tests:clearcache": "rm -rf .Build/public/typo3temp/; rm -rf ./var/*",
         "tests": [
             "@tests:unit",
-            "@tests:functional",
             "@tests:acceptance"
         ],
         "ci:static": [

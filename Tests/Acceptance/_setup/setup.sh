@@ -64,7 +64,7 @@ fi
 (
     cd .Build/public/fileadmin/user_upload;
     test -L nightlife-4.jpg || {
-        ln -s ../../../../Tests/Functional/Fixtures/fileadmin/user_upload/nightlife-4.jpg .
+        ln -s ../../../../Tests/Fixtures/fileadmin/user_upload/nightlife-4.jpg .
     }
 )
 

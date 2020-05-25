@@ -13,14 +13,24 @@ matrix:
         - TYPO3VERSION="^9.5"
         - LINT="1"
         - UNIT="1"
-        - FUNCTIONAL="0"
+        - ACCEPTANCE="1"
+    - php: 7.3
+      env:
+        - TYPO3VERSION="^9.5"
+        - LINT="1"
+        - UNIT="1"
         - ACCEPTANCE="1"
     - php: 7.3
       env:
         - TYPO3VERSION="^10.4"
         - LINT="1"
         - UNIT="1"
-        - FUNCTIONAL="0"
+        - ACCEPTANCE="1"
+    - php: 7.4
+      env:
+        - TYPO3VERSION="^10.4"
+        - LINT="1"
+        - UNIT="1"
         - ACCEPTANCE="1"
     - env:
         - BUILD_DOC="1"
@@ -50,6 +60,5 @@ before_script:
 script:
   - if [ "$LINT" = "1" ]; then composer ci:static; fi
   - if [ "$UNIT" = "1" ]; then composer tests:unit; fi
-  - if [ "$FUNCTIONAL" = "1" ]; then composer tests:functional; fi
   - if [ "$ACCEPTANCE" = "1" ]; then composer tests:acceptance; fi
   - if [ "$BUILD_DOC" = "1" ]; then composer build:doc; fi

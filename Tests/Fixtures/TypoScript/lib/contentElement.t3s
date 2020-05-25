@@ -1,0 +1,7 @@
+lib.contentElement {
+    templateName = Default
+    partialRootPaths {
+        20 = EXT:c1_adaptive_images/Tests/Fixtures/Resources/Private/Partials/Content/
+    }
+}
+
