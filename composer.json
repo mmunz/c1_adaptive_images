@@ -56,8 +56,8 @@
             "@ts:lint"
         ],
         "build:doc":[
-            "docker run --rm t3docs/render-documentation show-shell-commands > /tmp/dockrun_t3rdf.tmp",
-            "bash -c 'source /tmp/dockrun_t3rdf.tmp; rm /tmp/dockrun_t3rdf.tmp; dockrun_t3rdf makeall'"
+            "docker run --rm t3docs/render-documentation:v2.6.0 show-shell-commands > /tmp/dockrun_t3rdf.tmp",
+            "bash -c 'source /tmp/dockrun_t3rdf.tmp; rm /tmp/dockrun_t3rdf.tmp; dockrun_t3rd makeall'"
         ],
         "link-extension": [
             "@php -r 'is_dir($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
