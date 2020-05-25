@@ -19,10 +19,10 @@ if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
         # populate the database
         for db in `ls ./Tests/Acceptance/_data/sql/*.sql`; do
             echo "Import table: $db"
-            echo "DELETE FROM $(basename -s '.sql' $db)" | sqlite3 $dbfile
+            echo "DELETE FROM $(basename -s '.sql' $db);" | sqlite3 $dbfile
             cat $db | sqlite3 $dbfile
         done
-        echo "VACUUM" | sqlite3 $dbfile
+        echo "VACUUM;" | sqlite3 $dbfile
      fi
 else
     # mysql db
