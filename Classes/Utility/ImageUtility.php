@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
@@ -7,6 +8,7 @@ use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Service\ImageService;
+use C1\AdaptiveImages\Utility\CropVariantUtility;
 
 /**
  * Class ImageUtility
@@ -26,15 +28,29 @@ class ImageUtility
 
     /**
      * @var \C1\AdaptiveImages\Utility\DebugUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $debugUtility;
 
     /**
+     * @param DebugUtility $debugUtility
+     */
+    public function injectDebugUtility(DebugUtility $debugUtility)
+    {
+        $this->debugUtility = $debugUtility;
+    }
+
+    /**
      * @var \C1\AdaptiveImages\Utility\MathUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $mathUtility;
+
+    /**
+     * @param MathUtility $mathUtility
+     */
+    public function injectMathUtility(MathUtility $mathUtility)
+    {
+        $this->mathUtility = $mathUtility;
+    }
 
     /**
      * @var \TYPO3\CMS\Core\Resource\File
@@ -42,22 +58,29 @@ class ImageUtility
     protected $originalFile;
 
     /**
+     * @var \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
+     */
+    protected $cropVariantUtility;
+
+    /**
+     * @param CropVariantUtility $cropVariantUtility
+     */
+    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
+    {
+        $this->cropVariantUtility = $cropVariantUtility;
+    }
+
+    /**
      * @var array $cropVariants
      */
     protected $cropVariants = [];
-
-    /**
-     * @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     * @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $cropVariantUtility;
 
     /**
      * ImageUtility constructor.
      * @param null|array $options
      * @param null|array $settings
      * @param null|ObjectManager $objectManager
+     * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
     public function __construct($options = null, $settings = null, $objectManager = null)
     {
@@ -83,7 +106,6 @@ class ImageUtility
         if (!array_key_exists('default', $this->cropVariants)) {
             $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
         }
-        $this->cropVariantUtility = $this->objectManager->get('C1\\AdaptiveImages\\Utility\\CropVariantUtility');
     }
 
     /**
@@ -118,6 +140,7 @@ class ImageUtility
      * Return an instance of ImageService
      *
      * @return \object|ImageService
+     * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
     protected function getImageService()
     {
@@ -127,6 +150,7 @@ class ImageUtility
     /**
      * @param array $processingConfiguration
      * @return array
+     * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
     public function processImage($processingConfiguration)
     {
@@ -167,11 +191,12 @@ class ImageUtility
      * @param string $key
      * @param array $cropVariantConfig
      * @return array
+     * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
     public function processSrcsetImages(string $key, array $cropVariantConfig)
     {
         $srcset = [];
-        $srcWidths = explode(',', (string) $cropVariantConfig['srcsetWidths']);
+        $srcWidths = explode(',', (string)$cropVariantConfig['srcsetWidths']);
         $maxWidthReached = false;
 
         $this->cropVariantUtility->setCropVariantCollection($this->originalFile);
@@ -185,7 +210,7 @@ class ImageUtility
         foreach ($srcWidths as $width) {
             $localProcessingConfiguration = $defaultProcessConfiguration;
 
-            if (! $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor_allowUpscaling']) {
+            if (!$GLOBALS['TYPO3_CONF_VARS']['GFX']['processor_allowUpscaling']) {
                 $originalFileWidth = $this->originalFile->getProperty('width');
                 if ($width >= $originalFileWidth) {
                     if ($maxWidthReached === true) {

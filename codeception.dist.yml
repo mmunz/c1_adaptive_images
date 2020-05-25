@@ -5,16 +5,15 @@ suites:
         path: .
         modules:
             enabled:
-              - Db:
-                  dsn: 'mysql:host=%typo3DatabaseHost%;dbname=%typo3DatabaseName%_acceptancetest'
-                  user: '%typo3DatabaseUsername%'
-                  password: '%typo3DatabasePassword%'
-                  populate: 'false'
-                  # populator: Tests/Acceptance/_support/populateDB.sh
-                  cleanup: false
               - WebDriver:
                   url: http://127.0.0.1:8888/
                   browser: chrome
+              - Db:
+                  dsn: 'sqlite:var/sqlite/current.sqlite'
+                  user: root
+                  password: root
+                  populate: false # run populator before all tests
+                  cleanup: false # run populator before each test
               - Asserts
               - \Helper\Acceptance
               - Kolyunya\Codeception\Module\MarkupValidator

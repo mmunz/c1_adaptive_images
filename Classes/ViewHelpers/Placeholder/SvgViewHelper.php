@@ -43,15 +43,23 @@ class SvgViewHelper extends AbstractViewHelper
     protected $imageService;
 
     /**
-     * @var SvgUtility svgUtility;
+     * @var SvgUtility $svgUtility;
      */
     protected $svgUtility;
 
     /**
-     * @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
      */
     protected $cropVariantUtility;
+
+    /**
+     * @param CropVariantUtility $cropVariantUtility
+     */
+    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
+    {
+        $this->cropVariantUtility = $cropVariantUtility;
+    }
+
 
     /**
      * @param SvgUtility $svgUtility

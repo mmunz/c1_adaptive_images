@@ -5,7 +5,7 @@ namespace C1\AdaptiveImages\Utility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use C1\AdaptiveImages\Utility\CropVariantUtility;
 
 /**
  * Class RatioBoxUtility
@@ -21,15 +21,30 @@ class RatioBoxUtility
      */
     protected $ratioBoxClassNames;
 
-    /** @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     *  @TYPO3\CMS\Extbase\Annotation\Inject
+    /**
+     * @var \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
      */
     protected $cropVariantUtility;
 
+    /**
+     * @param \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
+     */
+    public function injectCropVariantUtility(\C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility)
+    {
+        $this->cropVariantUtility = $cropVariantUtility;
+    }
+
     /** @var \C1\AdaptiveImages\Utility\TagUtility
-     *  @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $tagUtility;
+
+    /**
+     * @param TagUtility $tagUtility
+     */
+    public function injectTagUtility(TagUtility $tagUtility)
+    {
+        $this->tagUtility = $tagUtility;
+    }
 
     /**
      * RatioBoxUtility constructor.

@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Utility\Placeholder;
 
+use C1\AdaptiveImages\Utility\CropVariantUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
  * ImagePlaceholderUtility
@@ -14,15 +16,29 @@ class ImagePlaceholderUtility
 {
     /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $imageService;
 
     /**
+     * @param ImageService $imageService
+     */
+    public function injectImageService(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
+    /**
      * @var \C1\AdaptiveImages\Utility\CropVariantUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $cropVariantUtility;
+
+    /**
+     * @param CropVariantUtility $cropVariantUtility
+     */
+    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
+    {
+        $this->cropVariantUtility = $cropVariantUtility;
+    }
 
     /**
      * getBase64EncodedImage

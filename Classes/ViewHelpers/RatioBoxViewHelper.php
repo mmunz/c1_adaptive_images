@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
@@ -31,9 +32,13 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
 
     /**
      * @var \C1\AdaptiveImages\Utility\RatioBoxUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $ratioBoxUtility;
+
+    public function injectRatioBoxUtility(RatioBoxUtility $ratioBoxUtility)
+    {
+        $this->ratioBoxUtility = $ratioBoxUtility;
+    }
 
     /**
      * Initialize arguments.

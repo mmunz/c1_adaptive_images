@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\TagUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
@@ -23,9 +24,16 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
 {
     /**
      * @var \C1\AdaptiveImages\Utility\TagUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $tagUtility;
+
+    /**
+     * @param TagUtility $tagUtility
+     */
+    public function injectTagUtility(TagUtility $tagUtility)
+    {
+        $this->tagUtility = $tagUtility;
+    }
 
     /** @var array $cropVariants */
     protected $cropVariants;

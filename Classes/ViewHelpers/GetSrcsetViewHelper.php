@@ -2,9 +2,12 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\DebugUtility;
+use C1\AdaptiveImages\Utility\MathUtility;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -40,21 +43,42 @@ class GetSrcsetViewHelper extends AbstractViewHelper
 
     /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $imageService;
 
     /**
+     * @param ImageService $imageService
+     */
+    public function injectImageService(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
+    /**
      * @var \C1\AdaptiveImages\Utility\MathUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $mathUtility;
 
     /**
+     * @param MathUtility $mathUtility
+     */
+    public function injectMathUtility(MathUtility $mathUtility)
+    {
+        $this->mathUtility = $mathUtility;
+    }
+
+    /**
      * @var \C1\AdaptiveImages\Utility\DebugUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $debugUtility;
+
+    /**
+     * @param DebugUtility $debugUtility
+     */
+    public function injectDebugUtility(DebugUtility $debugUtility)
+    {
+        $this->debugUtility = $debugUtility;
+    }
 
     /**
      * Initialize arguments.

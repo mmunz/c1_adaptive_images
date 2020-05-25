@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\ImageUtility;
+use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
+use C1\AdaptiveImages\Utility\RatioBoxUtility;
+
 abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
 {
     /**
@@ -12,20 +16,42 @@ abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers
 
     /**
      * @var \C1\AdaptiveImages\Utility\ImageUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $imageUtility;
 
     /**
+     * @param ImageUtility $imageUtility
+     */
+    public function injectImageUtility(ImageUtility $imageUtility)
+    {
+        $this->imagePlaceholderUtility = $imageUtility;
+    }
+
+    /**
      * @var \C1\AdaptiveImages\Utility\RatioBoxUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $ratioBoxUtility;
 
+    /**
+     * @param RatioBoxUtility $ratioBoxUtility
+     */
+    public function injectRatioBoxUtility(RatioBoxUtility $ratioBoxUtility)
+    {
+        $this->ratioBoxUtility = $ratioBoxUtility;
+    }
+
     /** @var \C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $imagePlaceholderUtility;
+
+    /**
+     * @param ImagePlaceholderUtility $imagePlaceholder
+     */
+    public function injectImagePlaceholderUtility(ImagePlaceholderUtility $imagePlaceholderUtility)
+    {
+        $this->imagePlaceholderUtility = $imagePlaceholderUtility;
+    }
+
 
     public function initializeArguments()
     {
