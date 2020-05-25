@@ -8,13 +8,6 @@ env:
 
 matrix:
   include:
-#    - php: 7.1
-#      env:
-#        - TYPO3VERSION="^8.7"
-#        - LINT="1"
-#        - UNIT="1"
-#        - FUNCTIONAL="1"
-#        - ACCEPTANCE="1"
     - php: 7.2
       env:
         - TYPO3VERSION="^9.5"
