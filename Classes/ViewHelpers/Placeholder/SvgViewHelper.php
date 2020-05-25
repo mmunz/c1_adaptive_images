@@ -60,7 +60,6 @@ class SvgViewHelper extends AbstractViewHelper
         $this->cropVariantUtility = $cropVariantUtility;
     }
 
-
     /**
      * @param SvgUtility $svgUtility
      */

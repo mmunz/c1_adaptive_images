@@ -5,7 +5,6 @@ namespace C1\AdaptiveImages\Utility;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
-use C1\AdaptiveImages\Utility\MathUtility;
 
 /**
  * Class CropVariantUtility

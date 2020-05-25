@@ -52,7 +52,6 @@ abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers
         $this->imagePlaceholderUtility = $imagePlaceholderUtility;
     }
 
-
     public function initializeArguments()
     {
         parent::initializeArguments();

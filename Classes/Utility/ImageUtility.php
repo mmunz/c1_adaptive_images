@@ -8,7 +8,6 @@ use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Service\ImageService;
-use C1\AdaptiveImages\Utility\CropVariantUtility;
 
 /**
  * Class ImageUtility
