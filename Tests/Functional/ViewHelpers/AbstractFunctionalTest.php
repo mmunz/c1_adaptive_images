@@ -41,6 +41,22 @@ abstract class AbstractFunctionalTest extends FunctionalTestCase
     ];
 
     /**
+     * @var array
+     */
+    protected $configurationToUseInTestInstance = [
+        'SYS' => [
+            'setDBinit' => '',
+        ],
+        'DB' => [
+            'Connections' => [
+                'Default' => [
+                    'initCommands' => ''
+                ]
+            ]
+        ]
+    ];
+
+    /**
      * @var int $pageId to use in these tests
      */
     protected $pageId = 1;

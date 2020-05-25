@@ -20,7 +20,7 @@ matrix:
         - TYPO3VERSION="^9.5"
         - LINT="1"
         - UNIT="1"
-        - FUNCTIONAL="1"
+        - FUNCTIONAL="0"
         - ACCEPTANCE="1"
     - env:
         - BUILD_DOC="1"
