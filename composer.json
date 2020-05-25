@@ -17,10 +17,6 @@
         {
         "type": "vcs",
         "url": "https://github.com/mmunz/codeception-helper-module.git"
-        },
-        {
-            "type": "path",
-            "url": "../../packages/*"
         }
     ],
     "support": {
