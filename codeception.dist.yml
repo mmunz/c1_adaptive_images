@@ -9,7 +9,7 @@ suites:
                   url: http://127.0.0.1:8888/
                   browser: chrome
               - Db:
-                  dsn: 'sqlite:var/sqlite/current.sqlite'
+                  dsn: 'sqlite:.Build/var/sqlite/current.sqlite'
                   user: root
                   password: root
                   populate: false # run populator before all tests

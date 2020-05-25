@@ -15,7 +15,7 @@ abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers
     protected $escapeOutput = false;
 
     /**
-     * @var \C1\AdaptiveImages\Utility\ImageUtility
+     * @var ImageUtility
      */
     protected $imageUtility;
 
@@ -24,7 +24,7 @@ abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers
      */
     public function injectImageUtility(ImageUtility $imageUtility)
     {
-        $this->imagePlaceholderUtility = $imageUtility;
+        $this->imageUtility = $imageUtility;
     }
 
     /**
