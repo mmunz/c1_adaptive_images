@@ -303,5 +303,4 @@ class PictureViewHelperCest extends AbstractViewHelperCest
 
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
     }
-
 }
