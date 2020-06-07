@@ -25,7 +25,7 @@ Index
 		adaptive images,fluid-styled-content,lazysizes
 
 	:Copyright:
-		2018
+		2018-2020
 
 	:Author:
 		Manuel Munz
