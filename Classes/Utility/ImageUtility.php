@@ -282,10 +282,6 @@ class ImageUtility
      */
     public function getCropVariants()
     {
-        if (!array_key_exists('default', $this->cropVariants)) {
-            $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
-        }
-
         foreach ($this->cropVariants as $key => $cropVariantConfig) {
             $candidates = $this->processSrcsetImages($key, $cropVariantConfig);
             $this->cropVariants[$key]['candidates'] = $candidates;

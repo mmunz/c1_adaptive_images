@@ -250,4 +250,58 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         // still index = 0 because it's the only image with this class on this page
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--46dot88', '46.88%');
     }
+
+    public function seePictureLoadInCorrectDimensionsForNonDefaultVariant(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}, "notDefault":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"free"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->restartBrowser();
+        $I->amOnPage('/index.php?mode=PictureViewHelperDifferentDefaultCropVariant&srcsetWidths=640,1024&debug=1&lazy=0');
+        $this->validateMarkup($I);
+
+        $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors but close to 4:3.');
+        $I->seeCurrentImageDimensions(640, 479, '74.84');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('a 1024px image is loaded with 16:9 ratio.');
+        $I->seeCurrentImageDimensions(1024, 640, '62.50');
+    }
+
+    public function seePictureLoadInCorrectDimensionsForNonDefaultVariantWithRatioBoxAndLazy(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}, "notDefault":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"free"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->restartBrowser();
+        $I->amOnPage('/index.php?mode=PictureViewHelperDifferentDefaultCropVariant&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
+        $this->validateMarkup($I);
+
+        $I->expect('a placeholder image in mobile format (4:3 aspect ratio) is loaded');
+        $I->seeCurrentImageDimensions(100, 75, '75.0');
+
+        $I->initLazySizes();
+
+        $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors but close to 4:3.');
+        $I->seeCurrentImageDimensions(640, 479, '74.84');
+
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb--max-width767px-74dot86', '74.86%');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('a 1024px image is loaded with 16:9 ratio.');
+        $I->seeCurrentImageDimensions(1024, 640, '62.50');
+
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
+    }
+
 }

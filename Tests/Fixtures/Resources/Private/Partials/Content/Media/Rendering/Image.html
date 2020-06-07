@@ -60,6 +60,9 @@
             <f:case value="PictureViewHelperWithMultipleSources">
                 <f:render section="PictureViewHelperWithMultipleSources" arguments="{_all}"/>
             </f:case>
+            <f:case value="PictureViewHelperDifferentDefaultCropVariant">
+                <f:render section="PictureViewHelperDifferentDefaultCropVariant" arguments="{_all}"/>
+            </f:case>
             <f:case value="GetCropVariantsAsString">
                 <f:render section="GetCropVariantsAsString" arguments="{_all}"/>
             </f:case>
@@ -133,6 +136,31 @@
                             'media': '(min-width: 768px) AND (max-width: 992px)'
                         }
                       }"
+                    srcsetWidths="{srcsetWidths}"
+                    placeholderInline="{placeholderInline}"
+                    placeholderWidth="{placeholderWidth}"
+                    lazy="{lazy}"
+                    debug="{debug}"
+                    ratiobox="{ratiobox}"
+                    jsdebug="{jsdebug}"
+                    sizes="{sizesAttr}"
+        />
+    </f:section>
+
+    <f:section name="PictureViewHelperDifferentDefaultCropVariant">
+        <ai:picture image="{file}"
+                    class="img-responsive-full lazyload"
+                    width="{dimensions.width}"
+                    height="{dimensions.height}"
+                    alt="{file.alternative}"
+                    title="{file.title}"
+                    sources="{
+                        'mobile': {
+                            'srcsetWidths': '320,640,768',
+                            'media': '(max-width: 767px)'
+                        }
+                      }"
+                    cropVariant="NotDefault"
                     srcsetWidths="{srcsetWidths}"
                     placeholderInline="{placeholderInline}"
                     placeholderWidth="{placeholderWidth}"
