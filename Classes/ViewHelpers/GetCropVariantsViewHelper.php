@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -42,7 +43,7 @@ class GetCropVariantsViewHelper extends AbstractViewHelper
     public function render()
     {
         if (is_null($this->arguments['file'])) {
-            throw new \TYPO3Fluid\Fluid\Core\ViewHelper\Exception('You must specify a File or FileReference object implementing FileInterface', 1522176433);
+            throw new Exception('You must specify a File or FileReference object implementing FileInterface', 1522176433);
         }
 
         /** @var FileInterface $file */

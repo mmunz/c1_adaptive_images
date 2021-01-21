@@ -277,9 +277,6 @@ class ImageUtility
         return reset($candidates)['ratio'];
     }
 
-    /**
-     *
-     */
     public function getCropVariants()
     {
         foreach ($this->cropVariants as $key => $cropVariantConfig) {

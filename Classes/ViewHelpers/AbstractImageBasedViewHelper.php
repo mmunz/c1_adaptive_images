@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
+use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
 
-abstract class AbstractImageBasedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
+abstract class AbstractImageBasedViewHelper extends ImageViewHelper
 {
     /**
      * @var bool

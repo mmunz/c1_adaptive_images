@@ -28,7 +28,7 @@ class RatioBoxUtility
     /**
      * @param \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
      */
-    public function injectCropVariantUtility(\C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility)
+    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
     {
         $this->cropVariantUtility = $cropVariantUtility;
     }
