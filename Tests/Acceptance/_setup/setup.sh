@@ -4,8 +4,7 @@ set -ev
 [ -z "$TYPO3_PATH_ROOT" ] && TYPO3_PATH_ROOT=$PWD/.Build/public
 
 if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
-    # sqlite DB
-    # install typo3
+    # install typo3 with sqlite DB
     rm -f "${TYPO3_PATH_ROOT}/typo3conf/LocalConfiguration.php"
     rm -f "${TYPO3_PATH_ROOT}/../../../var/*.sqlite"
     ./.Build/vendor/bin/typo3cms -vvv install:setup --database-driver pdo_sqlite \
