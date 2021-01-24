@@ -7,6 +7,7 @@ if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
     # install typo3 with sqlite DB
     rm -f "${TYPO3_PATH_ROOT}/typo3conf/LocalConfiguration.php"
     rm -f "${TYPO3_PATH_ROOT}/../../../var/*.sqlite"
+
     ./.Build/vendor/bin/typo3cms -vvv install:setup --database-driver pdo_sqlite \
             --admin-user-name test --admin-password test1234 \
             --site-name "testsite" --site-setup-type site --no-interaction --force

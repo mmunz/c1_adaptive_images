@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 /**
  * Create placeholder images for lazyloading

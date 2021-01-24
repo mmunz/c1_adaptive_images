@@ -10,7 +10,7 @@ abstract class AbstractViewHelperCest
 {
     public function _failed(\AcceptanceTester $I)
     {
-        $I->pauseExecution();
+        $I->pause();
     }
 
     public function _before(\AcceptanceTester $I)
