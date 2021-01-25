@@ -1,4 +1,4 @@
-![CI Status](https://github.com/mmunz/c1_adaptive_images/workflows/CI/badge.svg?branch=master)
+[![CI Status](https://github.com/mmunz/c1_adaptive_images/workflows/CI/badge.svg?branch=master)](https://github.com/mmunz/c1_adaptive_images/actions)
 
 # c1_adaptive_images
 
