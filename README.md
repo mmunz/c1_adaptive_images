@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mmunz/c1_adaptive_images.svg?branch=master)](https://travis-ci.org/mmunz/c1_adaptive_images)
+![CI Status](https://github.com/mmunz/c1_adaptive_images/workflows/CI/badge.svg?branch=master)
 
 # c1_adaptive_images
 
