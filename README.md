@@ -1,4 +1,4 @@
-![CI Status](https://github.com/mmunz/c1_adaptive_images/workflows/CI/badge.svg?branch=master)
+![CI](https://github.com/mmunz/c1_adaptive_images/workflows/CI/badge.svg)
 # c1_adaptive_images
 
 Another approach to responsive image rendering with fluid_styled_content for TYPO3.
