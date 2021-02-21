@@ -222,16 +222,6 @@ class ImageUtility
                 }
             }
 
-            if ($localProcessingConfiguration['width'] > 0 && (width > $localProcessingConfiguration['width'])) {
-                if ($maxWidthReached === true) {
-                    continue;
-                } else {
-                    // create one last srcset candidate with the width from the fluid template/be settings
-                    $maxWidthReached = true;
-                    $width = $localProcessingConfiguration['width'];
-                }
-            }
-
             if ($cropVariantConfig['image_format'] > 0) {
                 $img_format = $this->options['image_format'];
                 $localProcessingConfiguration['width'] = $width . 'c';
