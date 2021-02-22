@@ -35,6 +35,10 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
      */
     protected $ratioBoxUtility;
 
+    /**
+     * @param RatioBoxUtility $ratioBoxUtility
+     * @return void
+     */
     public function injectRatioBoxUtility(RatioBoxUtility $ratioBoxUtility)
     {
         $this->ratioBoxUtility = $ratioBoxUtility;
@@ -59,8 +63,6 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
 
     /**
      * Returns the cropVariants array
-     *
-     * @param string $content
      *
      * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
      * @return string

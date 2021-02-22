@@ -20,6 +20,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
  */
 class ImageViewHelper extends AbstractImageBasedViewHelper
 {
+
     /**
      * Sets and initializes $this->imageUtility
      * After that manipulate the data and additionalAttributes arguments.
@@ -44,6 +45,7 @@ class ImageViewHelper extends AbstractImageBasedViewHelper
                 ]
             ]
         );
+        $this->cropVariants = $this->imageUtility->getCropVariants();
 
         $this->addAdditionalAttributes();
         $this->addDataAttributes();
@@ -65,14 +67,5 @@ class ImageViewHelper extends AbstractImageBasedViewHelper
         } else {
             return $image;
         }
-    }
-
-    /** getSrcSetString
-     * @return string
-     */
-    public function getSrcSetString()
-    {
-        $cropVariants = $this->imageUtility->getCropVariants();
-        return $this->imageUtility->getSrcSetString($cropVariants[$this->arguments['cropVariant']]['candidates']);
     }
 }

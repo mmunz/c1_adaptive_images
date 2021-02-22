@@ -26,17 +26,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class GetSrcsetViewHelper extends AbstractViewHelper
 {
     /**
-     * No need to analyse the doc comment above the render method.
-     * This also caused failed tests when testing TYPO3 8.7
-     *
-     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
-     */
-    protected function registerRenderMethodArguments()
-    {
-        return;
-    }
-
-    /**
      * @var bool
      */
     protected $escapeOutput = false;
@@ -48,6 +37,7 @@ class GetSrcsetViewHelper extends AbstractViewHelper
 
     /**
      * @param ImageService $imageService
+     * @return void
      */
     public function injectImageService(ImageService $imageService)
     {
@@ -61,6 +51,7 @@ class GetSrcsetViewHelper extends AbstractViewHelper
 
     /**
      * @param MathUtility $mathUtility
+     * @return void
      */
     public function injectMathUtility(MathUtility $mathUtility)
     {
@@ -74,6 +65,7 @@ class GetSrcsetViewHelper extends AbstractViewHelper
 
     /**
      * @param DebugUtility $debugUtility
+     * @return void
      */
     public function injectDebugUtility(DebugUtility $debugUtility)
     {

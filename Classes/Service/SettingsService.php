@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace C1\AdaptiveImages\Service;
 
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -30,6 +31,7 @@ class SettingsService
      * Injects the Configuration Manager and loads the settings
      *
      * @param ConfigurationManagerInterface $configurationManager
+     * @return void
      */
     public function injectConfigurationManager(
         ConfigurationManagerInterface $configurationManager

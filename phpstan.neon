@@ -1,0 +1,27 @@
+includes:
+  - .Build/vendor/spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
+parameters:
+  level: 8
+  reportUnmatchedIgnoredErrors: false
+  checkMissingIterableValueType: false
+  bootstrapFiles:
+    - %currentWorkingDirectory%/phpstan.bootstrap.php
+  paths:
+    # for now only checking theme
+    - Classes/
+    - ext_localconf.php
+    - ext_emconf.php
+  ignoreErrors:
+    - message: '#Variable \$_EXTKEY might not be defined#'
+      path: '*/ext_emconf.php'
+    - message: '#Parameter \#3 \$cache of class TYPO3\\CMS\\Core\\Http\\MiddlewareStackResolver constructor expects TYPO3\\CMS\\Core\\Cache\\Frontend\\PhpFrontend, TYPO3\\CMS\\Core\\Cache\\Frontend\\FrontendInterface given.#'
+      path: '*/Classes/Error/PageErrorHandler/LocalPageErrorHandler.php'
+  excludes_analyse:
+    - Tests/Acceptance/_support/_generated
+  disallowedStaticCalls:
+    - method: 'TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump()'
+      message: 'remove before committing or use proper logging.'
+  disallowedFunctionCalls:
+    - function: 'debug()'
+      message: 'remove before committing or use proper logging.'
+

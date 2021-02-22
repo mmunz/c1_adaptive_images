@@ -29,6 +29,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
 
     /**
      * @param TagUtility $tagUtility
+     * @return void
      */
     public function injectTagUtility(TagUtility $tagUtility)
     {
@@ -141,7 +142,6 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
      * Build the picture tag
      * @param string $imgTag
      * @param array $sources
-     * @param bool $lazy
      * @return string
      */
     public function buildPictureTag(string $imgTag, array $sources)
@@ -154,13 +154,5 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
         $tagBuilder = new TagBuilder('picture');
         $tagBuilder->setContent($content);
         return $tagBuilder->render();
-    }
-
-    /** getSrcSetString
-     * @return string
-     */
-    public function getSrcSetString()
-    {
-        return $this->imageUtility->getSrcSetString($this->cropVariants[$this->arguments['cropVariant']]['candidates']);
     }
 }

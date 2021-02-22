@@ -34,11 +34,11 @@ class GetCropVariantsViewHelper extends AbstractViewHelper
     }
 
     /**
-     * Returns the cropVariants array
+     * Returns the cropVariants as array or CropVariantsCollection
      *
      * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
-     * @return array
+     * @return array|CropVariantCollection
      */
     public function render()
     {

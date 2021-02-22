@@ -4,7 +4,6 @@ namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Resource\FileReference;
 
 /**
  * Class CropVariantUtility
@@ -18,7 +17,7 @@ class CropVariantUtility
     protected $cropVariantCollection;
 
     /**
-     * @var FileReference $file
+     * @var FileInterface $file
      */
     protected $file;
 
@@ -29,6 +28,7 @@ class CropVariantUtility
 
     /**
      * @param MathUtility $mathUtility
+     * @return void
      */
     public function injectMathUtility(MathUtility $mathUtility)
     {
@@ -39,6 +39,7 @@ class CropVariantUtility
      * Create a CropVariantCollection from file reference.
      *
      * @param FileInterface $file
+     * @return void
      */
     public function setCropVariantCollection(FileInterface $file)
     {

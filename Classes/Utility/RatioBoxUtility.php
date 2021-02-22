@@ -27,6 +27,7 @@ class RatioBoxUtility
 
     /**
      * @param \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
+     * @return void
      */
     public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
     {
@@ -39,6 +40,7 @@ class RatioBoxUtility
 
     /**
      * @param TagUtility $tagUtility
+     * @return void
      */
     public function injectTagUtility(TagUtility $tagUtility)
     {
@@ -60,7 +62,7 @@ class RatioBoxUtility
     }
 
     /**
-     * @var array $ratioBoxBase
+     * @var string $ratioBoxBase
      */
     protected $ratioBoxBase;
 
@@ -68,6 +70,7 @@ class RatioBoxUtility
      * Setter for $this->ratioBoxBase
      *
      * @param string $ratioBoxBase
+     * @return void
      */
     public function setRatioBoxBase($ratioBoxBase = 'ratio-box')
     {
@@ -77,17 +80,17 @@ class RatioBoxUtility
     /**
      * Removes unwanted characters from css ClassNames
      *
-     * @param $class
+     * @param string $class
      * @return string
      */
     public function sanitizeCssClassName($class)
     {
-        $class = \strtolower($class);
+        $class = \strtolower($class) ?? '';
         // remove all characters not allowed in HTML class names
         $regex = '/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0041}-\\x{005A}\\x{005F}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u';
         $class = \preg_replace($regex, '', $class);
-        $class = \preg_replace("/[\s_]/", '-', $class);
-        return $class;
+        $class = \preg_replace("/[\s_]/", '-', $class ?? '');
+        return $class ?? '';
     }
 
     /**
@@ -104,7 +107,6 @@ class RatioBoxUtility
      */
     public function getRatioClassForCropVariant($ratio, $mq = null)
     {
-        $ratioBoxClass = null;
         $ratioBoxBase = $this->ratioBoxBase;
 
         if ($mq) {
@@ -112,13 +114,13 @@ class RatioBoxUtility
                 '%s--%s-%s',
                 $ratioBoxBase,
                 $this->sanitizeCssClassName($mq),
-                \preg_replace('/\./i', 'dot', $ratio)
+                \preg_replace('/\./i', 'dot', (string)$ratio)
             );
         } else {
             $ratioBoxClass = sprintf(
                 '%s--%s',
                 $ratioBoxBase,
-                \preg_replace('/\./i', 'dot', $ratio)
+                \preg_replace('/\./i', 'dot', (string)$ratio)
             );
         }
 
@@ -158,6 +160,7 @@ class RatioBoxUtility
      * @param string $class
      * @param string $css
      * @param bool $compress
+     * @return void
      */
     public function addStyleToHeader($class, $css, $compress = true)
     {
@@ -180,7 +183,7 @@ class RatioBoxUtility
             $className = $this->getRatioClassForCropVariant($cropVariantConfig['ratio'], $mq);
             $this->ratioBoxClassNames[] = $className;
             $css = $this->getRatioBoxStyle($cropVariantConfig['ratio'], $mq);
-            $this->addStyleToHeader($className, $css, 1);
+            $this->addStyleToHeader($className, $css, true);
         }
 
         return $this->ratioBoxClassNames;

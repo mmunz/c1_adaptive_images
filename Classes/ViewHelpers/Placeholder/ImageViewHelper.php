@@ -30,18 +30,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ImageViewHelper extends AbstractViewHelper
 {
-
-    /**
-     * No need to analyse the doc comment above the render method.
-     * This also caused failed tests when testing TYPO3 8.7
-     *
-     * @throws \TYPO3Fluid\Fluid\Core\Parser\Exception
-     */
-    protected function registerRenderMethodArguments()
-    {
-        return;
-    }
-
     /**
      * @var \TYPO3\CMS\Extbase\Service\ImageService
      */
@@ -49,6 +37,7 @@ class ImageViewHelper extends AbstractViewHelper
 
     /**
      * @param ImageService $imageService
+     * @return void
      */
     public function injectImageService(ImageService $imageService)
     {
@@ -62,6 +51,7 @@ class ImageViewHelper extends AbstractViewHelper
 
     /**
      * @param CropVariantUtility $cropVariantUtility
+     * @return void
      */
     public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
     {
@@ -131,19 +121,15 @@ class ImageViewHelper extends AbstractViewHelper
 
         $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
-        if ($processedImage) {
-            if ($this->arguments['dataUri'] !== false) {
-                return sprintf(
-                    'data:%s;base64,%s',
-                    $image->getProperty('mime_type'),
-                    base64_encode($processedImage->getContents())
-                );
-            } else {
-                $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
-                return $imageUri;
-            }
+        if ($this->arguments['dataUri'] !== false) {
+            return sprintf(
+                'data:%s;base64,%s',
+                $image->getProperty('mime_type'),
+                base64_encode($processedImage->getContents())
+            );
         } else {
-            return $image->getPublicUrl();
+            $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
+            return $imageUri;
         }
     }
 }

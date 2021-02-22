@@ -10,6 +10,9 @@ use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 
 abstract class AbstractImageBasedViewHelper extends ImageViewHelper
 {
+    /** @var array $cropVariants */
+    protected $cropVariants;
+
     /**
      * @var bool
      */
@@ -22,6 +25,7 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
 
     /**
      * @param ImageUtility $imageUtility
+     * @return void
      */
     public function injectImageUtility(ImageUtility $imageUtility)
     {
@@ -35,6 +39,7 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
 
     /**
      * @param RatioBoxUtility $ratioBoxUtility
+     * @return void
      */
     public function injectRatioBoxUtility(RatioBoxUtility $ratioBoxUtility)
     {
@@ -46,7 +51,8 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
     protected $imagePlaceholderUtility;
 
     /**
-     * @param ImagePlaceholderUtility $imagePlaceholder
+     * @param ImagePlaceholderUtility $imagePlaceholderUtility
+     * @return void
      */
     public function injectImagePlaceholderUtility(ImagePlaceholderUtility $imagePlaceholderUtility)
     {
@@ -130,7 +136,8 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
             $this->arguments['image'],
             $this->arguments['placeholderInline'],
             $cropVariant,
-            $this->arguments['placeholderWidth']
+            $this->arguments['placeholderWidth'],
+            $this->arguments['absolute']
         );
         return $placeholder . ' ' . $this->arguments['placeholderWidth'] . 'w';
     }
@@ -141,6 +148,8 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
      * merge our own data-attributes with the ones coming from the viewhelper arguments (if any). The latter takes
      * precedence, i.e.: It is possible to overwrite any default data-attributes used here from the viewHelper's
      * attributes if necessary.
+     *
+     * @return void
      */
     public function addDataAttributes()
     {
@@ -168,6 +177,8 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
      *
      * merge our own additionalAttributes with the ones coming from the viewhelper arguments (if any). The latter takes
      * precedence, i.e.: It is possible to overwrite any default param from the viewHelper if necessary.
+     *
+     * @return void
      */
     public function addAdditionalAttributes()
     {
@@ -196,5 +207,13 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
 
         $this->tag->addAttributes($additionalAttributes);
         $this->arguments['additionalAttributes'] = $additionalAttributes;
+    }
+
+    /** getSrcSetString
+     * @return string
+     */
+    public function getSrcSetString()
+    {
+        return $this->imageUtility->getSrcSetString($this->cropVariants[$this->arguments['cropVariant']]['candidates']);
     }
 }

@@ -25,17 +25,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class SvgViewHelper extends AbstractViewHelper
 {
 
-    /**
-     * No need to analyse the doc comment above the render method.
-     * This also caused failed tests when testing TYPO3 8.7
-     *
-     * @throws \TYPO3\CMS\Fluid\Core\Parser\Exception
-     */
-    protected function registerRenderMethodArguments()
-    {
-        return;
-    }
-
     /** @var bool $escapeOutput */
     protected $escapeOutput = false;
 
@@ -56,6 +45,7 @@ class SvgViewHelper extends AbstractViewHelper
 
     /**
      * @param CropVariantUtility $cropVariantUtility
+     * @return void
      */
     public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
     {
@@ -64,6 +54,7 @@ class SvgViewHelper extends AbstractViewHelper
 
     /**
      * @param SvgUtility $svgUtility
+     * @return void
      */
     public function injectSvgUtility(SvgUtility $svgUtility)
     {
@@ -72,6 +63,7 @@ class SvgViewHelper extends AbstractViewHelper
 
     /**
      * @param \TYPO3\CMS\Extbase\Service\ImageService $imageService
+     * @return void
      */
     public function injectImageService(ImageService $imageService)
     {
@@ -161,15 +153,11 @@ class SvgViewHelper extends AbstractViewHelper
             ];
             $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
-            if ($processedImage) {
-                $previewImg = sprintf(
-                    'data:%s;base64,%s',
-                    $image->getProperty('mime_type'),
-                    base64_encode($processedImage->getContents())
-                );
-            } else {
-                $previewImg = $image->getPublicUrl();
-            }
+            $previewImg = sprintf(
+                'data:%s;base64,%s',
+                $image->getProperty('mime_type'),
+                base64_encode($processedImage->getContents())
+            );
 
             $preview = $this->createPreviewImageTag($previewImg, $width, $height);
         }

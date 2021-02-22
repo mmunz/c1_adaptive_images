@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Utility;
 
+use C1\AdaptiveImages\Service\SettingsService;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -32,6 +33,7 @@ class ImageUtility
 
     /**
      * @param DebugUtility $debugUtility
+     * @return void
      */
     public function injectDebugUtility(DebugUtility $debugUtility)
     {
@@ -45,6 +47,7 @@ class ImageUtility
 
     /**
      * @param MathUtility $mathUtility
+     * @return void
      */
     public function injectMathUtility(MathUtility $mathUtility)
     {
@@ -52,7 +55,7 @@ class ImageUtility
     }
 
     /**
-     * @var \TYPO3\CMS\Core\Resource\File
+     * @var \TYPO3\CMS\Core\Resource\FileInterface
      */
     protected $originalFile;
 
@@ -63,6 +66,7 @@ class ImageUtility
 
     /**
      * @param CropVariantUtility $cropVariantUtility
+     * @return void
      */
     public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
     {
@@ -98,17 +102,18 @@ class ImageUtility
         if ($settings) {
             $this->settings = $settings;
         } else {
+            /** @var SettingsService $pluginSettingsService */
             $pluginSettingsService = $this->objectManager->get('C1\\AdaptiveImages\\Service\\SettingsService');
             $this->settings = $pluginSettingsService->getSettings();
         }
-
         if (!array_key_exists('default', $this->cropVariants)) {
-            $this->cropVariants['default']['srcsetWidths'] = $this->settings->srcsetWidths ?? '320,600,992,1280,1920';
+            $this->cropVariants['default']['srcsetWidths'] = $this->settings['srcsetWidths'] ?? '320,600,992,1280,1920';
         }
     }
 
     /**
      * @param array $options
+     * @return void
      */
     public function init($options = null)
     {
@@ -121,6 +126,7 @@ class ImageUtility
 
     /**
      * @param array $options
+     * @return void
      */
     public function setOptions($options)
     {
@@ -129,6 +135,7 @@ class ImageUtility
 
     /**
      * @param FileInterface $file
+     * @return void
      */
     public function setOriginalFile($file)
     {
@@ -138,7 +145,7 @@ class ImageUtility
     /**
      * Return an instance of ImageService
      *
-     * @return \object|ImageService
+     * @return ImageService
      * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
     protected function getImageService()
@@ -259,7 +266,7 @@ class ImageUtility
      * Because all candidates have the same ratio we can just return the 'ratio' from the first child of the candidates
      * array.
      *
-     * @param $candidates
+     * @param array $candidates
      * @return array
      */
     public function getRatioFromFirstCandidate($candidates)
@@ -267,6 +274,10 @@ class ImageUtility
         return reset($candidates)['ratio'];
     }
 
+    /**
+     * @return array|mixed
+     * @throws \TYPO3\CMS\Extbase\Object\Exception
+     */
     public function getCropVariants()
     {
         foreach ($this->cropVariants as $key => $cropVariantConfig) {

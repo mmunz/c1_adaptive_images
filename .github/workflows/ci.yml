@@ -25,6 +25,8 @@ jobs:
         run: |
           rm -f composer.lock
           composer require typo3/minimal:^10.4
+      - name: phpstan
+        run: composer phpstan
       - name: PHPCS
         run: composer php:lint
       - name: Typoscript Linter
