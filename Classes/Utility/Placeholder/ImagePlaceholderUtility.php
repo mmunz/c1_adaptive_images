@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Utility\Placeholder;
 
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
@@ -66,11 +67,18 @@ class ImagePlaceholderUtility
         ];
         $processedImage = $this->imageService->applyProcessingInstructions($file, $processingInstructions);
 
-        if ($processedImage->getProperties()['width'] != $width) {
+        // In some cases (high load, many images have to be generated during a first page call) placeholder images where
+        // not generated and the unprocessed image returned. See issue #15.
+        // We fix that by checking that the width of the processed image we got is not wider than the $width param. It
+        // may be smaller if $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor_allowUpscaling'] is false and the image is
+        // smaller than $width.
+        // if the generated image is bigger than expected we return early a static placeholder image (inline or as image url)
+
+        if ($processedImage->getProperties()['width'] > $width) {
             $pixel = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=';
 
             if ($base64 === false) {
-                $imageUri = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('c1_adaptive_images') . 'Resources/Public/Images/placeholder.png';
+                $imageUri = ExtensionManagementUtility::extPath('c1_adaptive_images') . 'Resources/Public/Images/placeholder.png';
                 return $imageUri;
             } else {
                 return sprintf(
@@ -79,21 +87,21 @@ class ImagePlaceholderUtility
                     $pixel
                 );
             }
-        } else {
-            if ($processedImage->exists()) {
-                if ($base64 === false) {
-                    $imageUri = $this->imageService->getImageUri($processedImage, $absolute);
-                    return $imageUri;
-                } else {
-                    return sprintf(
-                        'data:%s;base64,%s',
-                        $file->getProperty('mime_type'),
-                        base64_encode($processedImage->getContents())
-                    );
-                }
+        }
+
+        if ($processedImage->exists()) {
+            if ($base64 === false) {
+                $imageUri = $this->imageService->getImageUri($processedImage, $absolute);
+                return $imageUri;
             } else {
-                return $processedImage->getPublicUrl();
+                return sprintf(
+                    'data:%s;base64,%s',
+                    $file->getProperty('mime_type'),
+                    base64_encode($processedImage->getContents())
+                );
             }
+        } else {
+            return $processedImage->getPublicUrl();
         }
     }
 }
