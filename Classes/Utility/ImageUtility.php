@@ -166,6 +166,7 @@ class ImageUtility
             $this->originalFile,
             $processingConfiguration
         );
+
         $ratio = $this->mathUtility->calculateRatio(
             $processedImage->getProperty('height'),
             $processedImage->getProperty('width')

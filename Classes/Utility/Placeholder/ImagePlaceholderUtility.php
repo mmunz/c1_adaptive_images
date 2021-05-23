@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Utility\Placeholder;
 
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
@@ -69,23 +70,15 @@ class ImagePlaceholderUtility
 
         // In some cases (high load, many images have to be generated during a first page call) placeholder images where
         // not generated and the unprocessed image returned. See issue #15.
-        // We fix that by checking that the width of the processed image we got is not wider than the $width param. It
-        // may be smaller if $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor_allowUpscaling'] is false and the image is
-        // smaller than $width.
-        // if the generated image is bigger than expected we return early a static placeholder image (inline or as image url)
-
-        if ($processedImage->getProperties()['width'] > $width) {
+        // If this happens we return a default placeholder right away.
+        if ($this->imageIsProcessed($processedImage) === false) {
             $pixel = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=';
 
             if ($base64 === false) {
                 $imageUri = ExtensionManagementUtility::extPath('c1_adaptive_images') . 'Resources/Public/Images/placeholder.png';
                 return $imageUri;
             } else {
-                return sprintf(
-                    'data:%s;base64,%s',
-                    'image/png',
-                    $pixel
-                );
+                return $this->createInlineImageUri($pixel, 'image/png');
             }
         }
 
@@ -94,14 +87,40 @@ class ImagePlaceholderUtility
                 $imageUri = $this->imageService->getImageUri($processedImage, $absolute);
                 return $imageUri;
             } else {
-                return sprintf(
-                    'data:%s;base64,%s',
-                    $file->getProperty('mime_type'),
-                    base64_encode($processedImage->getContents())
+                return $this->createInlineImageUri(
+                    base64_encode($processedImage->getContents()),
+                    $file->getProperty('mime_type')
                 );
             }
         } else {
             return $processedImage->getPublicUrl();
         }
+    }
+
+    /**
+     * @param string $base64EncodedImageString
+     * @param string $mimeType
+     * @return string
+     */
+    public function createInlineImageUri($base64EncodedImageString, $mimeType)
+    {
+        return sprintf(
+            'data:%s;base64,%s',
+            $mimeType,
+            $base64EncodedImageString
+        );
+    }
+
+    /**
+     * @param ProcessedFile $processedImage
+     * @return bool
+     */
+    public function imageIsProcessed($processedImage)
+    {
+        // if properties['identifier'] is empty, the image was not processed.
+        // Note: $processedImage->getIdentifier() would return the original identifier as fallback, don"t use it here.
+        $identifier = $processedImage->getProperties()['identifier'];
+        $hasIdentifier = !(empty($identifier));
+        return $hasIdentifier;
     }
 }
