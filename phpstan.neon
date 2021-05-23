@@ -16,6 +16,8 @@ parameters:
       path: '*/ext_emconf.php'
     - message: '#Parameter \#3 \$cache of class TYPO3\\CMS\\Core\\Http\\MiddlewareStackResolver constructor expects TYPO3\\CMS\\Core\\Cache\\Frontend\\PhpFrontend, TYPO3\\CMS\\Core\\Cache\\Frontend\\FrontendInterface given.#'
       path: '*/Classes/Error/PageErrorHandler/LocalPageErrorHandler.php'
+    - message: '#Cannot call method warning\(\) on Psr\\Log\\LoggerInterface\|null.#'
+      path: '*/Classes/*'
   excludes_analyse:
     - Tests/Acceptance/_support/_generated
   disallowedStaticCalls:
