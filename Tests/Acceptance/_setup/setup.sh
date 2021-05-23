@@ -66,6 +66,9 @@ fi
     test -L nightlife-4.jpg || {
         ln -s ../../../../Tests/Fixtures/fileadmin/user_upload/nightlife-4.jpg .
     }
+    test -L image-empty.jpg || {
+        ln -s ../../../../Tests/Fixtures/fileadmin/user_upload/image-empty.jpg .
+    }
 )
 
 # TYPO3_CONF_VARS

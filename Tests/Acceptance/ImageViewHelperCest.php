@@ -163,4 +163,17 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->expect('No exception is thrown on missing image');
         $I->dontSeeInSource('Call to undefined method TYPO3\CMS\Core\Resource\ProcessedFile::setMissing()');
     }
+
+    public function seeNoExceptionOnEmptyImage(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $I->amOnPage('/index.php?id=4&mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
+        $this->validateMarkup($I);
+
+        $I->expect('Don\'t see exception');
+        $I->dontSeeInSource('Division by zero');
+
+        $I->expect('Ratio box class is rb--0');
+        $I->waitForElement('div.rb.rb--0');
+    }
 }
