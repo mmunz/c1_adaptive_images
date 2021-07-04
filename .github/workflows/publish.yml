@@ -19,7 +19,7 @@ jobs:
 
       - name: Check tag
         run: |
-          if ! [[ ${{ github.ref }} =~ ^refs/tags/v[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$ ]]; then
+          if ! [[ ${{ github.ref }} =~ ^refs/tags/[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$ ]]; then
             echo "Invalid tag format"
             exit 1
           fi
