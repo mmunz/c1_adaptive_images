@@ -59,7 +59,8 @@ else
     done
 fi
 
-./.Build/vendor/bin/typo3cms install:generatepackagestates
+# may fail because it is not needed anymore in TYPO3 11
+./.Build/vendor/bin/typo3cms install:generatepackagestates || true
 # symlink fileadmin/user_upload to fixtures folder
 (
     cd .Build/public/fileadmin/user_upload;

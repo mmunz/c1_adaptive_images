@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\ImageUtility;
+use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
+use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use C1\AdaptiveImages\Utility\TagUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
@@ -30,9 +33,9 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
     /** @var array $cropVariants */
     protected $cropVariants;
 
-    public function __construct(TagUtility $tagUtility)
+    public function __construct(ImageUtility $imageUtility, RatioBoxUtility $ratioBoxUtility, ImagePlaceholderUtility $imagePlaceholderUtility, TagUtility $tagUtility)
     {
-        parent:$this->__construct();
+        parent::__construct($imageUtility, $ratioBoxUtility, $imagePlaceholderUtility);
         $this->tagUtility = $tagUtility;
     }
 
