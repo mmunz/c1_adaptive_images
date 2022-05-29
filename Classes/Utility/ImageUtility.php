@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Utility;
 
+use _HumbugBox373c0874430e\Nette\Utils\Image;
 use C1\AdaptiveImages\Service\SettingsService;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
@@ -22,9 +21,9 @@ class ImageUtility
     protected $settings;
 
     /**
-     * @var ObjectManager
+     * @var SettingsService
      */
-    protected $objectManager;
+    protected $settingsService;
 
     /**
      * @var \C1\AdaptiveImages\Utility\DebugUtility
@@ -32,27 +31,9 @@ class ImageUtility
     protected $debugUtility;
 
     /**
-     * @param DebugUtility $debugUtility
-     * @return void
-     */
-    public function injectDebugUtility(DebugUtility $debugUtility)
-    {
-        $this->debugUtility = $debugUtility;
-    }
-
-    /**
      * @var \C1\AdaptiveImages\Utility\MathUtility
      */
     protected $mathUtility;
-
-    /**
-     * @param MathUtility $mathUtility
-     * @return void
-     */
-    public function injectMathUtility(MathUtility $mathUtility)
-    {
-        $this->mathUtility = $mathUtility;
-    }
 
     /**
      * @var \TYPO3\CMS\Core\Resource\FileInterface
@@ -65,15 +46,6 @@ class ImageUtility
     protected $cropVariantUtility;
 
     /**
-     * @param CropVariantUtility $cropVariantUtility
-     * @return void
-     */
-    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
-    {
-        $this->cropVariantUtility = $cropVariantUtility;
-    }
-
-    /**
      * @var array $cropVariants
      */
     protected $cropVariants = [];
@@ -82,16 +54,24 @@ class ImageUtility
      * ImageUtility constructor.
      * @param null|array $options
      * @param null|array $settings
-     * @param null|ObjectManager $objectManager
+     * @param null|SettingsService $settingsService
      * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
-    public function __construct($options = null, $settings = null, $objectManager = null)
+    public function __construct(
+        $options = null,
+        $settings = null,
+        SettingsService $settingsService,
+        ImageService $imageService,
+        CropVariantUtility $cropVariantUtility,
+        DebugUtility $debugUtility,
+        MathUtility $mathUtility
+    )
     {
-        if (!$objectManager) {
-            $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        } else {
-            $this->objectManager = $objectManager;
-        }
+        $this->settingsService = $settingsService;
+        $this->imageService = $imageService;
+        $this->cropVariantUtility = $cropVariantUtility;
+        $this->debugUtility = $debugUtility;
+        $this->mathUtility = $mathUtility;
 
         if ($options) {
             // @extensionScannerIgnoreLine
@@ -102,9 +82,7 @@ class ImageUtility
         if ($settings) {
             $this->settings = $settings;
         } else {
-            /** @var SettingsService $pluginSettingsService */
-            $pluginSettingsService = $this->objectManager->get('C1\\AdaptiveImages\\Service\\SettingsService');
-            $this->settings = $pluginSettingsService->getSettings();
+            $this->settings = $this->settingsService->getSettings();
         }
         if (!array_key_exists('default', $this->cropVariants)) {
             $this->cropVariants['default']['srcsetWidths'] = $this->settings['srcsetWidths'] ?? '320,600,992,1280,1920';
@@ -143,26 +121,14 @@ class ImageUtility
     }
 
     /**
-     * Return an instance of ImageService
-     *
-     * @return ImageService
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
-     */
-    protected function getImageService()
-    {
-        return $this->objectManager->get(ImageService::class);
-    }
-
-    /**
      * @param array $processingConfiguration
      * @return array
      * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
     public function processImage($processingConfiguration)
     {
-        $imageService = $this->getImageService();
         /** @var FileReference $processedImage */
-        $processedImage = $imageService->applyProcessingInstructions(
+        $processedImage = $this->imageService->applyProcessingInstructions(
             $this->originalFile,
             $processingConfiguration
         );
@@ -177,13 +143,13 @@ class ImageUtility
                 $processedImage->getProperty('height'),
                 $ratio
             );
-            $processedImage = $imageService->applyProcessingInstructions(
+            $processedImage = $this->imageService->applyProcessingInstructions(
                 $this->originalFile,
                 $processingConfiguration
             );
         }
 
-        $url = $imageService->getImageUri($processedImage);
+        $url = $this->imageService->getImageUri($processedImage);
 
         return [
             'url' => $url,

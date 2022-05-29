@@ -27,17 +27,14 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
      */
     protected $tagUtility;
 
-    /**
-     * @param TagUtility $tagUtility
-     * @return void
-     */
-    public function injectTagUtility(TagUtility $tagUtility)
-    {
-        $this->tagUtility = $tagUtility;
-    }
-
     /** @var array $cropVariants */
     protected $cropVariants;
+
+    public function __construct(TagUtility $tagUtility)
+    {
+        parent:$this->__construct();
+        $this->tagUtility = $tagUtility;
+    }
 
     /**
      * Initialize arguments.

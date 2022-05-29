@@ -26,11 +26,8 @@ class CropVariantUtility
      */
     protected $mathUtility;
 
-    /**
-     * @param MathUtility $mathUtility
-     * @return void
-     */
-    public function injectMathUtility(MathUtility $mathUtility)
+
+    public function __construct(MathUtility $mathUtility)
     {
         $this->mathUtility = $mathUtility;
     }
@@ -49,6 +46,15 @@ class CropVariantUtility
             $cropString = $file->getProperty('crop');
         }
         $this->cropVariantCollection = CropVariantCollection::create((string)$cropString);
+    }
+
+    /**
+     * Get property cropVariantCollection
+     * @return CropVariantCollection
+     */
+    public function getCropVariantCollection()
+    {
+        return $this->cropVariantCollection;
     }
 
     /**

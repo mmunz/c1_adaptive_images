@@ -22,25 +22,14 @@ class ImagePlaceholderUtility
     protected $imageService;
 
     /**
-     * @param ImageService $imageService
-     * @return void
-     */
-    public function injectImageService(ImageService $imageService)
-    {
-        $this->imageService = $imageService;
-    }
-
-    /**
      * @var \C1\AdaptiveImages\Utility\CropVariantUtility
      */
     protected $cropVariantUtility;
 
-    /**
-     * @param CropVariantUtility $cropVariantUtility
-     * @return void
-     */
-    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
+
+    public function __construct(ImageService $imageService, CropVariantUtility $cropVariantUtility)
     {
+        $this->imageService = $imageService;
         $this->cropVariantUtility = $cropVariantUtility;
     }
 

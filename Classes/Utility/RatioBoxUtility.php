@@ -25,40 +25,20 @@ class RatioBoxUtility
      */
     protected $cropVariantUtility;
 
-    /**
-     * @param \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
-     * @return void
-     */
-    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
-    {
-        $this->cropVariantUtility = $cropVariantUtility;
-    }
-
     /** @var \C1\AdaptiveImages\Utility\TagUtility
      */
     protected $tagUtility;
-
-    /**
-     * @param TagUtility $tagUtility
-     * @return void
-     */
-    public function injectTagUtility(TagUtility $tagUtility)
-    {
-        $this->tagUtility = $tagUtility;
-    }
 
     /**
      * RatioBoxUtility constructor.
      * @codeCoverageIgnore
      * @param null|PageRenderer $pageRenderer
      */
-    public function __construct($pageRenderer = null)
+    public function __construct(PageRenderer $pageRenderer, CropVariantUtility $cropVariantUtility, TagUtility $tagUtility)
     {
-        if (!$pageRenderer) {
-            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        } else {
-            $this->pageRenderer = $pageRenderer;
-        }
+        $this->pageRenderer = $pageRenderer;
+        $this->cropVariantUtility = $cropVariantUtility;
+        $this->tagUtility = $tagUtility;
     }
 
     /**

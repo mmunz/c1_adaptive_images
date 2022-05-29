@@ -24,38 +24,19 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
     protected $imageUtility;
 
     /**
-     * @param ImageUtility $imageUtility
-     * @return void
-     */
-    public function injectImageUtility(ImageUtility $imageUtility)
-    {
-        $this->imageUtility = $imageUtility;
-    }
-
-    /**
      * @var \C1\AdaptiveImages\Utility\RatioBoxUtility
      */
     protected $ratioBoxUtility;
-
-    /**
-     * @param RatioBoxUtility $ratioBoxUtility
-     * @return void
-     */
-    public function injectRatioBoxUtility(RatioBoxUtility $ratioBoxUtility)
-    {
-        $this->ratioBoxUtility = $ratioBoxUtility;
-    }
 
     /** @var \C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility
      */
     protected $imagePlaceholderUtility;
 
-    /**
-     * @param ImagePlaceholderUtility $imagePlaceholderUtility
-     * @return void
-     */
-    public function injectImagePlaceholderUtility(ImagePlaceholderUtility $imagePlaceholderUtility)
+    public function __construct(ImageUtility $imageUtility, RatioBoxUtility $ratioBoxUtility, ImagePlaceholderUtility $imagePlaceholderUtility)
     {
+        parent::__construct();
+        $this->imageUtility = $imageUtility;
+        $this->ratioBoxUtility = $ratioBoxUtility;
         $this->imagePlaceholderUtility = $imagePlaceholderUtility;
     }
 

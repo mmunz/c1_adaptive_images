@@ -36,40 +36,20 @@ class GetSrcsetViewHelper extends AbstractViewHelper
     protected $imageService;
 
     /**
-     * @param ImageService $imageService
-     * @return void
-     */
-    public function injectImageService(ImageService $imageService)
-    {
-        $this->imageService = $imageService;
-    }
-
-    /**
      * @var \C1\AdaptiveImages\Utility\MathUtility
      */
     protected $mathUtility;
-
-    /**
-     * @param MathUtility $mathUtility
-     * @return void
-     */
-    public function injectMathUtility(MathUtility $mathUtility)
-    {
-        $this->mathUtility = $mathUtility;
-    }
 
     /**
      * @var \C1\AdaptiveImages\Utility\DebugUtility
      */
     protected $debugUtility;
 
-    /**
-     * @param DebugUtility $debugUtility
-     * @return void
-     */
-    public function injectDebugUtility(DebugUtility $debugUtility)
+    public function __construct(ImageService $imageService, MathUtility $mathUtility, DebugUtility $debugUtility)
     {
+        $this->imageService = $imageService;
         $this->debugUtility = $debugUtility;
+        $this->mathUtility = $mathUtility;
     }
 
     /**

@@ -12,3 +12,4 @@
 
 
 /Tests/Functional/Fixtures/fileadmin/user_upload/_
+/Tests/.phpunit.result.cache
