@@ -12,7 +12,6 @@ use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
 use Nimut\TestingFramework\Rendering\RenderingContextFixture;
 use TYPO3\CMS\Core\Page\PageRenderer;
 
-
 /**
  * Class ImageViewHelperTest
  */
@@ -35,7 +34,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         $imageUtility = $this->mockImageUtility();
         $cropVariantUtility = new CropVariantUtility(new MathUtility());
         $tagUtility = new TagUtility();
-        $pageRendererMock = $this->createMock(PageRenderer::class);;
+        $pageRendererMock = $this->createMock(PageRenderer::class);
         $ratioBoxUtility = new RatioBoxUtility($pageRendererMock, $cropVariantUtility, $tagUtility);
         $imagePlaceHolderUtility = new ImagePlaceholderUtility($imageServiceMock, $cropVariantUtility);
 

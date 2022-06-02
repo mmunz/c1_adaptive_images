@@ -24,7 +24,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
  */
 class ImageViewHelper extends AbstractImageBasedViewHelper
 {
-
     public function __construct(ImageUtility $imageUtility, RatioBoxUtility $ratioBoxUtility, ImagePlaceholderUtility $imagePlaceholderUtility, ImageService $imageService)
     {
         $this->imageUtility = $imageUtility;

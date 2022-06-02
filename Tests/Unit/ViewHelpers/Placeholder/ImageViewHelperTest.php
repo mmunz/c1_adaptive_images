@@ -3,10 +3,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 
 use C1\AdaptiveImages\Utility\CropVariantUtility;
-use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
-use PHPUnit\Framework\MockObject\MockObject;
-use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
  * Class ImageViewHelperTest

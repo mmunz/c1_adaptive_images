@@ -65,8 +65,7 @@ class ImageUtility
         CropVariantUtility $cropVariantUtility,
         DebugUtility $debugUtility,
         MathUtility $mathUtility
-    )
-    {
+    ) {
         $this->settingsService = $settingsService;
         $this->imageService = $imageService;
         $this->cropVariantUtility = $cropVariantUtility;

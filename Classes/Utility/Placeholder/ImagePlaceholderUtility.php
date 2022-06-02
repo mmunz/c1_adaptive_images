@@ -26,7 +26,6 @@ class ImagePlaceholderUtility
      */
     protected $cropVariantUtility;
 
-
     public function __construct(ImageService $imageService, CropVariantUtility $cropVariantUtility)
     {
         $this->imageService = $imageService;

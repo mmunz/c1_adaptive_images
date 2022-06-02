@@ -4,7 +4,6 @@ namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class RatioBoxUtility

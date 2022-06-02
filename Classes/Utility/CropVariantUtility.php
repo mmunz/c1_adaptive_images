@@ -26,7 +26,6 @@ class CropVariantUtility
      */
     protected $mathUtility;
 
-
     public function __construct(MathUtility $mathUtility)
     {
         $this->mathUtility = $mathUtility;

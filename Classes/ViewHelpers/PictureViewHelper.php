@@ -40,8 +40,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
         ImagePlaceholderUtility $imagePlaceholderUtility,
         ImageService $imageService,
         TagUtility $tagUtility
-    )
-    {
+    ) {
         parent::__construct($imageUtility, $ratioBoxUtility, $imagePlaceholderUtility, $imageService);
         $this->tagUtility = $tagUtility;
     }
