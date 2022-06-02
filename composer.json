@@ -41,7 +41,7 @@
         "php:lint": ".Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php_cs",
         "php:fix": ".Build/vendor/bin/php-cs-fixer fix --diff --config .php_cs",
         "ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
-        "tests:unit": "@php .Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
+        "tests:unit": "php .Build/vendor/bin/phpunit",
         "tests:acceptance": [
             "@link-extension",
             "bash Tests/Acceptance/_setup/setup.sh",

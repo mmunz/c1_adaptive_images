@@ -2,6 +2,7 @@
 /Documentation-GENERATED-*
 /composer.lock
 .php_cs.cache
+.phpunit.result.cache
 
 # codeception.yml should be used fpr local config only
 /codeception.yml
@@ -12,4 +13,3 @@
 
 
 /Tests/Functional/Fixtures/fileadmin/user_upload/_
-/Tests/.phpunit.result.cache
