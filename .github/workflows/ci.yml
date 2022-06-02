@@ -24,7 +24,7 @@ jobs:
       - name: Install composer dependencies
         run: |
           rm -f composer.lock
-          composer require typo3/minimal:^10.4
+          composer require typo3/minimal:^11.0
       - name: phpstan
         run: composer phpstan
       - name: PHPCS
