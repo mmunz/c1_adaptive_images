@@ -27,7 +27,7 @@ class ImageUtility
 
     private MathUtility $mathUtility;
 
-    private ?FileInterface $originalFile = null;
+    private FileInterface $originalFile;
 
     private array $cropVariants = [];
 
