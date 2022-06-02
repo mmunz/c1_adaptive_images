@@ -7,6 +7,7 @@ use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use C1\AdaptiveImages\Utility\TagUtility;
+use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
@@ -33,9 +34,15 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
     /** @var array $cropVariants */
     protected $cropVariants;
 
-    public function __construct(ImageUtility $imageUtility, RatioBoxUtility $ratioBoxUtility, ImagePlaceholderUtility $imagePlaceholderUtility, TagUtility $tagUtility)
+    public function __construct(
+        ImageUtility $imageUtility,
+        RatioBoxUtility $ratioBoxUtility,
+        ImagePlaceholderUtility $imagePlaceholderUtility,
+        ImageService $imageService,
+        TagUtility $tagUtility
+    )
     {
-        parent::__construct($imageUtility, $ratioBoxUtility, $imagePlaceholderUtility);
+        parent::__construct($imageUtility, $ratioBoxUtility, $imagePlaceholderUtility, $imageService);
         $this->tagUtility = $tagUtility;
     }
 

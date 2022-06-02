@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\CropVariantUtility;
+use C1\AdaptiveImages\Utility\MathUtility;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -18,14 +19,15 @@ class CropVariantUtilityTest extends UnitTestCase
 {
 
     /**
-     * @var MockObject|objectManager
+     * @var MockObject|MathUtility
      */
-    protected $objectManagerMock;
+    protected $mathUtilityMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->objectManagerMock = $this->createMock(ObjectManager::class);
+        $this->mathUtilityMock = $this->createMock(MathUtility::class);
+        $this->utility = new CropVariantUtility($this->mathUtilityMock);
     }
 
     /**
@@ -35,13 +37,12 @@ class CropVariantUtilityTest extends UnitTestCase
     {
         /** @var File $fileReferenceMock */
         $fileReferenceMock = $this->createMock(FileReference::class);
-        $utility = new CropVariantUtility();
-        $utility->setCropVariantCollection($fileReferenceMock);
+        $this->utility->setCropVariantCollection($fileReferenceMock);
+        $this->utility->getCropAreaForVariant('default');
 
-        Assert::assertAttributeInstanceOf(
+        Assert::assertInstanceOf(
             'TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection',
-            'cropVariantCollection',
-            $utility
+            $this->utility->getCropVariantCollection()
         );
     }
 
@@ -52,13 +53,11 @@ class CropVariantUtilityTest extends UnitTestCase
     {
         /** @var File $file */
         $file = $this->createMock(File::class);
-        $utility = new CropVariantUtility();
-        $utility->setCropVariantCollection($file);
+        $this->utility->setCropVariantCollection($file);
 
-        Assert::assertAttributeInstanceOf(
+        Assert::assertInstanceOf(
             'TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection',
-            'cropVariantCollection',
-            $utility
+            $this->utility->getCropVariantCollection()
         );
     }
 
@@ -68,12 +67,10 @@ class CropVariantUtilityTest extends UnitTestCase
     public function returnsNullForFileReferenceWithoutCrop()
     {
         $fileReferenceMock = $this->getFileReferenceMock();
-
-        $utility = new CropVariantUtility();
-        $utility->setCropVariantCollection($fileReferenceMock);
+        $this->utility->setCropVariantCollection($fileReferenceMock);
 
         /** @var Area $result */
-        $result = $utility->getCropAreaForVariant('mobile');
+        $result = $this->utility->getCropAreaForVariant('mobile');
         $this->assertEquals(null, $result);
     }
 
@@ -83,11 +80,10 @@ class CropVariantUtilityTest extends UnitTestCase
     public function returnsNullForFile()
     {
         $file = $this->createMock(File::class);
-        $utility = new CropVariantUtility();
-        $utility->setCropVariantCollection($file);
+        $this->utility->setCropVariantCollection($file);
 
         /** @var Area $result */
-        $result = $utility->getCropAreaForVariant('mobile');
+        $result = $this->utility->getCropAreaForVariant('mobile');
         $this->assertEquals(null, $result);
     }
 
@@ -103,8 +99,7 @@ class CropVariantUtilityTest extends UnitTestCase
         ];
         $fileReferenceMock = $this->getFileReferenceMock($properties);
 
-        $utility = new CropVariantUtility();
-        $utility->setCropVariantCollection($fileReferenceMock);
+        $this->utility->setCropVariantCollection($fileReferenceMock);
 
         $expected = [
             'x' => 0,
@@ -114,7 +109,7 @@ class CropVariantUtilityTest extends UnitTestCase
         ];
 
         /** @var Area $result */
-        $result = $utility->getCropAreaForVariant('mobile');
+        $result = $this->utility->getCropAreaForVariant('mobile');
         $this->assertEquals($expected, $result->asArray());
     }
 
@@ -125,40 +120,6 @@ class CropVariantUtilityTest extends UnitTestCase
      * @return MockObject|FileReference
      */
     public function getFileReferenceMock($properties = [])
-    {
-        /** @var MockObject|FileReference $fileReferenceMock */
-        $fileReferenceMock = $this->getMockBuilder(FileReference::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['hasProperty', 'getProperty'])
-            ->getMock();
-
-        $fileReferenceMock
-            ->method('hasProperty')
-            ->will($this->returnCallback(function ($property) use ($properties) {
-                if (array_key_exists($property, $properties)) {
-                    return true;
-                }
-                return false;
-            }));
-
-        $fileReferenceMock
-            ->method('getProperty')
-            ->will($this->returnCallback(function ($property) use ($properties) {
-                if (array_key_exists($property, $properties)) {
-                    return $properties[$property];
-                }
-                return false;
-            }));
-        return $fileReferenceMock;
-    }
-
-    /**
-     * getFileMock
-     *
-     * @param array $properties
-     * @return MockObject|File
-     */
-    public function getFile($properties = [])
     {
         /** @var MockObject|FileReference $fileReferenceMock */
         $fileReferenceMock = $this->getMockBuilder(FileReference::class)

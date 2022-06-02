@@ -6,7 +6,9 @@ namespace C1\AdaptiveImages\ViewHelpers;
 use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
+use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 abstract class AbstractImageBasedViewHelper extends ImageViewHelper
 {
@@ -32,12 +34,25 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
      */
     protected $imagePlaceholderUtility;
 
-    public function __construct(ImageUtility $imageUtility, RatioBoxUtility $ratioBoxUtility, ImagePlaceholderUtility $imagePlaceholderUtility)
+    /**
+     * @var ImageService
+     */
+    protected ImageService $imageService;
+
+    /**
+     * @var string
+     */
+    protected $tagName = 'img';
+
+    public function __construct(ImageUtility $imageUtility, RatioBoxUtility $ratioBoxUtility, ImagePlaceholderUtility $imagePlaceholderUtility, ImageService $imageService)
     {
-        parent::__construct();
+        // not calling parent constructor on purpose because TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper sets the
+        // imageService there with makeInstance which made the unit tests fail. Instead we just set imageService here.
         $this->imageUtility = $imageUtility;
         $this->ratioBoxUtility = $ratioBoxUtility;
         $this->imagePlaceholderUtility = $imagePlaceholderUtility;
+        $this->imageService = $imageService;
+        $this->setTagBuilder(new TagBuilder($this->tagName));
     }
 
     public function initializeArguments()

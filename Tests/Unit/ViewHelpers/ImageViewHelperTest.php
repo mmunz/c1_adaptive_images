@@ -2,24 +2,51 @@
 
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\CropVariantUtility;
+use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
+use C1\AdaptiveImages\Utility\RatioBoxUtility;
+use C1\AdaptiveImages\Utility\TagUtility;
 use C1\AdaptiveImages\ViewHelpers\ImageViewHelper;
 use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
 use Nimut\TestingFramework\Rendering\RenderingContextFixture;
+use TYPO3\CMS\Core\Page\PageRenderer;
+
 
 /**
  * Class ImageViewHelperTest
  */
 class ImageViewHelperTest extends AbstractViewHelperTest
 {
+    /**
+     * @var array
+     */
+    protected array $constructorArgs;
 
     /**
      * set up
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->viewHelper = new ImageViewHelper();
+
+        //$this->viewHelper = $this->getMockBuilder(ImageViewHelper::class)->disableOriginalConstructor()->getMock();
+        $imageServiceMock = $this->mockImageService();
+        $imageUtility = $this->mockImageUtility();
+        $cropVariantUtility = new CropVariantUtility(new MathUtility());
+        $tagUtility = new TagUtility();
+        $pageRendererMock = $this->createMock(PageRenderer::class);;
+        $ratioBoxUtility = new RatioBoxUtility($pageRendererMock, $cropVariantUtility, $tagUtility);
+        $imagePlaceHolderUtility = new ImagePlaceholderUtility($imageServiceMock, $cropVariantUtility);
+
+        $this->constructorArgs = [
+                $imageUtility,
+                $ratioBoxUtility,
+                $imagePlaceHolderUtility,
+                $imageServiceMock
+        ];
+
+        $this->viewHelper = new ImageViewHelper(...$this->constructorArgs);
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
     }
 
@@ -35,7 +62,8 @@ class ImageViewHelperTest extends AbstractViewHelperTest
             'sources' => ['array', false, null],
             'srcsetWidths' => ['string', false, '360,768,1024,1920']
         ];
-        $instance = $this->getAccessibleMock(ImageViewHelper::class, ['registerArgument']);
+
+        $instance = $this->getAccessibleMock(ImageViewHelper::class, ['registerArgument'], $this->constructorArgs, '', false);
         $instance->expects($this->any())
             ->method('registerArgument')
             ->will(
@@ -89,10 +117,8 @@ class ImageViewHelperTest extends AbstractViewHelperTest
      */
     public function addAdditionalAttributesTest($expected, $arguments)
     {
-        /** @var AccessibleMockObjectInterface|ImageViewHelper $imageViewHelperMock */
-        $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getPlaceholder', 'getSrcSetString']);
+        $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getPlaceholder', 'getSrcSetString'], $this->constructorArgs);
         $imageViewHelperMock->setArguments($arguments);
-        $imageViewHelperMock->_set('imagePlaceholderUtility', new ImagePlaceholderUtility());
         $imageViewHelperMock->addAdditionalAttributes();
         $this->assertEquals($expected, $imageViewHelperMock->_get('tag')->getAttributes());
     }
@@ -106,7 +132,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
     public function addDataAttributesTest($arguments, $expected)
     {
         /** @var AccessibleMockObjectInterface|ImageViewHelper $imageViewHelperMock */
-        $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getSrcSetString']);
+        $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getSrcSetString'], $this->constructorArgs);
         $imageViewHelperMock->setArguments($arguments);
         $imageViewHelperMock->addDataAttributes();
 
@@ -175,6 +201,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
     public function getPlaceholderTest()
     {
         $imagePlaceholderUtilityMock = $this->getMockBuilder(ImagePlaceholderUtility::class)
+            ->disableOriginalConstructor()
             ->setMethods(['getPlaceholderImage'])
             ->getMock();
 

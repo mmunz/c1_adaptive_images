@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 
 use C1\AdaptiveImages\Utility\CropVariantUtility;
+use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\SvgViewHelper;
 use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
@@ -16,15 +17,15 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
     /**
      * set up
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->viewHelper = new SvgViewHelper();
+
+        $cropVariantUtility = new CropVariantUtility(new MathUtility());
+        $svgUtility = new SvgUtility();
+        $imageServiceMock = $this->mockImageService();
+        $this->viewHelper = new SvgViewHelper($imageServiceMock, $svgUtility, $cropVariantUtility);
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
-        $this->imageUtility = $this->mockImageUtility();
-        $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
-        $this->inject($this->viewHelper, 'cropVariantUtility', new CropVariantUtility());
-        $this->inject($this->viewHelper, 'svgUtility', new SvgUtility());
     }
 
     /**
@@ -33,7 +34,11 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
     public function testInitializeArguments()
     {
         /** @var AccessibleMockObjectInterface|SvgViewHelper $instance */
-        $instance = $this->getAccessibleMock(SvgViewHelper::class, ['registerArgument']);
+        $instance = $this->getAccessibleMock(SvgViewHelper::class, ['registerArgument'], [
+            $this->mockImageService(),
+            $this->createMock(SvgUtility::class),
+            $this->createMock(CropVariantUtility::class)
+        ]);
         $instance->expects($this->at(0))->method('registerArgument')->with(
             'file',
             '\TYPO3\CMS\Core\Resource\FileInterface',
@@ -148,7 +153,7 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
      * @param array $arguments
      * @param string $expected
      */
-    public function render($arguments, $expected)
+    public function renderTest($arguments, $expected)
     {
         $this->setArgumentsUnderTest($this->viewHelper, $arguments);
         $result = $this->viewHelper->render();

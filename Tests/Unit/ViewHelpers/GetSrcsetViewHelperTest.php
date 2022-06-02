@@ -2,6 +2,8 @@
 
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
+use C1\AdaptiveImages\Utility\DebugUtility;
+use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\ViewHelpers\GetSrcsetViewHelper;
 use Nimut\TestingFramework\Rendering\RenderingContextFixture;
 use TYPO3\CMS\Core\Resource\File;
@@ -26,10 +28,13 @@ class GetSrcsetViewHelperTest extends AbstractViewHelperTest
     /**
      * set up
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->viewHelper = new GetSrcsetViewHelper();
+        $imageServiceMock = $this->mockImageService();
+        $mathUtility = new MathUtility();
+        $debugUtility = new DebugUtility();
+        $this->viewHelper = new GetSrcsetViewHelper($imageServiceMock, $mathUtility, $debugUtility);
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
     }
 
@@ -38,7 +43,11 @@ class GetSrcsetViewHelperTest extends AbstractViewHelperTest
      */
     public function testInitializeArguments()
     {
-        $instance = $this->getAccessibleMock(GetSrcsetViewHelper::class, ['registerArgument']);
+        $instance = $this->getAccessibleMock(GetSrcsetViewHelper::class, ['registerArgument'], [
+            $this->mockImageService(),
+            new MathUtility(),
+            new DebugUtility()
+        ]);
         $instance->expects($this->at(0))->method('registerArgument')->with('file', FileInterface::class, $this->anything(), true);
         $instance->expects($this->at(1))->method('registerArgument')->with('widths', 'string', $this->anything(), false, [320, 640, 1024, 1440, 1920]);
         $instance->expects($this->at(2))->method('registerArgument')->with('cropVariant', 'string', $this->anything(), false, 'default');

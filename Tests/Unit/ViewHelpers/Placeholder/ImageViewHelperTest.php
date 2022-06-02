@@ -3,25 +3,28 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 
 use C1\AdaptiveImages\Utility\CropVariantUtility;
+use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
+use PHPUnit\Framework\MockObject\MockObject;
+use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
  * Class ImageViewHelperTest
  */
 class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest
 {
-
     /**
      * set up
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->viewHelper = new ImageViewHelper();
+
+        $cropVariantUtilityMock = $this->createMock(CropVariantUtility::class);
+        $imageServiceMock = $this->mockImageService();
+
+        $this->viewHelper = new ImageViewHelper($imageServiceMock, $cropVariantUtilityMock);
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
-        $this->inject($this->viewHelper, 'imageService', $this->mockImageService());
-        $cropVariantUtility = $this->getMockBuilder(CropVariantUtility::class)->getMock();
-        $this->inject($this->viewHelper, 'cropVariantUtility', $cropVariantUtility);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 
 use C1\AdaptiveImages\Utility\ImageUtility;
 use Nimut\TestingFramework\TestCase\ViewHelperBaseTestcase;
+use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Backend\Form\NodeInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
@@ -27,7 +28,7 @@ abstract class AbstractViewHelperTest extends ViewHelperBaseTestcase
     /**
      * set up
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }

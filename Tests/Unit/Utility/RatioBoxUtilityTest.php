@@ -2,7 +2,9 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
+use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
+use C1\AdaptiveImages\Utility\TagUtility;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -13,15 +15,32 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 class RatioBoxUtilityTest extends UnitTestCase
 {
 
+
+    /** @var RatioBoxUtility */
+    protected $utility;
+
     /**
      * @var MockObject|PageRenderer
      */
     protected $pageRendererMock;
 
-    protected function setUp()
+    /**
+     * @var MockObject|RatioBoxUtility
+     */
+    protected $ratioBoxUtilityMock;
+
+    /**
+     * @var MockObject|TagUtility
+     */
+    protected $tagUtilityMock;
+
+    protected function setUp(): void
     {
         parent::setUp();
         $this->pageRendererMock = $this->createMock(PageRenderer::class);
+        $this->cropVariantUtilityMock = $this->createMock(CropVariantUtility::class);
+        $this->tagUtilityMock = $this->createMock(TagUtility::class);
+        $this->utility = new RatioBoxUtility($this->pageRendererMock, $this->cropVariantUtilityMock, $this->tagUtilityMock);
     }
 
     /**
@@ -29,8 +48,7 @@ class RatioBoxUtilityTest extends UnitTestCase
      */
     public function sanitizeCssClassNameWorksAsExpected()
     {
-        $utility = new RatioBoxUtility($this->pageRendererMock);
-        $this->assertEquals('test-test', $utility->sanitizeCssClassName('TEST_test!?$%&'));
+        $this->assertEquals('test-test', $this->utility->sanitizeCssClassName('TEST_test!?$%&'));
     }
 
     /**
@@ -38,27 +56,26 @@ class RatioBoxUtilityTest extends UnitTestCase
      */
     public function getRatioClassForCropVariantReturnsValidClass()
     {
-        $utility = new RatioBoxUtility($this->pageRendererMock);
-        $utility->setRatioBoxBase('ratio-box');
+        $this->utility->setRatioBoxBase('ratio-box');
 
-        $this->assertEquals('ratio-box--42', $utility->getRatioClassForCropVariant(42));
+        $this->assertEquals('ratio-box--42', $this->utility->getRatioClassForCropVariant(42));
         $this->assertEquals(
             'ratio-box--max-width768px-42',
-            $utility->getRatioClassForCropVariant(42, 'max-width: 768px')
+            $this->utility->getRatioClassForCropVariant(42, 'max-width: 768px')
         );
 
         // with media query
         $this->assertEquals(
             'ratio-box--max-width768px-42',
-            $utility->getRatioClassForCropVariant(42, 'max-width: 768px')
+            $this->utility->getRatioClassForCropVariant(42, 'max-width: 768px')
         );
 
         // now with different ratioBoxBase
-        $utility->setRatioBoxBase('rbx');
-        $this->assertEquals('rbx--42', $utility->getRatioClassForCropVariant(42));
+        $this->utility->setRatioBoxBase('rbx');
+        $this->assertEquals('rbx--42', $this->utility->getRatioClassForCropVariant(42));
         $this->assertEquals(
             'rbx--max-width768px-42',
-            $utility->getRatioClassForCropVariant(42, 'max-width: 768px')
+            $this->utility->getRatioClassForCropVariant(42, 'max-width: 768px')
         );
     }
 
@@ -67,27 +84,26 @@ class RatioBoxUtilityTest extends UnitTestCase
      */
     public function getRatioBoxStyleReturnsCorrectStyle()
     {
-        $utility = new RatioBoxUtility($this->pageRendererMock);
-        $utility->setRatioBoxBase('ratio-box');
+        $this->utility->setRatioBoxBase('ratio-box');
 
-        $this->assertEquals('.ratio-box--42{padding-bottom:42%}', $utility->getRatioBoxStyle(42));
-        $this->assertEquals('.ratio-box--42dot23{padding-bottom:42.23%}', $utility->getRatioBoxStyle(42.23));
+        $this->assertEquals('.ratio-box--42{padding-bottom:42%}', $this->utility->getRatioBoxStyle(42));
+        $this->assertEquals('.ratio-box--42dot23{padding-bottom:42.23%}', $this->utility->getRatioBoxStyle(42.23));
 
         // with media query
         $this->assertEquals(
             '@media max-width: 768px{.ratio-box.ratio-box--max-width768px-42{padding-bottom:42%}}',
-            $utility->getRatioBoxStyle(42, 'max-width: 768px')
+            $this->utility->getRatioBoxStyle(42, 'max-width: 768px')
         );
         $this->assertEquals(
             '@media max-width: 768px{.ratio-box.ratio-box--max-width768px-42dot23{padding-bottom:42.23%}}',
-            $utility->getRatioBoxStyle(42.23, 'max-width: 768px')
+            $this->utility->getRatioBoxStyle(42.23, 'max-width: 768px')
         );
 
         // with changed ratioBoxBase
-        $utility->setRatioBoxBase('rbx');
+        $this->utility->setRatioBoxBase('rbx');
         $this->assertEquals(
             '@media max-width: 768px{.rbx.rbx--max-width768px-42{padding-bottom:42%}}',
-            $utility->getRatioBoxStyle(42, 'max-width: 768px')
+            $this->utility->getRatioBoxStyle(42, 'max-width: 768px')
         );
     }
 
@@ -96,8 +112,7 @@ class RatioBoxUtilityTest extends UnitTestCase
      */
     public function getRatioBoxClassNamesReturnsCorrectClassNames()
     {
-        $utility = new RatioBoxUtility($this->pageRendererMock);
-        $utility->setRatioBoxBase('ratio-box');
+        $this->utility->setRatioBoxBase('ratio-box');
 
         $cropVariants = [
             'mobile' => [
@@ -115,19 +130,18 @@ class RatioBoxUtilityTest extends UnitTestCase
                 1 => 'ratio-box--56dot25',
                 2 => 'ratio-box--max-width767px-75'
             ],
-            $utility->getRatioBoxClassNames($cropVariants)
+            $this->utility->getRatioBoxClassNames($cropVariants)
         );
 
         // with changed ratioBoxBase
-        $utility = new RatioBoxUtility($this->pageRendererMock);
-        $utility->setRatioBoxBase('rbx');
+        $this->utility->setRatioBoxBase('rbx');
         $this->assertEquals(
             [
                 0 => 'rbx',
                 1 => 'rbx--56dot25',
                 2 => 'rbx--max-width767px-75'
             ],
-            $utility->getRatioBoxClassNames($cropVariants)
+            $this->utility->getRatioBoxClassNames($cropVariants)
         );
     }
 }
