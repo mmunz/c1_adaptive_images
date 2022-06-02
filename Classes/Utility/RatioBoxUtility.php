@@ -10,29 +10,16 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  */
 class RatioBoxUtility
 {
+    private PageRenderer $pageRenderer;
 
-    /** @var PageRenderer */
-    protected $pageRenderer;
+    private CropVariantUtility $cropVariantUtility;
 
-    /**
-     * @var array $ratioBoxClassNames
-     */
-    protected $ratioBoxClassNames;
+    private TagUtility $tagUtility;
 
-    /**
-     * @var \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
-     */
-    protected $cropVariantUtility;
+    private array $ratioBoxClassNames = [];
 
-    /** @var \C1\AdaptiveImages\Utility\TagUtility
-     */
-    protected $tagUtility;
+    private string $ratioBoxBase = '';
 
-    /**
-     * RatioBoxUtility constructor.
-     * @codeCoverageIgnore
-     * @param null|PageRenderer $pageRenderer
-     */
     public function __construct(PageRenderer $pageRenderer, CropVariantUtility $cropVariantUtility, TagUtility $tagUtility)
     {
         $this->pageRenderer = $pageRenderer;
@@ -40,29 +27,15 @@ class RatioBoxUtility
         $this->tagUtility = $tagUtility;
     }
 
-    /**
-     * @var string $ratioBoxBase
-     */
-    protected $ratioBoxBase;
-
-    /**
-     * Setter for $this->ratioBoxBase
-     *
-     * @param string $ratioBoxBase
-     * @return void
-     */
-    public function setRatioBoxBase($ratioBoxBase = 'ratio-box')
+    public function setRatioBoxBase(string $ratioBoxBase = 'ratio-box'): void
     {
         $this->ratioBoxBase = $ratioBoxBase;
     }
 
     /**
      * Removes unwanted characters from css ClassNames
-     *
-     * @param string $class
-     * @return string
      */
-    public function sanitizeCssClassName($class)
+    public function sanitizeCssClassName(string $class): string
     {
         $class = \strtolower($class) ?? '';
         // remove all characters not allowed in HTML class names
