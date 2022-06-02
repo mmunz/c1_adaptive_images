@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Utility;
 
-use _HumbugBox373c0874430e\Nette\Utils\Image;
 use C1\AdaptiveImages\Service\SettingsService;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
@@ -14,57 +13,33 @@ use TYPO3\CMS\Extbase\Service\ImageService;
  */
 class ImageUtility
 {
-    /** @var array $options */
-    protected $options;
+    private array $options;
 
-    /** @var array $settings */
-    protected $settings;
+    private array $settings;
 
-    /**
-     * @var SettingsService
-     */
-    protected $settingsService;
+    private SettingsService $settingsService;
 
-    /**
-     * @var \C1\AdaptiveImages\Utility\DebugUtility
-     */
-    protected $debugUtility;
+    private ImageService $imageService;
 
-    /**
-     * @var \C1\AdaptiveImages\Utility\MathUtility
-     */
-    protected $mathUtility;
+    private CropVariantUtility $cropVariantUtility;
 
-    /**
-     * @var \TYPO3\CMS\Core\Resource\FileInterface
-     */
-    protected $originalFile;
+    private DebugUtility $debugUtility;
 
-    /**
-     * @var \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
-     */
-    protected $cropVariantUtility;
+    private MathUtility $mathUtility;
 
-    /**
-     * @var array $cropVariants
-     */
-    protected $cropVariants = [];
+    private ?FileInterface $originalFile = null;
 
-    /**
-     * ImageUtility constructor.
-     * @param null|array $options
-     * @param null|array $settings
-     * @param null|SettingsService $settingsService
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
-     */
+    private array $cropVariants = [];
+
+
     public function __construct(
-        $options = null,
-        $settings = null,
         SettingsService $settingsService,
         ImageService $imageService,
         CropVariantUtility $cropVariantUtility,
         DebugUtility $debugUtility,
-        MathUtility $mathUtility
+        MathUtility $mathUtility,
+        ?array $options = null,
+        ?array $settings = null
     ) {
         $this->settingsService = $settingsService;
         $this->imageService = $imageService;
@@ -110,11 +85,7 @@ class ImageUtility
         $this->options = $options;
     }
 
-    /**
-     * @param FileInterface $file
-     * @return void
-     */
-    public function setOriginalFile($file)
+    public function setOriginalFile(FileInterface $file): void
     {
         $this->originalFile = $file;
     }
@@ -160,12 +131,8 @@ class ImageUtility
 
     /**
      * Renders a source tag (set of srcset candidates for one cropVariant)
-     * @param string $key
-     * @param array $cropVariantConfig
-     * @return array
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
-    public function processSrcsetImages(string $key, array $cropVariantConfig)
+    public function processSrcsetImages(string $key, array $cropVariantConfig): array
     {
         $srcset = [];
         $srcWidths = explode(',', (string)$cropVariantConfig['srcsetWidths']);
@@ -213,11 +180,8 @@ class ImageUtility
 
     /**
      * returns a formatted srcset string
-     *
-     * @param array $candidates
-     * @return string
      */
-    public function getSrcSetString($candidates)
+    public function getSrcSetString(array $candidates): string
     {
         $srcset = [];
         foreach ($candidates as $candidate) {
@@ -232,10 +196,9 @@ class ImageUtility
      * Because all candidates have the same ratio we can just return the 'ratio' from the first child of the candidates
      * array.
      *
-     * @param array $candidates
      * @return array
      */
-    public function getRatioFromFirstCandidate($candidates)
+    public function getRatioFromFirstCandidate(array $candidates)
     {
         return reset($candidates)['ratio'];
     }
