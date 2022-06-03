@@ -37,7 +37,7 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
     /**
      * @var ImageService
      */
-    protected ImageService $imageService;
+    protected $imageService;
 
     /**
      * @var string
