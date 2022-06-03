@@ -31,7 +31,6 @@ class ImageUtility
 
     private array $cropVariants = [];
 
-
     public function __construct(
         SettingsService $settingsService,
         ImageService $imageService,
