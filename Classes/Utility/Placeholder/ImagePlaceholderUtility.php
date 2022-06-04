@@ -78,7 +78,7 @@ class ImagePlaceholderUtility
         }
     }
 
-    /* Return a formatted string for an inline image uri */
+    // Return a formatted string for an inline image uri
     public function createInlineImageUri(string $base64EncodedImageString, string $mimeType): string
     {
         return sprintf(
@@ -88,7 +88,7 @@ class ImagePlaceholderUtility
         );
     }
 
-    /* Return a fallback placeholder image (base64 or url to an image) */
+    // Return a fallback placeholder image (base64 or url to an image)
     public function getFallbackImage(bool $base64): string
     {
         $pixel = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=';
@@ -101,7 +101,7 @@ class ImagePlaceholderUtility
         }
     }
 
-    /* Test if an image has really been processed */
+    // Test if an image has really been processed
     public function imageIsProcessed(ProcessedFile $processedImage): bool
     {
         // if properties['identifier'] is empty, the image was not processed.
