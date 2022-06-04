@@ -69,7 +69,9 @@ class Acceptance extends \Codeception\Module
             'ratio' => $ratio
         ];
         $img = $this->getCurrentImage($index);
-        $this->assertArraySubset($dimensions, $img);
+        $this->assertEquals($dimensions['width'], $img['width']);
+        $this->assertEquals($dimensions['height'], $img['height']);
+        $this->assertEquals($dimensions['ratio'], $img['ratio']);
     }
 
     public function initLazySizes()

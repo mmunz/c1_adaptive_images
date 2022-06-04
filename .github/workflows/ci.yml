@@ -46,6 +46,8 @@ jobs:
       fail-fast: false
       matrix:
         env:
+          - { php: 8.1, TYPO3_VERSION: ^11.0 }
+          - { php: 8.0, TYPO3_VERSION: ^11.0 }
           - { php: 7.4, TYPO3_VERSION: ^11.0 }
           - { php: 7.4, TYPO3_VERSION: ^10.4 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}

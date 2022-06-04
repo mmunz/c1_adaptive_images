@@ -107,8 +107,7 @@ class ImagePlaceholderUtility
     {
         // if properties['identifier'] is empty, the image was not processed.
         // Note: $processedImage->getIdentifier() would return the original identifier as fallback, don"t use it here.
-        $identifier = $processedImage->getProperties()['identifier'];
-        $hasIdentifier = !(empty($identifier));
-        return $hasIdentifier;
+        $identifier = $processedImage->getProperties()['identifier'] ?? null;
+        return !(empty($identifier));
     }
 }

@@ -129,7 +129,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $this->validateMarkup($I);
 
         $I->expect('a placeholder image in mobile format (4:3 aspect ratio) is loaded');
-        $I->seeCurrentImageDimensions(128, 96, '75.0');
+        $I->seeCurrentImageDimensions(128, 96, '75.00');
 
         $I->initLazySizes();
 
@@ -167,14 +167,14 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(640, 479, '74.84', 1);
 
         $I->seeRatioBoxHasPaddingBottom(0, '.rb--max-width767px-31dot25', '31.25%');
-        // second image. still index=0 because this is the only image with this class name
+        // second image. still index=0:seeCorrectRatioClassWithTwoImages because this is the only image with this class name
         $I->seeRatioBoxHasPaddingBottom(0, '.rb--max-width767px-74dot86', '74.86%');
 
         $I->resizeWindow(1024, 768);
         $I->waitForImagesLoaded();
 
         $I->expect('a 1024px image is loaded.');
-        $I->seeCurrentImageDimensions(1024, 640, '62.5', 0);
+        $I->seeCurrentImageDimensions(1024, 640, '62.50', 0);
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
         $I->seeRatioBoxHasPaddingBottom(1, '.rb.rb--62dot5', '62.5%');
     }
@@ -244,7 +244,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->waitForImagesLoaded();
 
         $I->expect('a 1024px image is loaded.');
-        $I->seeCurrentImageDimensions(1024, 640, '62.5', 0);
+        $I->seeCurrentImageDimensions(1024, 640, '62.50', 0);
         $I->seeCurrentImageDimensions(1024, 480, '46.88', 1);
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
         // still index = 0 because it's the only image with this class on this page
@@ -286,7 +286,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $this->validateMarkup($I);
 
         $I->expect('a placeholder image in mobile format (4:3 aspect ratio) is loaded');
-        $I->seeCurrentImageDimensions(100, 75, '75.0');
+        $I->seeCurrentImageDimensions(100, 75, '75.00');
 
         $I->initLazySizes();
 

@@ -128,7 +128,7 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
             $this->arguments['placeholderInline'],
             $cropVariant,
             $this->arguments['placeholderWidth'],
-            $this->arguments['absolute']
+            $this->arguments['absolute'] ?? false
         );
         return $placeholder . ' ' . $this->arguments['placeholderWidth'] . 'w';
     }
