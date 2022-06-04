@@ -35,11 +35,6 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
     protected $imagePlaceholderUtility;
 
     /**
-     * @var ImageService
-     */
-    protected ImageService $imageService;
-
-    /**
      * @var string
      */
     protected $tagName = 'img';
