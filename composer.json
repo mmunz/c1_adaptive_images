@@ -94,7 +94,7 @@
         "roave/security-advisories": "dev-master",
         "codeception/codeception": "^4.0 || 5.0.x-dev",
         "kolyunya/codeception-markup-validator": "dev-master",
-        "portrino/codeception-helper-module": "dev-dev-9",
+        "portrino/codeception-helper-module": "dev-master",
         "codeception/module-webdriver": "^1.1 || ^2.0 || ^3.0",
         "codeception/module-db": "^1.0 || ^2.0 || ^3.0",
         "codeception/module-asserts": "^1.0 || ^2.0 || ^3.0",
