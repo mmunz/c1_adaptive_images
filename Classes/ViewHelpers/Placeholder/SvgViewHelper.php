@@ -60,7 +60,8 @@ class SvgViewHelper extends AbstractViewHelper
             'file',
             '\TYPO3\CMS\Core\Resource\FileInterface',
             'File or FileReference',
-            true);
+            true
+        );
         $this->registerArgument(
             'cropVariant',
             'string',

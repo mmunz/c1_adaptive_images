@@ -7,7 +7,6 @@ namespace C1\AdaptiveImages\Utility;
  */
 class SvgUtility
 {
-
     protected TagUtility $tagUtility;
 
     public function __construct(TagUtility $tagUtility)
@@ -15,14 +14,14 @@ class SvgUtility
         $this->tagUtility = $tagUtility;
     }
 
-    /* Get a SVG Placeholder image as placeholder */
-    public function getSvgPlaceholder($width = 100, $height = 75, $content = ''): string
+    // Get a SVG Placeholder image as placeholder
+    public function getSvgPlaceholder(float $width = 100, float $height = 75, string $content = ''): string
     {
         $svgTag = $this->tagUtility->buildSvgPlaceholderImage($width, $height, $content) ?? '';
         return 'data:image/svg+xml,' . rawurlencode($svgTag);
     }
 
-    /* Create preview svg image tag */
+    // Create preview svg image tag
     public function createPreviewImageTag(string $img, float $width, float $height): string
     {
         return sprintf(

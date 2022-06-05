@@ -90,9 +90,4 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->expect('See viewhelper output');
         $I->seeInSource('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221920%22%20height%3D%221200%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%3Cimage%20preserveAspectRatio');
     }
-
-
 }
-
-
-
