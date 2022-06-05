@@ -6,7 +6,6 @@ use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
-use C1\AdaptiveImages\Utility\TagUtility;
 use C1\AdaptiveImages\ViewHelpers\ImageViewHelper;
 use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
 use Nimut\TestingFramework\Rendering\RenderingContextFixture;
@@ -33,9 +32,8 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         $imageServiceMock = $this->mockImageService();
         $imageUtility = $this->mockImageUtility();
         $cropVariantUtility = new CropVariantUtility(new MathUtility());
-        $tagUtility = new TagUtility();
         $pageRendererMock = $this->createMock(PageRenderer::class);
-        $ratioBoxUtility = new RatioBoxUtility($pageRendererMock, $cropVariantUtility, $tagUtility);
+        $ratioBoxUtility = new RatioBoxUtility($pageRendererMock, $cropVariantUtility);
         $imagePlaceHolderUtility = new ImagePlaceholderUtility($imageServiceMock, $cropVariantUtility);
 
         $this->constructorArgs = [

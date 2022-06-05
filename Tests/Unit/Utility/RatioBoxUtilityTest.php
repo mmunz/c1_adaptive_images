@@ -4,7 +4,6 @@ namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
-use C1\AdaptiveImages\Utility\TagUtility;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -28,18 +27,12 @@ class RatioBoxUtilityTest extends UnitTestCase
      */
     protected $ratioBoxUtilityMock;
 
-    /**
-     * @var MockObject|TagUtility
-     */
-    protected $tagUtilityMock;
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->pageRendererMock = $this->createMock(PageRenderer::class);
         $this->cropVariantUtilityMock = $this->createMock(CropVariantUtility::class);
-        $this->tagUtilityMock = $this->createMock(TagUtility::class);
-        $this->utility = new RatioBoxUtility($this->pageRendererMock, $this->cropVariantUtilityMock, $this->tagUtilityMock);
+        $this->utility = new RatioBoxUtility($this->pageRendererMock, $this->cropVariantUtilityMock);
     }
 
     /**

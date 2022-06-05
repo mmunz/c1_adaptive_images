@@ -4,6 +4,7 @@ namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Class RatioBoxUtility
@@ -14,17 +15,17 @@ class RatioBoxUtility
 
     private CropVariantUtility $cropVariantUtility;
 
-    private TagUtility $tagUtility;
-
     private array $ratioBoxClassNames = [];
 
     private string $ratioBoxBase = '';
 
-    public function __construct(PageRenderer $pageRenderer, CropVariantUtility $cropVariantUtility, TagUtility $tagUtility)
+    private TagBuilder $tagBuilder;
+
+    public function __construct(PageRenderer $pageRenderer, CropVariantUtility $cropVariantUtility)
     {
         $this->pageRenderer = $pageRenderer;
         $this->cropVariantUtility = $cropVariantUtility;
-        $this->tagUtility = $tagUtility;
+        $this->tagBuilder = new TagBuilder();
     }
 
     public function setRatioBoxBase(string $ratioBoxBase = 'ratio-box'): void
@@ -142,6 +143,21 @@ class RatioBoxUtility
     }
 
     /**
+     * Build the ratio box tag
+     * @param string $content
+     * @param array $classNames
+     * @return string
+     */
+    public function buildRatioBoxTag(string $content, array $classNames)
+    {
+        $this->tagBuilder->reset();
+        $this->tagBuilder->setTagName('div');
+        $this->tagBuilder->setContent($content);
+        $this->tagBuilder->addAttribute('class', implode(' ', $classNames));
+        return $this->tagBuilder->render();
+    }
+
+    /**
      * Wrap $content inside a ratio box
      * @param string $content
      * @param FileInterface $file
@@ -157,6 +173,6 @@ class RatioBoxUtility
         //DebuggerUtility::var_dump($cropVariants);
         $this->setRatioBoxBase('rb');
         $classNames = $this->getRatioBoxClassNames($cropVariants);
-        return $this->tagUtility->buildRatioBoxTag($content, $classNames);
+        return $this->buildRatioBoxTag($content, $classNames);
     }
 }

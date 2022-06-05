@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
+use C1\AdaptiveImages\Utility\TagUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\SvgViewHelper;
 use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
 use Nimut\TestingFramework\Rendering\RenderingContextFixture;
@@ -22,7 +23,13 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
         parent::setUp();
 
         $cropVariantUtility = new CropVariantUtility(new MathUtility());
-        $svgUtility = new SvgUtility();
+        //$tagUtility = $this->createMock(TagUtility::class);
+        $svgUtility = new SvgUtility(new TagUtility());
+//        $svgUtility = $this->createMock(SvgUtility::class);
+//        $svgUtility->expects(self::once())
+//            ->method('getSvgPlaceholder')
+//            ->willReturn('foo');
+
         $imageServiceMock = $this->mockImageService();
         $this->viewHelper = new SvgViewHelper($imageServiceMock, $svgUtility, $cropVariantUtility);
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
@@ -112,8 +119,8 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
             'empty-svg' => [
                 [
                     'file' => $this->mockFileObject([
-                        'width' => '1200',
-                        'height' => '768',
+                        'width' => 1200,
+                        'height' => 768,
                         'mime_type' => 'jpg'
                     ]),
                 ],
@@ -122,8 +129,8 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
             'svg-with-preview' => [
                 [
                     'file' => $this->mockFileObject([
-                        'width' => '1200',
-                        'height' => '768',
+                        'width' => 1200,
+                        'height' => 768,
                         'mime_type' => 'jpg'
                     ]),
                     'embedPreview' => true
@@ -133,8 +140,8 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
             'svg-with-preview-and-cropVariants' => [
                 [
                     'file' => $this->mockFileObject([
-                        'width' => '1200',
-                        'height' => '768',
+                        'width' => 1200,
+                        'height' => 768,
                         'mime_type' => 'jpg',
                         'crop' => '{"default":{"cropArea":{"height":0.8992,"width":1,"x":0,"y":0.0096},"selectedRatio":"16:9","focusArea":{"x":0.3333333333333333,"y":0.3333333333333333,"width":0.3333333333333333,"height":0.3333333333333333}},"mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3","focusArea":{"x":0.3333333333333333,"y":0.3333333333333333,"width":0.3333333333333333,"height":0.3333333333333333}}}',
                     ]),
@@ -158,17 +165,5 @@ class SvgViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abstra
         $this->setArgumentsUnderTest($this->viewHelper, $arguments);
         $result = $this->viewHelper->render();
         $this->assertEquals($expected, $result);
-    }
-
-    /**
-     * @test
-     */
-    public function createPreviewImageTag()
-    {
-        $previewImgTag = $this->viewHelper->createPreviewImageTag('imageUri', 1024, 768);
-        $this->assertEquals(
-            '<image preserveAspectRatio="xMidYMid slice" xlink:href="imageUri" x="0" y="0" width="1024" height="768"></image>',
-            $previewImgTag
-        );
     }
 }

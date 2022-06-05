@@ -35,15 +35,6 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
      */
     protected $ratioBoxUtility;
 
-    /**
-     * @param RatioBoxUtility $ratioBoxUtility
-     * @return void
-     */
-    public function injectRatioBoxUtility(RatioBoxUtility $ratioBoxUtility)
-    {
-        $this->ratioBoxUtility = $ratioBoxUtility;
-    }
-
     public function __construct(RatioBoxUtility $ratioBoxUtility)
     {
         parent::__construct();

@@ -18,6 +18,12 @@
 
     <f:variable name="mode">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mode')}</f:variable>
 
+		<f:variable name="cropVariant">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'cropVariant')}</f:variable>
+		<f:if condition="{cropVariant}">
+			<f:then></f:then>
+			<f:else><f:variable name="cropVariant">default</f:variable></f:else>
+		</f:if>
+
     <f:variable name="placeholderWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'placeholderWidth')}</f:variable>
     <f:if condition="{placeholderWidth}">
         <f:then></f:then>
@@ -45,7 +51,6 @@
             <f:else><f:variable name="{argName}">0</f:variable></f:else>
         </f:if>
     </f:for>
-
     <div style="width: {containerWidth->f:format.raw()}">
         <f:switch expression="{mode}">
             <f:case value="RatioBox1">
@@ -66,6 +71,9 @@
             <f:case value="GetCropVariantsAsString">
                 <f:render section="GetCropVariantsAsString" arguments="{_all}"/>
             </f:case>
+					<f:case value="PlaceholderSvg">
+						<f:render section="PlaceholderSvg" arguments="{_all}"/>
+					</f:case>
             <f:defaultCase>No mode</f:defaultCase>
         </f:switch>
     </div>
@@ -175,5 +183,28 @@
     <f:section name="GetCropVariantsAsString">
         <pre class="cropString"><f:format.raw><ai:getCropVariants file="{file}" asString="true"/></f:format.raw></pre>
     </f:section>
+
+		<f:section name="PlaceholderSvg">
+				<f:variable name="content">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'content')}</f:variable>
+				<f:variable name="embedPreview">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'embedPreview')}</f:variable>
+				<f:variable name="embedPreviewWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'embedPreviewWidth')}</f:variable>
+				<f:if condition="{embedPreviewWidth}">
+					<f:then></f:then>
+					<f:else>
+						<f:variable name="embedPreviewWidth">64</f:variable>
+					</f:else>
+				</f:if>
+				<pre class="placeholder">
+					<f:format.raw>
+						<ai:placeholder.svg
+							file="{file}"
+							cropVariant="{cropVariant}"
+							content="{content}"
+							embedPreview="{embedPreview}"
+							embedPreviewWidth="{embedPreviewWidth}"
+						/>
+					</f:format.raw>
+				</pre>
+		</f:section>
 </f:spaceless>
 </html>

@@ -56,7 +56,11 @@ class SvgViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('file', '\TYPO3\CMS\Core\Resource\FileInterface', 'File or FileReference', true);
+        $this->registerArgument(
+            'file',
+            '\TYPO3\CMS\Core\Resource\FileInterface',
+            'File or FileReference',
+            true);
         $this->registerArgument(
             'cropVariant',
             'string',
@@ -110,8 +114,6 @@ class SvgViewHelper extends AbstractViewHelper
     {
         /** @var FileInterface $image */
         $image = $this->arguments['file'];
-        $imageUri = null;
-        $this->cropVariantUtility->setCropVariantCollection($image);
         $width = $image->getProperty('width');
         $height = $image->getProperty('height');
         $this->cropVariantUtility->setCropVariantCollection($image);
@@ -125,7 +127,6 @@ class SvgViewHelper extends AbstractViewHelper
         $preview = '';
 
         if ($this->arguments['embedPreview']) {
-            $previewImg = '';
             $processingInstructions = [
                 'width' => $this->arguments['embedPreviewWidth'],
                 'crop' => $cropArea,
@@ -139,28 +140,8 @@ class SvgViewHelper extends AbstractViewHelper
                 base64_encode($processedImage->getContents())
             );
 
-            $preview = $this->createPreviewImageTag($previewImg, $width, $height);
+            $preview = $this->svgUtility->createPreviewImageTag($previewImg, $width, $height);
         }
         return $this->svgUtility->getSvgPlaceholder($width, $height, $this->arguments['content'] . $preview);
-    }
-
-    /**
-     * createPreviewImageTag
-     *
-     * @param string $img
-     * @param int $width
-     * @param int $height
-     *
-     * @return string
-     *
-     */
-    public function createPreviewImageTag($img, $width, $height)
-    {
-        return sprintf(
-            '<image preserveAspectRatio="xMidYMid slice" xlink:href="%s" x="0" y="0" width="%s" height="%s"></image>',
-            $img,
-            $width,
-            $height
-        );
     }
 }
