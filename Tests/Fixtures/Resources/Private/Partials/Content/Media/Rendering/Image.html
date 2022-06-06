@@ -1,143 +1,148 @@
 <html xmlns:ai="C1\AdaptiveImages\ViewHelpers"
-      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-      data-namespace-typo3-fluid="true">
-<f:spaceless>
-    <f:variable name="containerWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'containerWidth')}</f:variable>
-    <f:if condition="{containerWidth}">
-        <f:then></f:then>
-        <f:else><f:variable name="containerWidth">100%</f:variable></f:else>
-    </f:if>
-    <f:variable name="mq-mobile">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mq-mobile')}</f:variable>
-    <f:if condition="{mq-mobile}">
-        <f:then></f:then>
-        <f:else>
-            <f:variable name="mq-mobile">(max-width:767px)</f:variable>
-        </f:else>
-    </f:if>
+			xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+			data-namespace-typo3-fluid="true">
 
+<f:variable name="mode">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mode')}</f:variable>
 
-    <f:variable name="mode">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mode')}</f:variable>
+<f:variable name="containerWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'containerWidth')}</f:variable>
+<f:if condition="{containerWidth} == ''">
+	<f:variable name="containerWidth">100%</f:variable>
+</f:if>
 
-		<f:variable name="cropVariant">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'cropVariant')}</f:variable>
-		<f:if condition="{cropVariant}">
-			<f:then></f:then>
-			<f:else><f:variable name="cropVariant">default</f:variable></f:else>
-		</f:if>
+<f:variable name="mq-mobile">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'mq-mobile')}</f:variable>
+<f:if condition="{mq-mobile} == ''">
+	<f:variable name="mq-mobile">(max-width:767px)</f:variable>
+</f:if>
 
-    <f:variable name="placeholderWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'placeholderWidth')}</f:variable>
-    <f:if condition="{placeholderWidth}">
-        <f:then></f:then>
-        <f:else><f:variable name="placeholderWidth">100</f:variable></f:else>
-    </f:if>
+<f:variable name="cropVariant">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'cropVariant')}</f:variable>
+<f:if condition="{cropVariant} == ''">
+	<f:variable name="cropVariant">default</f:variable>
+</f:if>
 
-    <f:variable name="srcsetWidths">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'srcsetWidths')}</f:variable>
-    <f:if condition="{srcsetWidths}">
-        <f:then></f:then>
-        <f:else><f:variable name="srcsetWidths">200,400</f:variable></f:else>
-    </f:if>
+<f:variable name="placeholderWidth" value="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'placeholderWidth')}"/>
+<f:if condition="{placeholderWidth} == ''">
+	<f:variable name="placeholderWidth" value="32"/>
+</f:if>
 
-    <f:comment>Setting boolean vars which default to true</f:comment>
-    <f:for each="{0: 'placeholderInline'}" as="argName">
-        <f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '0'">
-            <f:then><f:variable name="{argName}">0</f:variable></f:then>
-            <f:else><f:variable name="{argName}">1</f:variable></f:else>
-        </f:if>
-    </f:for>
+<f:variable name="srcsetWidths">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'srcsetWidths')}</f:variable>
+<f:if condition="{srcsetWidths} == ''">
+	<f:variable name="srcsetWidths">200,400</f:variable>
+</f:if>
 
-    <f:comment>Setting boolean vars which default to false</f:comment>
-    <f:for each="{0: 'ratiobox', 1: 'lazy', 2: 'debug', 3: 'jsdebug'}" as="argName">
-        <f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '1'">
-            <f:then><f:variable name="{argName}">1</f:variable></f:then>
-            <f:else><f:variable name="{argName}">0</f:variable></f:else>
-        </f:if>
-    </f:for>
-    <div style="width: {containerWidth->f:format.raw()}">
-        <f:switch expression="{mode}">
-            <f:case value="RatioBox1">
-                <f:render section="RatioBox1" arguments="{_all}"/>
-            </f:case>
-            <f:case value="ImageViewHelper">
-                <f:render section="ImageViewHelper" arguments="{_all}"/>
-            </f:case>
-            <f:case value="PictureViewHelper">
-                <f:render section="PictureViewHelper" arguments="{_all}"/>
-            </f:case>
-            <f:case value="PictureViewHelperWithMultipleSources">
-                <f:render section="PictureViewHelperWithMultipleSources" arguments="{_all}"/>
-            </f:case>
-            <f:case value="PictureViewHelperDifferentDefaultCropVariant">
-                <f:render section="PictureViewHelperDifferentDefaultCropVariant" arguments="{_all}"/>
-            </f:case>
-            <f:case value="GetCropVariantsAsString">
-                <f:render section="GetCropVariantsAsString" arguments="{_all}"/>
-            </f:case>
-					<f:case value="PlaceholderSvg">
-						<f:render section="PlaceholderSvg" arguments="{_all}"/>
-					</f:case>
-					<f:case value="GetSrcset">
-						<f:render section="GetSrcset" arguments="{_all}"/>
-					</f:case>
-					<f:defaultCase>No mode</f:defaultCase>
-        </f:switch>
-    </div>
+<f:comment>Setting boolean vars which default to true</f:comment>
+<f:for each="{0: 'placeholderInline', 1: 'dataUri'}" as="argName">
+	<f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '0'">
+		<f:then>
+			<f:variable name="{argName}">0</f:variable>
+		</f:then>
+		<f:else>
+			<f:variable name="{argName}">1</f:variable>
+		</f:else>
+	</f:if>
+</f:for>
 
-    <f:section name="RatioBox1">
-        <ai:ratioBox file="{file}" mediaQueries="{mobile: mq-mobile, default: ''}">
-            <f:media class="image-embed-item" file="{file}" width="{dimensions.width}" height="{dimensions.height}"
-                     alt="{file.alternative}" title="{file.title}"/>
-        </ai:ratioBox>
-    </f:section>
+<f:comment>Setting boolean vars which default to false</f:comment>
+<f:for each="{0: 'ratiobox', 1: 'lazy', 2: 'debug', 3: 'jsdebug', 4: 'absolute'}" as="argName">
+	<f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '1'">
+		<f:then>
+			<f:variable name="{argName}">1</f:variable>
+		</f:then>
+		<f:else>
+			<f:variable name="{argName}">0</f:variable>
+		</f:else>
+	</f:if>
+</f:for>
 
-    <f:section name="ImageViewHelper">
-        <ai:image image="{file}"
-                  class="img-responsive-full lazyload"
-                  width="{dimensions.width}"
-                  height="{dimensions.height}"
-                  alt="{file.alternative}"
-                  title="{file.title}"
-                  srcsetWidths="{srcsetWidths}"
-                  placeholderInline="{placeholderInline}"
-                  placeholderWidth="{placeholderWidth}"
-                  lazy="{lazy}"
-                  debug="{debug}"
-                  ratiobox="{ratiobox}"
-                  jsdebug="{jsdebug}"
-                  sizes="{sizesAttr}"
-        />
-    </f:section>
+<div style="width: {containerWidth->f:spaceless()->f:format.raw()}">
+	<f:switch expression="{mode}">
+		<f:case value="RatioBox1">
+			<f:render section="RatioBox1" arguments="{_all}"/>
+		</f:case>
+		<f:case value="ImageViewHelper">
+			<f:render section="ImageViewHelper" arguments="{_all}"/>
+		</f:case>
+		<f:case value="PictureViewHelper">
+			<f:render section="PictureViewHelper" arguments="{_all}"/>
+		</f:case>
+		<f:case value="PictureViewHelperWithMultipleSources">
+			<f:render section="PictureViewHelperWithMultipleSources" arguments="{_all}"/>
+		</f:case>
+		<f:case value="PictureViewHelperDifferentDefaultCropVariant">
+			<f:render section="PictureViewHelperDifferentDefaultCropVariant" arguments="{_all}"/>
+		</f:case>
+		<f:case value="GetCropVariantsAsString">
+			<f:render section="GetCropVariantsAsString" arguments="{_all}"/>
+		</f:case>
+		<f:case value="GetSrcset">
+			<f:render section="GetSrcset" arguments="{_all}"/>
+		</f:case>
+		<f:case value="PlaceholderSvg">
+			<f:render section="PlaceholderSvg" arguments="{_all}"/>
+		</f:case>
+		<f:case value="PlaceholderImage">
+			<f:render section="PlaceholderImage" arguments="{_all}"/>
+		</f:case>
+		<f:defaultCase>No mode</f:defaultCase>
+	</f:switch>
+</div>
 
-    <f:section name="PictureViewHelper">
-        <ai:picture image="{file}"
-                  class="img-responsive-full lazyload"
-                    width="{dimensions.width}"
-                    height="{dimensions.height}"
-                    alt="{file.alternative}"
-                    title="{file.title}"
-                    sources="{
+<f:section name="RatioBox1">
+	<ai:ratioBox file="{file}" mediaQueries="{mobile: mq-mobile, default: ''}">
+		<f:media class="image-embed-item" file="{file}" width="{dimensions.width}" height="{dimensions.height}"
+						 alt="{file.alternative}" title="{file.title}"/>
+	</ai:ratioBox>
+</f:section>
+
+<f:section name="ImageViewHelper">
+	<ai:image image="{file}"
+						class="img-responsive-full lazyload"
+						width="{dimensions.width}"
+						height="{dimensions.height}"
+						alt="{file.alternative}"
+						title="{file.title}"
+						srcsetWidths="{srcsetWidths}"
+						placeholderInline="{placeholderInline}"
+						placeholderWidth="{placeholderWidth->f:spaceless()}"
+						lazy="{lazy}"
+						debug="{debug}"
+						ratiobox="{ratiobox}"
+						jsdebug="{jsdebug}"
+						sizes="{sizesAttr}"
+	/>
+</f:section>
+
+<f:section name="PictureViewHelper">
+	<ai:picture image="{file}"
+							class="img-responsive-full lazyload"
+							width="{dimensions.width}"
+							height="{dimensions.height}"
+							alt="{file.alternative}"
+							title="{file.title}"
+							sources="{
                         'mobile': {
                             'srcsetWidths': '320,640,768',
                             'media': '(max-width: 767px)'
                         }
                       }"
-                    srcsetWidths="{srcsetWidths}"
-                    placeholderInline="{placeholderInline}"
-                    placeholderWidth="{placeholderWidth}"
-                    lazy="{lazy}"
-                    debug="{debug}"
-                    ratiobox="{ratiobox}"
-                    jsdebug="{jsdebug}"
-                    sizes="{sizesAttr}"
-        />
-    </f:section>
+							srcsetWidths="{srcsetWidths}"
+							placeholderInline="{placeholderInline}"
+							placeholderWidth="{placeholderWidth->f:spaceless()}"
+							lazy="{lazy}"
+							debug="{debug}"
+							ratiobox="{ratiobox}"
+							jsdebug="{jsdebug}"
+							sizes="{sizesAttr}"
+	/>
+</f:section>
 
-    <f:section name="PictureViewHelperWithMultipleSources">
-        <ai:picture image="{file}"
-                    class="img-responsive-full lazyload"
-                    width="{dimensions.width}"
-                    height="{dimensions.height}"
-                    alt="{file.alternative}"
-                    title="{file.title}"
-                    sources="{
+<f:section name="PictureViewHelperWithMultipleSources">
+	<ai:picture image="{file}"
+							class="img-responsive-full lazyload"
+							width="{dimensions.width}"
+							height="{dimensions.height}"
+							alt="{file.alternative}"
+							title="{file.title}"
+							sources="{
                         'mobile': {
                             'srcsetWidths': '320,640,768',
                             'media': '(max-width: 767px)'
@@ -147,85 +152,101 @@
                             'media': '(min-width: 768px) AND (max-width: 992px)'
                         }
                       }"
-                    srcsetWidths="{srcsetWidths}"
-                    placeholderInline="{placeholderInline}"
-                    placeholderWidth="{placeholderWidth}"
-                    lazy="{lazy}"
-                    debug="{debug}"
-                    ratiobox="{ratiobox}"
-                    jsdebug="{jsdebug}"
-                    sizes="{sizesAttr}"
-        />
-    </f:section>
+							srcsetWidths="{srcsetWidths}"
+							placeholderInline="{placeholderInline}"
+							placeholderWidth="{placeholderWidth->f:spaceless()}"
+							lazy="{lazy}"
+							debug="{debug}"
+							ratiobox="{ratiobox}"
+							jsdebug="{jsdebug}"
+							sizes="{sizesAttr}"
+	/>
+</f:section>
 
-    <f:section name="PictureViewHelperDifferentDefaultCropVariant">
-        <ai:picture image="{file}"
-                    class="img-responsive-full lazyload"
-                    width="{dimensions.width}"
-                    height="{dimensions.height}"
-                    alt="{file.alternative}"
-                    title="{file.title}"
-                    sources="{
+<f:section name="PictureViewHelperDifferentDefaultCropVariant">
+	<ai:picture image="{file}"
+							class="img-responsive-full lazyload"
+							width="{dimensions.width}"
+							height="{dimensions.height}"
+							alt="{file.alternative}"
+							title="{file.title}"
+							sources="{
                         'mobile': {
                             'srcsetWidths': '320,640,768',
                             'media': '(max-width: 767px)'
                         }
                       }"
-                    cropVariant="NotDefault"
-                    srcsetWidths="{srcsetWidths}"
-                    placeholderInline="{placeholderInline}"
-                    placeholderWidth="{placeholderWidth}"
-                    lazy="{lazy}"
-                    debug="{debug}"
-                    ratiobox="{ratiobox}"
-                    jsdebug="{jsdebug}"
-                    sizes="{sizesAttr}"
-        />
-    </f:section>
+							cropVariant="NotDefault"
+							srcsetWidths="{srcsetWidths}"
+							placeholderInline="{placeholderInline}"
+							placeholderWidth="{placeholderWidth->f:spaceless()}"
+							lazy="{lazy}"
+							debug="{debug}"
+							ratiobox="{ratiobox}"
+							jsdebug="{jsdebug}"
+							sizes="{sizesAttr}"
+	/>
+</f:section>
 
-    <f:section name="GetCropVariantsAsString">
-        <pre class="cropString"><f:format.raw><ai:getCropVariants file="{file}" asString="true"/></f:format.raw></pre>
-    </f:section>
+<f:section name="GetCropVariantsAsString">
+	<pre class="cropString"><f:format.raw><ai:getCropVariants file="{file}" asString="true"/></f:format.raw></pre>
+</f:section>
 
-		<f:section name="PlaceholderSvg">
-				<f:variable name="content">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'content')}</f:variable>
-				<f:variable name="embedPreview">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'embedPreview')}</f:variable>
-				<f:variable name="embedPreviewWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'embedPreviewWidth')}</f:variable>
-				<f:if condition="{embedPreviewWidth}">
-					<f:then></f:then>
-					<f:else>
-						<f:variable name="embedPreviewWidth">64</f:variable>
-					</f:else>
-				</f:if>
-				<pre class="placeholder"><f:format.raw><ai:placeholder.svg
-							file="{file}"
-							cropVariant="{cropVariant}"
-							content="{content}"
-							embedPreview="{embedPreview}"
-							embedPreviewWidth="{embedPreviewWidth}"
-						/></f:format.raw></pre>
-		</f:section>
-	<f:section name="GetSrcset">
-		<f:variable name="debug">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'debug')}</f:variable>
-		<f:variable name="widths">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'widths')}</f:variable>
-		<f:if condition="{widths}">
-			<f:then></f:then>
-			<f:else><f:variable name="widths">320,640</f:variable></f:else>
-		</f:if>
-		<f:variable name="absolute">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'absolute')}</f:variable>
-		<f:if condition="{absolute}">
-			<f:then></f:then>
-			<f:else><f:variable name="absolute">0</f:variable></f:else>
-		</f:if>
-		<f:variable name="srcset"><f:format.raw><ai:getSrcset
-			file="{file}"
-			cropVariant="{cropVariant}"
-			debug="{debug}"
-			widths="{widths}"
-			absolute="{absolute}"
-		/></f:format.raw></f:variable>
-		<pre class="srcset">{srcset}</pre>
-		<img src="{settings.ai.placeholder.dataImage}" srcset="{srcset}" alt="" sizes="100vw" />
-	</f:section>
-</f:spaceless>
+<f:section name="PlaceholderSvg">
+	<f:variable name="content">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'content')}</f:variable>
+	<f:variable name="embedPreview">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'embedPreview')}</f:variable>
+	<f:variable name="embedPreviewWidth">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'embedPreviewWidth')}
+	</f:variable>
+	<f:if condition="{embedPreviewWidth} == ''">
+		<f:variable name="embedPreviewWidth">64</f:variable>
+	</f:if>
+	<pre class="placeholder"><f:format.raw><ai:placeholder.svg
+		file="{file}"
+		cropVariant="{cropVariant}"
+		content="{content}"
+		embedPreview="{embedPreview}"
+		embedPreviewWidth="{embedPreviewWidth->f:spaceless()}"
+	/></f:format.raw></pre>
+</f:section>
+
+<f:section name="PlaceholderImage">
+	<f:variable name="width">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'width')}</f:variable>
+	<f:if condition="{width} == ''"><f:variable name="width">128</f:variable></f:if>
+	<f:variable name="placeholderImage">
+		<f:format.raw>
+			<ai:placeholder.image
+				file="{file}"
+				cropVariant="{cropVariant}"
+				width="{width}"
+				absolute="{absolute}"
+				dataUri="{dataUri}"
+			/>
+		</f:format.raw>
+	</f:variable>
+	<pre class="placeholder-image">{placeholderImage->f:spaceless()}</pre>
+	<img src="{placeholderImage}" alt=""/>
+</f:section>
+
+<f:section name="GetSrcset">
+	<f:variable name="widths">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'widths')}</f:variable>
+	<f:if condition="{widths}">
+		<f:then></f:then>
+		<f:else>
+			<f:variable name="widths">320,640</f:variable>
+		</f:else>
+	</f:if>
+	<f:variable name="srcset">
+		<f:format.raw>
+			<ai:getSrcset
+				file="{file}"
+				cropVariant="{cropVariant}"
+				debug="{debug}"
+				widths="{widths}"
+				absolute="{absolute}"
+			/>
+		</f:format.raw>
+	</f:variable>
+	<pre class="srcset">{srcset->f:spaceless()}</pre>
+	<img src="{settings.ai.placeholder.dataImage}" srcset="{srcset->f:spaceless()}" alt="" sizes="100vw"/>
+</f:section>
 </html>

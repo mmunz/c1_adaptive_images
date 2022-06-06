@@ -286,7 +286,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $this->validateMarkup($I);
 
         $I->expect('a placeholder image in mobile format (4:3 aspect ratio) is loaded');
-        $I->seeCurrentImageDimensions(100, 75, '75.00');
+        $I->seeCurrentImageDimensions(32, 24, '75.00');
 
         $I->initLazySizes();
 
