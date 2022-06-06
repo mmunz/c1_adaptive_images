@@ -92,7 +92,10 @@ jobs:
           composer tests:acceptance
       - name: Upload Codeception output
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
+          if: failure()
           name: codeception-results
           path: Tests/Acceptance/_output/
+          if-no-files-found: ignore
+          retention-days: 3
