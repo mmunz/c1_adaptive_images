@@ -19,11 +19,14 @@ class GetSrcsetViewHelperCest extends AbstractViewHelperCest
     public function getSrcSetStringForImageWithoutCrop(\AcceptanceTester $I)
     {
         $I->flushCache();
-        $I->amOnPage('/index.php?mode=GetSrcset');
+        $I->amOnPage('/index.php?mode=GetSrcset&debug=1');
 
         $I->expect('See viewhelper output');
         $srcSetString = $I->grabTextFrom('.srcset');
         $I->assertRegExp('/^\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 320w,\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 640w/', $srcSetString);
+
+        $I->waitForImagesLoaded();
+        $I->seeCurrentImageDimensions(640, 400, '62.50', 0);
     }
 
     public function getSrcSetStringForImageWithoutCropAbsoluteUri(\AcceptanceTester $I)
@@ -39,11 +42,14 @@ class GetSrcsetViewHelperCest extends AbstractViewHelperCest
     public function getSrcSetStringForImageWithInvalidCropVariant(\AcceptanceTester $I)
     {
         $I->flushCache();
-        $I->amOnPage('/index.php?mode=GetSrcset&cropVariant=invalid');
+        $I->amOnPage('/index.php?mode=GetSrcset&cropVariant=invalid&debug=1');
 
         $I->expect('See viewhelper output');
         $srcSetString = $I->grabTextFrom('.srcset');
         $I->assertRegExp('/^\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 320w,\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 640w/', $srcSetString);
+
+        $I->waitForImagesLoaded();
+        $I->seeCurrentImageDimensions(640, 400, '62.50', 0);
     }
 
     public function getSrcSetStringForImageWithCrop(\AcceptanceTester $I)
@@ -53,10 +59,13 @@ class GetSrcsetViewHelperCest extends AbstractViewHelperCest
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":0.5,"height":0.5},"selectedRatio":"NaN"}}'
         ];
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
-        $I->amOnPage('/index.php?mode=GetSrcset');
+        $I->amOnPage('/index.php?mode=GetSrcset&debug=1');
         $I->expect('See viewhelper output');
         $srcSetString = $I->grabTextFrom('.srcset');
         $I->assertRegExp('/^\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 320w,\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 640w/', $srcSetString);
+
+        $I->waitForImagesLoaded();
+        $I->seeCurrentImageDimensions(640, 400, '62.50', 0);
     }
 
     public function getSrcSetStringForImageWithCropVariantMobile(\AcceptanceTester $I)
@@ -66,9 +75,12 @@ class GetSrcsetViewHelperCest extends AbstractViewHelperCest
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
         ];
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
-        $I->amOnPage('/index.php?mode=GetSrcset&cropVariant=mobile');
+        $I->amOnPage('/index.php?mode=GetSrcset&cropVariant=mobile&debug=1');
         $I->expect('See viewhelper output');
         $srcSetString = $I->grabTextFrom('.srcset');
         $I->assertRegExp('/^\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 320w,\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 640w/', $srcSetString);
+
+        $I->waitForImagesLoaded();
+        $I->seeCurrentImageDimensions(640, 479, '74.84', 0);
     }
 }

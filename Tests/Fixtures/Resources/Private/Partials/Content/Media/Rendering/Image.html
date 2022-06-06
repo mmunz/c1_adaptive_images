@@ -217,13 +217,15 @@
 			<f:then></f:then>
 			<f:else><f:variable name="absolute">0</f:variable></f:else>
 		</f:if>
-		<pre class="srcset"><f:format.raw><ai:getSrcset
+		<f:variable name="srcset"><f:format.raw><ai:getSrcset
 			file="{file}"
 			cropVariant="{cropVariant}"
 			debug="{debug}"
 			widths="{widths}"
 			absolute="{absolute}"
-		/></f:format.raw></pre>
+		/></f:format.raw></f:variable>
+		<pre class="srcset">{srcset}</pre>
+		<img src="{settings.ai.placeholder.dataImage}" srcset="{srcset}" alt="" sizes="100vw" />
 	</f:section>
 </f:spaceless>
 </html>
