@@ -85,7 +85,7 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
 
         $I->expect('See viewhelper output');
         $placeholderBase64String = $I->grabTextFrom('.placeholder');
-        $I->assertRegExp('/^data:image.*width%3D%221920%22%20height%3D%221200%22.*xlink%3Ahref%3D%22data%3Aimage%2Fjpeg%3Bbase64%2/', $placeholderBase64String);
+        $I->assertRegExp('/^foodata:image.*width%3D%221920%22%20height%3D%221200%22.*xlink%3Ahref%3D%22data%3Aimage%2Fjpeg%3Bbase64%2/', $placeholderBase64String);
     }
 
     public function canSeePlaceholderSvgStringWithEmbeddedPreviewImageAndEmbedPreviewWidth(\AcceptanceTester $I)

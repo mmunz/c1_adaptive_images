@@ -90,3 +90,9 @@ jobs:
           CHROME_OPTION_1: "--headless"
         run: |
           composer tests:acceptance
+      - name: Upload Codeception output
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: codeception-results
+          path: Tests/Acceptance/_output/

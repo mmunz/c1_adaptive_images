@@ -82,7 +82,8 @@
         "typo3/cms-fluid": "^9.5.20 || ^10.4.11 || ^11",
         "typo3/cms-frontend": "^9.5.20 || ^10.4.11 || ^11",
         "typo3/cms-backend": "^9.5.20 || ^10.4.11 || ^11",
-        "typo3/cms-fluid-styled-content": "^9.5.20 || ^10.4.11 || ^11"
+        "typo3/cms-fluid-styled-content": "^9.5.20 || ^10.4.11 || ^11",
+        "typo3/minimal": "^11"
     },
     "require-dev": {
         "nimut/testing-framework": "^5.0 || ^6.0",

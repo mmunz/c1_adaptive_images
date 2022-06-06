@@ -34,7 +34,7 @@ gherkin: []
 # additional paths
 paths:
     tests: Tests/Acceptance
-    output: .Build/public/typo3temp/var/tests/_output
+    output: Tests/Acceptance/_output
     data: .Build/public/typo3temp/var/tests/_data
     support: Tests/Acceptance/_support
     envs: .Build/public/typo3temp/var/tests/_envs
