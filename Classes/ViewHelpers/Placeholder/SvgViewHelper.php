@@ -115,14 +115,14 @@ class SvgViewHelper extends AbstractViewHelper
     {
         /** @var FileInterface $image */
         $image = $this->arguments['file'];
-        $width = $image->getProperty('width');
-        $height = $image->getProperty('height');
+        $width = (float) $image->getProperty('width');
+        $height = (float) $image->getProperty('height');
         $this->cropVariantUtility->setCropVariantCollection($image);
         $cropArea = $this->cropVariantUtility->getCropAreaForVariant($this->arguments['cropVariant']);
 
         if ($cropArea) {
-            $width = $cropArea->asArray()['width'];
-            $height = $cropArea->asArray()['height'];
+            $width = (float) $cropArea->asArray()['width'];
+            $height = (float) $cropArea->asArray()['height'];
         }
 
         $preview = '';
