@@ -91,10 +91,9 @@ jobs:
         run: |
           composer tests:acceptance
       - name: Upload Codeception output
-        if: ${{ always() }}
+        if: failure()
         uses: actions/upload-artifact@v3
         with:
-          if: failure()
           name: codeception-results
           path: Tests/Acceptance/_output/
           if-no-files-found: ignore
