@@ -74,7 +74,10 @@
 					<f:case value="PlaceholderSvg">
 						<f:render section="PlaceholderSvg" arguments="{_all}"/>
 					</f:case>
-            <f:defaultCase>No mode</f:defaultCase>
+					<f:case value="GetSrcset">
+						<f:render section="GetSrcset" arguments="{_all}"/>
+					</f:case>
+					<f:defaultCase>No mode</f:defaultCase>
         </f:switch>
     </div>
 
@@ -202,5 +205,25 @@
 							embedPreviewWidth="{embedPreviewWidth}"
 						/></f:format.raw></pre>
 		</f:section>
+	<f:section name="GetSrcset">
+		<f:variable name="debug">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'debug')}</f:variable>
+		<f:variable name="widths">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'widths')}</f:variable>
+		<f:if condition="{widths}">
+			<f:then></f:then>
+			<f:else><f:variable name="widths">320,640</f:variable></f:else>
+		</f:if>
+		<f:variable name="absolute">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'absolute')}</f:variable>
+		<f:if condition="{absolute}">
+			<f:then></f:then>
+			<f:else><f:variable name="absolute">0</f:variable></f:else>
+		</f:if>
+		<pre class="srcset"><f:format.raw><ai:getSrcset
+			file="{file}"
+			cropVariant="{cropVariant}"
+			debug="{debug}"
+			widths="{widths}"
+			absolute="{absolute}"
+		/></f:format.raw></pre>
+	</f:section>
 </f:spaceless>
 </html>
