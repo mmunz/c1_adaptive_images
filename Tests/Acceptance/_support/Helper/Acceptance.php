@@ -10,7 +10,6 @@ use Codeception\Module\WebDriver;
 
 class Acceptance extends \Codeception\Module
 {
-
     /** @var WebDriver */
     protected $webdriver;
 

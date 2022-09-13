@@ -49,7 +49,7 @@ class ImageViewHelper extends AbstractViewHelper
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('file', '\TYPO3\CMS\Core\Resource\FileInterface', 'File or FileReference', true);

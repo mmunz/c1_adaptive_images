@@ -24,7 +24,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SvgViewHelper extends AbstractViewHelper
 {
-
     /** @var bool $escapeOutput */
     protected $escapeOutput = false;
 
@@ -53,7 +52,7 @@ class SvgViewHelper extends AbstractViewHelper
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument(

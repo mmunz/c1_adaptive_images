@@ -13,7 +13,6 @@ use TYPO3\CMS\Core\Page\PageRenderer;
  */
 class RatioBoxUtilityTest extends UnitTestCase
 {
-
     /** @var RatioBoxUtility */
     protected $utility;
 

@@ -44,7 +44,7 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
 

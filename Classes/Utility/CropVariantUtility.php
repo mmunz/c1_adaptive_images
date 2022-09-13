@@ -10,7 +10,6 @@ use TYPO3\CMS\Core\Resource\FileInterface;
  */
 class CropVariantUtility
 {
-
     /**
      * @var CropVariantCollection $cropVariantCollection
      */

@@ -40,7 +40,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
 
@@ -60,7 +60,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
      *
      * @api
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->imageUtility->setOriginalFile($this->arguments['image']);
@@ -95,7 +95,6 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
         $picture = $this->buildPictureTag($imageTag, $sources);
 
         if ($this->arguments['ratiobox'] === true) {
-
             $mq = [];
             foreach ($this->cropVariants as $key => $config) {
                 $mq[$key] = $config['media'] ?? null;

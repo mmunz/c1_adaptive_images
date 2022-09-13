@@ -50,7 +50,7 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
         $this->setTagBuilder(new TagBuilder($this->tagName));
     }
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument(

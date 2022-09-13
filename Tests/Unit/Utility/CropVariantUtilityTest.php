@@ -16,7 +16,6 @@ use TYPO3\CMS\Core\Resource\FileReference;
  */
 class CropVariantUtilityTest extends UnitTestCase
 {
-
     /**
      * @var MockObject|MathUtility
      */

@@ -55,7 +55,7 @@ class GetSrcsetViewHelper extends AbstractViewHelper
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('file', FileInterface::class, 'a file or file reference', true);
