@@ -107,6 +107,9 @@ class ImageUtility
             $processedImage->getProperty('width')
         );
         if ($this->options['debug'] && $this->options['debug'] === true) {
+            if (!isset($processingConfiguration['additionalParameters'])) {
+                $processingConfiguration['additionalParameters'] = '';
+            }
             $processingConfiguration['additionalParameters'] .= $this->debugUtility->getDebugAnnotation(
                 $processedImage->getProperty('width'),
                 $processedImage->getProperty('height'),
@@ -161,7 +164,7 @@ class ImageUtility
                 }
             }
 
-            if ($cropVariantConfig['image_format'] > 0) {
+            if (isset($cropVariantConfig['image_format']) && $cropVariantConfig['image_format'] > 0) {
                 $img_format = $this->options['image_format'];
                 $localProcessingConfiguration['width'] = $width . 'c';
                 $localProcessingConfiguration['height'] = round(intval($width) / $img_format) . 'c';

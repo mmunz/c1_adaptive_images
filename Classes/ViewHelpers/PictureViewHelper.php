@@ -69,10 +69,12 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
                 'srcsetWidths' => $this->arguments['srcsetWidths']
             ]
         ];
-        $cropVariantsMerged = array_merge_recursive($this->arguments['sources'], $cropVariantForImg);
+        $cropVariantsMerged = array_merge($this->arguments['sources'], $cropVariantForImg);
         // @extensionScannerIgnoreLine
         $this->imageUtility->init(
             [
+                'width' => $this->arguments['width'],
+                'height' => $this->arguments['height'],
                 'debug' => $this->arguments['debug'],
                 'cropVariants' => $cropVariantsMerged
             ]
@@ -94,12 +96,13 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
         unset($sources[$this->arguments['cropVariant']]);
         $picture = $this->buildPictureTag($imageTag, $sources);
 
-        $mq = [];
-        foreach ($this->cropVariants as $key => $config) {
-            $mq[$key] = $config['media'];
-        }
-
         if ($this->arguments['ratiobox'] === true) {
+
+            $mq = [];
+            foreach ($this->cropVariants as $key => $config) {
+                $mq[$key] = $config['media'] ?? null;
+            }
+
             return $this->ratioBoxUtility->wrapInRatioBox(
                 $picture,
                 $this->arguments['image'],

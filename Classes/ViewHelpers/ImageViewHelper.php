@@ -49,6 +49,8 @@ class ImageViewHelper extends AbstractImageBasedViewHelper
         // @extensionScannerIgnoreLine
         $this->imageUtility->init(
             [
+                'width' => $this->arguments['width'],
+                'height' => $this->arguments['height'],
                 'debug' => $this->arguments['debug'],
                 'cropVariants' => [
                     $this->arguments['cropVariant'] => [
