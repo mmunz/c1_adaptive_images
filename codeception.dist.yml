@@ -16,7 +16,9 @@ suites:
                   cleanup: false # run populator before each test
               - Asserts
               - \Helper\Acceptance
-              - Kolyunya\Codeception\Module\MarkupValidator
+              - Kolyunya\Codeception\Module\MarkupValidator:
+                  baseUri: https://validator.w3.org/
+                  endpoint: /
               - \Portrino\Codeception\Module\Typo3:
                   depends: Asserts
                   bin-dir: .Build/vendor/bin/
