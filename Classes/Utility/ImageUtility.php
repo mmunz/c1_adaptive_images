@@ -143,8 +143,8 @@ class ImageUtility
         $this->cropVariantUtility->setCropVariantCollection($this->originalFile);
 
         $defaultProcessConfiguration = [
-            'width' => $this->options['width'],
-            'height' => $this->options['height'],
+            'width' => $this->options['width'] ?? null,
+            'height' => $this->options['height'] ?? null,
             'crop' => $this->cropVariantUtility->getCropAreaForVariant($key)
         ];
 
