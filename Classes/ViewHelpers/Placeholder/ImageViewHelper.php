@@ -76,6 +76,12 @@ class ImageViewHelper extends AbstractViewHelper
             'in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See ' .
             'imgResource.width for possible options. Leave empty to keep aspect ratio of the original image.'
         );
+        $this->registerArgument(
+            'aspectRatio',
+            'float',
+            'Enforce a certain aspect ratio',
+            false
+        );
         $this->registerArgument('absolute', 'bool', 'Force absolute URL', false, false);
         $this->registerArgument('dataUri', 'bool', 'Return data-uri', false, true);
     }
@@ -98,9 +104,16 @@ class ImageViewHelper extends AbstractViewHelper
         $imageUri = null;
         $this->cropVariantUtility->setCropVariantCollection($image);
 
+        $height = $this->arguments['height'];
+
+        if (isset($this->arguments['aspectRatio']) && $this->arguments['aspectRatio'] > 0) {
+            $aspectRatio = $this->arguments['aspectRatio'];
+            $height = round(intval($this->arguments['width']) / $aspectRatio);
+        }
+
         $processingInstructions = [
             'width' => $this->arguments['width'],
-            'height' => $this->arguments['height'],
+            'height' => $height,
             'crop' => $this->cropVariantUtility->getCropAreaForVariant($this->arguments['cropVariant']),
             'additionalParameters' =>
                 '-quality 50 -sampling-factor 4:2:0 -strip -colorspace sRGB ' .

@@ -162,15 +162,17 @@ class RatioBoxUtility
      * @param string $content
      * @param FileInterface $file
      * @param array $mediaQueries
+     * @param array $aspectRatios
      * @return string
      */
-    public function wrapInRatioBox(string $content, FileInterface $file, array $mediaQueries)
+    public function wrapInRatioBox(string $content, FileInterface $file, array $mediaQueries, array $aspectRatios = [])
     {
         $this->cropVariantUtility->setCropVariantCollection($file);
 
-        $cropVariants = $this->cropVariantUtility->getCropVariants($mediaQueries);
+        $cropVariants = $this->cropVariantUtility->getCropVariants($mediaQueries, $aspectRatios);
 
-        //DebuggerUtility::var_dump($cropVariants);
+
+
         $this->setRatioBoxBase('rb');
         $classNames = $this->getRatioBoxClassNames($cropVariants);
         return $this->buildRatioBoxTag($content, $classNames);

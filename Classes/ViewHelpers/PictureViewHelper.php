@@ -66,7 +66,8 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
         $this->imageUtility->setOriginalFile($this->arguments['image']);
         $cropVariantForImg = [
             $this->arguments['cropVariant'] => [
-                'srcsetWidths' => $this->arguments['srcsetWidths']
+                'srcsetWidths' => $this->arguments['srcsetWidths'],
+                'aspectRatio' => $this->arguments['aspectRatio'] ?? null,
             ]
         ];
         $cropVariantsMerged = array_merge($this->arguments['sources'], $cropVariantForImg);
@@ -96,14 +97,24 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
 
         if ($this->arguments['ratiobox'] === true) {
             $mq = [];
+            $aspectRatios = [];
+
+            if ($this->hasArgument('aspectRatio') && $this->arguments['aspectRatio'] > 0) {
+                $aspectRatios[$this->arguments['cropVariant']] = $this->arguments['aspectRatio'];
+            }
+
             foreach ($this->cropVariants as $key => $config) {
                 $mq[$key] = $config['media'] ?? null;
+                if (isset ($config['aspectRatio']) && $config['aspectRatio'] > 0) {
+                    $aspectRatios[$key] = $config['aspectRatio'];
+                }
             }
 
             return $this->ratioBoxUtility->wrapInRatioBox(
                 $picture,
                 $this->arguments['image'],
-                $mq
+                $mq,
+                $aspectRatios,
             );
         } else {
             return $picture;

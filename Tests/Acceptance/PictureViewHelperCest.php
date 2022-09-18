@@ -29,6 +29,28 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
     }
 
+    public function seePictureLoadInCorrectDimensionsWithAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $I->restartBrowser();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,1024&debug=1&lazy=0&aspectRatio=1.5');
+        $this->validateMarkup($I);
+
+        $I->expect('a 640px image is loaded with 15:10 ratio');
+        $I->seeCurrentImageDimensions(640, 427, '66.72');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('a 1024px image is loaded with 15:10 ratio.');
+        $I->seeCurrentImageDimensions(1024, 683, '66.70');
+    }
+
     public function seePictureLoadInCorrectDimensionsWithRatioBox(\AcceptanceTester $I)
     {
         $I->flushCache();
@@ -52,6 +74,32 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->expect('a 1024px image is loaded with 16:9 ratio.');
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
+    }
+
+
+    public function seePictureLoadInCorrectDimensionsWithRatioBoxAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $I->restartBrowser();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,1024&debug=1&lazy=0&ratiobox=1&aspectRatio=2');
+
+        $this->validateMarkup($I);
+
+        $I->expect('a 640px image is loaded in 2:1 ratio.');
+        $I->seeCurrentImageDimensions(640, 320, '50.00');
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--max-width767px-50', '50%');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('a 1024px image is loaded with 2:1 ratio.');
+        $I->seeCurrentImageDimensions(1024, 512, '50.00');
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--50', '50%');
     }
 
     public function seePictureLoadInCorrectDimensionsWithMultipleSourcesAndRatioBox(\AcceptanceTester $I)
@@ -86,6 +134,38 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
     }
 
+    public function seePictureLoadInCorrectDimensionsWithMultipleSourcesAndRatioBoxAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $I->restartBrowser();
+
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}, "tablet":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=PictureViewHelperWithMultipleSources&srcsetWidths=640,1024&debug=1&lazy=0&ratiobox=1&aspectRatio=3&aspectRatioMobile=1.5&aspectRatioTablet=1');
+        $this->validateMarkup($I);
+
+        $I->expect('a 640px image is loaded in 3:2 format');
+        $I->seeCurrentImageDimensions(640, 427, '66.72');
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--max-width767px-66dot67', '66.67%');
+
+        $I->resizeWindow(992, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('a 992px image is loaded with 1:1 ratio');
+        $I->seeCurrentImageDimensions(992, 992, '100.00');
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--min-width768pxandmax-width992px-100', '100%');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('a 1024px image is loaded with 3:1 ratio.');
+        $I->seeCurrentImageDimensions(1024, 341, '33.30');
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--33dot33', '33.33%');
+    }
+
     public function seePictureLoadInCorrectDimensionsWithLazySizesAndImagePlaceholder(\AcceptanceTester $I)
     {
         $I->restartBrowser();
@@ -113,6 +193,35 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->waitForImagesLoaded();
         $I->expect('a 1024px image is loaded');
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
+    }
+
+    public function seePictureLoadInCorrectDimensionsWithLazySizesAndImagePlaceholderAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->restartBrowser();
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=PictureViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1&aspectRatio=1.777777778');
+        $this->validateMarkup($I);
+
+        $I->expect('a placeholder image in 16:9 format is loaded');
+        $I->seeCurrentImageDimensions(128, 72, '56.25');
+
+        $I->initLazySizes();
+
+        $I->expect('Page still has valid markup.');
+        $this->validateMarkup($I);
+
+        $I->expect('a 640px image is loaded in 16:9 format.');
+        $I->seeCurrentImageDimensions(640, 360, '56.25');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+        $I->expect('a 1024px image is loaded');
+        $I->seeCurrentImageDimensions(1024, 576, '56.25');
     }
 
     public function seePictureLoadInCorrectDimensionsWithLazySizesAndImagePlaceholderInHalfWidth(\AcceptanceTester $I)
@@ -273,6 +382,28 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
     }
 
+    public function seePictureLoadInCorrectDimensionsForNonDefaultVariantAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}, "notDefault":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"free"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->restartBrowser();
+        $I->amOnPage('/index.php?mode=PictureViewHelperDifferentDefaultCropVariant&srcsetWidths=640,1024&debug=1&lazy=0&aspectRatio=1.7777777778');
+        $this->validateMarkup($I);
+
+        $I->expect('a 640px image is loaded in 16:9 ratio.');
+        $I->seeCurrentImageDimensions(640, 360, '56.25');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('a 1024px image is loaded with 16:9 ratio.');
+        $I->seeCurrentImageDimensions(1024, 576, '56.25');
+    }
+
     public function seePictureLoadInCorrectDimensionsForNonDefaultVariantWithRatioBoxAndLazy(\AcceptanceTester $I)
     {
         $I->flushCache();
@@ -302,5 +433,36 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
 
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
+    }
+
+    public function seePictureLoadInCorrectDimensionsForNonDefaultVariantWithRatioBoxAndLazyAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}, "notDefault":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"free"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->restartBrowser();
+        $I->amOnPage('/index.php?mode=PictureViewHelperDifferentDefaultCropVariant&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1&aspectRatio=2');
+        $this->validateMarkup($I);
+
+        $I->expect('a placeholder image 2:1 format.');
+        $I->seeCurrentImageDimensions(32, 16, '50.00');
+
+        $I->initLazySizes();
+
+        $I->expect('a 640px image is loaded in 2:1 format.');
+        $I->seeCurrentImageDimensions(640, 320, '50.00');
+
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb--max-width767px-50', '50%');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+
+        $I->expect('a 1024px image is loaded with 2:1 ratio.');
+        $I->seeCurrentImageDimensions(1024, 512, '50.00');
+
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--50', '50%');
     }
 }

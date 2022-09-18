@@ -86,6 +86,9 @@ argument        required    Default                     Description
 file            yes                                     FileReference to use
 cropVariant     no          default                     select a cropping variant, in case multiple croppings have been
                                                         specified or stored in FileReference
+aspectRatio     no                                      Enforce a certain aspect ratio. If empty, the aspectRatio is
+                                                        generated from the cropVariant.
+                                                        Example: 2 for 2:1 ratio, 1.777777778 for 16:9 ratio.
 widths          no          [320,640,1024,1440,1920]    create srcset candidates with these widths
 debug           no          0                           Add debug output (width, height, ratio) to the generated images
 =============== =========== =========================== ===============================================================
@@ -113,7 +116,7 @@ returns
 
 .. code-block:: none
 
-    /fileadmin/_processed_/7/9/image_cbb4289869.jpg 0w,/fileadmin/_processed_/7/9/image_3e7a2d9258.jpg 720w
+    /fileadmin/_processed_/7/9/image_cbb4289869.jpg 360w,/fileadmin/_processed_/7/9/image_3e7a2d9258.jpg 720w
 
 
 ai:ratioBox
@@ -164,9 +167,13 @@ cropVariant     no          default                     select a cropping varian
                                                         specified or stored in FileReference
 width           no          128                         create placeholder image with this width
 height          no                                      create placeholder image with this height
+aspectRatio     no                                      Enforce a certain aspect ratio. If empty, the aspectRatio is
+                                                        generated from the cropVariant.
+                                                        Example: 2 for 2:1 ratio, 1.777777778 for 16:9 ratio.
 absolute        no          false                       Force absolute URL
 dataUri         no          true                        Returns the base64 encoded dataUri of the image
                                                         (for inline usage)
+
 =============== =========== =========================== ===============================================================
 
 Examples
@@ -209,6 +216,9 @@ argument        required    Default                     Description
 file            yes                                     FileReference to use
 cropVariant     no          default                     select a cropping variant, in case multiple croppings have been
                                                         specified or stored in FileReference
+aspectRatio     no                                      Enforce a certain aspect ratio. If empty, the aspectRatio is
+                                                        generated from the cropVariant.
+                                                        Example: 2 for 2:1 ratio, 1.777777778 for 16:9 ratio.
 =============== =========== =========================== ===============================================================
 
 Examples
@@ -246,6 +256,9 @@ lazy               no          false                       lazy load images and 
 debug              no          false                       Add debug output (width, height, ratio) to the generated images using IM/GM
 jsdebug            no          false                       Add debug output (width, height, ratio) near the image using javascript
 srcsetWidths       no          [320,640,1024,1440,1920]    create srcset candidates with these widths
+aspectRatio        no                                      Enforce a certain aspect ratio. If empty, the aspectRatio is
+                                                           generated from the cropVariant.
+                                                           Example: 2 for 2:1 ratio, 1.777777778 for 16:9 ratio.
 cropVariant        no          default                     select a cropping variant, in case multiple croppings have been
                                                            specified or stored in FileReference
 sizes              no          100vw                       sizes attribute for the img tag.
@@ -301,6 +314,9 @@ lazy               no          false                       lazy load images and 
 debug              no          false                       Add debug output (width, height, ratio) to the generated images using IM/GM
 jsdebug            no          false                       Add debug output (width, height, ratio) near the image using javascript
 srcsetWidths       no          [320,640,1024,1440,1920]    create srcset candidates with these widths
+aspectRatio        no                                      Enforce a certain aspect ratio. If empty, the aspectRatio is
+                                                           generated from the cropVariant.
+                                                           Example: 2 for 2:1 ratio, 1.777777778 for 16:9 ratio.
 cropVariant        no          default                     select a cropping variant, in case multiple croppings have been
                                                            specified or stored in FileReference
 sizes              no          100vw                       sizes attribute for the img tag.
@@ -340,8 +356,30 @@ Examples
 returns a complete picture tag with one source for the cropVariant mobile. With lazysizes loading and a placeholder image.
 **Important** For lazysizes to work you have to add the class *lazyload* here.
 
+.. code-block:: html
 
+    <ai:picture image="{file}"
+          class="img-responsive-full lazyload"
+            width="{dimensions.width}"
+            height="{dimensions.height}"
+            alt="{file.alternative}"
+            title="{file.title}"
+            sources="{
+                'mobile': {
+                    'srcsetWidths': '320,640,768',
+                    'media': '(max-width: 767px)',
+                    'aspectRatio': 1
+                }
+              }"
+            srcsetWidths="768,1024"
+            placeholderInline="1"
+            placeholderWidth="128"
+            lazy="1"
+            debug="1"
+            ratiobox="1"
+            jsdebug="1"
+            sizes="100vw",
+            aspectRatio: 2
+    />
 
-
-
-
+Returns a rendered picture tag but enforces an aspect ratio of 2:1 for Default and 1:1 for mobile.

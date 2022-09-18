@@ -29,6 +29,10 @@
 	<f:variable name="srcsetWidths">200,400</f:variable>
 </f:if>
 
+<f:variable name="aspectRatio" value="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'aspectRatio')}"/>
+<f:variable name="aspectRatioMobile" value="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'aspectRatioMobile')}"/>
+<f:variable name="aspectRatioTablet" value="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'aspectRatioTablet')}"/>
+
 <f:comment>Setting boolean vars which default to true</f:comment>
 <f:for each="{0: 'placeholderInline', 1: 'dataUri'}" as="argName">
 	<f:if condition="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: argName)} == '0'">
@@ -108,6 +112,7 @@
 						ratiobox="{ratiobox}"
 						jsdebug="{jsdebug}"
 						sizes="{sizesAttr}"
+						aspectRatio="{aspectRatio}"
 	/>
 </f:section>
 
@@ -121,7 +126,8 @@
 							sources="{
                         'mobile': {
                             'srcsetWidths': '320,640,768',
-                            'media': '(max-width: 767px)'
+                            'media': '(max-width: 767px)',
+                            'aspectRatio': '{aspectRatio}'
                         }
                       }"
 							srcsetWidths="{srcsetWidths}"
@@ -132,6 +138,7 @@
 							ratiobox="{ratiobox}"
 							jsdebug="{jsdebug}"
 							sizes="{sizesAttr}"
+							aspectRatio="{aspectRatio}"
 	/>
 </f:section>
 
@@ -145,11 +152,13 @@
 							sources="{
                         'mobile': {
                             'srcsetWidths': '320,640,768',
-                            'media': '(max-width: 767px)'
+                            'media': '(max-width: 767px)',
+                            'aspectRatio': '{aspectRatioMobile}'
                         },
                         'tablet': {
                             'srcsetWidths': '992',
-                            'media': '(min-width: 768px) AND (max-width: 992px)'
+                            'media': '(min-width: 768px) AND (max-width: 992px)',
+                            'aspectRatio': '{aspectRatioTablet}'
                         }
                       }"
 							srcsetWidths="{srcsetWidths}"
@@ -160,6 +169,7 @@
 							ratiobox="{ratiobox}"
 							jsdebug="{jsdebug}"
 							sizes="{sizesAttr}"
+							aspectRatio="{aspectRatio}"
 	/>
 </f:section>
 
@@ -173,7 +183,8 @@
 							sources="{
                         'mobile': {
                             'srcsetWidths': '320,640,768',
-                            'media': '(max-width: 767px)'
+                            'media': '(max-width: 767px)',
+                            'aspectRatio': '{aspectRatio}'
                         }
                       }"
 							cropVariant="NotDefault"
@@ -185,6 +196,7 @@
 							ratiobox="{ratiobox}"
 							jsdebug="{jsdebug}"
 							sizes="{sizesAttr}"
+							aspectRatio="{aspectRatio}"
 	/>
 </f:section>
 
@@ -206,6 +218,7 @@
 		content="{content}"
 		embedPreview="{embedPreview}"
 		embedPreviewWidth="{embedPreviewWidth->f:spaceless()}"
+		aspectRatio="{aspectRatio}"
 	/></f:format.raw></pre>
 </f:section>
 
@@ -220,6 +233,7 @@
 				width="{width}"
 				absolute="{absolute}"
 				dataUri="{dataUri}"
+				aspectRatio="{aspectRatio}"
 			/>
 		</f:format.raw>
 	</f:variable>
@@ -243,6 +257,7 @@
 				debug="{debug}"
 				widths="{widths}"
 				absolute="{absolute}"
+				aspectRatio="{aspectRatio}"
 			/>
 		</f:format.raw>
 	</f:variable>

@@ -86,9 +86,10 @@ class CropVariantUtility
     /**
      * Return a CropVariants array (beware: not related to TYPO3's CropVariants, needs a better naming - ToDo)
      * @param array $mediaQueries
+     * @param array $aspectRatios
      * @return array
      */
-    public function getCropVariants(array $mediaQueries)
+    public function getCropVariants(array $mediaQueries, array $aspectRatios = [])
     {
         $cropVariants = [];
 
@@ -101,6 +102,11 @@ class CropVariantUtility
             } else {
                 $width = $this->file->getProperty('width');
                 $height = $this->file->getProperty('height');
+            }
+
+            if (array_key_exists($key, $aspectRatios) && $aspectRatios[$key] > 0
+            ) {
+                $height = $width / $aspectRatios[$key];
             }
 
             $ratio = $this->mathUtility->calculateRatio($height, $width, 2);

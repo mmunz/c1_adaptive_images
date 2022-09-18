@@ -36,6 +36,36 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
     }
 
+    public function seeImageLoadInCorrectDimensionsAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $I->restartBrowser();
+
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=ImageViewHelper&srcsetWidths=640,1024&debug=1&lazy=1&aspectRatio=4');
+        $this->validateMarkup($I);
+
+        $I->expect('a small placeholder image is loaded');
+        $I->seeCurrentImageDimensions(32, 8, '25.00');
+
+        $I->initLazySizes();
+        //$I->wait(5);
+        $I->expect('Page still has valid markup.');
+        $this->validateMarkup($I);
+
+        $I->expect('a 640px image is loaded');
+        $I->seeCurrentImageDimensions(640, 160, '25.00');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+        $I->expect('a 1024px image is loaded');
+        $I->seeCurrentImageDimensions(1024, 256, '25.00');
+    }
+
     public function seePlaceholderWithCustomWidth(\AcceptanceTester $I)
     {
         $I->flushCache();
@@ -49,6 +79,21 @@ class ImageViewHelperCest extends AbstractViewHelperCest
 
         $I->expect('a small placeholder image is loaded');
         $I->seeCurrentImageDimensions(16, 10, '62.50');
+    }
+
+    public function seePlaceholderWithCustomWidthAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=ImageViewHelper&srcsetWidths=640,1024&placeholderWidth=16&debug=1&lazy=1&aspectRatio=4');
+        $this->validateMarkup($I);
+
+        $I->expect('a small placeholder image is loaded');
+        $I->seeCurrentImageDimensions(16, 4, '25.00');
     }
 
     public function seeImageWithoutLazyLoading(\AcceptanceTester $I)
@@ -70,6 +115,27 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->waitForImagesLoaded();
         $I->expect('a 1024px image is loaded');
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
+    }
+
+    public function seeImageWithoutLazyLoadingAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->restartBrowser();
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=32&srcsetWidths=640,1024&debug=1&lazy=0&aspectRatio=4');
+
+        $this->validateMarkup($I);
+        $I->expect('a 640px image is loaded');
+        $I->seeCurrentImageDimensions(640, 160, '25.00');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+        $I->expect('a 1024px image is loaded');
+        $I->seeCurrentImageDimensions(1024, 256, '25.00');
     }
 
     public function seeLazyImageWithRatioBox(\AcceptanceTester $I)
@@ -104,6 +170,38 @@ class ImageViewHelperCest extends AbstractViewHelperCest
 
         $I->expect('ratio box wrapper exists and has correct classes');
         $I->seeElement('div.rb.rb--62dot5');
+    }
+
+    public function seeLazyImageWithRatioBoxAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->restartBrowser();
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=32&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1&aspectRatio=4');
+
+        $this->validateMarkup($I);
+
+        $I->initLazySizes();
+
+        $I->expect('a 640px image is loaded');
+        $I->seeCurrentImageDimensions(640, 160, '25.00');
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--25', '25%');
+
+        $I->resizeWindow(1024, 768);
+        $I->waitForImagesLoaded();
+        $I->expect('a 1024px image is loaded');
+        $I->seeCurrentImageDimensions(1024, 256, '25.00');
+
+        $I->expect('ratio box style in header');
+        $I->seeInPageSource('.rb--25{padding-bottom:25%}');
+        $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--25', '25%');
+
+        $I->expect('ratio box wrapper exists and has correct classes');
+        $I->seeElement('div.rb.rb--25');
     }
 
     public function canSwitchJsDebugOutput(\AcceptanceTester $I)

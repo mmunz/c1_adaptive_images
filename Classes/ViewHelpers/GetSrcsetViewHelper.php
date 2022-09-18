@@ -73,6 +73,12 @@ class GetSrcsetViewHelper extends AbstractViewHelper
             false,
             'default'
         );
+        $this->registerArgument(
+            'aspectRatio',
+            'float',
+            'Enforce a certain aspect ratio',
+            false
+        );
         $this->registerArgument('debug', 'bool', 'Use IM/GM to write image infos on the srcset candidates', false, false);
         $this->registerArgument('absolute', 'bool', 'Force absolute URL', false, false);
     }
@@ -105,7 +111,12 @@ class GetSrcsetViewHelper extends AbstractViewHelper
         ];
 
         foreach ($widths as $width) {
-            $processingConfiguration['width'] = $width . 'm';
+            if (isset($this->arguments['aspectRatio']) && $this->arguments['aspectRatio'] > 0) {
+                $processingConfiguration['width'] = $width . 'c';
+                $processingConfiguration['height'] = $width / $this->arguments['aspectRatio'] . 'c';
+            } else {
+                $processingConfiguration['width'] = $width . 'm';
+            }
 
             /** @var FileReference $processedImage */
             $processedImage = $this->imageService->applyProcessingInstructions($file, $processingConfiguration);

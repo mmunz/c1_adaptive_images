@@ -25,7 +25,7 @@ class GetSrcsetViewHelperTest extends TestCase
 
         $arguments = $viewHelper->prepareArguments();
 
-        self::assertCount(5, $arguments);
+        self::assertCount(6, $arguments);
 
         $widthArgument = $arguments['widths'];
 

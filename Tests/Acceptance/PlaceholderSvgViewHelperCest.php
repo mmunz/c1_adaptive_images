@@ -26,6 +26,17 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->assertRegExp('/^data:image.*width%3D%221920%22%20height%3D%221200%22/', $placeholderBase64String);
     }
 
+
+    public function canSeePlaceholderSvgStringWithUncroppedImageAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $I->amOnPage('/index.php?mode=PlaceholderSvg&aspectRatio=2');
+
+        $I->expect('See viewhelper output');
+        $placeholderBase64String = $I->grabTextFrom('.placeholder');
+        $I->assertRegExp('/^data:image.*width%3D%221920%22%20height%3D%22960%22/', $placeholderBase64String);
+    }
+
     // test if the viewhelper retrieves the correct cropVariants from the file reference as string
     public function canSeePlaceholderSvgStringWithCroppedImage(\AcceptanceTester $I)
     {
@@ -40,6 +51,21 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->expect('See viewhelper output');
         $placeholderBase64String = $I->grabTextFrom('.placeholder');
         $I->assertRegExp('/^data:image.*width%3D%22960%22%20height%3D%22600%22%/', $placeholderBase64String);
+    }
+
+    public function canSeePlaceholderSvgStringWithCroppedImageAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":0.5,"height":0.5},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=PlaceholderSvg&aspectRatio=2');
+
+        $I->expect('See viewhelper output');
+        $placeholderBase64String = $I->grabTextFrom('.placeholder');
+        $I->assertRegExp('/^data:image.*width%3D%22960%22%20height%3D%22480%22%/', $placeholderBase64String);
     }
 
     public function canSeePlaceholderSvgStringWithNonExistingCropVariant(\AcceptanceTester $I)
@@ -68,6 +94,22 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->assertRegExp('/^data:image.*width%3D%221000.32%22%20height%3D%22748.8%22%/', $placeholderBase64String);
     }
 
+    public function canSeePlaceholderSvgStringWithCroppedImageAndAlternativeCropVariantAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=PlaceholderSvg&cropVariant=mobile&aspectRatio=2');
+
+        $I->expect('See viewhelper output');
+        $placeholderBase64String = $I->grabTextFrom('.placeholder');
+        $I->assertRegExp('/^data:image.*width%3D%221000.32%22%20height%3D%22500%22%/', $placeholderBase64String);
+    }
+
+
     public function canSeePlaceholderSvgStringWithAdditionalContent(\AcceptanceTester $I)
     {
         $I->flushCache();
@@ -86,6 +128,16 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->expect('See viewhelper output');
         $placeholderBase64String = $I->grabTextFrom('.placeholder');
         $I->assertRegExp('/^data:image.*width%3D%221920%22%20height%3D%221200%22.*xlink%3Ahref%3D%22data%3Aimage%2Fjpeg%3Bbase64%2/', $placeholderBase64String);
+    }
+
+    public function canSeePlaceholderSvgStringWithEmbeddedPreviewImageAndAspectRatio(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $I->amOnPage('/index.php?mode=PlaceholderSvg&embedPreview=1&aspectRatio=2');
+
+        $I->expect('See viewhelper output');
+        $placeholderBase64String = $I->grabTextFrom('.placeholder');
+        $I->assertRegExp('/^data:image.*width%3D%221920%22%20height%3D%22960%22.*xlink%3Ahref%3D%22data%3Aimage%2Fjpeg%3Bbase64%2/', $placeholderBase64String);
     }
 
     public function canSeePlaceholderSvgStringWithEmbeddedPreviewImageAndEmbedPreviewWidth(\AcceptanceTester $I)

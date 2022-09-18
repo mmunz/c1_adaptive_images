@@ -97,6 +97,12 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
         );
         $this->registerArgument('placeholderWidth', 'integer', 'Width of the placeholder image', false, 100);
         $this->registerArgument(
+            'aspectRatio',
+            'float',
+            'Enforce a certain aspect ratio',
+            false
+        );
+        $this->registerArgument(
             'ratiobox',
             'bool',
             'The image is wrapped in a ratio box if true.',
@@ -123,11 +129,20 @@ abstract class AbstractImageBasedViewHelper extends ImageViewHelper
      */
     public function getPlaceholder(string $cropVariant)
     {
+        if (isset($this->arguments['aspectRatio']) && $this->arguments['aspectRatio'] > 0) {
+            $aspectRatio = $this->arguments['aspectRatio'];
+            $width = $this->arguments['placeholderWidth'] . 'c';
+            $height = round(intval($width) / $aspectRatio) . 'c';
+        } else {
+            $width = $this->arguments['placeholderWidth'];
+            $height = null;
+        }
         $placeholder = $this->imagePlaceholderUtility->getPlaceholderImage(
             $this->arguments['image'],
             $this->arguments['placeholderInline'],
             $cropVariant,
-            $this->arguments['placeholderWidth'],
+            $width,
+            $height,
             $this->arguments['absolute'] ?? false
         );
         return $placeholder . ' ' . $this->arguments['placeholderWidth'] . 'w';

@@ -164,10 +164,10 @@ class ImageUtility
                 }
             }
 
-            if (isset($cropVariantConfig['image_format']) && $cropVariantConfig['image_format'] > 0) {
-                $img_format = $this->options['image_format'];
+            if (isset($cropVariantConfig['aspectRatio']) && $cropVariantConfig['aspectRatio'] > 0) {
+                $aspectRatio = $cropVariantConfig['aspectRatio'];
                 $localProcessingConfiguration['width'] = $width . 'c';
-                $localProcessingConfiguration['height'] = round(intval($width) / $img_format) . 'c';
+                $localProcessingConfiguration['height'] = round(intval($width) / $aspectRatio) . 'c';
             } else {
                 $localProcessingConfiguration['width'] = $width . 'm';
             }

@@ -97,6 +97,12 @@ class SvgViewHelper extends AbstractViewHelper
             '-quality 50 -sampling-factor 4:2:0 -strip -posterize 136 -colorspace sRGB ' .
             '-unsharp 0.25x0.25+8+0.065 -despeckle -noise 5'
         );
+        $this->registerArgument(
+            'aspectRatio',
+            'float',
+            'Enforce a certain aspect ratio',
+            false
+        );
     }
 
     /**
@@ -124,14 +130,26 @@ class SvgViewHelper extends AbstractViewHelper
             $height = (float) $cropArea->asArray()['height'];
         }
 
+        if (isset($this->arguments['aspectRatio']) && $this->arguments['aspectRatio'] > 0) {
+            $aspectRatio = $this->arguments['aspectRatio'];
+            $height = round(intval($width) / $aspectRatio);
+        }
+
         $preview = '';
 
         if ($this->arguments['embedPreview']) {
+
             $processingInstructions = [
                 'width' => $this->arguments['embedPreviewWidth'],
                 'crop' => $cropArea,
                 'additionalParameters' => $this->arguments['embedPreviewAdditionalParameters']
             ];
+
+            if (isset($this->arguments['aspectRatio']) && $this->arguments['aspectRatio'] > 0) {
+                $aspectRatio = $this->arguments['aspectRatio'];
+                $processingInstructions['height'] = round(intval($this->arguments['embedPreviewWidth']) / $aspectRatio);
+            }
+
             $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
             $previewImg = sprintf(

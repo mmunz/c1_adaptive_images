@@ -39,16 +39,18 @@ class ImagePlaceholderUtility
      * @param bool $base64
      * @param string $cropVariant
      * @param int $width
+     * @param int|null $height
      * @param bool $absolute
      * @return string|null
      */
-    public function getPlaceholderImage($file, $base64, $cropVariant, $width, $absolute = false)
+    public function getPlaceholderImage($file, $base64, $cropVariant, $width, $height = null, $absolute = false)
     {
         $imageUri = null;
         $this->cropVariantUtility->setCropVariantCollection($file);
 
         $processingInstructions = [
             'width' => $width,
+            'height' => $height,
             'crop' => $this->cropVariantUtility->getCropAreaForVariant($cropVariant),
             'additionalParameters' =>
                 '-quality 50 -sampling-factor 4:2:0 -strip -colorspace sRGB ' .
