@@ -4,13 +4,35 @@ set -ev
 [ -z "$TYPO3_PATH_ROOT" ] && TYPO3_PATH_ROOT=$PWD/.Build/public
 
 if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
-    # install typo3 with sqlite DB
+
+
+    # Cleanup Up to TYPO3 v11
     rm -f "${TYPO3_PATH_ROOT}/typo3conf/LocalConfiguration.php"
+    # Cleanup TYPO3 v12
+    rm -f "${TYPO3_PATH_ROOT}/../config/system/settings.php"
+
     rm -f "${TYPO3_PATH_ROOT}/../../../var/*.sqlite"
 
-    ./.Build/vendor/bin/typo3cms -vvv install:setup --database-driver pdo_sqlite \
-            --admin-user-name test --admin-password test1234 \
-            --site-name "testsite" --site-setup-type site --no-interaction --force
+    # install typo3 with sqlite DB
+
+    # TYPO3_PATH_APP=$PWD/.Build/ \
+    TYPO3_DB_DRIVER=sqlite \
+    TYPO3_DB_USERNAME=db \
+    TYPO3_DB_PASSWORD=db \
+    TYPO3_DB_PORT=3306 \
+    TYPO3_DB_HOST=db \
+    TYPO3_DB_DBNAME=db \
+    TYPO3_SETUP_ADMIN_EMAIL=admin@email.com \
+    TYPO3_SETUP_ADMIN_USERNAME=test \
+    TYPO3_SETUP_PASSWORD=test1234 \
+    TYPO3_PROJECT_NAME="Automated Setup" \
+    TYPO3_CREATE_SITE="http://test.site/" \
+    TYPO3_SETUP_CREATE_SITE="http://test.site/" \
+    ./.Build/vendor/bin/typo3 setup --force --no-interaction
+
+#    ./.Build/vendor/bin/typo3cms -vvv install:setup --database-driver pdo_sqlite \
+#            --admin-user-name test --admin-password test1234 \
+#            --site-name "testsite" --site-setup-type site --no-interaction --force
 
      dbfile="$(./.Build/vendor/bin/typo3cms configuration:show DB/Connections/Default/path  | sed -n 2p | tr ',' ' ' | xargs)"
 
@@ -63,6 +85,7 @@ fi
 ./.Build/vendor/bin/typo3cms install:generatepackagestates || true
 # symlink fileadmin/user_upload to fixtures folder
 (
+    test -d .Build/public/fileadmin/user_upload || mkdir -p .Build/public/fileadmin/user_upload
     cd .Build/public/fileadmin/user_upload;
     test -L nightlife-4.jpg || {
         ln -s ../../../../Tests/Fixtures/fileadmin/user_upload/nightlife-4.jpg .

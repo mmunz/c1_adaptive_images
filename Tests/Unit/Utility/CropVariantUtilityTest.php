@@ -4,9 +4,9 @@ namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\MathUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileReference;
@@ -14,7 +14,7 @@ use TYPO3\CMS\Core\Resource\FileReference;
 /**
  * Class CropVariantUtilityTest
  */
-class CropVariantUtilityTest extends UnitTestCase
+class CropVariantUtilityTest extends TestCase
 {
     /**
      * @var MockObject|MathUtility

@@ -7,8 +7,6 @@ use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use C1\AdaptiveImages\ViewHelpers\ImageViewHelper;
-use Nimut\TestingFramework\MockObject\AccessibleMockObjectInterface;
-use Nimut\TestingFramework\Rendering\RenderingContextFixture;
 use TYPO3\CMS\Core\Page\PageRenderer;
 
 /**
@@ -37,15 +35,41 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         $imagePlaceHolderUtility = new ImagePlaceholderUtility($imageServiceMock, $cropVariantUtility);
 
         $this->constructorArgs = [
-                $imageUtility,
-                $ratioBoxUtility,
-                $imagePlaceHolderUtility,
-                $imageServiceMock
+            $imageUtility,
+            $ratioBoxUtility,
+            $imagePlaceHolderUtility,
+            $imageServiceMock
         ];
 
         $this->viewHelper = new ImageViewHelper(...$this->constructorArgs);
-        $this->injectDependenciesIntoViewHelper($this->viewHelper);
     }
+
+
+    public function invalidArgumentsDataProvider(): array
+    {
+        return [
+            [['src' => '', 'image' => null], 1382284106],
+            [['src' => null, 'image' => null], 1382284106],
+            [['src' => '', 'image' => null], 1382284106],
+            [['src' => 'something', 'image' => 'something'], 1382284106],
+            [['src' => 'something', 'image' => null, 'fileExtension' => 'dummy'], 1618989190],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider invalidArgumentsDataProvider
+     */
+    public function renderThrowsExceptionOnInvalidArguments(array $arguments, int $expectedExceptionCode): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionCode($expectedExceptionCode);
+
+        $viewHelper = new ImageViewHelper(...$this->constructorArgs);
+        $viewHelper->setArguments($arguments);
+        $viewHelper->render();
+    }
+
 
     /**
      * @test
@@ -73,7 +97,6 @@ class ImageViewHelperTest extends AbstractViewHelperTest
                     }
                 )
             );
-        $instance->setRenderingContext(new RenderingContextFixture());
         $instance->initializeArguments();
     }
 
@@ -190,36 +213,6 @@ class ImageViewHelperTest extends AbstractViewHelperTest
                 ['data-sizes' => '33vw', 'data-srcset' => ''],
             ],
         ];
-    }
-
-    /**
-     * @test
-     */
-    public function getPlaceholderTest()
-    {
-        $imagePlaceholderUtilityMock = $this->getMockBuilder(ImagePlaceholderUtility::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getPlaceholderImage'])
-            ->getMock();
-
-        $imagePlaceholderUtilityMock
-            ->method('getPlaceholderImage')
-            ->will($this->returnCallback(function ($image, $placeholderInline, $cropVariant, $placeholderWidth) {
-                return ($placeholderInline) ? 'base64encodedimage' : 'placeholderimage.jpg';
-            }));
-
-        $arguments = [
-            'image' => 'image.jpg',
-            'placeholderInline' => true,
-            'placeholderWidth' => 64
-        ];
-        $this->viewHelper->setArguments($arguments);
-        $this->inject($this->viewHelper, 'imagePlaceholderUtility', $imagePlaceholderUtilityMock);
-        $this->assertEquals('base64encodedimage 64w', $this->viewHelper->getPlaceholder('default'));
-
-        $arguments['placeholderInline'] = false;
-        $this->viewHelper->setArguments($arguments);
-        $this->assertEquals('placeholderimage.jpg 64w', $this->viewHelper->getPlaceholder('default'));
     }
 
     /**

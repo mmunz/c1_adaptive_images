@@ -8,6 +8,14 @@ namespace C1\AdaptiveImages\Tests\Acceptance;
  */
 class ImageViewHelperCest extends AbstractViewHelperCest
 {
+
+    public function testUpdateDatabase(\AcceptanceTester $I) {
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+    }
+
     public function seeImageLoadInCorrectDimensions(\AcceptanceTester $I)
     {
         $I->flushCache();
