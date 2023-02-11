@@ -17,12 +17,12 @@ use TYPO3\CMS\Extbase\Service\ImageService;
 class ImagePlaceholderUtility
 {
     /**
-     * @var \TYPO3\CMS\Extbase\Service\ImageService
+     * @var ImageService
      */
     protected $imageService;
 
     /**
-     * @var \C1\AdaptiveImages\Utility\CropVariantUtility
+     * @var CropVariantUtility
      */
     protected $cropVariantUtility;
 

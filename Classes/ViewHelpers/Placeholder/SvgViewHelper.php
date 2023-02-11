@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers\Placeholder;
 
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
@@ -28,7 +29,7 @@ class SvgViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Service\ImageService
+     * @var ImageService
      */
     protected $imageService;
 
@@ -107,7 +108,7 @@ class SvgViewHelper extends AbstractViewHelper
      *
      * @see https://docs.typo3.org/typo3cms/TyposcriptReference/ContentObjects/Image/
      *
-     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
+     * @throws Exception
      * @return string Rendered tag
      */
     public function render()
