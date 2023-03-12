@@ -52,6 +52,9 @@ jobs:
           - { php: 8.0, TYPO3_VERSION: ^11.0 }
           - { php: 7.4, TYPO3_VERSION: ^11.0 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}
+    env:
+      TYPO3_PATH_ROOT: $PWD/.Build/public
+      TYPO3_PATH_APP: $PWD/.Build
     steps:
       - uses: actions/checkout@v2
       - name: Set up PHP Version
@@ -90,8 +93,6 @@ jobs:
           typo3DatabaseDriver: pdo_sqlite
           CHROME_OPTION_1: "--headless"
         run: |
-          export TYPO3_PATH_ROOT="$PWD/.Build/public
-          export TYPO3_PATH_APP="$PWD/.Build
           composer tests:acceptance
       - name: Upload Codeception output
         if: failure()
