@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-defined('TYPO3_MODE') or die();
+defined('TYPO3') or die();
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
     'c1_adaptive_images',

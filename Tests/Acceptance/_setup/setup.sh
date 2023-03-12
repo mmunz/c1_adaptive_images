@@ -1,10 +1,14 @@
 #!/bin/bash
-set -ev
+set -eux -o pipefail
 
-[ -z "$TYPO3_PATH_ROOT" ] && TYPO3_PATH_ROOT=$PWD/.Build/public
+CONSOLE_CMD=".Build/vendor/bin/typo3"
+
+[ -z "${TYPO3_PATH_ROOT:-}" ] && TYPO3_PATH_ROOT="$PWD/.Build/public"
 
 if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
 
+
+    export TYPO3_PATH_APP="$PWD/.Build"
 
     # Cleanup Up to TYPO3 v11
     rm -f "${TYPO3_PATH_ROOT}/typo3conf/LocalConfiguration.php"
@@ -12,29 +16,33 @@ if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
     rm -f "${TYPO3_PATH_ROOT}/../config/system/settings.php"
 
     rm -f "${TYPO3_PATH_ROOT}/../../../var/*.sqlite"
+    rm -rf "${TYPO3_PATH_ROOT}/../../../var/sqlite"
 
     # install typo3 with sqlite DB
 
-    # TYPO3_PATH_APP=$PWD/.Build/ \
-    TYPO3_DB_DRIVER=sqlite \
-    TYPO3_DB_USERNAME=db \
-    TYPO3_DB_PASSWORD=db \
-    TYPO3_DB_PORT=3306 \
-    TYPO3_DB_HOST=db \
-    TYPO3_DB_DBNAME=db \
-    TYPO3_SETUP_ADMIN_EMAIL=admin@email.com \
-    TYPO3_SETUP_ADMIN_USERNAME=test \
-    TYPO3_SETUP_PASSWORD=test1234 \
-    TYPO3_PROJECT_NAME="Automated Setup" \
-    TYPO3_CREATE_SITE="http://test.site/" \
-    TYPO3_SETUP_CREATE_SITE="http://test.site/" \
-    ./.Build/vendor/bin/typo3 setup --force --no-interaction
+#    TYPO3_PATH_APP=$PWD/.Build/ \
+#    TYPO3_DB_DRIVER=sqlite \
+#    TYPO3_SETUP_ADMIN_EMAIL=admin@email.com \
+#    TYPO3_SETUP_ADMIN_USERNAME=test \
+#    TYPO3_SETUP_PASSWORD="Test1234%" \
+#    TYPO3_PROJECT_NAME="Automated Setup" \
+#    TYPO3_CREATE_SITE="http://test.site/" \
+#    TYPO3_SETUP_CREATE_SITE="http://test.site/" \
+#    ./.Build/vendor/bin/typo3 setup --force --no-interaction --driver=sqlite \
+#      --admin-username=test --admin-user-password="Test1234%" --project-name="AiTest" --create-site="http://test.site/"
 
-#    ./.Build/vendor/bin/typo3cms -vvv install:setup --database-driver pdo_sqlite \
-#            --admin-user-name test --admin-password test1234 \
+    $CONSOLE_CMD -vvv install:setup --database-driver pdo_sqlite \
+      --admin-user-name test --admin-password "Test1234%" \
+      --site-name "testsite" --site-setup-type site --no-interaction --force
+
+
+#    $CONSOLE_CMD -vvv install:setup --database-driver pdo_sqlite \
+#            --admin-user-name test --admin-password "Test1234%" \
 #            --site-name "testsite" --site-setup-type site --no-interaction --force
 
-     dbfile="$(./.Build/vendor/bin/typo3cms configuration:show DB/Connections/Default/path  | sed -n 2p | tr ',' ' ' | xargs)"
+     dbfile="$($CONSOLE_CMD configuration:show DB/Connections/Default/path  | sed -n 2p | tr ',' ' ' | xargs)"
+
+     echo $dbfile
 
      if [ -f "$dbfile" ]; then
         ln -sf "$dbfile" "$(dirname $dbfile)/current.sqlite"
@@ -67,7 +75,7 @@ else
     """
 
     # install typo3
-    ./.Build/vendor/bin/typo3cms -vvv install:setup --database-user-name=$typo3DatabaseUsername --database-user-password=$typo3DatabasePassword \
+    $CONSOLE_CMD -vvv install:setup --database-user-name=$typo3DatabaseUsername --database-user-password=$typo3DatabasePassword \
             --database-host-name=$typo3DatabaseHost --database-port=${typo3DatabasePort:-3306} --database-name=$DBNAME \
             --use-existing-database --admin-user-name=test --admin-password=test1234 \
             --site-name="testsite" --site-setup-type=no --no-interaction --force
@@ -81,8 +89,7 @@ else
     done
 fi
 
-# may fail because it is not needed anymore in TYPO3 11
-./.Build/vendor/bin/typo3cms install:generatepackagestates || true
+
 # symlink fileadmin/user_upload to fixtures folder
 (
     test -d .Build/public/fileadmin/user_upload || mkdir -p .Build/public/fileadmin/user_upload
@@ -96,6 +103,7 @@ fi
 )
 
 # TYPO3_CONF_VARS
- ./.Build/vendor/bin/typo3cms configuration:set SYS/trustedHostsPattern '.*'
- ./.Build/vendor/bin/typo3cms configuration:set SYS/displayErrors '1'
- ./.Build/vendor/bin/typo3cms configuration:set SYS/devIPmask '*'
+ $CONSOLE_CMD configuration:set SYS/trustedHostsPattern '.*'
+ $CONSOLE_CMD configuration:set SYS/displayErrors '1'
+ $CONSOLE_CMD configuration:set SYS/devIPmask '*'
+ $CONSOLE_CMD configuration:set FE/pageNotFoundOnCHashError 0

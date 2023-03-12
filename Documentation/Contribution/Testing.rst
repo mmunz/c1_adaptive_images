@@ -23,7 +23,7 @@ Also some environment variables are required (adapt to your database credentials
   # export typo3DatabasePassword=testing
   # export typo3DatabaseHost=127.0.0.1
   export typo3DatabaseDriver=pdo_sqlite
-  export TYPO3_PATH_ROOT=$PWD/.Build/public/
+  export TYPO3_PATH_ROOT=$PWD/.Build/public
 
 For acceptance tests
 ====================

@@ -18,10 +18,11 @@ suites:
               - \Helper\Acceptance
               - Kolyunya\Codeception\Module\MarkupValidator:
                   baseUri: https://validator.w3.org/
-                  endpoint: /
+                  endpoint: /nu/
               - \Portrino\Codeception\Module\Typo3:
                   depends: Asserts
                   bin-dir: .Build/vendor/bin/
+                  console-cmd: typo3
                   data-dir: Tests/Acceptance/_data/
                   domain: dummy
 
@@ -50,11 +51,10 @@ modules:
     WebDriver:
       browser: chrome
       port: 9515 # ChromeDriver port
-      window_size: 640x768
       capabilities:
         loggingPrefs:
           browser: ALL
           driver:   ALL
           #performance: ALL
         chromeOptions:
-          args: ["--disable-gpu", "%CHROME_OPTION_1%"]
+          args: ["--disable-gpu", "%CHROME_OPTION_1%", "--window-size=640,768"]
