@@ -53,8 +53,8 @@ jobs:
           - { php: 7.4, TYPO3_VERSION: ^11.0 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}
     env:
-      TYPO3_PATH_ROOT: $PWD/.Build/public
-      TYPO3_PATH_APP: $PWD/.Build
+      TYPO3_PATH_ROOT: .Build/public
+      TYPO3_PATH_APP: .Build
     steps:
       - uses: actions/checkout@v2
       - name: Set up PHP Version
