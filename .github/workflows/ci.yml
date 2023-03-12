@@ -90,7 +90,6 @@ jobs:
           typo3DatabaseDriver: pdo_sqlite
           CHROME_OPTION_1: "--headless"
         run: |
-          ls -al .Build/var/sqlite/current.sqlite
           export TYPO3_PATH_ROOT="$PWD/.Build/public
           export TYPO3_PATH_APP="$PWD/.Build
           composer tests:acceptance
