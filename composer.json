@@ -90,7 +90,7 @@
     "require-dev": {
         "typo3/cms-tstemplate": "^11 || ^12",
         "typo3/cms-filelist": "^11 || ^12",
-        "helhum/typo3-console": "^8.0 || dev-main",
+        "helhum/typo3-console": "^7.0 || ^8.0 || dev-main",
         "friendsofphp/php-cs-fixer": "^3.0",
         "codeception/codeception": "^4.2 || ^5.0",
         "phpstan/extension-installer": "^1.0",
