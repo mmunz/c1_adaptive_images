@@ -23,6 +23,7 @@ Also some environment variables are required (adapt to your database credentials
   # export typo3DatabasePassword=testing
   # export typo3DatabaseHost=127.0.0.1
   export typo3DatabaseDriver=pdo_sqlite
+  export TYPO3_PATH_APP=$PWD/.Build
   export TYPO3_PATH_ROOT=$PWD/.Build/public
 
 For acceptance tests
@@ -34,6 +35,8 @@ the builtin webserver in php:
 .. code-block:: bash
 
   cd typo3conf/ext/c1_adaptive_images
+  export TYPO3_PATH_APP=$PWD/.Build
+  export TYPO3_PATH_ROOT=$PWD/.Build/public
   php -S 127.0.0.1:8888 -t .Build/public/
 
 Also selenium or chromedriver is required.

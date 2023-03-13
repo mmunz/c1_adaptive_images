@@ -1,19 +1,22 @@
 #!/bin/bash
 set -eux -o pipefail
 
-CONSOLE_VERSION=`composer show 2>/dev/null | grep typo3-console | awk '{ print $2 }' `
-CONSOLE_CMD=".Build/vendor/bin/typo3"
+[ -z "${TYPO3_PATH_ROOT:-}" ] && export TYPO3_PATH_ROOT="$PWD/.Build/public"
+[ -z "${TYPO3_PATH_APP:-}" ] && export TYPO3_PATH_APP="$PWD/.Build"
+[ -z "${typo3DatabaseDriver:-}" ] && export typo3DatabaseDriver="pdo_sqlite"
 
-if [ "$CONSOLE_VERSION" == "7.x-dev" ]; then
-  CONSOLE_CMD=".Build/vendor/bin/typo3cms"
+CONSOLE_CMD=".Build/vendor/bin/typo3cms"
+
+if [ ! -f "$CONSOLE_CMD" ]; then
+  # For v12 we need typo3-console 8 which is called now via the typo3 command.
+  # to simplify testing for v11 and v12 we create a symlink if the typo3cms command does not exist.
+  echo "typo3cms not found. Assuming typo3-console 8 which is integrated into typo3 command and symlink the command."
+  (
+    cd .Build/vendor/bin/ && ln -s typo3 typo3cms
+  )
 fi
 
-[ -z "${TYPO3_PATH_ROOT:-}" ] && TYPO3_PATH_ROOT="$PWD/.Build/public"
-
 if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
-
-
-    export TYPO3_PATH_APP="$PWD/.Build"
 
     # Cleanup Up to TYPO3 v11
     rm -f "${TYPO3_PATH_ROOT}/typo3conf/LocalConfiguration.php"

@@ -22,7 +22,7 @@ suites:
               - \Portrino\Codeception\Module\Typo3:
                   depends: Asserts
                   bin-dir: .Build/vendor/bin/
-                  console-cmd: typo3
+                  console-cmd: typo3cms
                   data-dir: Tests/Acceptance/_data/
                   domain: dummy
 
