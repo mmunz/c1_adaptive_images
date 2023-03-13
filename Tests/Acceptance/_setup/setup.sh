@@ -1,7 +1,12 @@
 #!/bin/bash
 set -eux -o pipefail
 
+CONSOLE_VERSION=`composer show 2>/dev/null | grep typo3-console | awk '{ print $2 }' `
 CONSOLE_CMD=".Build/vendor/bin/typo3"
+
+if [ "$CONSOLE_VERSION" == "7.x-dev" ]; then
+  CONSOLE_CMD=".Build/vendor/bin/typo3cms"
+fi
 
 [ -z "${TYPO3_PATH_ROOT:-}" ] && TYPO3_PATH_ROOT="$PWD/.Build/public"
 

@@ -75,7 +75,7 @@
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "extension-key": "c1_adaptive_images",
             "web-dir": ".Build/public",
-            "root-dir": ".Build",
+            "root-dir": ".Build/public",
             "app-dir": ".Build"
         }
     },
