@@ -8,8 +8,8 @@ namespace C1\AdaptiveImages\Tests\Acceptance;
  */
 class ImageViewHelperCest extends AbstractViewHelperCest
 {
-
-    public function testUpdateDatabase(\AcceptanceTester $I) {
+    public function testUpdateDatabase(\AcceptanceTester $I)
+    {
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
         ];

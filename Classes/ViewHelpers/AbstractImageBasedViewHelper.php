@@ -6,14 +6,13 @@ namespace C1\AdaptiveImages\ViewHelpers;
 use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
-use TYPO3\CMS\Extbase\Service\ImageService;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Service\ImageService;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
-
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
 {

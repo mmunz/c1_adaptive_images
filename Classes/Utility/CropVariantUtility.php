@@ -64,8 +64,7 @@ class CropVariantUtility
      */
     public function getCropAreaForVariant(string $key)
     {
-        $cropArea = $this->cropVariantCollection
-                ->getCropArea($key) ?? $this->cropVariantCollection->getCropArea('default');
+        $cropArea = $this->cropVariantCollection->getCropArea($key);
         return $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($this->file);
     }
 

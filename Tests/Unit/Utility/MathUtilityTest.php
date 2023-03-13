@@ -6,7 +6,6 @@ use C1\AdaptiveImages\Utility\MathUtility;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-
 /**
  * Class MathUtilityTest
  */

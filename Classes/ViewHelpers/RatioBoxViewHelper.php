@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 /**
  * = Examples =

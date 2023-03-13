@@ -44,7 +44,6 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         $this->viewHelper = new ImageViewHelper(...$this->constructorArgs);
     }
 
-
     public function invalidArgumentsDataProvider(): array
     {
         return [
@@ -69,7 +68,6 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         $viewHelper->setArguments($arguments);
         $viewHelper->render();
     }
-
 
     /**
      * @test

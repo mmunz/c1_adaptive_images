@@ -38,7 +38,7 @@ class RatioBoxUtility
      */
     public function sanitizeCssClassName(string $class): string
     {
-        $class = \strtolower($class) ?? '';
+        $class = \strtolower($class);
         // remove all characters not allowed in HTML class names
         $regex = '/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0041}-\\x{005A}\\x{005F}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u';
         $class = \preg_replace($regex, '', $class);

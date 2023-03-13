@@ -8,7 +8,7 @@ env:
 
 jobs:
   lint:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Linting
     steps:
       - uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
           coverage: none
           tools: composer:v2
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
@@ -45,7 +45,7 @@ jobs:
         run: composer build:doc
 
   tests:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
@@ -87,7 +87,10 @@ jobs:
           sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
           sleep 2
       - name: Unit tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} with PHP${{ matrix.env.php }})
-        run: composer tests:unit
+        run: |
+          echo $TYPO3_PATH_APP
+          echo $TYPO3_PATH_ROOT
+          composer tests:unit
       - name: Acceptance tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} with PHP${{ matrix.env.php }})
         env:
           # TYPO3_PATH_ROOT: $GITHUB_WORKSPACE/.Build/public

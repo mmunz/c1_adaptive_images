@@ -1,7 +1,8 @@
 <?php
 
-use Codeception\Actor;
 use _generated\AcceptanceTesterActions;
+use Codeception\Actor;
+
 /**
  * Inherited Methods
  * @method void wantToTest($text)
