@@ -84,7 +84,7 @@
         "typo3/cms-fluid": "^11 || ^12",
         "typo3/cms-frontend": "^11 || ^12",
         "typo3/cms-backend": "^11 || ^12",
-        "typo3/cms-fluid-styled-content": "^11 || ^12",
+        "typo3/cms-fluid-styled-content": "^11 || ^12"
     },
     "require-dev": {
         "typo3/cms-tstemplate": "^11 || ^12",
