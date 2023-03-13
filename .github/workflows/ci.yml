@@ -2,6 +2,10 @@ name: CI
 
 on: [push, pull_request]
 
+env:
+  TYPO3_PATH_ROOT: $GITHUB_WORKSPACE/.Build/public
+  TYPO3_PATH_APP: $GITHUB_WORKSPACE/.Build
+
 jobs:
   lint:
     runs-on: ubuntu-20.04
@@ -52,9 +56,6 @@ jobs:
           - { php: 8.0, TYPO3_VERSION: ^11.0 }
           - { php: 7.4, TYPO3_VERSION: ^11.0 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}
-    env:
-      TYPO3_PATH_ROOT: .Build/public
-      TYPO3_PATH_APP: .Build
     steps:
       - uses: actions/checkout@v2
       - name: Set up PHP Version

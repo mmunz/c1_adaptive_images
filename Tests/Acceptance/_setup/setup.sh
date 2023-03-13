@@ -1,8 +1,8 @@
 #!/bin/bash
-set -eux -o pipefail
+set -eu -o pipefail
 
-[ -z "${TYPO3_PATH_ROOT:-}" ] && export TYPO3_PATH_ROOT="$PWD/.Build/public"
-[ -z "${TYPO3_PATH_APP:-}" ] && export TYPO3_PATH_APP="$PWD/.Build"
+[ -z "${TYPO3_PATH_ROOT:-}" ] && export TYPO3_PATH_ROOT="${PWD}/.Build/public"
+[ -z "${TYPO3_PATH_APP:-}" ] && export TYPO3_PATH_APP="${PWD}/.Build"
 [ -z "${typo3DatabaseDriver:-}" ] && export typo3DatabaseDriver="pdo_sqlite"
 
 CONSOLE_CMD=".Build/vendor/bin/typo3cms"
