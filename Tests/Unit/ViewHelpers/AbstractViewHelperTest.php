@@ -14,8 +14,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
  */
 abstract class AbstractViewHelperTest extends UnitTestCase
 {
-    protected bool $resetSingletonInstances = true;
-
     /**
      * @var ViewHelperInterface
      */
