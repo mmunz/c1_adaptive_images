@@ -31,6 +31,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(32, 20, '62.50');
 
         $I->initLazySizes();
+        $I->waitForImagesLoaded();
         //$I->wait(5);
         $I->expect('Page still has valid markup.');
         $this->validateMarkup($I);
@@ -94,6 +95,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $this->validateMarkup($I);
 
         $I->initLazySizes();
+        $I->waitForImagesLoaded();
 
         $I->expect('a 640px image is loaded');
         $I->seeCurrentImageDimensions(640, 400, '62.50');

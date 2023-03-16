@@ -102,6 +102,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(128, 96, '75.00');
 
         $I->initLazySizes();
+        $I->waitForImagesLoaded();
 
         $I->expect('Page still has valid markup.');
         $this->validateMarkup($I);
@@ -132,6 +133,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(128, 96, '75.00');
 
         $I->initLazySizes();
+        $I->waitForImagesLoaded();
 
         $I->expect('Page still has valid markup.');
         $this->validateMarkup($I);
@@ -289,6 +291,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(32, 24, '75.00');
 
         $I->initLazySizes();
+        $I->waitForImagesLoaded();
 
         $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors but close to 4:3.');
         $I->seeCurrentImageDimensions(640, 479, '74.84');
