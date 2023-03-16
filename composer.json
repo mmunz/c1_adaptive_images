@@ -100,7 +100,7 @@
         "codeception/module-db": "^1.0 | ^2.0 | ^3.1",
         "codeception/module-asserts": "^1.0 | ^2.0 | ^3.0",
         "kolyunya/codeception-markup-validator": "dev-codeception-v4 || dev-master",
-        "portrino/codeception-helper-module": "dev-master",
+        "portrino/codeception-helper-module": "dev-codeception-v4 || dev-master",
         "typo3/testing-framework": "^6 || dev-main",
         "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": "^0.1.2",
         "phpstan/phpstan": "^1.8.9",
