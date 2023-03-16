@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\ViewHelpers;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 /**
  * = Examples =
@@ -31,7 +32,7 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @var \C1\AdaptiveImages\Utility\RatioBoxUtility
+     * @var RatioBoxUtility
      */
     protected $ratioBoxUtility;
 
@@ -61,7 +62,7 @@ class RatioBoxViewHelper extends AbstractTagBasedViewHelper
     /**
      * Returns the cropVariants array
      *
-     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
+     * @throws Exception
      * @return string
      */
     public function render()

@@ -31,17 +31,17 @@ class GetSrcsetViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Service\ImageService
+     * @var ImageService
      */
     protected $imageService;
 
     /**
-     * @var \C1\AdaptiveImages\Utility\MathUtility
+     * @var MathUtility
      */
     protected $mathUtility;
 
     /**
-     * @var \C1\AdaptiveImages\Utility\DebugUtility
+     * @var DebugUtility
      */
     protected $debugUtility;
 

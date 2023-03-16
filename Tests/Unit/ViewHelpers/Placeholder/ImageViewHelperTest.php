@@ -2,13 +2,14 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 
+use C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest;
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
 
 /**
  * Class ImageViewHelperTest
  */
-class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest
+class ImageViewHelperTest extends AbstractViewHelperTest
 {
     /**
      * set up
@@ -21,17 +22,6 @@ class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abst
         $imageServiceMock = $this->mockImageService();
 
         $this->viewHelper = new ImageViewHelper($imageServiceMock, $cropVariantUtilityMock);
-        $this->injectDependenciesIntoViewHelper($this->viewHelper);
-    }
-
-    /**
-     * @test
-     */
-    public function exceptionWhenNoFileGiven()
-    {
-        $arguments = [];
-        $this->expectExceptionCode(1237823699);
-        $this->setArgumentsUnderTest($this->viewHelper, $arguments);
     }
 
     /**
@@ -52,6 +42,9 @@ class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abst
                 [
                     'dataUri' => false,
                     'width' => '192',
+                    'height' => null,
+                    'cropVariant' => 'default',
+                    'absolute' => false,
                     'file' => $this->mockFileObject([
                         'width' => '1200',
                         'height' => '768',
@@ -63,7 +56,10 @@ class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abst
             'data-uri' => [
                 [
                     'width' => '192',
+                    'height' => null,
                     'dataUri' => true,
+                    'cropVariant' => 'default',
+                    'absolute' => false,
                     'file' => $this->mockFileObject([
                         'width' => '1200',
                         'height' => '768',
@@ -75,6 +71,10 @@ class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abst
             'without_dataUri_argument_should render_data-uri' => [
                 [
                     'width' => '192',
+                    'height' => null,
+                    'cropVariant' => 'default',
+                    'dataUri' => true,
+                    'absolute' => false,
                     'file' => $this->mockFileObject([
                         'width' => '1200',
                         'height' => '768',
@@ -94,7 +94,7 @@ class ImageViewHelperTest extends \C1\AdaptiveImages\Tests\Unit\ViewHelpers\Abst
      */
     public function render($arguments, $expected)
     {
-        $this->setArgumentsUnderTest($this->viewHelper, $arguments);
+        $this->viewHelper->setArguments($arguments);
         $this->assertEquals($expected, $this->viewHelper->initializeArgumentsAndRender());
     }
 }

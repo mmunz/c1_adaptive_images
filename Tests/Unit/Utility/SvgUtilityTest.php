@@ -5,12 +5,12 @@ namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\SvgUtility;
 use C1\AdaptiveImages\Utility\TagUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class SvgUtilityTest
  */
-class SvgUtilityTest extends UnitTestCase
+class SvgUtilityTest extends TestCase
 {
     /**
      * @test

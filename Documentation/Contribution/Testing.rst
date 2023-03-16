@@ -8,8 +8,8 @@ For tests you first need to prepare a local typo3 instance for testing inside th
 
 You can install different TYPO3 versions for testing. From inside the extension folder (typo3conf/ext/c1_adaptive_images):
 
-* for 10.4.x: ``composer require typo3/minimal=^10.4 && git checkout composer.json``
-* for 11.x.y: ``composer require typo3/minimal=^11 && git checkout composer.json``
+* for 11.5.x: ``composer require typo3/minimal=^11.5 && git checkout composer.json``
+* for 12.x.y: ``composer require typo3/minimal=^12 && git checkout composer.json``
 
 **Unit** tests should just work OOTB with: ``composer tests:unit``
 
@@ -23,7 +23,8 @@ Also some environment variables are required (adapt to your database credentials
   # export typo3DatabasePassword=testing
   # export typo3DatabaseHost=127.0.0.1
   export typo3DatabaseDriver=pdo_sqlite
-  export TYPO3_PATH_ROOT=$PWD/.Build/public/
+  export TYPO3_PATH_APP=$PWD/.Build
+  export TYPO3_PATH_ROOT=$PWD/.Build/public
 
 For acceptance tests
 ====================
@@ -34,6 +35,8 @@ the builtin webserver in php:
 .. code-block:: bash
 
   cd typo3conf/ext/c1_adaptive_images
+  export TYPO3_PATH_APP=$PWD/.Build
+  export TYPO3_PATH_ROOT=$PWD/.Build/public
   php -S 127.0.0.1:8888 -t .Build/public/
 
 Also selenium or chromedriver is required.

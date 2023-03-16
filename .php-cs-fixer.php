@@ -24,6 +24,7 @@ if (PHP_SAPI !== 'cli') {
 $finder = PhpCsFixer\Finder::create()
     ->exclude('Build')
     ->exclude('var')
+    ->exclude('Tests/Acceptance/_support/_generated')
     ->in(__DIR__);
 // Return a Code Sniffing configuration using
 // all sniffers needed for PSR-2

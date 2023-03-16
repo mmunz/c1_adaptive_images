@@ -4,18 +4,18 @@ on: [push, pull_request]
 
 jobs:
   lint:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     name: Linting
     steps:
       - uses: actions/checkout@v2
       - name: Set up PHP Version
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.1
           coverage: none
           tools: composer:v2
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
@@ -33,7 +33,7 @@ jobs:
         run: composer ts:lint
 
   build_doc:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     name: Build documentation
     steps:
       - uses: actions/checkout@v2
@@ -41,15 +41,16 @@ jobs:
         run: composer build:doc
 
   tests:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         env:
+          - { php: 8.2, TYPO3_VERSION: ^12.0 }
+          - { php: 8.1, TYPO3_VERSION: ^12.0 }
           - { php: 8.1, TYPO3_VERSION: ^11.0 }
           - { php: 8.0, TYPO3_VERSION: ^11.0 }
           - { php: 7.4, TYPO3_VERSION: ^11.0 }
-          - { php: 7.4, TYPO3_VERSION: ^10.4 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}
     steps:
       - uses: actions/checkout@v2
@@ -57,38 +58,55 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.env.php }}
+          extensions: pdo_sqlite
           tools: composer:v2
           coverage: none
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
       - name: Add GITHUB_TOKEN if available
         run: if [ -n "${{secrets.GITHUB_TOKEN}}" ]; then composer config github-oauth.github.com ${{secrets.GITHUB_TOKEN}}; fi;
+      - name: Install google-chrome if it is missing (e.g. when running locally with act)
+        if: env.ACT == 'true'
+        run: |
+           apt update && apt install -y wget sqlite3 && \
+           wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" && \
+           apt install -y ./google-chrome-stable_current_amd64.deb
+      - uses: nanasess/setup-chromedriver@v1
       - name: Install composer dependencies
         run: |
           rm -f composer.lock
           composer require typo3/minimal:${{ matrix.env.TYPO3_VERSION }}
       - name: Start builtin PHP webserver
         run: |
+          export TYPO3_PATH_ROOT="$PWD/.Build/public"
+          export TYPO3_PATH_APP="$PWD/.Build"
           php -S 127.0.0.1:8888 -t .Build/public/ &>/dev/null &
           sleep 2
-      - uses: nanasess/setup-chromedriver@master
       - name: Start chromedriver
         run: |
           export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
-          sleep 2
+          chromedriver --url-base=/wd/hub &
+          sleep 10
       - name: Unit tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} with PHP${{ matrix.env.php }})
-        run: composer tests:unit
+        run: |
+          export TYPO3_PATH_ROOT=$PWD/.Build/public
+          export TYPO3_PATH_APP=$PWD/.Build          
+          echo $TYPO3_PATH_APP
+          echo $TYPO3_PATH_ROOT
+          composer tests:unit
       - name: Acceptance tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} with PHP${{ matrix.env.php }})
         env:
           # TYPO3_PATH_ROOT: $GITHUB_WORKSPACE/.Build/public
           typo3DatabaseDriver: pdo_sqlite
           CHROME_OPTION_1: "--headless"
         run: |
+          export TYPO3_PATH_ROOT="$PWD/.Build/public"
+          export TYPO3_PATH_APP="$PWD/.Build"
+          export typo3DatabaseDriver="pdo_sqlite"
           composer tests:acceptance
       - name: Upload Codeception output
         if: failure()

@@ -17,7 +17,7 @@ class SvgUtility
     // Get a SVG Placeholder image as placeholder
     public function getSvgPlaceholder(float $width = 100, float $height = 75, string $content = ''): string
     {
-        $svgTag = $this->tagUtility->buildSvgPlaceholderImage($width, $height, $content) ?? '';
+        $svgTag = $this->tagUtility->buildSvgPlaceholderImage($width, $height, $content);
         return 'data:image/svg+xml,' . rawurlencode($svgTag);
     }
 

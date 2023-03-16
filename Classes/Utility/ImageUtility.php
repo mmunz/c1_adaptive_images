@@ -6,6 +6,7 @@ namespace C1\AdaptiveImages\Utility;
 use C1\AdaptiveImages\Service\SettingsService;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Extbase\Exception;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
@@ -92,7 +93,7 @@ class ImageUtility
     /**
      * @param array $processingConfiguration
      * @return array
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
+     * @throws Exception
      */
     public function processImage($processingConfiguration)
     {
@@ -207,7 +208,7 @@ class ImageUtility
 
     /**
      * @return array|mixed
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
+     * @throws Exception
      */
     public function getCropVariants()
     {

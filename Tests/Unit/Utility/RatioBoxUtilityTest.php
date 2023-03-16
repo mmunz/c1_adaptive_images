@@ -4,14 +4,14 @@ namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Core\Page\PageRenderer;
 
 /**
  * Class RatioBoxUtilityTest
  */
-class RatioBoxUtilityTest extends UnitTestCase
+class RatioBoxUtilityTest extends TestCase
 {
     /** @var RatioBoxUtility */
     protected $utility;

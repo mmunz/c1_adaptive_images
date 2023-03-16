@@ -11,7 +11,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
  */
 class TagUtility
 {
-    public function getTagBuilder(): TagBuilder
+    public function getTagBuilder(): TagBuilder /** @phpstan-ignore-line */
     {
         return GeneralUtility::makeInstance(TagBuilder::class);
     }
@@ -33,6 +33,6 @@ class TagUtility
             }
             $tagBuilder->setContent($content);
         }
-        return $tagBuilder->render() ?? '';
+        return $tagBuilder->render();
     }
 }

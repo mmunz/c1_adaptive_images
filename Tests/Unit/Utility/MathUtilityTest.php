@@ -3,13 +3,13 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\MathUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class MathUtilityTest
  */
-class MathUtilityTest extends UnitTestCase
+class MathUtilityTest extends TestCase
 {
     /**
      * @test

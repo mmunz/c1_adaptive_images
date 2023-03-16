@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
+use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
@@ -21,7 +22,7 @@ class CropVariantUtility
     protected $file;
 
     /**
-     * @var \C1\AdaptiveImages\Utility\MathUtility
+     * @var MathUtility
      */
     protected $mathUtility;
 
@@ -59,12 +60,11 @@ class CropVariantUtility
      * Returns a calculated Area with coordinates for cropping the actual image
      *
      * @param string $key
-     * @return null|\TYPO3\CMS\Core\Imaging\ImageManipulation\Area
+     * @return null|Area
      */
     public function getCropAreaForVariant(string $key)
     {
-        $cropArea = $this->cropVariantCollection
-                ->getCropArea($key) ?? $this->cropVariantCollection->getCropArea('default');
+        $cropArea = $this->cropVariantCollection->getCropArea($key);
         return $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($this->file);
     }
 

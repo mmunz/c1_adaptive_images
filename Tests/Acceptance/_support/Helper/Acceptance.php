@@ -4,11 +4,11 @@ namespace Helper;
 
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
-
 use Codeception\Lib\ModuleContainer;
+use Codeception\Module;
 use Codeception\Module\WebDriver;
 
-class Acceptance extends \Codeception\Module
+class Acceptance extends Module
 {
     /** @var WebDriver */
     protected $webdriver;
@@ -35,6 +35,19 @@ class Acceptance extends \Codeception\Module
     public function changeBrowser($browser)
     {
         $this->webdriver->_restart(['browser' => $browser]);
+    }
+
+    public function resize($width, $height)
+    {
+        $this->webdriver->resizeWindow($width, $height);
+        $size = $this->webdriver->executeJS('window.innerWidth');
+
+        // chrome and chromedriver 108 had problems with resizing sometimes
+        // this seems to fix it
+        if ($size !== $width) {
+            $this->webdriver->wait(1);
+            $this->webdriver->resizeWindow($width, $height);
+        }
     }
 
     /** getCurrentImage
