@@ -25,7 +25,7 @@ class GetCropVariantsViewHelper extends AbstractViewHelper
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
 
@@ -36,8 +36,7 @@ class GetCropVariantsViewHelper extends AbstractViewHelper
     /**
      * Returns the cropVariants as array or CropVariantsCollection
      *
-     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
-
+     * @throws Exception ;
      * @return array|CropVariantCollection
      */
     public function render()

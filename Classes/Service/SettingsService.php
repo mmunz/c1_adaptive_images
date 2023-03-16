@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Service;
 
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
@@ -27,17 +28,22 @@ class SettingsService
      */
     protected $configurationManager;
 
-    /**
-     * Injects the Configuration Manager and loads the settings
-     *
-     * @param ConfigurationManagerInterface $configurationManager
-     * @return void
-     */
-    public function injectConfigurationManager(
-        ConfigurationManagerInterface $configurationManager
-    ) {
+    public function __construct(ConfigurationManager $configurationManager)
+    {
         $this->configurationManager = $configurationManager;
     }
+
+//    /**
+//     * Injects the Configuration Manager and loads the settings
+//     *
+//     * @param ConfigurationManagerInterface $configurationManager
+//     * @return void
+//     */
+//    public function injectConfigurationManager(
+//        ConfigurationManagerInterface $configurationManager
+//    ) {
+//        $this->configurationManager = $configurationManager;
+//    }
 
     /**
      * Returns the framework configuration.

@@ -31,51 +31,31 @@ class GetSrcsetViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Service\ImageService
+     * @var ImageService
      */
     protected $imageService;
 
     /**
-     * @param ImageService $imageService
-     * @return void
-     */
-    public function injectImageService(ImageService $imageService)
-    {
-        $this->imageService = $imageService;
-    }
-
-    /**
-     * @var \C1\AdaptiveImages\Utility\MathUtility
+     * @var MathUtility
      */
     protected $mathUtility;
 
     /**
-     * @param MathUtility $mathUtility
-     * @return void
-     */
-    public function injectMathUtility(MathUtility $mathUtility)
-    {
-        $this->mathUtility = $mathUtility;
-    }
-
-    /**
-     * @var \C1\AdaptiveImages\Utility\DebugUtility
+     * @var DebugUtility
      */
     protected $debugUtility;
 
-    /**
-     * @param DebugUtility $debugUtility
-     * @return void
-     */
-    public function injectDebugUtility(DebugUtility $debugUtility)
+    public function __construct(ImageService $imageService, MathUtility $mathUtility, DebugUtility $debugUtility)
     {
+        $this->imageService = $imageService;
         $this->debugUtility = $debugUtility;
+        $this->mathUtility = $mathUtility;
     }
 
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('file', FileInterface::class, 'a file or file reference', true);

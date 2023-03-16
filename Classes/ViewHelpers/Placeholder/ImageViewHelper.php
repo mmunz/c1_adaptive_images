@@ -7,6 +7,7 @@ use C1\AdaptiveImages\Utility\CropVariantUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 /**
  * Create placeholder images for lazyloading
@@ -31,37 +32,25 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class ImageViewHelper extends AbstractViewHelper
 {
     /**
-     * @var \TYPO3\CMS\Extbase\Service\ImageService
+     * @var ImageService
      */
     protected $imageService;
 
     /**
-     * @param ImageService $imageService
-     * @return void
-     */
-    public function injectImageService(ImageService $imageService)
-    {
-        $this->imageService = $imageService;
-    }
-
-    /**
-     * @var \C1\AdaptiveImages\Utility\CropVariantUtility
+     * @var CropVariantUtility
      */
     protected $cropVariantUtility;
 
-    /**
-     * @param CropVariantUtility $cropVariantUtility
-     * @return void
-     */
-    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
+    public function __construct(ImageService $imageService, CropVariantUtility $cropVariantUtility)
     {
         $this->cropVariantUtility = $cropVariantUtility;
+        $this->imageService = $imageService;
     }
 
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('file', '\TYPO3\CMS\Core\Resource\FileInterface', 'File or FileReference', true);
@@ -100,7 +89,7 @@ class ImageViewHelper extends AbstractViewHelper
      *
      * @see https://docs.typo3.org/typo3cms/TyposcriptReference/ContentObjects/Image/
      *
-     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
+     * @throws Exception
      * @return string Rendered tag
      */
     public function render()

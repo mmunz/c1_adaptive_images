@@ -16,10 +16,13 @@ suites:
                   cleanup: false # run populator before each test
               - Asserts
               - \Helper\Acceptance
-              - Kolyunya\Codeception\Module\MarkupValidator
+              - Kolyunya\Codeception\Module\MarkupValidator:
+                  baseUri: https://validator.w3.org/
+                  endpoint: /nu/
               - \Portrino\Codeception\Module\Typo3:
                   depends: Asserts
                   bin-dir: .Build/vendor/bin/
+                  console-cmd: typo3cms
                   data-dir: Tests/Acceptance/_data/
                   domain: dummy
 
@@ -34,7 +37,7 @@ gherkin: []
 # additional paths
 paths:
     tests: Tests/Acceptance
-    output: .Build/public/typo3temp/var/tests/_output
+    output: Tests/Acceptance/_output
     data: .Build/public/typo3temp/var/tests/_data
     support: Tests/Acceptance/_support
     envs: .Build/public/typo3temp/var/tests/_envs
@@ -48,11 +51,10 @@ modules:
     WebDriver:
       browser: chrome
       port: 9515 # ChromeDriver port
-      window_size: 640x768
       capabilities:
         loggingPrefs:
           browser: ALL
           driver:   ALL
           #performance: ALL
         chromeOptions:
-          args: ["--disable-gpu", "%CHROME_OPTION_1%"]
+          args: ["--disable-gpu", "%CHROME_OPTION_1%", "--window-size=640,768"]

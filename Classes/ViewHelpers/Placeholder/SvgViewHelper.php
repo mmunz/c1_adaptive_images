@@ -8,6 +8,7 @@ use C1\AdaptiveImages\Utility\SvgUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 /**
  * Create a placeholder svg for lazyloading
@@ -24,12 +25,11 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SvgViewHelper extends AbstractViewHelper
 {
-
     /** @var bool $escapeOutput */
     protected $escapeOutput = false;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Service\ImageService
+     * @var ImageService
      */
     protected $imageService;
 
@@ -43,40 +43,25 @@ class SvgViewHelper extends AbstractViewHelper
      */
     protected $cropVariantUtility;
 
-    /**
-     * @param CropVariantUtility $cropVariantUtility
-     * @return void
-     */
-    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
-    {
-        $this->cropVariantUtility = $cropVariantUtility;
-    }
-
-    /**
-     * @param SvgUtility $svgUtility
-     * @return void
-     */
-    public function injectSvgUtility(SvgUtility $svgUtility)
-    {
-        $this->svgUtility = $svgUtility;
-    }
-
-    /**
-     * @param \TYPO3\CMS\Extbase\Service\ImageService $imageService
-     * @return void
-     */
-    public function injectImageService(ImageService $imageService)
+    public function __construct(ImageService $imageService, SvgUtility $svgUtility, CropVariantUtility $cropVariantUtility)
     {
         $this->imageService = $imageService;
+        $this->svgUtility = $svgUtility;
+        $this->cropVariantUtility = $cropVariantUtility;
     }
 
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('file', '\TYPO3\CMS\Core\Resource\FileInterface', 'File or FileReference', true);
+        $this->registerArgument(
+            'file',
+            '\TYPO3\CMS\Core\Resource\FileInterface',
+            'File or FileReference',
+            true
+        );
         $this->registerArgument(
             'cropVariant',
             'string',
@@ -123,29 +108,26 @@ class SvgViewHelper extends AbstractViewHelper
      *
      * @see https://docs.typo3.org/typo3cms/TyposcriptReference/ContentObjects/Image/
      *
-     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
+     * @throws Exception
      * @return string Rendered tag
      */
     public function render()
     {
         /** @var FileInterface $image */
         $image = $this->arguments['file'];
-        $imageUri = null;
-        $this->cropVariantUtility->setCropVariantCollection($image);
-        $width = $image->getProperty('width');
-        $height = $image->getProperty('height');
+        $width = (float) $image->getProperty('width');
+        $height = (float) $image->getProperty('height');
         $this->cropVariantUtility->setCropVariantCollection($image);
         $cropArea = $this->cropVariantUtility->getCropAreaForVariant($this->arguments['cropVariant']);
 
         if ($cropArea) {
-            $width = $cropArea->asArray()['width'];
-            $height = $cropArea->asArray()['height'];
+            $width = (float) $cropArea->asArray()['width'];
+            $height = (float) $cropArea->asArray()['height'];
         }
 
         $preview = '';
 
         if ($this->arguments['embedPreview']) {
-            $previewImg = '';
             $processingInstructions = [
                 'width' => $this->arguments['embedPreviewWidth'],
                 'crop' => $cropArea,
@@ -159,28 +141,8 @@ class SvgViewHelper extends AbstractViewHelper
                 base64_encode($processedImage->getContents())
             );
 
-            $preview = $this->createPreviewImageTag($previewImg, $width, $height);
+            $preview = $this->svgUtility->createPreviewImageTag($previewImg, $width, $height);
         }
         return $this->svgUtility->getSvgPlaceholder($width, $height, $this->arguments['content'] . $preview);
-    }
-
-    /**
-     * createPreviewImageTag
-     *
-     * @param string $img
-     * @param int $width
-     * @param int $height
-     *
-     * @return string
-     *
-     */
-    public function createPreviewImageTag($img, $width, $height)
-    {
-        return sprintf(
-            '<image preserveAspectRatio="xMidYMid slice" xlink:href="%s" x="0" y="0" width="%s" height="%s"></image>',
-            $img,
-            $width,
-            $height
-        );
     }
 }

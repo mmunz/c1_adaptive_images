@@ -6,8 +6,7 @@ namespace C1\AdaptiveImages\Utility;
 use C1\AdaptiveImages\Service\SettingsService;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Exception;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
@@ -15,83 +14,38 @@ use TYPO3\CMS\Extbase\Service\ImageService;
  */
 class ImageUtility
 {
-    /** @var array $options */
-    protected $options;
+    private array $options;
 
-    /** @var array $settings */
-    protected $settings;
+    private array $settings;
 
-    /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
+    private SettingsService $settingsService;
 
-    /**
-     * @var \C1\AdaptiveImages\Utility\DebugUtility
-     */
-    protected $debugUtility;
+    private ImageService $imageService;
 
-    /**
-     * @param DebugUtility $debugUtility
-     * @return void
-     */
-    public function injectDebugUtility(DebugUtility $debugUtility)
-    {
-        $this->debugUtility = $debugUtility;
-    }
+    private CropVariantUtility $cropVariantUtility;
 
-    /**
-     * @var \C1\AdaptiveImages\Utility\MathUtility
-     */
-    protected $mathUtility;
+    private DebugUtility $debugUtility;
 
-    /**
-     * @param MathUtility $mathUtility
-     * @return void
-     */
-    public function injectMathUtility(MathUtility $mathUtility)
-    {
-        $this->mathUtility = $mathUtility;
-    }
+    private MathUtility $mathUtility;
 
-    /**
-     * @var \TYPO3\CMS\Core\Resource\FileInterface
-     */
-    protected $originalFile;
+    private FileInterface $originalFile;
 
-    /**
-     * @var \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
-     */
-    protected $cropVariantUtility;
+    private array $cropVariants = [];
 
-    /**
-     * @param CropVariantUtility $cropVariantUtility
-     * @return void
-     */
-    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
-    {
+    public function __construct(
+        SettingsService $settingsService,
+        ImageService $imageService,
+        CropVariantUtility $cropVariantUtility,
+        DebugUtility $debugUtility,
+        MathUtility $mathUtility,
+        ?array $options = null,
+        ?array $settings = null
+    ) {
+        $this->settingsService = $settingsService;
+        $this->imageService = $imageService;
         $this->cropVariantUtility = $cropVariantUtility;
-    }
-
-    /**
-     * @var array $cropVariants
-     */
-    protected $cropVariants = [];
-
-    /**
-     * ImageUtility constructor.
-     * @param null|array $options
-     * @param null|array $settings
-     * @param null|ObjectManager $objectManager
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
-     */
-    public function __construct($options = null, $settings = null, $objectManager = null)
-    {
-        if (!$objectManager) {
-            $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        } else {
-            $this->objectManager = $objectManager;
-        }
+        $this->debugUtility = $debugUtility;
+        $this->mathUtility = $mathUtility;
 
         if ($options) {
             // @extensionScannerIgnoreLine
@@ -102,9 +56,7 @@ class ImageUtility
         if ($settings) {
             $this->settings = $settings;
         } else {
-            /** @var SettingsService $pluginSettingsService */
-            $pluginSettingsService = $this->objectManager->get('C1\\AdaptiveImages\\Service\\SettingsService');
-            $this->settings = $pluginSettingsService->getSettings();
+            $this->settings = $this->settingsService->getSettings();
         }
         if (!array_key_exists('default', $this->cropVariants)) {
             $this->cropVariants['default']['srcsetWidths'] = $this->settings['srcsetWidths'] ?? '320,600,992,1280,1920';
@@ -133,36 +85,20 @@ class ImageUtility
         $this->options = $options;
     }
 
-    /**
-     * @param FileInterface $file
-     * @return void
-     */
-    public function setOriginalFile($file)
+    public function setOriginalFile(FileInterface $file): void
     {
         $this->originalFile = $file;
     }
 
     /**
-     * Return an instance of ImageService
-     *
-     * @return ImageService
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
-     */
-    protected function getImageService()
-    {
-        return $this->objectManager->get(ImageService::class);
-    }
-
-    /**
      * @param array $processingConfiguration
      * @return array
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
+     * @throws Exception
      */
     public function processImage($processingConfiguration)
     {
-        $imageService = $this->getImageService();
         /** @var FileReference $processedImage */
-        $processedImage = $imageService->applyProcessingInstructions(
+        $processedImage = $this->imageService->applyProcessingInstructions(
             $this->originalFile,
             $processingConfiguration
         );
@@ -172,18 +108,21 @@ class ImageUtility
             $processedImage->getProperty('width')
         );
         if ($this->options['debug'] && $this->options['debug'] === true) {
+            if (!isset($processingConfiguration['additionalParameters'])) {
+                $processingConfiguration['additionalParameters'] = '';
+            }
             $processingConfiguration['additionalParameters'] .= $this->debugUtility->getDebugAnnotation(
                 $processedImage->getProperty('width'),
                 $processedImage->getProperty('height'),
                 $ratio
             );
-            $processedImage = $imageService->applyProcessingInstructions(
+            $processedImage = $this->imageService->applyProcessingInstructions(
                 $this->originalFile,
                 $processingConfiguration
             );
         }
 
-        $url = $imageService->getImageUri($processedImage);
+        $url = $this->imageService->getImageUri($processedImage);
 
         return [
             'url' => $url,
@@ -195,12 +134,8 @@ class ImageUtility
 
     /**
      * Renders a source tag (set of srcset candidates for one cropVariant)
-     * @param string $key
-     * @param array $cropVariantConfig
-     * @return array
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
-    public function processSrcsetImages(string $key, array $cropVariantConfig)
+    public function processSrcsetImages(string $key, array $cropVariantConfig): array
     {
         $srcset = [];
         $srcWidths = explode(',', (string)$cropVariantConfig['srcsetWidths']);
@@ -209,8 +144,8 @@ class ImageUtility
         $this->cropVariantUtility->setCropVariantCollection($this->originalFile);
 
         $defaultProcessConfiguration = [
-            'width' => $this->options['width'],
-            'height' => $this->options['height'],
+            'width' => $this->options['width'] ?? null,
+            'height' => $this->options['height'] ?? null,
             'crop' => $this->cropVariantUtility->getCropAreaForVariant($key)
         ];
 
@@ -230,7 +165,7 @@ class ImageUtility
                 }
             }
 
-            if ($cropVariantConfig['image_format'] > 0) {
+            if (isset($cropVariantConfig['image_format']) && $cropVariantConfig['image_format'] > 0) {
                 $img_format = $this->options['image_format'];
                 $localProcessingConfiguration['width'] = $width . 'c';
                 $localProcessingConfiguration['height'] = round(intval($width) / $img_format) . 'c';
@@ -248,11 +183,8 @@ class ImageUtility
 
     /**
      * returns a formatted srcset string
-     *
-     * @param array $candidates
-     * @return string
      */
-    public function getSrcSetString($candidates)
+    public function getSrcSetString(array $candidates): string
     {
         $srcset = [];
         foreach ($candidates as $candidate) {
@@ -267,17 +199,16 @@ class ImageUtility
      * Because all candidates have the same ratio we can just return the 'ratio' from the first child of the candidates
      * array.
      *
-     * @param array $candidates
      * @return array
      */
-    public function getRatioFromFirstCandidate($candidates)
+    public function getRatioFromFirstCandidate(array $candidates)
     {
         return reset($candidates)['ratio'];
     }
 
     /**
      * @return array|mixed
-     * @throws \TYPO3\CMS\Extbase\Object\Exception
+     * @throws Exception
      */
     public function getCropVariants()
     {

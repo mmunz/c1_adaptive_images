@@ -24,6 +24,7 @@ if (PHP_SAPI !== 'cli') {
 $finder = PhpCsFixer\Finder::create()
     ->exclude('Build')
     ->exclude('var')
+    ->exclude('Tests/Acceptance/_support/_generated')
     ->in(__DIR__);
 // Return a Code Sniffing configuration using
 // all sniffers needed for PSR-2
@@ -34,7 +35,8 @@ $finder = PhpCsFixer\Finder::create()
 //  - Remove unused use statements in the PHP source code
 //  - Ensure Concatenation to have at least one whitespace around
 //  - Remove trailing whitespace at the end of blank lines.
-return PhpCsFixer\Config::create()
+$config = new PhpCsFixer\Config();
+return $config
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
@@ -47,14 +49,14 @@ return PhpCsFixer\Config::create()
         'ordered_imports' => true,
         'single_quote' => true,
         'no_empty_statement' => true,
-        'no_extra_consecutive_blank_lines' => true,
+        'no_extra_blank_lines' => true,
         'phpdoc_no_package' => true,
         'phpdoc_scalar' => true,
         'no_blank_lines_after_phpdoc' => true,
         'array_syntax' => ['syntax' => 'short'],
         'whitespace_after_comma_in_array' => true,
         'function_typehint_space' => true,
-        'hash_to_slash_comment' => true,
+        'single_line_comment_style' => true,
         'no_alias_functions' => true,
         'lowercase_cast' => true,
         'no_leading_namespace_whitespace' => true,

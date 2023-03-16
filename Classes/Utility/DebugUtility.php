@@ -7,7 +7,6 @@ namespace C1\AdaptiveImages\Utility;
  */
 class DebugUtility
 {
-
     /**
      * returns a string with debug information for additionalParameters of a processing configuration
      * @param int $height

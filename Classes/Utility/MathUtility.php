@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Utility;
 
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class MathUtility
  */
-class MathUtility implements \Psr\Log\LoggerAwareInterface
+class MathUtility implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 

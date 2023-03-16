@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
+use PhpCsFixer\DocBlock\Tag;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
@@ -9,18 +11,28 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
  */
 class TagUtility
 {
-    /**
-     * Build the ratio box tag
-     * @param string $content
-     * @param array $classNames
-     * @return string
-     */
-    public function buildRatioBoxTag(string $content, array $classNames)
+    public function getTagBuilder(): TagBuilder /** @phpstan-ignore-line */
     {
-        $tagBuilder = new TagBuilder('div', $content);
-        $tagBuilder->setTagName('div');
-        $tagBuilder->setContent($content);
-        $tagBuilder->addAttribute('class', implode(' ', $classNames));
+        return GeneralUtility::makeInstance(TagBuilder::class);
+    }
+
+    public function buildSvgPlaceHolderImage(float $width, float $height, string $content): string
+    {
+        $tagBuilder = $this->getTagBuilder();
+        $tagBuilder->setTagName('svg');
+        $tagBuilder->addAttributes([
+            'xmlns' => 'http://www.w3.org/2000/svg',
+            'width' => $width,
+            'height' => $height
+        ]);
+
+        if ($content && $content !== '') {
+            if (strpos($content, 'xlink') !== false) {
+                // svg tag needs xlink namespace if xlink is used in $content
+                $tagBuilder->addAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+            }
+            $tagBuilder->setContent($content);
+        }
         return $tagBuilder->render();
     }
 }

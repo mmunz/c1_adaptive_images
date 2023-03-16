@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use C1\AdaptiveImages\Utility\TagUtility;
+use C1\AdaptiveImages\Utility\ImageUtility;
+use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
+use C1\AdaptiveImages\Utility\RatioBoxUtility;
+use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
@@ -22,27 +25,22 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
  */
 class PictureViewHelper extends AbstractImageBasedViewHelper
 {
-    /**
-     * @var \C1\AdaptiveImages\Utility\TagUtility
-     */
-    protected $tagUtility;
-
-    /**
-     * @param TagUtility $tagUtility
-     * @return void
-     */
-    public function injectTagUtility(TagUtility $tagUtility)
-    {
-        $this->tagUtility = $tagUtility;
-    }
-
     /** @var array $cropVariants */
     protected $cropVariants;
+
+    public function __construct(
+        ImageUtility $imageUtility,
+        RatioBoxUtility $ratioBoxUtility,
+        ImagePlaceholderUtility $imagePlaceholderUtility,
+        ImageService $imageService
+    ) {
+        parent::__construct($imageUtility, $ratioBoxUtility, $imagePlaceholderUtility, $imageService);
+    }
 
     /**
      * Initialize arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
 
@@ -62,7 +60,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
      *
      * @api
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->imageUtility->setOriginalFile($this->arguments['image']);
@@ -71,7 +69,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
                 'srcsetWidths' => $this->arguments['srcsetWidths']
             ]
         ];
-        $cropVariantsMerged = array_merge_recursive($this->arguments['sources'], $cropVariantForImg);
+        $cropVariantsMerged = array_merge($this->arguments['sources'], $cropVariantForImg);
         // @extensionScannerIgnoreLine
         $this->imageUtility->init(
             [
@@ -96,12 +94,12 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
         unset($sources[$this->arguments['cropVariant']]);
         $picture = $this->buildPictureTag($imageTag, $sources);
 
-        $mq = [];
-        foreach ($this->cropVariants as $key => $config) {
-            $mq[$key] = $config['media'];
-        }
-
         if ($this->arguments['ratiobox'] === true) {
+            $mq = [];
+            foreach ($this->cropVariants as $key => $config) {
+                $mq[$key] = $config['media'] ?? null;
+            }
+
             return $this->ratioBoxUtility->wrapInRatioBox(
                 $picture,
                 $this->arguments['image'],

@@ -4,88 +4,41 @@ namespace C1\AdaptiveImages\Utility;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Class RatioBoxUtility
  */
 class RatioBoxUtility
 {
+    private PageRenderer $pageRenderer;
 
-    /** @var PageRenderer */
-    protected $pageRenderer;
+    private CropVariantUtility $cropVariantUtility;
 
-    /**
-     * @var array $ratioBoxClassNames
-     */
-    protected $ratioBoxClassNames;
+    private array $ratioBoxClassNames = [];
 
-    /**
-     * @var \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
-     */
-    protected $cropVariantUtility;
+    private string $ratioBoxBase = '';
 
-    /**
-     * @param \C1\AdaptiveImages\Utility\CropVariantUtility $cropVariantUtility
-     * @return void
-     */
-    public function injectCropVariantUtility(CropVariantUtility $cropVariantUtility)
+    private TagBuilder $tagBuilder;
+
+    public function __construct(PageRenderer $pageRenderer, CropVariantUtility $cropVariantUtility)
     {
+        $this->pageRenderer = $pageRenderer;
         $this->cropVariantUtility = $cropVariantUtility;
+        $this->tagBuilder = new TagBuilder();
     }
 
-    /** @var \C1\AdaptiveImages\Utility\TagUtility
-     */
-    protected $tagUtility;
-
-    /**
-     * @param TagUtility $tagUtility
-     * @return void
-     */
-    public function injectTagUtility(TagUtility $tagUtility)
-    {
-        $this->tagUtility = $tagUtility;
-    }
-
-    /**
-     * RatioBoxUtility constructor.
-     * @codeCoverageIgnore
-     * @param null|PageRenderer $pageRenderer
-     */
-    public function __construct($pageRenderer = null)
-    {
-        if (!$pageRenderer) {
-            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        } else {
-            $this->pageRenderer = $pageRenderer;
-        }
-    }
-
-    /**
-     * @var string $ratioBoxBase
-     */
-    protected $ratioBoxBase;
-
-    /**
-     * Setter for $this->ratioBoxBase
-     *
-     * @param string $ratioBoxBase
-     * @return void
-     */
-    public function setRatioBoxBase($ratioBoxBase = 'ratio-box')
+    public function setRatioBoxBase(string $ratioBoxBase = 'ratio-box'): void
     {
         $this->ratioBoxBase = $ratioBoxBase;
     }
 
     /**
      * Removes unwanted characters from css ClassNames
-     *
-     * @param string $class
-     * @return string
      */
-    public function sanitizeCssClassName($class)
+    public function sanitizeCssClassName(string $class): string
     {
-        $class = \strtolower($class) ?? '';
+        $class = \strtolower($class);
         // remove all characters not allowed in HTML class names
         $regex = '/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0041}-\\x{005A}\\x{005F}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u';
         $class = \preg_replace($regex, '', $class);
@@ -190,6 +143,21 @@ class RatioBoxUtility
     }
 
     /**
+     * Build the ratio box tag
+     * @param string $content
+     * @param array $classNames
+     * @return string
+     */
+    public function buildRatioBoxTag(string $content, array $classNames)
+    {
+        $this->tagBuilder->reset();
+        $this->tagBuilder->setTagName('div');
+        $this->tagBuilder->setContent($content);
+        $this->tagBuilder->addAttribute('class', implode(' ', $classNames));
+        return $this->tagBuilder->render();
+    }
+
+    /**
      * Wrap $content inside a ratio box
      * @param string $content
      * @param FileInterface $file
@@ -205,6 +173,6 @@ class RatioBoxUtility
         //DebuggerUtility::var_dump($cropVariants);
         $this->setRatioBoxBase('rb');
         $classNames = $this->getRatioBoxClassNames($cropVariants);
-        return $this->tagUtility->buildRatioBoxTag($content, $classNames);
+        return $this->buildRatioBoxTag($content, $classNames);
     }
 }

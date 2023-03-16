@@ -3,12 +3,12 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\DebugUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use Codeception\PHPUnit\TestCase;
 
 /**
  * Class DebugUtilityTest
  */
-class DebugUtilityTest extends UnitTestCase
+class DebugUtilityTest extends TestCase
 {
     /**
      * @test

@@ -8,6 +8,14 @@ namespace C1\AdaptiveImages\Tests\Acceptance;
  */
 class ImageViewHelperCest extends AbstractViewHelperCest
 {
+    public function testUpdateDatabase(\AcceptanceTester $I)
+    {
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+    }
+
     public function seeImageLoadInCorrectDimensions(\AcceptanceTester $I)
     {
         $I->flushCache();
@@ -16,13 +24,14 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         ];
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
-        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1');
+        $I->amOnPage('/index.php?mode=ImageViewHelper&srcsetWidths=640,1024&debug=1&lazy=1');
         $this->validateMarkup($I);
 
         $I->expect('a small placeholder image is loaded');
-        $I->seeCurrentImageDimensions(128, 80, '62.50');
+        $I->seeCurrentImageDimensions(32, 20, '62.50');
 
         $I->initLazySizes();
+        $I->waitForImagesLoaded();
         //$I->wait(5);
         $I->expect('Page still has valid markup.');
         $this->validateMarkup($I);
@@ -36,6 +45,21 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
     }
 
+    public function seePlaceholderWithCustomWidth(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=ImageViewHelper&srcsetWidths=640,1024&placeholderWidth=16&debug=1&lazy=1');
+        $this->validateMarkup($I);
+
+        $I->expect('a small placeholder image is loaded');
+        $I->seeCurrentImageDimensions(16, 10, '62.50');
+    }
+
     public function seeImageWithoutLazyLoading(\AcceptanceTester $I)
     {
         $I->restartBrowser();
@@ -45,7 +69,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         ];
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
-        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=0');
+        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=32&srcsetWidths=640,1024&debug=1&lazy=0');
 
         $this->validateMarkup($I);
         $I->expect('a 640px image is loaded');
@@ -66,11 +90,12 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         ];
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
-        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
+        $I->amOnPage('/index.php?mode=ImageViewHelper&placeholderWidth=32&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
 
         $this->validateMarkup($I);
 
         $I->initLazySizes();
+        $I->waitForImagesLoaded();
 
         $I->expect('a 640px image is loaded');
         $I->seeCurrentImageDimensions(640, 400, '62.50');
@@ -157,7 +182,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         ];
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 4]);
 
-        $I->amOnPage('/index.php?id=3&mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1');
+        $I->amOnPage('/index.php?id=3&mode=ImageViewHelper&placeholderWidth=32&srcsetWidths=640,1024&debug=1&lazy=1');
         $this->validateMarkup($I);
 
         $I->expect('No exception is thrown on missing image');
@@ -167,7 +192,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
     public function seeNoExceptionOnEmptyImage(\AcceptanceTester $I)
     {
         $I->flushCache();
-        $I->amOnPage('/index.php?id=4&mode=ImageViewHelper&placeholderWidth=128&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
+        $I->amOnPage('/index.php?id=4&mode=ImageViewHelper&placeholderWidth=32&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
         $this->validateMarkup($I);
 
         $I->expect('Don\'t see exception');
