@@ -16,6 +16,15 @@ TypoScript Reference
 
 These typoscript settings are meant as defaults and can be overwritten by viewHelper arguments.
 
+To be usable in Content Element templates, these settings are injected to the content elements settings in setup.typoscript:
+
+..  code-block:: typoscript
+
+    # make settings available as settings.ai in all content elements
+    lib.contentElement {
+        settings.ai < plugin.tx_c1_adaptive_images.settings
+    }
+
 Properties
 ^^^^^^^^^^
 
@@ -36,11 +45,11 @@ Debug dimensions and ratio on directly on picture `debug`
 
     If set to true, debug info (width, height, ratio) is rendered as annotation directly on the image.
 
-    This setting is not used in the ViewHelpers, instead it is meant to be used in your templates, e.g.
+    This setting is not used in the ViewHelpers, instead it is meant to be used in your templates.
 
     .. code-block:: html
 
-        <ai:picture debug="{plugin.tx_c1_adaptive_images.settings.debug} ...">
+        <ai:picture debug="{settings.ai.debug} ...">
 
 .. _configuration-jsdebug:
 Debug dimensions and ratio with JavaScript `jsdebug`
@@ -58,7 +67,7 @@ Debug dimensions and ratio with JavaScript `jsdebug`
 
     .. code-block:: html
 
-        <ai:picture jsdebug="{plugin.tx_c1_adaptive_images.settings.jsdebug} ...">
+        <ai:picture jsdebug="{settings.ai.jsdebug} ...">
 
 .. _configuration-ratioBox:
 Use ratio box `ratioBox`
@@ -73,7 +82,7 @@ Use ratio box `ratioBox`
 
     .. code-block:: html
 
-        <ai:picture ratiobox="{plugin.tx_c1_adaptive_images.settings.ratiobox} ...">
+        <ai:picture ratiobox="{settings.ai.ratiobox} ...">
 
 .. _configuration-srcsetWidths:
 Default srcset widths `srcsetWidths`
