@@ -1,21 +1,31 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
+﻿..  ----------
+..  text roles
+..  ----------
 
-.. This is 'Includes.txt'. It is included at the very top of each and
-   every ReST source file in this documentation project (= manual).
+..  role:: aspect(emphasis)
+..  role:: bash(code)
+..  role:: html(code)
+..  role:: js(code)
+..  role:: php(code)
+..  role:: rst(code)
+..  role:: sep(strong)
+..  role:: sql(code)
 
+..  role:: tsconfig(code)
+    :class: typoscript
 
-.. ==================================================
-.. DEFINE SOME TEXT ROLES
-.. --------------------------------------------------
+..  role:: typoscript(code)
+..  role:: xml(code)
+    :class: html
 
-.. role::   typoscript(code)
+..  role:: yaml(code)
 
-.. role::   ts(typoscript)
-   :class:  typoscript
+..  default-role:: code
 
-.. role::   php(code)
+..  ---------
+..  highlight
+..  ---------
 
-.. highlight:: php
+..  By default, code blocks use PHP syntax highlighting
+
+..  highlight:: php
