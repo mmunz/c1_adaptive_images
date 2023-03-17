@@ -1,4 +1,5 @@
 <?php
+
 $EM_CONF[$_EXTKEY] = [
     'title' => 'c1 adaptive images',
     'description' => 'ViewHelpers for adaptive images in fluid_styled_content.',
