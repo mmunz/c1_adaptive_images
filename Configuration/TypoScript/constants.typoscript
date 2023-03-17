@@ -23,7 +23,7 @@ plugin.tx_c1_adaptive_images {
         srcsetWidthsDesktop = 1024,1280,1440,1680,1920
 
 
-# placeholder related settings
+        # placeholder related settings
         placeholder {
             # currently only used in acceptance tests
             dataImage = data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
@@ -33,6 +33,7 @@ plugin.tx_c1_adaptive_images {
             js {
                 debugimgsizes = EXT:c1_adaptive_images/Resources/Public/JavaScript/debugimgsizes.js
             }
+
             css {
                 lazysizes = EXT:c1_adaptive_images/Resources/Public/Stylesheets/c1-adaptive-images.css
             }
