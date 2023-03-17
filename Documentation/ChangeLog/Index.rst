@@ -16,6 +16,19 @@ v0.2.0
 - Fix exception with missing images, see issue #3.
 - Run tests using a sqlite database now
 
+[...]
+
+v1.0.0
+- Add TYPO3 v12 support, drop TYPO3 v10 support
+- Update tests
+- Refactoring
+
+v1.0.1
+- Remove plugin setting mode, this was not used anywhere.
+- Deprecate settings srcsetWidthsMobile and srcsetWidthsDesktop.
+- Reduce number of default srcset candidates in plugin.tx_c1_adaptive_images.settings.srcsetWidths
+
+
 
 
 

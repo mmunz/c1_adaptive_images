@@ -1,0 +1,42 @@
+plugin.tx_c1_adaptive_images {
+    settings {
+        # If 1 then image dimensions and ratio are rendered as annotation directly on the image
+        debug = 0
+
+        # If 1 then some debug infos (loaded image dimensions, ratio, container width) are calculated via javascript
+        # and shown near the image (positioning of the debug text with css)
+        jsdebug = 0
+
+        # Currently not used in code.
+        # For use in your templates, e.g. <ai:picture ratiobox="{plugin.tx_c1_adaptive_images.settings.ratiobox} ...">
+        ratioBox = 0
+
+        # comma seperated list of default srcset candidates
+        srcsetWidths = 360,768,1024,1440,1920
+
+        # comma seperated list of default srcset candidates for mobile
+        # Deprecated, will be removed with v2.0.0
+        srcsetWidthsMobile = 240,360,480,768
+
+        # comma seperated list of default srcset candidates for desktop
+        # Deprecated, will be removed with v2.0.0
+        srcsetWidthsDesktop = 1024,1280,1440,1680,1920
+
+
+        # placeholder related settings
+        placeholder {
+            # currently only used in acceptance tests
+            dataImage = data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
+        }
+
+        assets {
+            js {
+                debugimgsizes = EXT:c1_adaptive_images/Resources/Public/JavaScript/debugimgsizes.js
+            }
+
+            css {
+                lazysizes = EXT:c1_adaptive_images/Resources/Public/Stylesheets/c1-adaptive-images.css
+            }
+        }
+    }
+}
