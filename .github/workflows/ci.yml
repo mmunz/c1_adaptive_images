@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-22.04
     name: Linting
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up PHP Version
         uses: shivammathur/setup-php@v2
         with:
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: Build documentation
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build doc
         run: composer build:doc
 
@@ -53,7 +53,7 @@ jobs:
           - { php: 7.4, TYPO3_VERSION: ^11.0 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up PHP Version
         uses: shivammathur/setup-php@v2
         with:
