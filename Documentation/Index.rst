@@ -22,10 +22,10 @@ Index
 		Manual covering TYPO3 extension c1_adaptive_images
 
 	:Keywords:
-		adaptive images,fluid-styled-content,lazysizes
+		adaptive images, fluid-styled-content, lazysizes, viewhelper, image rendering
 
 	:Copyright:
-		2018-2020
+		since 2018
 
 	:Author:
 		Manuel Munz
@@ -48,6 +48,7 @@ Index
 
 .. toctree::
     :maxdepth: 3
+    :hidden:
     :titlesonly:
 
     Introduction/Index
@@ -56,7 +57,7 @@ Index
     Configuration/Index
     ViewHelpers/Index
     KnownProblems/Index
-    ToDoList/Index
     Contribution/Index
     ChangeLog/Index
     Links
+

@@ -61,7 +61,9 @@
             "@ts:lint"
         ],
         "build:doc": [
-            "docker run --rm t3docs/render-documentation:v2.6.1 show-shell-commands > /tmp/dockrun_t3rdf.tmp",
+            "docker pull ghcr.io/t3docs/render-documentation:v3.0.dev30",
+            "docker tag ghcr.io/t3docs/render-documentation:v3.0.dev30 t3docs/render-documentation:develop",
+            "docker run --rm ghcr.io/t3docs/render-documentation:v3.0.dev30 show-shell-commands > /tmp/dockrun_t3rdf.tmp",
             "bash -c 'source /tmp/dockrun_t3rdf.tmp; rm /tmp/dockrun_t3rdf.tmp; dockrun_t3rd makeall'"
         ],
         "link-extension": [

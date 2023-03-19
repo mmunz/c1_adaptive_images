@@ -40,9 +40,12 @@ Include third-party JavaScript (if needed)
 This extension does currently not include third party JavaScript which is needed for advanced image modes and the
 integrator/administrator has to add them to the website.
 
-lazysizes
-^^^^^^^^^
-This script is needed to render images using lazyloading and setting the sizes attribute automatically.
+lazysizes.js
+^^^^^^^^^^^^
+
+Lazysizes.js is needed to render images using lazyloading. It also allows setting the sizes attribute for adaptive
+images to 'auto'.
+
 Download it at https://github.com/aFarkas/lazysizes
 
 The script should be included early, e.g.:
@@ -53,6 +56,11 @@ The script should be included early, e.g.:
 
 picturefill
 ^^^^^^^^^^^
+
+..  note::
+
+    The picturefill polyfill is only needed if you need support for the picture tag in very outdated browsers.
+
 A polyfill to support the *picture* tag in older browsers, most notably IE11 and Opera Mini.
 Download it at https://scottjehl.github.io/picturefill/
 
