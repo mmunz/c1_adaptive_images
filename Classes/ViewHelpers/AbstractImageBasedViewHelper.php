@@ -288,7 +288,10 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
             if (!$this->tag->hasAttribute('data-focus-area')) {
                 $focusArea = $cropVariantCollection->getFocusArea($cropVariant);
                 if (!$focusArea->isEmpty()) {
-                    $this->tag->addAttribute('data-focus-area', $focusArea->makeAbsoluteBasedOnFile($image)->asArray());
+                    $this->tag->addAttribute(
+                        'data-focus-area',
+                        (string)json_encode($focusArea->makeAbsoluteBasedOnFile($image)->asArray())
+                    );
                 }
             }
             $this->tag->addAttribute('src', $imageUri);

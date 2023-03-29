@@ -10,6 +10,6 @@ useful for rendering adaptive images using the normal f:image or f:media viewHel
 A demo application can be found at https://ai-demo.comuno.net/
 
 ## Documentation
-Extensive documentation can be found at https://docs.typo3.org/typo3cms/extensions/c1_adaptive_images/
+Extensive documentation can be found at https://docs.typo3.org/p/c1/c1-adaptive-images/main/en-us/
 
 

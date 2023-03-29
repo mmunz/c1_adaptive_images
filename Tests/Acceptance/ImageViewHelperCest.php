@@ -201,4 +201,19 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->expect('Ratio box class is rb--0');
         $I->waitForElement('div.rb.rb--0');
     }
+
+    public function seeFocusArea(\AcceptanceTester $I)
+    {
+        $I->flushCache();
+        $properties = [
+            'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"focusArea":{"x":0,"y":0,"width":0.5,"height":0.5},"selectedRatio":"NaN"}}'
+        ];
+        $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
+
+        $I->amOnPage('/index.php?mode=ImageViewHelper&srcsetWidths=640,1024&placeholderWidth=16&debug=1&lazy=1');
+        $this->validateMarkup($I);
+
+        $I->expect('see data-focus-area attribute in page source');
+        $I->seeInPageSource('data-focus-area="{&quot;x&quot;:0,&quot;y&quot;:0,&quot;width&quot;:960,&quot;height&quot;:600}"');
+    }
 }
