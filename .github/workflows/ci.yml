@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-24.04
     name: Linting
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up PHP Version
         uses: shivammathur/setup-php@v2
         with:
@@ -15,7 +15,7 @@ jobs:
           coverage: none
           tools: composer:v2
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-24.04
     name: Build documentation
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build doc
         run: composer build:doc
 
@@ -51,7 +51,7 @@ jobs:
           - { php: 8.1, TYPO3_VERSION: ^12.4 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up PHP Version
         uses: shivammathur/setup-php@v2
         with:
@@ -60,7 +60,7 @@ jobs:
           tools: composer:v2
           coverage: none
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
@@ -72,7 +72,7 @@ jobs:
            apt update && apt install -y wget sqlite3 && \
            wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" && \
            apt install -y ./google-chrome-stable_current_amd64.deb
-      - uses: nanasess/setup-chromedriver@v1
+      - uses: nanasess/setup-chromedriver@v2
       - name: Install composer dependencies
         run: |
           rm -f composer.lock
