@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 
-use C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest;
+use C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTestCase;
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
@@ -12,7 +12,7 @@ use C1\AdaptiveImages\ViewHelpers\Placeholder\SvgViewHelper;
 /**
  * Class ImageViewHelperTest
  */
-class SvgViewHelperTest extends AbstractViewHelperTest
+class SvgViewHelperTest extends AbstractViewHelperTestCase
 {
     /**
      * set up

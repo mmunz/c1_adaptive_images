@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 /**
  * Class ImageViewHelperTest
  */
-class ImageViewHelperTest extends AbstractViewHelperTest
+class ImageViewHelperTest extends AbstractViewHelperTestCase
 {
     /**
      * @var array

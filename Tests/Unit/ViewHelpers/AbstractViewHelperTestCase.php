@@ -12,7 +12,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\ViewHelperInterface;
 /**
  * Class AbstractViewHelper
  */
-abstract class AbstractViewHelperTest extends UnitTestCase
+abstract class AbstractViewHelperTestCase extends UnitTestCase
 {
     /**
      * @var ViewHelperInterface
@@ -31,7 +31,6 @@ abstract class AbstractViewHelperTest extends UnitTestCase
     {
         $imageUtilityMock = $this->getMockBuilder(ImageUtility::class)
             ->disableOriginalConstructor()
-            ->setMethods()
             ->getMock();
 
         return $imageUtilityMock;
@@ -43,7 +42,7 @@ abstract class AbstractViewHelperTest extends UnitTestCase
 
         $imageServiceMock = $this->getMockBuilder(ImageService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['applyProcessingInstructions', 'getImageUri'])
+            ->onlyMethods(['applyProcessingInstructions', 'getImageUri'])
             ->getMock();
 
         $imageServiceMock
@@ -68,7 +67,7 @@ abstract class AbstractViewHelperTest extends UnitTestCase
     {
         $fileMock = $this->getMockBuilder(FileReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getProperty', 'getProperties', 'getContents', 'hasProperty'])
+            ->onlyMethods(['getProperty', 'getProperties', 'getContents', 'hasProperty'])
             ->getMock();
 
         $fileMock
@@ -108,7 +107,7 @@ abstract class AbstractViewHelperTest extends UnitTestCase
     {
         $fileMock = $this->getMockBuilder(ProcessedFile::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getProperty', 'getProperties', 'getContents', 'hasProperty'])
+            ->onlyMethods(['getProperty', 'getProperties', 'getContents', 'hasProperty'])
             ->getMock();
 
         $fileMock

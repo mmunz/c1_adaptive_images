@@ -120,7 +120,7 @@ class CropVariantUtilityTest extends TestCase
         /** @var MockObject|FileReference $fileReferenceMock */
         $fileReferenceMock = $this->getMockBuilder(FileReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['hasProperty', 'getProperty'])
+            ->onlyMethods(['hasProperty', 'getProperty'])
             ->getMock();
 
         $fileReferenceMock
