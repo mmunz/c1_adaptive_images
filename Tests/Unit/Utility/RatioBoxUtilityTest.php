@@ -13,18 +13,13 @@ use TYPO3\CMS\Core\Page\PageRenderer;
  */
 class RatioBoxUtilityTest extends TestCase
 {
-    /** @var RatioBoxUtility */
-    protected $utility;
+    protected RatioBoxUtility $utility;
 
-    /**
-     * @var MockObject|PageRenderer
-     */
-    protected $pageRendererMock;
+    protected MockObject $pageRendererMock;
 
-    /**
-     * @var MockObject|RatioBoxUtility
-     */
-    protected $ratioBoxUtilityMock;
+    protected MockObject $ratioBoxUtilityMock;
+
+    protected CropVariantUtility $cropVariantUtilityMock;
 
     protected function setUp(): void
     {
