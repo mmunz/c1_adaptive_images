@@ -201,7 +201,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
 
     public function seePictureLoadInCorrectDimensionsWhenUpscaleIsDisabled(\AcceptanceTester $I)
     {
-        $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', false]);
+        $I->executeConsoleCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', false]);
         $I->flushCache();
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'

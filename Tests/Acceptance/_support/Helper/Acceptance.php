@@ -7,6 +7,8 @@ namespace Helper;
 use Codeception\Lib\ModuleContainer;
 use Codeception\Module;
 use Codeception\Module\WebDriver;
+use Symfony\Component\Process\InputStream;
+use Symfony\Component\Process\Process;
 
 class Acceptance extends Module
 {
@@ -163,5 +165,59 @@ class Acceptance extends Module
             catch {return null}"
         );
         $this->assertEquals($expectedPaddingBottom, $actualPaddingBottom);
+    }
+
+    public function executeConsoleCommand(string $command, array $args = [], $env = []): array
+    {
+        $escapedArgs = array_map('escapeshellarg', $args);
+        $cmd = PHP_BINARY . ' .Build/vendor/bin/typo3 ' . $command;
+        foreach ($escapedArgs as $arg) {
+            $cmd .= ' ' . $arg;
+        }
+
+        $envVars = '';
+        foreach ($env as $key => $value) {
+            $envVars .= ' ' . $key . '=' . $value;
+        }
+
+        $cmd = \ltrim($envVars) . ' ' . $cmd;
+
+        $this->debugSection('Command', $cmd);
+        $output = '';
+
+        $handle = popen($cmd, 'r');
+        while (!feof($handle)) {
+            $output .= fgets($handle, 4096);
+        }
+        $status = pclose($handle);
+
+        $this->debugSection('Status', $status);
+        $this->debugSection('Output', $output);
+
+        return [
+            'status' => $status,
+            'output' => $output,
+        ];
+    }
+
+    /**
+     * @param string $statement
+     * @throws \JsonException
+     */
+    public function executeInDatabase(string $statement): void
+    {
+        $builder = new Process(['.Build/vendor/bin/typo3', 'database:import']);
+        $input = new InputStream();
+        $builder->setInput($input);
+        $input->write($statement);
+        $this->debugSection('Execute', $builder->getCommandLine());
+        $builder->start();
+        $input->close();
+        $builder->wait();
+    }
+
+    public function flushCache()
+    {
+        $this->executeConsoleCommand('cache:flush');
     }
 }

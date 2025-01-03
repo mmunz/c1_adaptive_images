@@ -19,12 +19,6 @@ suites:
               - Kolyunya\Codeception\Module\MarkupValidator:
                   baseUri: https://validator.w3.org/
                   endpoint: /nu/
-              - \Portrino\Codeception\Module\Typo3:
-                  depends: Asserts
-                  bin-dir: .Build/vendor/bin/
-                  console-cmd: typo3cms
-                  data-dir: Tests/Acceptance/_data/
-                  domain: dummy
 
 extensions:
     enabled: [Codeception\Extension\RunFailed]
