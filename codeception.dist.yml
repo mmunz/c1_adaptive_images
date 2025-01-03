@@ -51,10 +51,11 @@ modules:
     WebDriver:
       browser: chrome
       port: 9515 # ChromeDriver port
+      window_size: 640x768
       capabilities:
         loggingPrefs:
           browser: ALL
           driver:   ALL
           #performance: ALL
         chromeOptions:
-          args: ["--disable-gpu", "%CHROME_OPTION_1%", "--window-size=640,768"]
+          args: ["--disable-gpu", "%CHROME_OPTION_1%"]

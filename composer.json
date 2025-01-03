@@ -46,7 +46,7 @@
         "tests:acceptance": [
             "@link-extension",
             "bash Tests/Acceptance/_setup/setup.sh",
-            ".Build/vendor/bin/codecept run --debug -vvv ",
+            ".Build/vendor/bin/codecept run --debug -vvv -f",
             "@unlink-extension"
         ],
         "phpstan": ".Build/vendor/bin/phpstan analyse",

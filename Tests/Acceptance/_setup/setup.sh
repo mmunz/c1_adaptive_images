@@ -5,15 +5,11 @@ set -eu -o pipefail
 [ -z "${TYPO3_PATH_APP:-}" ] && export TYPO3_PATH_APP="${PWD}/.Build"
 [ -z "${typo3DatabaseDriver:-}" ] && export typo3DatabaseDriver="pdo_sqlite"
 
-CONSOLE_CMD=".Build/vendor/bin/typo3cms"
+CONSOLE_CMD=".Build/vendor/bin/typo3"
 
 if [ ! -f "$CONSOLE_CMD" ]; then
-  # For v12 we need typo3-console 8 which is called now via the typo3 command.
-  # to simplify testing for v11 and v12 we create a symlink if the typo3cms command does not exist.
-  echo "typo3cms not found. Assuming typo3-console 8 which is integrated into typo3 command and symlink the command."
-  (
-    cd .Build/vendor/bin/ && ln -s typo3 typo3cms
-  )
+  echo "TYPO3 Console not found. Please run composer install first."
+  exit 1
 fi
 
 if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
@@ -38,7 +34,7 @@ if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
 #    TYPO3_SETUP_CREATE_SITE="http://test.site/" \
 #    ./.Build/vendor/bin/typo3 setup --force --no-interaction --driver=sqlite \
 #      --admin-username=test --admin-user-password="Test1234%" --project-name="AiTest" --create-site="http://test.site/"
-
+set -x
     $CONSOLE_CMD -vvv install:setup --database-driver pdo_sqlite \
       --admin-user-name test --admin-password "Test1234%" \
       --site-name "testsite" --site-setup-type site --no-interaction --force
