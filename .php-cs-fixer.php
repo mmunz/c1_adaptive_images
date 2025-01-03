@@ -66,4 +66,3 @@ return $config
         'no_unneeded_control_parentheses' => true
     ])
     ->setFinder($finder);
-

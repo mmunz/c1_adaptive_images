@@ -33,18 +33,6 @@ class SettingsService
         $this->configurationManager = $configurationManager;
     }
 
-//    /**
-//     * Injects the Configuration Manager and loads the settings
-//     *
-//     * @param ConfigurationManagerInterface $configurationManager
-//     * @return void
-//     */
-//    public function injectConfigurationManager(
-//        ConfigurationManagerInterface $configurationManager
-//    ) {
-//        $this->configurationManager = $configurationManager;
-//    }
-
     /**
      * Returns the framework configuration.
      *

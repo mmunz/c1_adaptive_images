@@ -95,10 +95,10 @@ class Acceptance extends Module
     {
         // @ToDo remove wait, use js callback or event
         $this->webdriver->wait(0.5);
-//        $this->webdriver->waitForJS(
-//            'return document.readyState == "complete"',
-//            10
-//        );
+        //        $this->webdriver->waitForJS(
+        //            'return document.readyState == "complete"',
+        //            10
+        //        );
     }
 
     /** getJsDebug

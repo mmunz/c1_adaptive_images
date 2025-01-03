@@ -82,15 +82,15 @@
         }
     },
     "require": {
-        "typo3/cms-core": "^11 || ^12",
-        "typo3/cms-fluid": "^11 || ^12",
-        "typo3/cms-frontend": "^11 || ^12",
-        "typo3/cms-backend": "^11 || ^12",
-        "typo3/cms-fluid-styled-content": "^11 || ^12"
+        "typo3/cms-core": "^12 || ^13",
+        "typo3/cms-fluid": "^12 || ^13",
+        "typo3/cms-frontend": "^12 || ^13",
+        "typo3/cms-backend": "^12 || ^13",
+        "typo3/cms-fluid-styled-content": "^12 || ^13"
     },
     "require-dev": {
-        "typo3/cms-tstemplate": "^11 || ^12",
-        "typo3/cms-filelist": "^11 || ^12",
+        "typo3/cms-tstemplate": "^12 || ^13",
+        "typo3/cms-filelist": "^12 || ^13",
         "helhum/typo3-console": "^7.1 || ^8.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "codeception/codeception": "^4.2 || ^5.0",
