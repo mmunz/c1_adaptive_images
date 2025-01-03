@@ -87,7 +87,7 @@ jobs:
         run: |
           export DISPLAY=:99
           sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
-          chromedriver --url-base=/wd/hub &
+          chromedriver --url-base=/wd/hub --port=9515 &
           sleep 10
       - name: Unit tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} with PHP${{ matrix.env.php }})
         run: |
