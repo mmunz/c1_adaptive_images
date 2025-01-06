@@ -9,6 +9,7 @@ use Codeception\Module;
 use Codeception\Module\WebDriver;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
+use function RingCentral\Psr7\str;
 
 class Acceptance extends Module
 {
@@ -125,7 +126,7 @@ class Acceptance extends Module
      */
     public function seeJsDebug($index = 0)
     {
-        $this->assertRegexp('/.*640x400.*(62.50).*container: \d.*/', $this->getJsDebug($index));
+        $this->assertRegexp('/.*640x400.*(62.50).*container: \d.*/', $this->getJsDebug($index) ?? '');
     }
 
     /** dontSeeJsDebug

@@ -64,6 +64,8 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
     {
         parent::initializeArguments();
 
+        // Deprecated since TYPO3 v13. Kept here for v12 compatibility. See
+        // https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/Fluid/DevelopCustomViewhelper.html#abstracttagbasedviewhelper-registertagattribute-migration
         $this->registerUniversalTagAttributes();
         $this->registerTagAttribute('alt', 'string', 'Specifies an alternate text for an image', false);
         $this->registerTagAttribute('ismap', 'string', 'Specifies an image as a server-side image-map. Rarely used. Look at usemap instead', false);
@@ -189,7 +191,10 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
             $data = array_merge($data, $this->arguments['data']);
         }
         if ($this->hasArgument('jsdebug')) {
-            $data['img-debug'] = $this->arguments['jsdebug'];
+            $jsdebug = $this->arguments['jsdebug'];
+            if ($jsdebug === true || $jsdebug === 'true' || $jsdebug === 1 || $jsdebug === '1') {
+                $data['img-debug'] = 1;
+            }
         }
         $this->arguments['data'] = $data;
         foreach ($data as $dataAttributeKey => $dataAttributeValue) {
