@@ -9,7 +9,6 @@ use Codeception\Module;
 use Codeception\Module\WebDriver;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
-use function RingCentral\Psr7\str;
 
 class Acceptance extends Module
 {
