@@ -110,7 +110,7 @@ jobs:
           composer tests:acceptance
       - name: Upload Codeception output
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: codeception-results
           path: Tests/Acceptance/_output/
