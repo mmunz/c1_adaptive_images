@@ -38,7 +38,7 @@
         "php:lint": ".Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php-cs-fixer.php",
         "php:fix": ".Build/vendor/bin/php-cs-fixer fix --diff --config .php-cs-fixer.php",
         "ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
-        "tests:unit": ".Build/vendor/bin/phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml Tests/Unit",
+        "tests:unit": ".Build/vendor/bin/phpunit -c phpunit.xml.dist Tests/Unit",
         "tests:acceptance": [
             "@link-extension",
             "bash Tests/Acceptance/_setup/setup.sh",
