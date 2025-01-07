@@ -165,12 +165,10 @@ class ImageUtility
                 }
             }
 
+            $localProcessingConfiguration['width'] = $width . 'c';
             if (isset($cropVariantConfig['image_format']) && $cropVariantConfig['image_format'] > 0) {
                 $img_format = $this->options['image_format'];
-                $localProcessingConfiguration['width'] = $width . 'c';
                 $localProcessingConfiguration['height'] = round(intval($width) / $img_format) . 'c';
-            } else {
-                $localProcessingConfiguration['width'] = $width . 'm';
             }
 
             $processedImage = $this->processImage($localProcessingConfiguration);
