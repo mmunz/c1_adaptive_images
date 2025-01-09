@@ -46,8 +46,10 @@ jobs:
       fail-fast: false
       matrix:
         env:
+          - { php: 8.4, TYPO3_VERSION: ^13.4 }
           - { php: 8.3, TYPO3_VERSION: ^13.4 }
           - { php: 8.2, TYPO3_VERSION: ^13.4 }
+          - { php: 8.4, TYPO3_VERSION: ^12.4 }
           - { php: 8.3, TYPO3_VERSION: ^12.4 }
           - { php: 8.2, TYPO3_VERSION: ^12.4 }
           - { php: 8.1, TYPO3_VERSION: ^12.4 }
