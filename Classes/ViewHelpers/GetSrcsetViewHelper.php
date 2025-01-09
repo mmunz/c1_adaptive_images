@@ -30,26 +30,11 @@ class GetSrcsetViewHelper extends AbstractViewHelper
      */
     protected $escapeOutput = false;
 
-    /**
-     * @var ImageService
-     */
-    protected $imageService;
-
-    /**
-     * @var MathUtility
-     */
-    protected $mathUtility;
-
-    /**
-     * @var DebugUtility
-     */
-    protected $debugUtility;
-
-    public function __construct(ImageService $imageService, MathUtility $mathUtility, DebugUtility $debugUtility)
-    {
-        $this->imageService = $imageService;
-        $this->debugUtility = $debugUtility;
-        $this->mathUtility = $mathUtility;
+    public function __construct(
+        private readonly ImageService $imageService,
+        private readonly MathUtility $mathUtility,
+        private readonly DebugUtility $debugUtility
+    ) {
     }
 
     /**
@@ -80,7 +65,7 @@ class GetSrcsetViewHelper extends AbstractViewHelper
     /**
     * @return string
     */
-    public function render()
+    public function render(): string
     {
         $srcset = [];
 
@@ -122,7 +107,6 @@ class GetSrcsetViewHelper extends AbstractViewHelper
                 $processedImage = $this->imageService->applyProcessingInstructions($file, $processingConfiguration);
             }
 
-            /** @var string $imageUri */
             $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
 
             $srcset[] = sprintf(

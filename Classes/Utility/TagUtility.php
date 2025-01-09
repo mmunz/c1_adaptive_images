@@ -2,13 +2,9 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
-use PhpCsFixer\DocBlock\Tag;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
-/**
- * Class TagUtility
- */
 class TagUtility
 {
     public function getTagBuilder(): TagBuilder /** @phpstan-ignore-line */
@@ -27,7 +23,7 @@ class TagUtility
         ]);
 
         if ($content && $content !== '') {
-            if (strpos($content, 'xlink') !== false) {
+            if (str_contains($content, 'xlink')) {
                 // svg tag needs xlink namespace if xlink is used in $content
                 $tagBuilder->addAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
             }

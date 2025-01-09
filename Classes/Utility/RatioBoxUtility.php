@@ -6,25 +6,16 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
-/**
- * Class RatioBoxUtility
- */
 class RatioBoxUtility
 {
-    private PageRenderer $pageRenderer;
-
-    private CropVariantUtility $cropVariantUtility;
-
-    private array $ratioBoxClassNames = [];
-
     private string $ratioBoxBase = '';
 
     private TagBuilder $tagBuilder;
 
-    public function __construct(PageRenderer $pageRenderer, CropVariantUtility $cropVariantUtility)
-    {
-        $this->pageRenderer = $pageRenderer;
-        $this->cropVariantUtility = $cropVariantUtility;
+    public function __construct(
+        private readonly PageRenderer $pageRenderer,
+        private readonly CropVariantUtility $cropVariantUtility
+    ) {
         $this->tagBuilder = new TagBuilder();
     }
 
@@ -47,18 +38,13 @@ class RatioBoxUtility
     }
 
     /**
-     *
      * Returns a class name for the ratio box (for intrinsic ratio css)
      *
      * Because ratio can be a float and dots are not allowed inside css class names dots in $ratio are replaced with
      * 'dot'. After that the resulting string is also filtered to make sure it does only contain valid chars to use in
      * css class names.
-     *
-     * @param int|float $ratio
-     * @param string|null $mq
-     * @return string
      */
-    public function getRatioClassForCropVariant($ratio, $mq = null)
+    public function getRatioClassForCropVariant(float|int $ratio, ?string $mq = null): string
     {
         $ratioBoxBase = $this->ratioBoxBase;
 
@@ -81,13 +67,9 @@ class RatioBoxUtility
     }
 
     /**
-     *
      * Get the default style for the ratio box
-     * @param int|float $ratio
-     * @param string $mq
-     * @return string
      */
-    public function getRatioBoxStyle($ratio, $mq = null)
+    public function getRatioBoxStyle(float|int $ratio, ?string $mq = null): string
     {
         if ($mq) {
             return sprintf(
@@ -100,55 +82,42 @@ class RatioBoxUtility
         } else {
             return sprintf(
                 '.%s{padding-bottom:%s%%}',
-                $this->getRatioClassForCropVariant($ratio, null),
+                $this->getRatioClassForCropVariant($ratio),
                 $ratio
             );
         }
     }
 
     /**
-     *
      * Add inline css to the header for generated ratio-box class names
-     *
-     * @param string $class
-     * @param string $css
-     * @param bool $compress
-     * @return void
      */
-    public function addStyleToHeader($class, $css, $compress = true)
+    public function addStyleToHeader(string $class, string $css, bool $compress = true): void
     {
         $this->pageRenderer->addCssInlineBlock($class, $css, $compress);
     }
 
     /**
      * return ratio box classNames
-     *
-     * @param array $cropVariants
-     *
-     * @return array
      */
-    public function getRatioBoxClassNames(array $cropVariants)
+    public function getRatioBoxClassNames(array $cropVariants): array
     {
-        $this->ratioBoxClassNames = [];
-        $this->ratioBoxClassNames[] = $this->ratioBoxBase;
-        foreach (array_reverse($cropVariants) as $cropVariantKey => $cropVariantConfig) {
+        $ratioBoxClassNames = [];
+        $ratioBoxClassNames[] = $this->ratioBoxBase;
+        foreach (array_reverse($cropVariants) as $cropVariantConfig) {
             $mq = $cropVariantConfig['media'] ?? null;
             $className = $this->getRatioClassForCropVariant($cropVariantConfig['ratio'], $mq);
-            $this->ratioBoxClassNames[] = $className;
+            $ratioBoxClassNames[] = $className;
             $css = $this->getRatioBoxStyle($cropVariantConfig['ratio'], $mq);
-            $this->addStyleToHeader($className, $css, true);
+            $this->addStyleToHeader($className, $css);
         }
 
-        return $this->ratioBoxClassNames;
+        return $ratioBoxClassNames;
     }
 
     /**
      * Build the ratio box tag
-     * @param string $content
-     * @param array $classNames
-     * @return string
      */
-    public function buildRatioBoxTag(string $content, array $classNames)
+    public function buildRatioBoxTag(string $content, array $classNames): string
     {
         $this->tagBuilder->reset();
         $this->tagBuilder->setTagName('div');
@@ -159,20 +128,14 @@ class RatioBoxUtility
 
     /**
      * Wrap $content inside a ratio box
-     * @param string $content
-     * @param FileInterface $file
-     * @param array $mediaQueries
-     * @return string
      */
-    public function wrapInRatioBox(string $content, FileInterface $file, array $mediaQueries)
+    public function wrapInRatioBox(string $content, FileInterface $file, array $mediaQueries): string
     {
         $this->cropVariantUtility->setCropVariantCollection($file);
-
         $cropVariants = $this->cropVariantUtility->getCropVariants($mediaQueries);
-
-        //DebuggerUtility::var_dump($cropVariants);
         $this->setRatioBoxBase('rb');
         $classNames = $this->getRatioBoxClassNames($cropVariants);
+
         return $this->buildRatioBoxTag($content, $classNames);
     }
 }

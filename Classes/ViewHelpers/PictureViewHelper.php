@@ -3,10 +3,6 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use C1\AdaptiveImages\Utility\ImageUtility;
-use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
-use C1\AdaptiveImages\Utility\RatioBoxUtility;
-use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
@@ -25,17 +21,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
  */
 class PictureViewHelper extends AbstractImageBasedViewHelper
 {
-    /** @var array $cropVariants */
-    protected $cropVariants;
-
-    public function __construct(
-        ImageUtility $imageUtility,
-        RatioBoxUtility $ratioBoxUtility,
-        ImagePlaceholderUtility $imagePlaceholderUtility,
-        ImageService $imageService
-    ) {
-        parent::__construct($imageUtility, $ratioBoxUtility, $imagePlaceholderUtility, $imageService);
-    }
+    protected array $cropVariants;
 
     /**
      * Initialize arguments.
@@ -58,6 +44,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
      * Sets $this->cropVariants
      * Manipulate the data and additionalAttributes arguments just before the render method
      *
+     * @throws \TYPO3\CMS\Extbase\Exception
      * @api
      */
     public function initialize(): void
@@ -87,7 +74,7 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
      * @return string
      * @throws Exception
      */
-    public function render()
+    public function render(): string
     {
         $imageTag = parent::render();
         $sources = $this->cropVariants;
@@ -112,12 +99,8 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
 
     /**
      * Build a source tag with media and srcset attributes
-     * @param string $media
-     * @param string $srcset
-     * @param string $cropVariant
-     * @return string
      */
-    public function buildSourceTag(string $media, string $srcset, string $cropVariant)
+    public function buildSourceTag(string $media, string $srcset, string $cropVariant): string
     {
         $tagBuilder = new TagBuilder('source');
         if ($media) {
@@ -138,11 +121,8 @@ class PictureViewHelper extends AbstractImageBasedViewHelper
 
     /**
      * Build the picture tag
-     * @param string $imgTag
-     * @param array $sources
-     * @return string
      */
-    public function buildPictureTag(string $imgTag, array $sources)
+    public function buildPictureTag(string $imgTag, array $sources): string
     {
         $content = '';
         foreach ($sources as $key => $config) {

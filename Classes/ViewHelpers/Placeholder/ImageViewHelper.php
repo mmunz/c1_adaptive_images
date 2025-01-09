@@ -31,20 +31,10 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
  */
 class ImageViewHelper extends AbstractViewHelper
 {
-    /**
-     * @var ImageService
-     */
-    protected $imageService;
-
-    /**
-     * @var CropVariantUtility
-     */
-    protected $cropVariantUtility;
-
-    public function __construct(ImageService $imageService, CropVariantUtility $cropVariantUtility)
-    {
-        $this->cropVariantUtility = $cropVariantUtility;
-        $this->imageService = $imageService;
+    public function __construct(
+        private readonly ImageService $imageService,
+        private readonly CropVariantUtility $cropVariantUtility
+    ) {
     }
 
     /**
@@ -90,13 +80,11 @@ class ImageViewHelper extends AbstractViewHelper
      * @see https://docs.typo3.org/typo3cms/TyposcriptReference/ContentObjects/Image/
      *
      * @throws Exception
-     * @return string Rendered tag
      */
-    public function render()
+    public function render(): string
     {
         /** @var FileInterface $image */
         $image = $this->arguments['file'];
-        $imageUri = null;
         $this->cropVariantUtility->setCropVariantCollection($image);
 
         $processingInstructions = [
@@ -117,8 +105,7 @@ class ImageViewHelper extends AbstractViewHelper
                 base64_encode($processedImage->getContents())
             );
         } else {
-            $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
-            return $imageUri;
+            return $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
         }
     }
 }
