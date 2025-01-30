@@ -51,13 +51,13 @@ class DebugUtilityTest extends TestCase
         );
     }
 
-//    /** @test */
-//    public function calculateRatioReturnsCorrectRatio()
-//    {
-//        $utility = new ImageUtility($this->optionsMock, $this->settingsMock, $this->objectManagerMock);
-//
-//        $this->assertEquals(100, $utility->calculateRatio(400, 400));
-//        $this->assertEquals(50, $utility->calculateRatio(200, 400));
-//        $this->assertEquals(21.77, $utility->calculateRatio(100.25, 460.5));
-//    }
+    //    /** @test */
+    //    public function calculateRatioReturnsCorrectRatio()
+    //    {
+    //        $utility = new ImageUtility($this->optionsMock, $this->settingsMock, $this->objectManagerMock);
+    //
+    //        $this->assertEquals(100, $utility->calculateRatio(400, 400));
+    //        $this->assertEquals(50, $utility->calculateRatio(200, 400));
+    //        $this->assertEquals(21.77, $utility->calculateRatio(100.25, 460.5));
+    //    }
 }

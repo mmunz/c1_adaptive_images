@@ -2,20 +2,12 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Utility;
 
-/**
- * Class DebugUtility
- */
 class DebugUtility
 {
     /**
      * returns a string with debug information for additionalParameters of a processing configuration
-     * @param int $height
-     * @param int $width
-     * @param int|float $ratio
-     * @param string $processor
-     * @return string
      */
-    public function getDebugAnnotation($width, $height, $ratio, $processor = null)
+    public function getDebugAnnotation(int|string $width, int|string $height, float|int $ratio, ?string $processor = null): string
     {
         if (!$processor) {
             $processor = $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] ?? null;

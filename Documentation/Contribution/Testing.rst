@@ -8,8 +8,8 @@ For tests you first need to prepare a local typo3 instance for testing inside th
 
 You can install different TYPO3 versions for testing. From inside the extension folder (typo3conf/ext/c1_adaptive_images):
 
-* for 11.5.x: ``composer require typo3/minimal=^11.5 && git checkout composer.json && rm composer.lock``
-* for 12.x.y: ``composer require typo3/minimal=^12 && git checkout composer.json && rm composer.lock``
+* for 12.4: ``composer require typo3/minimal=^12.4 && git checkout composer.json && rm composer.lock``
+* for 13.4: ``composer require typo3/minimal=^13.4 && git checkout composer.json && rm composer.lock``
 
 **Unit** tests should just work OOTB with: ``composer tests:unit``
 

@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 
-use C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTest;
+use C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTestCase;
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
 
 /**
  * Class ImageViewHelperTest
  */
-class ImageViewHelperTest extends AbstractViewHelperTest
+class ImageViewHelperTest extends AbstractViewHelperTestCase
 {
     /**
      * set up

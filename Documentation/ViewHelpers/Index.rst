@@ -57,7 +57,9 @@ cropVariant        no          default                     select a cropping var
 sizes              no          100vw                       sizes attribute for the img tag.
                                                            Takes precedence over additionalAttributes["sizes"] if both are given.
 placeholderInline  no          true                        Include placeholder inline in HTML (base64 encoded)
-ratiobox           no          false                       The image is wrapped in a ratio box if true.
+ratiobox           no          false                       The image is wrapped in a ratio box if true. Nowadays browsers
+                                                           calculate the aspect ratio of the image and avoid page reflows, so
+                                                           you most likely don't need this option anymore for <image> tags.
 ================== =========== =========================== ===============================================================
 
 Examples

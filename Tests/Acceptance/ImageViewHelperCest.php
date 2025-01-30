@@ -158,7 +158,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
 
     public function cantSeeUpscaledImageWhenUpscaleIsDisabled(\AcceptanceTester $I)
     {
-        $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', false]);
+        $I->executeConsoleCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', false]);
         $I->wait(1);
         $I->flushCache();
         $I->wait(1);

@@ -15,10 +15,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/mmunz/codeception-helper-module.git"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/mmunz/codeception-markup-validator.git"
         }
     ],
@@ -42,11 +38,11 @@
         "php:lint": ".Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php-cs-fixer.php",
         "php:fix": ".Build/vendor/bin/php-cs-fixer fix --diff --config .php-cs-fixer.php",
         "ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
-        "tests:unit": ".Build/vendor/bin/phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml Tests/Unit",
+        "tests:unit": ".Build/vendor/bin/phpunit -c phpunit.xml.dist Tests/Unit",
         "tests:acceptance": [
             "@link-extension",
             "bash Tests/Acceptance/_setup/setup.sh",
-            ".Build/vendor/bin/codecept run --debug -vvv ",
+            ".Build/vendor/bin/codecept run --debug -vvv",
             "@unlink-extension"
         ],
         "phpstan": ".Build/vendor/bin/phpstan analyse",
@@ -82,32 +78,31 @@
         }
     },
     "require": {
-        "typo3/cms-core": "^11 || ^12",
-        "typo3/cms-fluid": "^11 || ^12",
-        "typo3/cms-frontend": "^11 || ^12",
-        "typo3/cms-backend": "^11 || ^12",
-        "typo3/cms-fluid-styled-content": "^11 || ^12"
+        "typo3/cms-core": "^12 || ^13",
+        "typo3/cms-fluid": "^12 || ^13",
+        "typo3/cms-frontend": "^12 || ^13",
+        "typo3/cms-backend": "^12 || ^13",
+        "typo3/cms-fluid-styled-content": "^12 || ^13"
     },
     "require-dev": {
-        "typo3/cms-tstemplate": "^11 || ^12",
-        "typo3/cms-filelist": "^11 || ^12",
+        "typo3/cms-tstemplate": "^12 || ^13",
+        "typo3/cms-filelist": "^12 || ^13",
         "helhum/typo3-console": "^7.1 || ^8.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "codeception/codeception": "^4.2 || ^5.0",
         "phpstan/extension-installer": "^1.0",
         "spaze/phpstan-disallowed-calls": "^2.0",
         "phpspec/prophecy": "^1.15",
-		"phpunit/phpunit": "^9.5",
         "codeception/module-webdriver": "^2.0 || ^3.2",
-        "codeception/module-db": "^1.0 | ^2.0 | ^3.1",
-        "codeception/module-asserts": "^1.0 | ^2.0 | ^3.0",
+        "codeception/module-db": "^3.1",
+        "codeception/module-asserts": "^3.0",
         "kolyunya/codeception-markup-validator": "dev-codeception-v4 || dev-master",
-        "portrino/codeception-helper-module": "dev-codeception-v4 || dev-master",
-        "typo3/testing-framework": "^6 || dev-main",
+        "typo3/testing-framework": "^8",
         "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": "^0.1.2",
         "phpstan/phpstan": "^1.8.9",
         "saschaegerer/phpstan-typo3": "^1.8",
-        "helmich/typo3-typoscript-lint": "^3.1"
+        "helmich/typo3-typoscript-lint": "^3.1",
+        "phpunit/phpunit": "^10"
     },
     "autoload": {
         "psr-4": {

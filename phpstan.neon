@@ -3,7 +3,6 @@ includes:
 parameters:
   level: 8
   reportUnmatchedIgnoredErrors: false
-  checkMissingIterableValueType: false
   bootstrapFiles:
     - %currentWorkingDirectory%/phpstan.bootstrap.php
   paths:
@@ -18,7 +17,8 @@ parameters:
       path: '*/Classes/Error/PageErrorHandler/LocalPageErrorHandler.php'
     - message: '#Cannot call method warning\(\) on Psr\\Log\\LoggerInterface\|null.#'
       path: '*/Classes/*'
-  excludes_analyse:
+    - identifier: missingType.iterableValue
+  excludePaths:
     - Tests/Acceptance/_support/_generated
   disallowedStaticCalls:
     - method: 'TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump()'

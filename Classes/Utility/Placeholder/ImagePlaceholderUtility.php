@@ -10,41 +10,26 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
- * ImagePlaceholderUtility
  * Create placeholder images to show while the final image is lazyloaded
- *
  */
 class ImagePlaceholderUtility
 {
-    /**
-     * @var ImageService
-     */
-    protected $imageService;
-
-    /**
-     * @var CropVariantUtility
-     */
-    protected $cropVariantUtility;
-
-    public function __construct(ImageService $imageService, CropVariantUtility $cropVariantUtility)
-    {
-        $this->imageService = $imageService;
-        $this->cropVariantUtility = $cropVariantUtility;
+    public function __construct(
+        private readonly ImageService $imageService,
+        private readonly CropVariantUtility $cropVariantUtility
+    ) {
     }
 
     /**
-     * getBase64EncodedImage
-     *
-     * @param FileInterface $file
-     * @param bool $base64
-     * @param string $cropVariant
-     * @param int $width
-     * @param bool $absolute
-     * @return string|null
+     * Get placeholder image. Either as base64 encoded string or as uri.
      */
-    public function getPlaceholderImage($file, $base64, $cropVariant, $width, $absolute = false)
-    {
-        $imageUri = null;
+    public function getPlaceholderImage(
+        FileInterface $file,
+        bool $base64,
+        string $cropVariant,
+        int $width,
+        bool $absolute = false
+    ): ?string {
         $this->cropVariantUtility->setCropVariantCollection($file);
 
         $processingInstructions = [
@@ -65,8 +50,7 @@ class ImagePlaceholderUtility
 
         if ($processedImage->exists()) {
             if ($base64 === false) {
-                $imageUri = $this->imageService->getImageUri($processedImage, $absolute);
-                return $imageUri;
+                return $this->imageService->getImageUri($processedImage, $absolute);
             } else {
                 return $this->createInlineImageUri(
                     base64_encode($processedImage->getContents()),
@@ -79,8 +63,10 @@ class ImagePlaceholderUtility
     }
 
     // Return a formatted string for an inline image uri
-    public function createInlineImageUri(string $base64EncodedImageString, string $mimeType): string
-    {
+    public function createInlineImageUri(
+        string $base64EncodedImageString,
+        string $mimeType
+    ): string {
         return sprintf(
             'data:%s;base64,%s',
             $mimeType,
@@ -94,8 +80,7 @@ class ImagePlaceholderUtility
         $pixel = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=';
 
         if ($base64 === false) {
-            $imageUri = ExtensionManagementUtility::extPath('c1_adaptive_images') . 'Resources/Public/Images/placeholder.png';
-            return $imageUri;
+            return ExtensionManagementUtility::extPath('c1_adaptive_images') . 'Resources/Public/Images/placeholder.png';
         } else {
             return $this->createInlineImageUri($pixel, 'image/png');
         }

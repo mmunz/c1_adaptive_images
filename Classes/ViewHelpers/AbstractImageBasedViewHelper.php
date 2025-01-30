@@ -16,8 +16,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
 {
-    /** @var array $cropVariants */
-    protected $cropVariants;
+    protected array $cropVariants;
 
     /**
      * @var bool
@@ -25,38 +24,18 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @var ImageUtility
-     */
-    protected $imageUtility;
-
-    /**
-     * @var RatioBoxUtility
-     */
-    protected $ratioBoxUtility;
-
-    /**
-     * @var ImagePlaceholderUtility
-     */
-    protected $imagePlaceholderUtility;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Service\ImageService
-     */
-    protected $imageService;
-
-    /**
      * @var string
      */
     protected $tagName = 'img';
 
-    public function __construct(ImageUtility $imageUtility, RatioBoxUtility $ratioBoxUtility, ImagePlaceholderUtility $imagePlaceholderUtility, ImageService $imageService)
-    {
+    public function __construct(
+        protected readonly ImageUtility $imageUtility,
+        protected readonly RatioBoxUtility $ratioBoxUtility,
+        protected readonly ImagePlaceholderUtility $imagePlaceholderUtility,
+        protected readonly ImageService $imageService
+    ) {
         // not calling parent constructor on purpose because TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper sets the
         // imageService there with makeInstance which made the unit tests fail. Instead we just set imageService here.
-        $this->imageUtility = $imageUtility;
-        $this->ratioBoxUtility = $ratioBoxUtility;
-        $this->imagePlaceholderUtility = $imagePlaceholderUtility;
-        $this->imageService = $imageService;
         $this->setTagBuilder(new TagBuilder($this->tagName));
     }
 
@@ -64,6 +43,8 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
     {
         parent::initializeArguments();
 
+        // Deprecated since TYPO3 v13. Kept here for v12 compatibility. See
+        // https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/Fluid/DevelopCustomViewhelper.html#abstracttagbasedviewhelper-registertagattribute-migration
         $this->registerUniversalTagAttributes();
         $this->registerTagAttribute('alt', 'string', 'Specifies an alternate text for an image', false);
         $this->registerTagAttribute('ismap', 'string', 'Specifies an image as a server-side image-map. Rarely used. Look at usemap instead', false);
@@ -161,7 +142,7 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
             $this->arguments['image'],
             $this->arguments['placeholderInline'],
             $cropVariant,
-            $this->arguments['placeholderWidth'],
+            (int) $this->arguments['placeholderWidth'],
             $this->arguments['absolute'] ?? false
         );
         return $placeholder . ' ' . $this->arguments['placeholderWidth'] . 'w';
@@ -189,7 +170,10 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
             $data = array_merge($data, $this->arguments['data']);
         }
         if ($this->hasArgument('jsdebug')) {
-            $data['img-debug'] = $this->arguments['jsdebug'];
+            $jsdebug = $this->arguments['jsdebug'];
+            if ($jsdebug === true || $jsdebug === 'true' || $jsdebug === 1 || $jsdebug === '1') {
+                $data['img-debug'] = 1;
+            }
         }
         $this->arguments['data'] = $data;
         foreach ($data as $dataAttributeKey => $dataAttributeValue) {

@@ -6,38 +6,20 @@ use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
-/**
- * Class CropVariantUtility
- */
 class CropVariantUtility
 {
-    /**
-     * @var CropVariantCollection $cropVariantCollection
-     */
-    protected $cropVariantCollection;
+    protected CropVariantCollection $cropVariantCollection;
+    protected FileInterface $file;
 
-    /**
-     * @var FileInterface $file
-     */
-    protected $file;
-
-    /**
-     * @var MathUtility
-     */
-    protected $mathUtility;
-
-    public function __construct(MathUtility $mathUtility)
-    {
-        $this->mathUtility = $mathUtility;
+    public function __construct(
+        private readonly MathUtility $mathUtility
+    ) {
     }
 
     /**
      * Create a CropVariantCollection from file reference.
-     *
-     * @param FileInterface $file
-     * @return void
      */
-    public function setCropVariantCollection(FileInterface $file)
+    public function setCropVariantCollection(FileInterface $file): void
     {
         $cropString = '';
         $this->file = $file;
@@ -49,20 +31,16 @@ class CropVariantUtility
 
     /**
      * Get property cropVariantCollection
-     * @return CropVariantCollection
      */
-    public function getCropVariantCollection()
+    public function getCropVariantCollection(): CropVariantCollection
     {
         return $this->cropVariantCollection;
     }
 
     /**
      * Returns a calculated Area with coordinates for cropping the actual image
-     *
-     * @param string $key
-     * @return null|Area
      */
-    public function getCropAreaForVariant(string $key)
+    public function getCropAreaForVariant(string $key): ?Area
     {
         $cropArea = $this->cropVariantCollection->getCropArea($key);
         return $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($this->file);
@@ -70,11 +48,8 @@ class CropVariantUtility
 
     /**
      * Returns a calculated array with coordinates for cropping the actual image
-     *
-     * @param string $key
-     * @return null|array
      */
-    public function getCropAreaForVariantAsArray(string $key)
+    public function getCropAreaForVariantAsArray(string $key): ?array
     {
         $area = $this->getCropAreaForVariant($key);
         if (!is_null($area)) {
@@ -85,10 +60,8 @@ class CropVariantUtility
 
     /**
      * Return a CropVariants array (beware: not related to TYPO3's CropVariants, needs a better naming - ToDo)
-     * @param array $mediaQueries
-     * @return array
      */
-    public function getCropVariants(array $mediaQueries)
+    public function getCropVariants(array $mediaQueries): array
     {
         $cropVariants = [];
 

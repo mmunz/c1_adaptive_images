@@ -39,7 +39,7 @@ class GetCropVariantsViewHelper extends AbstractViewHelper
      * @throws Exception ;
      * @return array|CropVariantCollection
      */
-    public function render()
+    public function render(): CropVariantCollection|array
     {
         if (is_null($this->arguments['file'])) {
             throw new Exception('You must specify a File or FileReference object implementing FileInterface', 1522176433);

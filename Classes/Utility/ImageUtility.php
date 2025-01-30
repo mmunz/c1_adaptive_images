@@ -9,43 +9,25 @@ use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Exception;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
-/**
- * Class ImageUtility
- */
 class ImageUtility
 {
-    private array $options;
+    private ?array $options;
 
     private array $settings;
-
-    private SettingsService $settingsService;
-
-    private ImageService $imageService;
-
-    private CropVariantUtility $cropVariantUtility;
-
-    private DebugUtility $debugUtility;
-
-    private MathUtility $mathUtility;
 
     private FileInterface $originalFile;
 
     private array $cropVariants = [];
 
     public function __construct(
-        SettingsService $settingsService,
-        ImageService $imageService,
-        CropVariantUtility $cropVariantUtility,
-        DebugUtility $debugUtility,
-        MathUtility $mathUtility,
+        private readonly SettingsService $settingsService,
+        private readonly ImageService $imageService,
+        private readonly CropVariantUtility $cropVariantUtility,
+        private readonly DebugUtility $debugUtility,
+        private readonly MathUtility $mathUtility,
         ?array $options = null,
         ?array $settings = null
     ) {
-        $this->settingsService = $settingsService;
-        $this->imageService = $imageService;
-        $this->cropVariantUtility = $cropVariantUtility;
-        $this->debugUtility = $debugUtility;
-        $this->mathUtility = $mathUtility;
 
         if ($options) {
             // @extensionScannerIgnoreLine
@@ -63,11 +45,7 @@ class ImageUtility
         }
     }
 
-    /**
-     * @param array $options
-     * @return void
-     */
-    public function init($options = null)
+    public function init(?array $options = null): void
     {
         if ($options) {
             // @extensionScannerIgnoreLine
@@ -76,11 +54,7 @@ class ImageUtility
         $this->cropVariants = $this->options['cropVariants'] ?? [];
     }
 
-    /**
-     * @param array $options
-     * @return void
-     */
-    public function setOptions($options)
+    public function setOptions(?array $options): void
     {
         $this->options = $options;
     }
@@ -90,12 +64,7 @@ class ImageUtility
         $this->originalFile = $file;
     }
 
-    /**
-     * @param array $processingConfiguration
-     * @return array
-     * @throws Exception
-     */
-    public function processImage($processingConfiguration)
+    public function processImage(array $processingConfiguration): array
     {
         /** @var FileReference $processedImage */
         $processedImage = $this->imageService->applyProcessingInstructions(
@@ -107,7 +76,7 @@ class ImageUtility
             $processedImage->getProperty('height'),
             $processedImage->getProperty('width')
         );
-        if ($this->options['debug'] && $this->options['debug'] === true) {
+        if ($this->options && $this->options['debug'] && $this->options['debug'] === true) {
             if (!isset($processingConfiguration['additionalParameters'])) {
                 $processingConfiguration['additionalParameters'] = '';
             }
@@ -134,6 +103,7 @@ class ImageUtility
 
     /**
      * Renders a source tag (set of srcset candidates for one cropVariant)
+     * @throws Exception
      */
     public function processSrcsetImages(string $key, array $cropVariantConfig): array
     {
@@ -165,12 +135,15 @@ class ImageUtility
                 }
             }
 
-            if (isset($cropVariantConfig['image_format']) && $cropVariantConfig['image_format'] > 0) {
+            $localProcessingConfiguration['width'] = $width . 'c';
+            if (
+                is_array($this->options)
+                && array_key_exists('image_format', $this->options)
+                && isset($cropVariantConfig['image_format'])
+                && $cropVariantConfig['image_format'] > 0
+            ) {
                 $img_format = $this->options['image_format'];
-                $localProcessingConfiguration['width'] = $width . 'c';
                 $localProcessingConfiguration['height'] = round(intval($width) / $img_format) . 'c';
-            } else {
-                $localProcessingConfiguration['width'] = $width . 'm';
             }
 
             $processedImage = $this->processImage($localProcessingConfiguration);
@@ -198,26 +171,22 @@ class ImageUtility
      *
      * Because all candidates have the same ratio we can just return the 'ratio' from the first child of the candidates
      * array.
-     *
-     * @return array
      */
-    public function getRatioFromFirstCandidate(array $candidates)
+    public function getRatioFromFirstCandidate(array $candidates): float
     {
         return reset($candidates)['ratio'];
     }
 
     /**
-     * @return array|mixed
      * @throws Exception
      */
-    public function getCropVariants()
+    public function getCropVariants(): array
     {
         foreach ($this->cropVariants as $key => $cropVariantConfig) {
             $candidates = $this->processSrcsetImages($key, $cropVariantConfig);
             $this->cropVariants[$key]['candidates'] = $candidates;
             $this->cropVariants[$key]['srcset'] = $this->getSrcSetString($candidates);
             $this->cropVariants[$key]['ratio'] = $this->getRatioFromFirstCandidate($candidates);
-            //$this->cropVariants[$key]['svgPlaceholder'] = $this->getSvgPlaceholderFromFirstCandidate($candidates);
             // update srcsetWidths with actually generated candidate widths. Some of the configured sizes might
             // have been skipped for smaller images or when maxWidth for the image was reached.
             $this->cropVariants[$key]['srcsetWidths'] = implode(',', array_keys($candidates));

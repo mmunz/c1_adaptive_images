@@ -15,7 +15,7 @@ abstract class AbstractViewHelperCest
 
     public function _before(\AcceptanceTester $I)
     {
-        $I->executeCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', true]);
+        $I->executeConsoleCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', true]);
     }
 
     public function validateMarkup(\AcceptanceTester $I)

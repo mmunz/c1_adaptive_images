@@ -4,18 +4,18 @@ on: [push, pull_request]
 
 jobs:
   lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Linting
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up PHP Version
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
           coverage: none
           tools: composer:v2
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
@@ -24,7 +24,7 @@ jobs:
       - name: Install composer dependencies
         run: |
           rm -f composer.lock
-          composer require typo3/minimal:^11.0
+          composer require typo3/minimal:^12.4
       - name: phpstan
         run: composer phpstan
       - name: PHPCS
@@ -33,27 +33,31 @@ jobs:
         run: composer ts:lint
 
   build_doc:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     name: Build documentation
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build doc
         run: composer build:doc
 
   tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         env:
-          - { php: 8.2, TYPO3_VERSION: ^12.0 }
-          - { php: 8.1, TYPO3_VERSION: ^12.0 }
-          - { php: 8.1, TYPO3_VERSION: ^11.0 }
-          - { php: 8.0, TYPO3_VERSION: ^11.0 }
-          - { php: 7.4, TYPO3_VERSION: ^11.0 }
+          - { php: 8.4, TYPO3_VERSION: ^13.4 }
+          - { php: 8.3, TYPO3_VERSION: ^13.4 }
+          - { php: 8.2, TYPO3_VERSION: ^13.4 }
+          - { php: 8.4, TYPO3_VERSION: ^12.4 }
+          - { php: 8.3, TYPO3_VERSION: ^12.4 }
+          - { php: 8.2, TYPO3_VERSION: ^12.4 }
+          - { php: 8.1, TYPO3_VERSION: ^12.4 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Install ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
       - name: Set up PHP Version
         uses: shivammathur/setup-php@v2
         with:
@@ -62,7 +66,7 @@ jobs:
           tools: composer:v2
           coverage: none
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
@@ -74,7 +78,7 @@ jobs:
            apt update && apt install -y wget sqlite3 && \
            wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" && \
            apt install -y ./google-chrome-stable_current_amd64.deb
-      - uses: nanasess/setup-chromedriver@v1
+      - uses: nanasess/setup-chromedriver@v2
       - name: Install composer dependencies
         run: |
           rm -f composer.lock
@@ -88,8 +92,8 @@ jobs:
       - name: Start chromedriver
         run: |
           export DISPLAY=:99
-          sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
-          chromedriver --url-base=/wd/hub &
+          sudo Xvfb -ac :99 -screen 0 2560x1440x24 > /dev/null 2>&1 &
+          chromedriver --url-base=/wd/hub --port=9515 &
           sleep 10
       - name: Unit tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} with PHP${{ matrix.env.php }})
         run: |
@@ -110,7 +114,7 @@ jobs:
           composer tests:acceptance
       - name: Upload Codeception output
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: codeception-results
           path: Tests/Acceptance/_output/

@@ -1,0 +1,5 @@
+---
+name: c1/c1-adaptive-images
+label: "C1 adaptive images: Default"
+dependencies:
+  - typo3/fluid-styled-content

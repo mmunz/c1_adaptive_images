@@ -16,10 +16,8 @@ use TYPO3\CMS\Core\Resource\FileReference;
  */
 class CropVariantUtilityTest extends TestCase
 {
-    /**
-     * @var MockObject|MathUtility
-     */
-    protected $mathUtilityMock;
+    protected MockObject $mathUtilityMock;
+    protected CropVariantUtility $utility;
 
     protected function setUp(): void
     {
@@ -122,7 +120,7 @@ class CropVariantUtilityTest extends TestCase
         /** @var MockObject|FileReference $fileReferenceMock */
         $fileReferenceMock = $this->getMockBuilder(FileReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['hasProperty', 'getProperty'])
+            ->onlyMethods(['hasProperty', 'getProperty'])
             ->getMock();
 
         $fileReferenceMock

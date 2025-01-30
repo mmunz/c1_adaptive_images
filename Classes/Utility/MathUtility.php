@@ -6,9 +6,6 @@ namespace C1\AdaptiveImages\Utility;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
-/**
- * Class MathUtility
- */
 class MathUtility implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
@@ -19,15 +16,10 @@ class MathUtility implements LoggerAwareInterface
      *
      * Returns a float which is the percentage of height compared to the width
      * Rounded to 2 decimals by default.
-     *
-     * @param int|float $height
-     * @param int|float $width
-     * @param int $precision
-     * @return float
      */
-    public function calculateRatio($height, $width, int $precision = 2)
+    public function calculateRatio(float|int $height, float|int $width, int $precision = 2): float
     {
-        // Corrupted or empty images don't have width or height or it is 0 which caused division by zero errors, see #17.
+        // Corrupted or empty images don't have width or height, or it is 0 which caused division by zero errors, see #17.
         // This should ideally be handled before calling this method.
         if (!$width || !$height || $width == 0) {
             $this->logger->warning(

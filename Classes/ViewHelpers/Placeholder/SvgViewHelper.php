@@ -28,26 +28,11 @@ class SvgViewHelper extends AbstractViewHelper
     /** @var bool $escapeOutput */
     protected $escapeOutput = false;
 
-    /**
-     * @var ImageService
-     */
-    protected $imageService;
-
-    /**
-     * @var SvgUtility $svgUtility;
-     */
-    protected $svgUtility;
-
-    /**
-     * @var CropVariantUtility $cropVariantUtility
-     */
-    protected $cropVariantUtility;
-
-    public function __construct(ImageService $imageService, SvgUtility $svgUtility, CropVariantUtility $cropVariantUtility)
-    {
-        $this->imageService = $imageService;
-        $this->svgUtility = $svgUtility;
-        $this->cropVariantUtility = $cropVariantUtility;
+    public function __construct(
+        private readonly ImageService $imageService,
+        private readonly SvgUtility $svgUtility,
+        private readonly CropVariantUtility $cropVariantUtility
+    ) {
     }
 
     /**
@@ -111,7 +96,7 @@ class SvgViewHelper extends AbstractViewHelper
      * @throws Exception
      * @return string Rendered tag
      */
-    public function render()
+    public function render(): string
     {
         /** @var FileInterface $image */
         $image = $this->arguments['file'];

@@ -8,11 +8,12 @@ use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use C1\AdaptiveImages\ViewHelpers\ImageViewHelper;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 
 /**
  * Class ImageViewHelperTest
  */
-class ImageViewHelperTest extends AbstractViewHelperTest
+class ImageViewHelperTest extends AbstractViewHelperTestCase
 {
     /**
      * @var array
@@ -98,10 +99,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         $instance->initializeArguments();
     }
 
-    /**
-     * @return array
-     */
-    public function addAdditionalAttributesProvider()
+    public static function addAdditionalAttributesProvider(): array
     {
         return [
             'without additionalAttributes from viewhelper' => [
@@ -149,7 +147,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
      */
     public function addDataAttributesTest($arguments, $expected)
     {
-        /** @var AccessibleMockObjectInterface|ImageViewHelper $imageViewHelperMock */
+        /** @var AccessibleObjectInterface|ImageViewHelper $imageViewHelperMock */
         $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getSrcSetString'], $this->constructorArgs);
         $imageViewHelperMock->setArguments($arguments);
         $imageViewHelperMock->addDataAttributes();
@@ -176,10 +174,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         );
     }
 
-    /**
-     * @return array
-     */
-    public function addDataAttributesProvider()
+    public static function addDataAttributesProvider(): array
     {
         return [
             'without data argument from viewhelper' => [
@@ -194,7 +189,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
                 [
                     'lazy' => true,
                     'data' => [
-                        'debug' => true
+                        'debug' => '1'
                     ],
                     'srcsetWidths' => '256,512'
                 ],
@@ -213,10 +208,7 @@ class ImageViewHelperTest extends AbstractViewHelperTest
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function isLazyLoadingProvider()
+    public static function isLazyLoadingProvider(): array
     {
         return [
             'no lazy argument' => [

@@ -23,44 +23,6 @@ class ImagePlaceholderUtilityTest extends TestCase
         $this->cropVariantUtility = $this->createMock(CropVariantUtility::class);
     }
 
-    public function testGetPlaceholderImageReturnsAFallbackImageIfImageIsNotProcessed(): void
-    {
-        $file = $this->createMock(FileInterface::class);
-        $cropVariant = '';
-        $width = '1024';
-        $this->cropVariantUtility
-            ->expects(self::once())
-            ->method('setCropVariantCollection')
-            ->with($file);
-
-        $this->cropVariantUtility
-            ->expects(self::once())
-            ->method('getCropAreaForVariant')
-            ->with($cropVariant)
-            ->willReturn($cropVariant);
-
-        $image = $this->createMock(ProcessedFile::class);
-        $this->imageService
-            ->expects(self::once())
-            ->method('applyProcessingInstructions')
-            ->with(
-                $file,
-                self::callback(
-                    fn ($value) => is_array($value)
-                    && $value['width'] === $width
-                    && $value['crop'] === $cropVariant
-                )
-            )
-            ->willReturn($image);
-
-        $placeHolderUtility = new ImagePlaceholderUtility($this->imageService, $this->cropVariantUtility);
-
-        $placeholder = $placeHolderUtility->getPlaceholderImage($file, true, $cropVariant, $width);
-
-        self::assertStringContainsString('base64', $placeholder);
-        self::assertStringContainsString('image/png', $placeholder);
-    }
-
     public function testGetPlaceholderImage(): void
     {
         $image = $this->createMock(ProcessedFile::class);

@@ -3,10 +3,6 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\ViewHelpers;
 
-use C1\AdaptiveImages\Utility\ImageUtility;
-use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
-use C1\AdaptiveImages\Utility\RatioBoxUtility;
-use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 /**
@@ -24,21 +20,13 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
  */
 class ImageViewHelper extends AbstractImageBasedViewHelper
 {
-    public function __construct(ImageUtility $imageUtility, RatioBoxUtility $ratioBoxUtility, ImagePlaceholderUtility $imagePlaceholderUtility, ImageService $imageService)
-    {
-        $this->imageUtility = $imageUtility;
-        $this->ratioBoxUtility = $ratioBoxUtility;
-        $this->imagePlaceholderUtility = $imagePlaceholderUtility;
-        $this->imageService = $imageService;
-        parent::__construct($imageUtility, $ratioBoxUtility, $imagePlaceholderUtility, $imageService);
-    }
-
     /**
      * Sets and initializes $this->imageUtility
      * After that manipulate the data and additionalAttributes arguments.
      *
      * Manipulate the data and additionalAttributes arguments just before the render method
      *
+     * @throws \TYPO3\CMS\Extbase\Exception
      * @api
      */
     public function initialize(): void
@@ -67,7 +55,7 @@ class ImageViewHelper extends AbstractImageBasedViewHelper
      * @return string
      * @throws Exception
      */
-    public function render()
+    public function render(): string
     {
         $image = parent::render();
 

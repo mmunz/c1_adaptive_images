@@ -6,6 +6,14 @@
 ChangeLog
 =========
 
+v1.1.0
+------
+
+- Support TYPO3 v13
+- Drop support for v11
+- Introduce Site-Sets
+- Modernize PHP: More typing and constructor DI
+
 v1.0.2
 ------
 
@@ -17,7 +25,6 @@ v1.0.1
 - Remove plugin setting mode, this was not used anywhere.
 - Deprecate settings srcsetWidthsMobile and srcsetWidthsDesktop.
 - Reduce number of default srcset candidates in plugin.tx_c1_adaptive_images.settings.srcsetWidths
-
 
 
 v1.0.0
