@@ -6,6 +6,12 @@
 ChangeLog
 =========
 
+v1.1.1
+------
+
+- Add editable site settings, thanks @zenoussi
+- Add extension icon, thanks @zenoussi
+
 v1.1.0
 ------
 
