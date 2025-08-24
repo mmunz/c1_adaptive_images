@@ -1,0 +1,44 @@
+
+categories:
+  C1AdaptiveImages:
+    label: 'C1 adaptive images'
+  C1AdaptiveImages.settings:
+    label: 'Settings'
+    parent: C1AdaptiveImages
+settings:
+  c1AdaptiveImages.debug:
+    label: 'Debug'
+    category: C1AdaptiveImages.settings
+    description: 'If 1 then image dimensions and ratio are rendered as annotation directly on the image'
+    type: bool
+    default: false
+  c1AdaptiveImages.jsdebug:
+    label: 'JS Debug'
+    category: C1AdaptiveImages.settings
+    description: 'If 1 then some debug infos (loaded image dimensions, ratio, container width) are calculated via javascript and shown near the image (positioning of the debug text with css)'
+    type: bool
+    default: false
+  c1AdaptiveImages.ratioBox:
+    label: 'Ratio box'
+    category: C1AdaptiveImages.settings
+    description: 'Currently not used in code. For use in your templates, e.g. <ai:picture ratiobox="{plugin.tx_c1_adaptive_images.settings.ratiobox} ..."'
+    type: bool
+    default: false
+  c1AdaptiveImages.srcsetWidths:
+    label: 'Srcset Widths'
+    category: C1AdaptiveImages.settings
+    description: 'comma seperated list of default srcset candidates'
+    type: string
+    default: 360,768,1024,1440,1920
+  c1AdaptiveImages.srcsetWidthsMobile:
+    label: 'Srcset Widths Mobile'
+    category: C1AdaptiveImages.settings
+    description: 'Deprecated, will be removed with v2.0.0: Comma seperated list of default srcset candidates for mobile.'
+    type: string
+    default: 240,360,480,768
+  c1AdaptiveImages.srcsetWidthsDesktop:
+    label: 'Srcset Widths Desktop'
+    category: C1AdaptiveImages.settings
+    description: 'Deprecated, will be removed with v2.0.0: Comma seperated list of default srcset candidates for desktop.'
+    type: string
+    default: 1024,1280,1440,1680,1920
