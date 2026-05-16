@@ -9,6 +9,7 @@ use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use C1\AdaptiveImages\ViewHelpers\ImageViewHelper;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContext;
 
 /**
  * Class ImageViewHelperTest
@@ -43,6 +44,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         ];
 
         $this->viewHelper = new ImageViewHelper(...$this->constructorArgs);
+        $this->viewHelper->setRenderingContext(new RenderingContext());
     }
 
     public function invalidArgumentsDataProvider(): array
@@ -67,6 +69,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
 
         $viewHelper = new ImageViewHelper(...$this->constructorArgs);
         $viewHelper->setArguments($arguments);
+        $viewHelper->setRenderingContext(new RenderingContext());
         $viewHelper->render();
     }
 

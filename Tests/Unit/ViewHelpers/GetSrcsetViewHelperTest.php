@@ -10,6 +10,7 @@ use Psr\Log\NullLogger;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Extbase\Service\ImageService;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContext;
 
 class GetSrcsetViewHelperTest extends TestCase
 {
@@ -79,6 +80,7 @@ class GetSrcsetViewHelperTest extends TestCase
             new DebugUtility()
         );
         $viewHelper->setArguments($arguments);
+        $viewHelper->setRenderingContext(new RenderingContext());
         $result = $viewHelper->initializeArgumentsAndRender();
 
         $this->assertEquals($expected, $result);

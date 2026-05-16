@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 use C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTestCase;
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContext;
 
 /**
  * Class ImageViewHelperTest
@@ -22,6 +23,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         $imageServiceMock = $this->mockImageService();
 
         $this->viewHelper = new ImageViewHelper($imageServiceMock, $cropVariantUtilityMock);
+        $this->viewHelper->setRenderingContext(new RenderingContext());
     }
 
     /**
