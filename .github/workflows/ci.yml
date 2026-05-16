@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-24.04
     name: Linting
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up PHP Version
         uses: shivammathur/setup-php@v2
         with:
@@ -15,7 +15,7 @@ jobs:
           coverage: none
           tools: composer:v2
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-24.04
     name: Build documentation
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build doc
         run: composer build:doc
 
@@ -55,7 +55,7 @@ jobs:
           - { php: 8.1, TYPO3_VERSION: ^12.4 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install ImageMagick
         run: sudo apt-get update && sudo apt-get install -y imagemagick
       - name: Set up PHP Version
@@ -66,7 +66,7 @@ jobs:
           tools: composer:v2
           coverage: none
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
@@ -114,7 +114,7 @@ jobs:
           composer tests:acceptance
       - name: Upload Codeception output
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: codeception-results
           path: Tests/Acceptance/_output/
