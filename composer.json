@@ -85,7 +85,7 @@
         "typo3/cms-frontend": "^13.4 || ^14.3",
         "typo3/cms-backend": "^13.4 || ^14.3",
         "typo3/cms-fluid-styled-content": "^13.4 || ^14.3",
-        "typo3/minimal": "^13.4"
+        "typo3/minimal": "^13.4 || ^14.3"
     },
     "require-dev": {
         "typo3/cms-tstemplate": "^13.4 || ^14.3",
