@@ -92,11 +92,12 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
             ->method('registerArgument')
             ->will(
                 $this->returnCallback(
-                    function ($name, $type, $description, $required = false, $default = null) use ($rules) {
+                    function ($name, $type, $description, $required = false, $default = null) use ($rules, $instance) {
                         if (array_key_exists($name, $rules)) {
                             $arguments = [$type, $required, $default ?: null];
                             $this->assertEquals($rules[$name], $arguments);
                         }
+                        return $instance;
                     }
                 )
             );
@@ -138,6 +139,8 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
     public function addAdditionalAttributesTest($expected, $arguments)
     {
         $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getPlaceholder', 'getSrcSetString'], $this->constructorArgs);
+        $imageViewHelperMock->method('getSrcSetString')->willReturn('');
+        $imageViewHelperMock->method('getPlaceholder')->willReturn('');
         $imageViewHelperMock->setArguments($arguments);
         $imageViewHelperMock->addAdditionalAttributes();
         $this->assertEquals($expected, $imageViewHelperMock->_get('tag')->getAttributes());
@@ -153,6 +156,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
     {
         /** @var AccessibleObjectInterface|ImageViewHelper $imageViewHelperMock */
         $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getSrcSetString'], $this->constructorArgs);
+        $imageViewHelperMock->method('getSrcSetString')->willReturn('');
         $imageViewHelperMock->setArguments($arguments);
         $imageViewHelperMock->addDataAttributes();
 
@@ -161,7 +165,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         $viewHelperDefaultDataArgument = [
             'data' => [
                 'sizes' => 'auto',
-                'srcset' => $imageViewHelperMock->getSrcSetString()
+                'srcset' => ''
             ]
         ];
 
