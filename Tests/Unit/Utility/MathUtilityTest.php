@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\MathUtility;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -11,9 +12,7 @@ use Psr\Log\LoggerInterface;
  */
 class MathUtilityTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function calculateRatioReturnsCorrectRatio()
     {
         $utility = new MathUtility();
@@ -23,6 +22,7 @@ class MathUtilityTest extends TestCase
         $this->assertEquals(21.77, $utility->calculateRatio(100.25, 460.5));
     }
 
+    #[Test]
     public function testNotSetValuesLeadToLoggedWarning(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
@@ -33,6 +33,6 @@ class MathUtilityTest extends TestCase
         $utility->calculateRatio(0, 0);
         $utility->calculateRatio(100, 0);
         $utility->calculateRatio(0, 100);
-        $utility->calculateRatio(0, 100);
+        $utility->calculateRatio(0, 0.0);
     }
 }

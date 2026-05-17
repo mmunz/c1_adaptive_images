@@ -10,7 +10,7 @@ class RatioBoxUtility
 {
     private string $ratioBoxBase = '';
 
-    private TagBuilder $tagBuilder;
+    private readonly TagBuilder $tagBuilder;
 
     public function __construct(
         private readonly PageRenderer $pageRenderer,

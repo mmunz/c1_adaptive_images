@@ -43,7 +43,7 @@ class ImageViewHelper extends AbstractViewHelper
     public function initializeArguments(): void
     {
         parent::initializeArguments();
-        $this->registerArgument('file', '\TYPO3\CMS\Core\Resource\FileInterface', 'File or FileReference', true);
+        $this->registerArgument('file', FileInterface::class, 'File or FileReference', true);
         $this->registerArgument(
             'cropVariant',
             'string',

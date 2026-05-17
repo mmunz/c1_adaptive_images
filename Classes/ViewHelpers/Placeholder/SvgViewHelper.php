@@ -43,7 +43,7 @@ class SvgViewHelper extends AbstractViewHelper
         parent::initializeArguments();
         $this->registerArgument(
             'file',
-            '\TYPO3\CMS\Core\Resource\FileInterface',
+            FileInterface::class,
             'File or FileReference',
             true
         );

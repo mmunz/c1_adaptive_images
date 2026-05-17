@@ -49,7 +49,7 @@ class SettingsService
     public function getSettings(): array
     {
         if ($this->settings === null) {
-            $this->settings = $this->getByPath('settings');
+            $this->settings = $this->getByPath('settings') ?? [];
         }
         return $this->settings;
     }

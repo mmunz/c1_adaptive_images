@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 use C1\AdaptiveImages\Utility\DebugUtility;
 use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\ViewHelpers\GetSrcsetViewHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use TYPO3\CMS\Core\Resource\FileInterface;
@@ -41,7 +42,7 @@ class GetSrcsetViewHelperTest extends TestCase
         self::assertEquals('default', $cropVariantArgument->getDefaultValue());
     }
 
-    /** @dataProvider createSrcsetStringProvider */
+    #[DataProvider('createSrcsetStringProvider')]
     public function testCreateSrcsetString(array $arguments, string $expected)
     {
         $file = $this->createMock(FileInterface::class);
@@ -63,16 +64,14 @@ class GetSrcsetViewHelperTest extends TestCase
             ->with($file)
             ->willReturnCallback(function ($file, $configuration) {
                 $processedFile = $this->createMock(ProcessedFile::class);
-                $processedFile->method('getProperty')->willReturn(rtrim($configuration['width'], 'm'));
+                $processedFile->method('getProperty')->willReturn(rtrim((string) $configuration['width'], 'm'));
                 return $processedFile;
             });
 
         $imageService
             ->expects($this->any())
             ->method('getImageUri')
-            ->willReturnCallback(function ($image, $absolute) {
-                return (($absolute) ? 'http://domain.tld/' : '') . 'image@' . $image->getProperty('width') . '.jpg';
-            });
+            ->willReturnCallback(fn ($image, $absolute) => (($absolute) ? 'http://domain.tld/' : '') . 'image@' . $image->getProperty('width') . '.jpg');
 
         $viewHelper = new GetSrcsetViewHelper(
             $imageService,
@@ -86,7 +85,7 @@ class GetSrcsetViewHelperTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function createSrcsetStringProvider(): array
+    public static function createSrcsetStringProvider(): array
     {
         return [
             'with 1 srcset width' => [

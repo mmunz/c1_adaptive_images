@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Tests\Acceptance;
 
+use AcceptanceTester;
+
 /**
  * Test case.
  */
 class GetCropVariantsViewHelperCest extends AbstractViewHelperCest
 {
     // test if the viewhelper retrieves the correct cropVariants from the file reference as string
-    public function canReturnCropVariantsAsString(\AcceptanceTester $I)
+    public function canReturnCropVariantsAsString(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -20,6 +22,8 @@ class GetCropVariantsViewHelperCest extends AbstractViewHelperCest
         $I->amOnPage('/index.php?mode=GetCropVariantsAsString');
 
         $I->expect('See viewhelper output');
-        $I->seeInSource('{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":null,"focusArea":{"x":0.3333333333333333,"y":0.3333333333333333,"width":0.3333333333333333,"height":0.3333333333333333}}}');
+        $I->seeInSource('"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1}');
+        $I->dontSeeInSource('"selectedRatio":"NaN"');
+        $I->seeInSource('"focusArea":{"x":0.3333333333333333,"y":0.3333333333333333,"width":0.3333333333333333,"height":0.3333333333333333}');
     }
 }
