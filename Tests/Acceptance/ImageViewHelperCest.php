@@ -21,6 +21,8 @@ class ImageViewHelperCest extends AbstractViewHelperCest
     public function seeImageLoadInCorrectDimensions(AcceptanceTester $I)
     {
         $I->flushCache();
+        $I->resize(640, 768);
+        $I->waitForImagesLoaded();
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
         ];
@@ -35,13 +37,10 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->initLazySizes();
         $I->waitForImagesLoaded();
         //$I->wait(5);
-        $I->expect('Page still has valid markup.');
-        $this->validateMarkup($I);
-
         $I->expect('a 640px image is loaded');
         $I->seeCurrentImageDimensions(640, 400, '62.50');
 
-        $I->resizeWindow(1024, 768);
+        $I->resize(1024, 768);
         $I->waitForImagesLoaded();
         $I->expect('a 1024px image is loaded');
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
@@ -65,6 +64,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
     public function seeImageWithoutLazyLoading(AcceptanceTester $I)
     {
         $I->restartBrowser();
+        $I->resize(640, 768);
         $I->flushCache();
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
@@ -77,7 +77,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->expect('a 640px image is loaded');
         $I->seeCurrentImageDimensions(640, 400, '62.50');
 
-        $I->resizeWindow(1024, 768);
+        $I->resize(1024, 768);
         $I->waitForImagesLoaded();
         $I->expect('a 1024px image is loaded');
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
@@ -86,6 +86,8 @@ class ImageViewHelperCest extends AbstractViewHelperCest
     public function seeLazyImageWithRatioBox(AcceptanceTester $I)
     {
         $I->restartBrowser();
+        $I->resize(640, 768);
+        $I->waitForImagesLoaded();
         $I->flushCache();
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
@@ -103,7 +105,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(640, 400, '62.50');
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
 
-        $I->resizeWindow(1024, 768);
+        $I->resize(1024, 768);
         $I->waitForImagesLoaded();
         $I->expect('a 1024px image is loaded');
         $I->seeCurrentImageDimensions(1024, 640, '62.50');

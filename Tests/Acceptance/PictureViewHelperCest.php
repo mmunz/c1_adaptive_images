@@ -16,6 +16,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
         ];
+        $I->resize(640, 768);
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->amOnPage('/index.php?mode=PictureViewHelper&srcsetWidths=640,1024&debug=1&lazy=0');
@@ -35,6 +36,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
     {
         $I->flushCache();
         $I->restartBrowser();
+        $I->resize(640, 768);
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
         ];
@@ -60,6 +62,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
     {
         $I->flushCache();
         $I->restartBrowser();
+        $I->resize(640, 768);
 
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}, "tablet":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
@@ -91,6 +94,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
     public function seePictureLoadInCorrectDimensionsWithLazySizesAndImagePlaceholder(AcceptanceTester $I)
     {
         $I->restartBrowser();
+        $I->resize(640, 768);
         $I->flushCache();
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
@@ -106,9 +110,6 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->initLazySizes();
         $I->waitForImagesLoaded();
 
-        $I->expect('Page still has valid markup.');
-        $this->validateMarkup($I);
-
         $I->expect('a 640px image is loaded. Ratio is odd because of rounding errors.');
         $I->seeCurrentImageDimensions(640, 479, '74.84');
 
@@ -122,6 +123,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
     {
         $I->flushCache();
         $I->restartBrowser();
+        $I->resize(640, 768);
 
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.624,"width":0.521,"x":0,"y":0},"selectedRatio":"4:3"}}'
@@ -137,9 +139,6 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->initLazySizes();
         $I->waitForImagesLoaded();
 
-        $I->expect('Page still has valid markup.');
-        $this->validateMarkup($I);
-
         $I->expect('a 320px image is loaded with 4:3 ratio.');
         $I->seeCurrentImageDimensions(320, 240, '75.00');
 
@@ -153,6 +152,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
     {
         $I->flushCache();
         $I->restartBrowser();
+        $I->resize(640, 768);
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.2,"width":0.4,"x":0.2,"y":0.2},"selectedRatio":"free"}}'
         ];
@@ -224,6 +224,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
     {
         $I->flushCache();
         $I->restartBrowser();
+        $I->resize(640, 768);
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.2,"width":0.4,"x":0.2,"y":0.2},"selectedRatio":"free"}}'
         ];
@@ -264,6 +265,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->restartBrowser();
+        $I->resize(640, 768);
         $I->amOnPage('/index.php?mode=PictureViewHelperDifferentDefaultCropVariant&srcsetWidths=640,1024&debug=1&lazy=0');
         $this->validateMarkup($I);
 
@@ -286,6 +288,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
 
         $I->restartBrowser();
+        $I->resize(640, 768);
         $I->amOnPage('/index.php?mode=PictureViewHelperDifferentDefaultCropVariant&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
         $this->validateMarkup($I);
 

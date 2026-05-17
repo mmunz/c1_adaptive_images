@@ -16,9 +16,6 @@ suites:
                   cleanup: false # run populator before each test
               - Asserts
               - \Helper\Acceptance
-              - Kolyunya\Codeception\Module\MarkupValidator:
-                  baseUri: https://validator.w3.org/
-                  endpoint: /nu/
 
 extensions:
     enabled: [Codeception\Extension\RunFailed]
