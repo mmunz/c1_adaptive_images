@@ -22,9 +22,10 @@ if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
 
     rm -f "${TYPO3_PATH_APP}/../var/*.sqlite"
     rm -rf "${TYPO3_PATH_APP}/var/sqlite"
+    rm -rf "${TYPO3_PATH_APP}/var/cache"
 
     # Install TYPO3 with SQLite (TYPO3 v13+ option names)
-set -x
+    set -x
     $CONSOLE_CMD setup \
       --driver sqlite \
       --admin-username test \
