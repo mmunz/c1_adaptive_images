@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Tests\Acceptance;
 
+use AcceptanceTester;
+
 /**
  * Test case.
  */
 class GetCropVariantsViewHelperCest extends AbstractViewHelperCest
 {
     // test if the viewhelper retrieves the correct cropVariants from the file reference as string
-    public function canReturnCropVariantsAsString(\AcceptanceTester $I)
+    public function canReturnCropVariantsAsString(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [

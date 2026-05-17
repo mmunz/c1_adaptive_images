@@ -31,7 +31,8 @@
             "typo3/class-alias-loader": true,
             "typo3/cms-composer-installers": true,
             "phpstan/extension-installer": true,
-            "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": true
+            "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": true,
+            "a9f/fractor-extension-installer": true
         }
     },
     "scripts": {
@@ -78,31 +79,36 @@
         }
     },
     "require": {
-        "typo3/cms-core": "^12 || ^13",
-        "typo3/cms-fluid": "^12 || ^13",
-        "typo3/cms-frontend": "^12 || ^13",
-        "typo3/cms-backend": "^12 || ^13",
-        "typo3/cms-fluid-styled-content": "^12 || ^13"
+        "php": "^8.2",
+        "typo3/cms-core": "^13.4 || ^14.3",
+        "typo3/cms-fluid": "^13.4 || ^14.3",
+        "typo3/cms-frontend": "^13.4 || ^14.3",
+        "typo3/cms-backend": "^13.4 || ^14.3",
+        "typo3/cms-fluid-styled-content": "^13.4 || ^14.3",
+        "typo3/minimal": "^13.4"
     },
     "require-dev": {
-        "typo3/cms-tstemplate": "^12 || ^13",
-        "typo3/cms-filelist": "^12 || ^13",
-        "helhum/typo3-console": "^7.1 || ^8.0",
+        "typo3/cms-tstemplate": "^13.4 || ^14.3",
+        "typo3/cms-filelist": "^13.4 || ^14.3",
+        "helhum/typo3-console": "^8.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "codeception/codeception": "^4.2 || ^5.0",
         "phpstan/extension-installer": "^1.0",
-        "spaze/phpstan-disallowed-calls": "^2.0",
+        "spaze/phpstan-disallowed-calls": "^4.0",
         "phpspec/prophecy": "^1.15",
         "codeception/module-webdriver": "^2.0 || ^3.2",
         "codeception/module-db": "^3.1",
         "codeception/module-asserts": "^3.0",
         "kolyunya/codeception-markup-validator": "dev-codeception-v4 || dev-master",
-        "typo3/testing-framework": "^8",
+        "typo3/testing-framework": "^9",
         "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": "^0.1.2",
-        "phpstan/phpstan": "^1.8.9",
-        "saschaegerer/phpstan-typo3": "^1.8",
+        "phpstan/phpstan": "^2.0",
+        "saschaegerer/phpstan-typo3": "^3.0",
         "helmich/typo3-typoscript-lint": "^3.1",
-        "phpunit/phpunit": "^10"
+        "phpunit/phpunit": "^11",
+        "rector/rector": "^2.0",
+        "ssch/typo3-rector": "^3.0",
+        "a9f/typo3-fractor": "^0.5"
     },
     "autoload": {
         "psr-4": {

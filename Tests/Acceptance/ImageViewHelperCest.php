@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Tests\Acceptance;
 
+use AcceptanceTester;
+
 /**
  * Test case.
  */
 class ImageViewHelperCest extends AbstractViewHelperCest
 {
-    public function testUpdateDatabase(\AcceptanceTester $I)
+    public function testUpdateDatabase(AcceptanceTester $I)
     {
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}}'
@@ -16,7 +18,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
     }
 
-    public function seeImageLoadInCorrectDimensions(\AcceptanceTester $I)
+    public function seeImageLoadInCorrectDimensions(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -45,7 +47,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
     }
 
-    public function seePlaceholderWithCustomWidth(\AcceptanceTester $I)
+    public function seePlaceholderWithCustomWidth(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -60,7 +62,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(16, 10, '62.50');
     }
 
-    public function seeImageWithoutLazyLoading(\AcceptanceTester $I)
+    public function seeImageWithoutLazyLoading(AcceptanceTester $I)
     {
         $I->restartBrowser();
         $I->flushCache();
@@ -81,7 +83,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
     }
 
-    public function seeLazyImageWithRatioBox(\AcceptanceTester $I)
+    public function seeLazyImageWithRatioBox(AcceptanceTester $I)
     {
         $I->restartBrowser();
         $I->flushCache();
@@ -116,7 +118,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeElement('div.rb.rb--62dot5');
     }
 
-    public function canSwitchJsDebugOutput(\AcceptanceTester $I)
+    public function canSwitchJsDebugOutput(AcceptanceTester $I)
     {
         $I->restartBrowser();
         $I->flushCache();
@@ -141,7 +143,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeJsDebug();
     }
 
-    public function canSeeUpscaledImageWhenUpscaleIsEnabled(\AcceptanceTester $I)
+    public function canSeeUpscaledImageWhenUpscaleIsEnabled(AcceptanceTester $I)
     {
         $I->restartBrowser();
         $I->flushCache();
@@ -156,7 +158,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(2560, 1600, '62.50');
     }
 
-    public function cantSeeUpscaledImageWhenUpscaleIsDisabled(\AcceptanceTester $I)
+    public function cantSeeUpscaledImageWhenUpscaleIsDisabled(AcceptanceTester $I)
     {
         $I->executeConsoleCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', false]);
         $I->wait(1);
@@ -174,7 +176,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1920, 1200, '62.50');
     }
 
-    public function seeNoExceptionOnMissingImage(\AcceptanceTester $I)
+    public function seeNoExceptionOnMissingImage(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -189,7 +191,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->dontSeeInSource('Call to undefined method TYPO3\CMS\Core\Resource\ProcessedFile::setMissing()');
     }
 
-    public function seeNoExceptionOnEmptyImage(\AcceptanceTester $I)
+    public function seeNoExceptionOnEmptyImage(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?id=4&mode=ImageViewHelper&placeholderWidth=32&srcsetWidths=640,1024&debug=1&lazy=1&ratiobox=1');
@@ -202,7 +204,7 @@ class ImageViewHelperCest extends AbstractViewHelperCest
         $I->waitForElement('div.rb.rb--0');
     }
 
-    public function seeFocusArea(\AcceptanceTester $I)
+    public function seeFocusArea(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [

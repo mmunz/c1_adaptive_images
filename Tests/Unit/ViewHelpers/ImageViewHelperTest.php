@@ -7,6 +7,7 @@ use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use C1\AdaptiveImages\ViewHelpers\ImageViewHelper;
+use Exception;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContext;
@@ -47,7 +48,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         $this->viewHelper->setRenderingContext(new RenderingContext());
     }
 
-    public function invalidArgumentsDataProvider(): array
+    public static function invalidArgumentsDataProvider(): array
     {
         return [
             [['src' => '', 'image' => null], 1382284106],
@@ -64,7 +65,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
      */
     public function renderThrowsExceptionOnInvalidArguments(array $arguments, int $expectedExceptionCode): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode($expectedExceptionCode);
 
         $viewHelper = new ImageViewHelper(...$this->constructorArgs);
@@ -93,7 +94,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
                 $this->returnCallback(
                     function ($name, $type, $description, $required = false, $default = null) use ($rules) {
                         if (array_key_exists($name, $rules)) {
-                            $arguments = [$type, $required, $default ? $default : null];
+                            $arguments = [$type, $required, $default ?: null];
                             $this->assertEquals($rules[$name], $arguments);
                         }
                     }

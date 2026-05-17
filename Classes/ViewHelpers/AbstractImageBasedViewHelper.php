@@ -6,6 +6,8 @@ namespace C1\AdaptiveImages\ViewHelpers;
 use C1\AdaptiveImages\Utility\ImageUtility;
 use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
+use InvalidArgumentException;
+use RuntimeException;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -13,6 +15,7 @@ use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
+use UnexpectedValueException;
 
 abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
 {
@@ -43,9 +46,6 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
     {
         parent::initializeArguments();
 
-        // Deprecated since TYPO3 v13. Kept here for v12 compatibility. See
-        // https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/Fluid/DevelopCustomViewhelper.html#abstracttagbasedviewhelper-registertagattribute-migration
-        $this->registerUniversalTagAttributes();
         $this->registerTagAttribute('alt', 'string', 'Specifies an alternate text for an image', false);
         $this->registerTagAttribute('ismap', 'string', 'Specifies an image as a server-side image-map. Rarely used. Look at usemap instead', false);
         $this->registerTagAttribute('longdesc', 'string', 'Specifies the URL to a document that contains a long description of an image', false);
@@ -288,19 +288,19 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
             }
             // Add title-attribute from property if not already set and the property is not an empty string
             $title = (string)($image->hasProperty('title') ? $image->getProperty('title') : '');
-            if (empty($this->arguments['title']) && $title !== '') {
+            if (empty($this->additionalArguments['title']) && $title !== '') {
                 $this->tag->addAttribute('title', $title);
             }
         } catch (ResourceDoesNotExistException $e) {
             // thrown if file does not exist
             throw new Exception($e->getMessage(), 1509741911, $e);
-        } catch (\UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             // thrown if a file has been replaced with a folder
             throw new Exception($e->getMessage(), 1509741912, $e);
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             // RuntimeException thrown if a file is outside of a storage
             throw new Exception($e->getMessage(), 1509741913, $e);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             // thrown if file storage does not exist
             throw new Exception($e->getMessage(), 1509741914, $e);
         }

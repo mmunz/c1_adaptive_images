@@ -8,6 +8,7 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
+use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileReference;
 
@@ -37,7 +38,7 @@ class CropVariantUtilityTest extends TestCase
         $this->utility->getCropAreaForVariant('default');
 
         Assert::assertInstanceOf(
-            'TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection',
+            CropVariantCollection::class,
             $this->utility->getCropVariantCollection()
         );
     }
@@ -52,7 +53,7 @@ class CropVariantUtilityTest extends TestCase
         $this->utility->setCropVariantCollection($file);
 
         Assert::assertInstanceOf(
-            'TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection',
+            CropVariantCollection::class,
             $this->utility->getCropVariantCollection()
         );
     }

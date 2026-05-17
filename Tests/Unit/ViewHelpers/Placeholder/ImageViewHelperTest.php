@@ -37,7 +37,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
      * 2. expected return value from the viewHelper
      *
      */
-    public function renderProvider()
+    public static function renderProvider(): array
     {
         return [
             'file-uri' => [
@@ -47,13 +47,13 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
                     'height' => null,
                     'cropVariant' => 'default',
                     'absolute' => false,
-                    'file' => $this->mockFileObject([
+                    'fileProperties' => [
                         'width' => '1200',
                         'height' => '768',
-                        'mime_type' => 'jpg'
-                    ])
+                        'mime_type' => 'jpg',
+                    ],
                 ],
-                '/image@192.jpg'
+                '/image@192.jpg',
             ],
             'data-uri' => [
                 [
@@ -62,13 +62,13 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
                     'dataUri' => true,
                     'cropVariant' => 'default',
                     'absolute' => false,
-                    'file' => $this->mockFileObject([
+                    'fileProperties' => [
                         'width' => '1200',
                         'height' => '768',
-                        'mime_type' => 'jpg'
-                    ])
+                        'mime_type' => 'jpg',
+                    ],
                 ],
-                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50'
+                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50',
             ],
             'without_dataUri_argument_should render_data-uri' => [
                 [
@@ -77,13 +77,13 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
                     'cropVariant' => 'default',
                     'dataUri' => true,
                     'absolute' => false,
-                    'file' => $this->mockFileObject([
+                    'fileProperties' => [
                         'width' => '1200',
                         'height' => '768',
-                        'mime_type' => 'jpg'
-                    ])
+                        'mime_type' => 'jpg',
+                    ],
                 ],
-                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50'
+                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50',
             ],
         ];
     }
@@ -96,6 +96,9 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
      */
     public function render($arguments, $expected)
     {
+        $fileProperties = $arguments['fileProperties'];
+        unset($arguments['fileProperties']);
+        $arguments['file'] = $this->mockFileObject($fileProperties);
         $this->viewHelper->setArguments($arguments);
         $this->assertEquals($expected, $this->viewHelper->initializeArgumentsAndRender());
     }

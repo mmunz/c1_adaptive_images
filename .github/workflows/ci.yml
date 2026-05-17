@@ -24,7 +24,7 @@ jobs:
       - name: Install composer dependencies
         run: |
           rm -f composer.lock
-          composer require typo3/minimal:^12.4
+          composer require typo3/minimal:^13.4
       - name: phpstan
         run: composer phpstan
       - name: PHPCS
@@ -46,13 +46,13 @@ jobs:
       fail-fast: false
       matrix:
         env:
+          - { php: 8.5, TYPO3_VERSION: ^14.3 }
+          - { php: 8.4, TYPO3_VERSION: ^14.3 }
+          - { php: 8.3, TYPO3_VERSION: ^14.3 }
+          - { php: 8.2, TYPO3_VERSION: ^14.3 }
           - { php: 8.4, TYPO3_VERSION: ^13.4 }
           - { php: 8.3, TYPO3_VERSION: ^13.4 }
           - { php: 8.2, TYPO3_VERSION: ^13.4 }
-          - { php: 8.4, TYPO3_VERSION: ^12.4 }
-          - { php: 8.3, TYPO3_VERSION: ^12.4 }
-          - { php: 8.2, TYPO3_VERSION: ^12.4 }
-          - { php: 8.1, TYPO3_VERSION: ^12.4 }
     name: Tests on TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }}
     steps:
       - uses: actions/checkout@v6

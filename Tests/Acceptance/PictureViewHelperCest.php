@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Tests\Acceptance;
 
+use AcceptanceTester;
+
 /**
  * Test case.
  */
 class PictureViewHelperCest extends AbstractViewHelperCest
 {
-    public function seePictureLoadInCorrectDimensions(\AcceptanceTester $I)
+    public function seePictureLoadInCorrectDimensions(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -29,7 +31,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
     }
 
-    public function seePictureLoadInCorrectDimensionsWithRatioBox(\AcceptanceTester $I)
+    public function seePictureLoadInCorrectDimensionsWithRatioBox(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->restartBrowser();
@@ -54,7 +56,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
     }
 
-    public function seePictureLoadInCorrectDimensionsWithMultipleSourcesAndRatioBox(\AcceptanceTester $I)
+    public function seePictureLoadInCorrectDimensionsWithMultipleSourcesAndRatioBox(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->restartBrowser();
@@ -86,7 +88,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--62dot5', '62.5%');
     }
 
-    public function seePictureLoadInCorrectDimensionsWithLazySizesAndImagePlaceholder(\AcceptanceTester $I)
+    public function seePictureLoadInCorrectDimensionsWithLazySizesAndImagePlaceholder(AcceptanceTester $I)
     {
         $I->restartBrowser();
         $I->flushCache();
@@ -116,7 +118,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
     }
 
-    public function seePictureLoadInCorrectDimensionsWithLazySizesAndImagePlaceholderInHalfWidth(\AcceptanceTester $I)
+    public function seePictureLoadInCorrectDimensionsWithLazySizesAndImagePlaceholderInHalfWidth(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->restartBrowser();
@@ -147,7 +149,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(640, 400, '62.50');
     }
 
-    public function seeCorrectRatioClassWithTwoImages(\AcceptanceTester $I)
+    public function seeCorrectRatioClassWithTwoImages(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->restartBrowser();
@@ -181,7 +183,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeRatioBoxHasPaddingBottom(1, '.rb.rb--62dot5', '62.5%');
     }
 
-    public function seePictureLoadInCorrectDimensionsWhenUpscaleIsEnabled(\AcceptanceTester $I)
+    public function seePictureLoadInCorrectDimensionsWhenUpscaleIsEnabled(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -199,7 +201,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(2560, 1600, '62.50');
     }
 
-    public function seePictureLoadInCorrectDimensionsWhenUpscaleIsDisabled(\AcceptanceTester $I)
+    public function seePictureLoadInCorrectDimensionsWhenUpscaleIsDisabled(AcceptanceTester $I)
     {
         $I->executeConsoleCommand('configuration:set', ['-vvv', 'GFX/processor_allowUpscaling', false]);
         $I->flushCache();
@@ -218,7 +220,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1920, 1200, '62.50');
     }
 
-    public function laterCssClassesDoNotOverwritePreviousWithMediaQuery(\AcceptanceTester $I)
+    public function laterCssClassesDoNotOverwritePreviousWithMediaQuery(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->restartBrowser();
@@ -253,7 +255,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeRatioBoxHasPaddingBottom(0, '.rb.rb--46dot88', '46.88%');
     }
 
-    public function seePictureLoadInCorrectDimensionsForNonDefaultVariant(\AcceptanceTester $I)
+    public function seePictureLoadInCorrectDimensionsForNonDefaultVariant(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -275,7 +277,7 @@ class PictureViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(1024, 640, '62.50');
     }
 
-    public function seePictureLoadInCorrectDimensionsForNonDefaultVariantWithRatioBoxAndLazy(\AcceptanceTester $I)
+    public function seePictureLoadInCorrectDimensionsForNonDefaultVariantWithRatioBoxAndLazy(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [

@@ -35,12 +35,12 @@ if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
 #    ./.Build/vendor/bin/typo3 setup --force --no-interaction --driver=sqlite \
 #      --admin-username=test --admin-user-password="Test1234%" --project-name="AiTest" --create-site="http://test.site/"
 set -x
-    $CONSOLE_CMD -vvv install:setup --database-driver pdo_sqlite \
+    $CONSOLE_CMD -vvv setup --database-driver pdo_sqlite \
       --admin-user-name test --admin-password "Test1234%" \
       --site-name "testsite" --site-setup-type site --no-interaction --force
 
 
-#    $CONSOLE_CMD -vvv install:setup --database-driver pdo_sqlite \
+#    $CONSOLE_CMD -vvv setup --database-driver pdo_sqlite \
 #            --admin-user-name test --admin-password "Test1234%" \
 #            --site-name "testsite" --site-setup-type site --no-interaction --force
 

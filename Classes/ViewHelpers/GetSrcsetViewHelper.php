@@ -6,7 +6,6 @@ use C1\AdaptiveImages\Utility\DebugUtility;
 use C1\AdaptiveImages\Utility\MathUtility;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -92,7 +91,7 @@ class GetSrcsetViewHelper extends AbstractViewHelper
         foreach ($widths as $width) {
             $processingConfiguration['width'] = $width . 'm';
 
-            /** @var FileReference $processedImage */
+            /** @var \TYPO3\CMS\Core\Resource\ProcessedFile $processedImage */
             $processedImage = $this->imageService->applyProcessingInstructions($file, $processingConfiguration);
 
             if ($this->arguments['debug'] === true) {

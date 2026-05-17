@@ -7,6 +7,7 @@ namespace Helper;
 use Codeception\Lib\ModuleContainer;
 use Codeception\Module;
 use Codeception\Module\WebDriver;
+use JsonException;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
 
@@ -169,7 +170,7 @@ class Acceptance extends Module
 
     public function executeConsoleCommand(string $command, array $args = [], $env = []): array
     {
-        $escapedArgs = array_map('escapeshellarg', $args);
+        $escapedArgs = array_map(escapeshellarg(...), $args);
         $cmd = PHP_BINARY . ' .Build/vendor/bin/typo3 ' . $command;
         foreach ($escapedArgs as $arg) {
             $cmd .= ' ' . $arg;
@@ -202,7 +203,7 @@ class Acceptance extends Module
 
     /**
      * @param string $statement
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function executeInDatabase(string $statement): void
     {

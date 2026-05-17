@@ -63,16 +63,14 @@ class GetSrcsetViewHelperTest extends TestCase
             ->with($file)
             ->willReturnCallback(function ($file, $configuration) {
                 $processedFile = $this->createMock(ProcessedFile::class);
-                $processedFile->method('getProperty')->willReturn(rtrim($configuration['width'], 'm'));
+                $processedFile->method('getProperty')->willReturn(rtrim((string) $configuration['width'], 'm'));
                 return $processedFile;
             });
 
         $imageService
             ->expects($this->any())
             ->method('getImageUri')
-            ->willReturnCallback(function ($image, $absolute) {
-                return (($absolute) ? 'http://domain.tld/' : '') . 'image@' . $image->getProperty('width') . '.jpg';
-            });
+            ->willReturnCallback(fn ($image, $absolute) => (($absolute) ? 'http://domain.tld/' : '') . 'image@' . $image->getProperty('width') . '.jpg');
 
         $viewHelper = new GetSrcsetViewHelper(
             $imageService,
@@ -86,7 +84,7 @@ class GetSrcsetViewHelperTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function createSrcsetStringProvider(): array
+    public static function createSrcsetStringProvider(): array
     {
         return [
             'with 1 srcset width' => [

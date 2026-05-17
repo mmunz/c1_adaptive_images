@@ -56,9 +56,7 @@ abstract class AbstractViewHelperTestCase extends UnitTestCase
 
         $imageServiceMock
             ->method('getImageUri')
-            ->will($this->returnCallback(function ($file, $absolute) {
-                return (($absolute) ? 'http://domain.tld' : '') . '/image@' . $file->getProperty('width') . '.jpg';
-            }));
+            ->will($this->returnCallback(fn ($file, $absolute) => (($absolute) ? 'http://domain.tld' : '') . '/image@' . $file->getProperty('width') . '.jpg'));
 
         return $imageServiceMock;
     }
@@ -81,9 +79,7 @@ abstract class AbstractViewHelperTestCase extends UnitTestCase
 
         $fileMock
             ->method('getProperties')
-            ->will($this->returnCallback(function () use ($properties) {
-                return $properties;
-            }));
+            ->will($this->returnCallback(fn () => $properties));
 
         $fileMock
             ->method('hasProperty')
@@ -96,9 +92,7 @@ abstract class AbstractViewHelperTestCase extends UnitTestCase
 
         $fileMock
             ->method('getContents')
-            ->will($this->returnCallback(function () {
-                return 'the images content';
-            }));
+            ->will($this->returnCallback(fn () => 'the images content'));
 
         return $fileMock;
     }
@@ -121,9 +115,7 @@ abstract class AbstractViewHelperTestCase extends UnitTestCase
 
         $fileMock
             ->method('getProperties')
-            ->will($this->returnCallback(function () use ($properties) {
-                return $properties;
-            }));
+            ->will($this->returnCallback(fn () => $properties));
 
         $fileMock
             ->method('hasProperty')
@@ -136,9 +128,7 @@ abstract class AbstractViewHelperTestCase extends UnitTestCase
 
         $fileMock
             ->method('getContents')
-            ->will($this->returnCallback(function () {
-                return 'the images content';
-            }));
+            ->will($this->returnCallback(fn () => 'the images content'));
 
         return $fileMock;
     }

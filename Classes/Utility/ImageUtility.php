@@ -5,13 +5,12 @@ namespace C1\AdaptiveImages\Utility;
 
 use C1\AdaptiveImages\Service\SettingsService;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Exception;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 class ImageUtility
 {
-    private ?array $options;
+    private ?array $options = null;
 
     private array $settings;
 
@@ -66,7 +65,7 @@ class ImageUtility
 
     public function processImage(array $processingConfiguration): array
     {
-        /** @var FileReference $processedImage */
+        /** @var \TYPO3\CMS\Core\Resource\ProcessedFile $processedImage */
         $processedImage = $this->imageService->applyProcessingInstructions(
             $this->originalFile,
             $processingConfiguration
