@@ -173,6 +173,9 @@ class ImageUtility
      */
     public function getRatioFromFirstCandidate(array $candidates): float
     {
+        if (empty($candidates)) {
+            return 0.0;
+        }
         return reset($candidates)['ratio'];
     }
 
