@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers;
 use C1\AdaptiveImages\Utility\DebugUtility;
 use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\ViewHelpers\GetSrcsetViewHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use TYPO3\CMS\Core\Resource\FileInterface;
@@ -41,7 +42,7 @@ class GetSrcsetViewHelperTest extends TestCase
         self::assertEquals('default', $cropVariantArgument->getDefaultValue());
     }
 
-    /** @dataProvider createSrcsetStringProvider */
+    #[DataProvider('createSrcsetStringProvider')]
     public function testCreateSrcsetString(array $arguments, string $expected)
     {
         $file = $this->createMock(FileInterface::class);

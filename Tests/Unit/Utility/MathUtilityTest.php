@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\MathUtility;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -11,9 +12,7 @@ use Psr\Log\LoggerInterface;
  */
 class MathUtilityTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function calculateRatioReturnsCorrectRatio()
     {
         $utility = new MathUtility();

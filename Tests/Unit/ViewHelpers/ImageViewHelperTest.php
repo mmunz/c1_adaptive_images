@@ -8,6 +8,8 @@ use C1\AdaptiveImages\Utility\Placeholder\ImagePlaceholderUtility;
 use C1\AdaptiveImages\Utility\RatioBoxUtility;
 use C1\AdaptiveImages\ViewHelpers\ImageViewHelper;
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContext;
@@ -59,10 +61,8 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider invalidArgumentsDataProvider
-     */
+    #[Test]
+    #[DataProvider('invalidArgumentsDataProvider')]
     public function renderThrowsExceptionOnInvalidArguments(array $arguments, int $expectedExceptionCode): void
     {
         $this->expectException(Exception::class);
@@ -74,9 +74,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         $viewHelper->render();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testInitializeArguments()
     {
         // key: $name of the argument
@@ -90,16 +88,14 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         $instance = $this->getAccessibleMock(ImageViewHelper::class, ['registerArgument'], $this->constructorArgs, '', false);
         $instance->expects($this->any())
             ->method('registerArgument')
-            ->will(
-                $this->returnCallback(
-                    function ($name, $type, $description, $required = false, $default = null) use ($rules, $instance) {
-                        if (array_key_exists($name, $rules)) {
-                            $arguments = [$type, $required, $default ?: null];
-                            $this->assertEquals($rules[$name], $arguments);
-                        }
-                        return $instance;
+            ->willReturnCallback(
+                function ($name, $type, $description, $required = false, $default = null) use ($rules, $instance) {
+                    if (array_key_exists($name, $rules)) {
+                        $arguments = [$type, $required, $default ?: null];
+                        $this->assertEquals($rules[$name], $arguments);
                     }
-                )
+                    return $instance;
+                }
             );
         $instance->initializeArguments();
     }
@@ -130,12 +126,8 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         ];
     }
 
-    /**
-     * @test
-     * @param array $expected
-     * @param array $arguments
-     * @dataProvider addAdditionalAttributesProvider
-     */
+    #[Test]
+    #[DataProvider('addAdditionalAttributesProvider')]
     public function addAdditionalAttributesTest($expected, $arguments)
     {
         $imageViewHelperMock = $this->getAccessibleMock(ImageViewHelper::class, ['getPlaceholder', 'getSrcSetString'], $this->constructorArgs);
@@ -146,12 +138,8 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         $this->assertEquals($expected, $imageViewHelperMock->_get('tag')->getAttributes());
     }
 
-    /**
-     * @test
-     * @param array $arguments
-     * @param array $expected
-     * @dataProvider addDataAttributesProvider
-     */
+    #[Test]
+    #[DataProvider('addDataAttributesProvider')]
     public function addDataAttributesTest($arguments, $expected)
     {
         /** @var AccessibleObjectInterface|ImageViewHelper $imageViewHelperMock */
@@ -233,12 +221,8 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
             ],
         ];
     }
-    /**
-     * @test
-     * @param array $expected
-     * @param array $arguments
-     * @dataProvider isLazyLoadingProvider
-     */
+    #[Test]
+    #[DataProvider('isLazyLoadingProvider')]
     public function isLazyLoadingTest($expected, $arguments)
     {
         $this->viewHelper->setArguments($arguments);

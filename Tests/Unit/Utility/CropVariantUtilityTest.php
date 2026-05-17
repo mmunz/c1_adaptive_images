@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Tests\Unit\Utility;
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\Utility\MathUtility;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
@@ -27,9 +28,7 @@ class CropVariantUtilityTest extends TestCase
         $this->utility = new CropVariantUtility($this->mathUtilityMock);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setCropVariantCollectionFromFileReference()
     {
         /** @var File $fileReferenceMock */
@@ -43,9 +42,7 @@ class CropVariantUtilityTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setCropVariantCollectionFromFile()
     {
         /** @var File $file */
@@ -58,9 +55,7 @@ class CropVariantUtilityTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullForFileReferenceWithoutCrop()
     {
         $fileReferenceMock = $this->getFileReferenceMock();
@@ -71,9 +66,7 @@ class CropVariantUtilityTest extends TestCase
         $this->assertEquals(null, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsNullForFile()
     {
         $file = $this->createMock(File::class);
@@ -84,9 +77,7 @@ class CropVariantUtilityTest extends TestCase
         $this->assertEquals(null, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returnsCropAreaForValidKey()
     {
         $properties = [
@@ -126,21 +117,21 @@ class CropVariantUtilityTest extends TestCase
 
         $fileReferenceMock
             ->method('hasProperty')
-            ->will($this->returnCallback(function ($property) use ($properties) {
+            ->willReturnCallback(function ($property) use ($properties) {
                 if (array_key_exists($property, $properties)) {
                     return true;
                 }
                 return false;
-            }));
+            });
 
         $fileReferenceMock
             ->method('getProperty')
-            ->will($this->returnCallback(function ($property) use ($properties) {
+            ->willReturnCallback(function ($property) use ($properties) {
                 if (array_key_exists($property, $properties)) {
                     return $properties[$property];
                 }
                 return false;
-            }));
+            });
         return $fileReferenceMock;
     }
 }

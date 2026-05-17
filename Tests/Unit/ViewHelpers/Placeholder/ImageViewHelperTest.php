@@ -5,6 +5,8 @@ namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 use C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTestCase;
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContext;
 
 /**
@@ -88,12 +90,8 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
         ];
     }
 
-    /**
-     * @test
-     * @param array $arguments
-     * @param string $expected
-     * @dataProvider renderProvider
-     */
+    #[Test]
+    #[DataProvider('renderProvider')]
     public function render($arguments, $expected)
     {
         $fileProperties = $arguments['fileProperties'];

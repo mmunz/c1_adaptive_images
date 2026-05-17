@@ -8,6 +8,8 @@ use C1\AdaptiveImages\Utility\MathUtility;
 use C1\AdaptiveImages\Utility\SvgUtility;
 use C1\AdaptiveImages\Utility\TagUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\SvgViewHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Class ImageViewHelperTest
@@ -91,13 +93,8 @@ class SvgViewHelperTest extends AbstractViewHelperTestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider renderProvider
-     *
-     * @param array $arguments
-     * @param string $expected
-     */
+    #[Test]
+    #[DataProvider('renderProvider')]
     public function renderTest($arguments, $expected)
     {
         $fileProperties = $arguments['fileProperties'];

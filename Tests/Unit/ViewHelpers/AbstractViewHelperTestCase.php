@@ -47,16 +47,16 @@ abstract class AbstractViewHelperTestCase extends UnitTestCase
 
         $imageServiceMock
             ->method('applyProcessingInstructions')
-            ->will($this->returnCallback(function ($file, $instructions) use ($test) {
+            ->willReturnCallback(function ($file, $instructions) use ($test) {
                 // no upscaling of images
                 $newProperties = $file->getProperties();
                 $newProperties['width'] = min(intval($file->getProperty('width')), intval($instructions['width']));
                 return $test->mockProcessedFileObject($newProperties);
-            }));
+            });
 
         $imageServiceMock
             ->method('getImageUri')
-            ->will($this->returnCallback(fn ($file, $absolute) => (($absolute) ? 'http://domain.tld' : '') . '/image@' . $file->getProperty('width') . '.jpg'));
+            ->willReturnCallback(fn ($file, $absolute) => (($absolute) ? 'http://domain.tld' : '') . '/image@' . $file->getProperty('width') . '.jpg');
 
         return $imageServiceMock;
     }
@@ -70,29 +70,29 @@ abstract class AbstractViewHelperTestCase extends UnitTestCase
 
         $fileMock
             ->method('getProperty')
-            ->will($this->returnCallback(function ($property) use ($properties) {
+            ->willReturnCallback(function ($property) use ($properties) {
                 if (array_key_exists($property, $properties)) {
                     return $properties[$property];
                 }
                 return false;
-            }));
+            });
 
         $fileMock
             ->method('getProperties')
-            ->will($this->returnCallback(fn () => $properties));
+            ->willReturnCallback(fn () => $properties);
 
         $fileMock
             ->method('hasProperty')
-            ->will($this->returnCallback(function ($property) use ($properties) {
+            ->willReturnCallback(function ($property) use ($properties) {
                 if (array_key_exists($property, $properties)) {
                     return true;
                 }
                 return false;
-            }));
+            });
 
         $fileMock
             ->method('getContents')
-            ->will($this->returnCallback(fn () => 'the images content'));
+            ->willReturnCallback(fn () => 'the images content');
 
         return $fileMock;
     }
@@ -106,29 +106,29 @@ abstract class AbstractViewHelperTestCase extends UnitTestCase
 
         $fileMock
             ->method('getProperty')
-            ->will($this->returnCallback(function ($property) use ($properties) {
+            ->willReturnCallback(function ($property) use ($properties) {
                 if (array_key_exists($property, $properties)) {
                     return $properties[$property];
                 }
                 return false;
-            }));
+            });
 
         $fileMock
             ->method('getProperties')
-            ->will($this->returnCallback(fn () => $properties));
+            ->willReturnCallback(fn () => $properties);
 
         $fileMock
             ->method('hasProperty')
-            ->will($this->returnCallback(function ($property) use ($properties) {
+            ->willReturnCallback(function ($property) use ($properties) {
                 if (array_key_exists($property, $properties)) {
                     return true;
                 }
                 return false;
-            }));
+            });
 
         $fileMock
             ->method('getContents')
-            ->will($this->returnCallback(fn () => 'the images content'));
+            ->willReturnCallback(fn () => 'the images content');
 
         return $fileMock;
     }
