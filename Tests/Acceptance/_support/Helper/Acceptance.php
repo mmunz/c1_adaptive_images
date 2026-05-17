@@ -206,7 +206,7 @@ class Acceptance extends Module
             $cmd .= ' ' . $arg;
         }
 
-        $envVars = 'TYPO3_PATH_APP=$PWD/.Build';
+        $envVars = 'TYPO3_PATH_APP=$PWD';
         foreach ($env as $key => $value) {
             $envVars .= ' ' . $key . '=' . $value;
         }

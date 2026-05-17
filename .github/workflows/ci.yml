@@ -86,7 +86,7 @@ jobs:
       - name: Start builtin PHP webserver
         run: |
           export TYPO3_PATH_ROOT="$PWD/.Build/public"
-          export TYPO3_PATH_APP="$PWD/.Build"
+          export TYPO3_PATH_APP="$PWD"
           php -S 127.0.0.1:8888 -t .Build/public/ &>/dev/null &
           sleep 2
       - name: Start chromedriver
@@ -95,21 +95,21 @@ jobs:
           sudo Xvfb -ac :99 -screen 0 2560x1440x24 > /dev/null 2>&1 &
           chromedriver --url-base=/wd/hub --port=9515 &
           sleep 10
-      - name: Unit tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} with PHP${{ matrix.env.php }})
+      - name: Unit tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }})
         run: |
           export TYPO3_PATH_ROOT=$PWD/.Build/public
-          export TYPO3_PATH_APP=$PWD/.Build          
+          export TYPO3_PATH_APP=$PWD
           echo $TYPO3_PATH_APP
           echo $TYPO3_PATH_ROOT
           composer tests:unit
-      - name: Acceptance tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} with PHP${{ matrix.env.php }})
+      - name: Acceptance tests (TYPO3 ${{ matrix.env.TYPO3_VERSION }} / PHP${{ matrix.env.php }})
         env:
           # TYPO3_PATH_ROOT: $GITHUB_WORKSPACE/.Build/public
           typo3DatabaseDriver: pdo_sqlite
           CHROME_OPTION_1: "--headless"
         run: |
           export TYPO3_PATH_ROOT="$PWD/.Build/public"
-          export TYPO3_PATH_APP="$PWD/.Build"
+          export TYPO3_PATH_APP="$PWD"
           export typo3DatabaseDriver="pdo_sqlite"
           composer tests:acceptance
       - name: Upload Codeception output

@@ -45,7 +45,7 @@ Unit tests require environment variables to be set:
 
 ```bash
 export TYPO3_PATH_ROOT=$PWD/.Build/public
-export TYPO3_PATH_APP=$PWD/.Build
+export TYPO3_PATH_APP=$PWD
 composer tests:unit
 ```
 

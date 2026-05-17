@@ -2,7 +2,7 @@
 set -eu -o pipefail
 
 [ -z "${TYPO3_PATH_ROOT:-}" ] && export TYPO3_PATH_ROOT="${PWD}/.Build/public"
-[ -z "${TYPO3_PATH_APP:-}" ] && export TYPO3_PATH_APP="${PWD}/.Build"
+[ -z "${TYPO3_PATH_APP:-}" ] && export TYPO3_PATH_APP="${PWD}"
 [ -z "${typo3DatabaseDriver:-}" ] && export typo3DatabaseDriver="pdo_sqlite"
 # Site base URL for TYPO3 setup; override for Docker (e.g. http://app:8888/)
 [ -z "${TYPO3_SETUP_CREATE_SITE:-}" ] && export TYPO3_SETUP_CREATE_SITE="http://127.0.0.1:8888/"
@@ -20,7 +20,7 @@ if [ "$typo3DatabaseDriver" == "pdo_sqlite" ]; then
     rm -f "${TYPO3_PATH_ROOT}/typo3conf/LocalConfiguration.php"
     rm -f "${TYPO3_PATH_APP}/config/system/settings.php"
 
-    rm -f "${TYPO3_PATH_APP}/../var/*.sqlite"
+    rm -f "${TYPO3_PATH_APP}/var/*.sqlite"
     rm -rf "${TYPO3_PATH_APP}/var/sqlite"
     rm -rf "${TYPO3_PATH_APP}/var/cache"
 
