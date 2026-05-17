@@ -77,7 +77,20 @@ composer tests:unit
 - Call out assumptions clearly when repository behavior is ambiguous.
 - Do not lie or fantasize. If you are unsure, ask for clarification.
 - If you don't know how to do something, ask for clarification.
-- Before doing possible destructive actions, ask for confirmation. 
+- Before doing possible destructive actions, ask for confirmation.
+- Do not change GitHub Actions versions in `.github/workflows/ci.yml` without asking — they are intentionally pinned.
+- TypoScript configuration exists in two places: `Configuration/TypoScript/` (classic) and `Configuration/Sets/Default/` (site sets). Changes often need to be applied to both.
+
+### Running tests without local PHP
+
+If no local PHP is available, use Docker:
+
+```bash
+docker run --rm -v "$PWD:/app" -w /app \
+  -e TYPO3_PATH_ROOT=/app/.Build/public \
+  -e TYPO3_PATH_APP=/app \
+  php:8.4-cli .Build/vendor/bin/phpunit -c phpunit.xml.dist Tests/Unit
+```
 
 ## Accuracy and avoiding hallucinations
 
