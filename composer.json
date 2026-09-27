@@ -1,6 +1,6 @@
 {
     "name": "c1/c1-adaptive-images",
-    "description": "Adaptive images for fluid_styled_content.",
+    "description": "c1 adaptive images - Adaptive images for fluid_styled_content.",
     "type": "typo3-cms-extension",
     "homepage": "https://github.com/mmunz/c1_adaptive_images",
     "license": "GPL-3.0-or-later",
@@ -69,7 +69,11 @@
             "extension-key": "c1_adaptive_images",
             "web-dir": ".Build/public",
             "root-dir": ".Build/public",
-            "app-dir": ".Build"
+            "app-dir": ".Build",
+            "version": "2.0.0",
+            "Package": {
+                "providesPackages": {}
+            }
         }
     },
     "require": {

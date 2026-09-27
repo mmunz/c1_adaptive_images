@@ -19,6 +19,12 @@ v2.0.0
   - Fix ``title`` attribute handling: use ``additionalArguments`` (Fluid v5 behaviour change)
   - Migrate PHP-style ``xmlns`` namespace declarations to ``http://typo3.org/ns/`` syntax
 
+- Always render the ``alt`` attribute, also when the alternative text is ``null``
+  (Fluid v5's TagBuilder omits attributes with a ``null`` value)
+- ``srcset``: skip candidates with a width that is already listed (happens when the
+  cropped image is smaller than several requested widths)
+- Add extension version, title and ``providesPackages`` to ``composer.json``
+  (``ext_emconf.php`` is deprecated as metadata source since TYPO3 14.2)
 - Migrate deprecated ``<INCLUDE_TYPOSCRIPT:>`` to ``@import`` in TypoScript files
 - Pin Symfony packages to ``^7`` to avoid PHP >=8.4 requirement pulled in by Symfony v8
 - Run Rector modernisations: null defaults, arrow functions, readonly properties, class constants
