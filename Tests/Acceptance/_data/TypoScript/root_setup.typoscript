@@ -1,7 +1,6 @@
-# for 9.5
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript">
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:c1_adaptive_images/Configuration/TypoScript/setup.typoscript">
-<INCLUDE_TYPOSCRIPT: source="DIR:EXT:c1_adaptive_images/Tests/Fixtures/TypoScript/lib/" extensions="t3s">
+@import 'EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript'
+@import 'EXT:c1_adaptive_images/Configuration/TypoScript/setup.typoscript'
+@import 'EXT:c1_adaptive_images/Tests/Fixtures/TypoScript/lib/*.typoscript'
 
 config {
     doctype = html5

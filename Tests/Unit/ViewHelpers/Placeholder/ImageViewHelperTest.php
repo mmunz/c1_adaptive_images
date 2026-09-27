@@ -5,6 +5,8 @@ namespace C1\AdaptiveImages\Tests\Unit\ViewHelpers\Placeholder;
 use C1\AdaptiveImages\Tests\Unit\ViewHelpers\AbstractViewHelperTestCase;
 use C1\AdaptiveImages\Utility\CropVariantUtility;
 use C1\AdaptiveImages\ViewHelpers\Placeholder\ImageViewHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContext;
 
 /**
@@ -37,7 +39,7 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
      * 2. expected return value from the viewHelper
      *
      */
-    public function renderProvider()
+    public static function renderProvider(): array
     {
         return [
             'file-uri' => [
@@ -47,13 +49,13 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
                     'height' => null,
                     'cropVariant' => 'default',
                     'absolute' => false,
-                    'file' => $this->mockFileObject([
+                    'fileProperties' => [
                         'width' => '1200',
                         'height' => '768',
-                        'mime_type' => 'jpg'
-                    ])
+                        'mime_type' => 'jpg',
+                    ],
                 ],
-                '/image@192.jpg'
+                '/image@192.jpg',
             ],
             'data-uri' => [
                 [
@@ -62,13 +64,13 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
                     'dataUri' => true,
                     'cropVariant' => 'default',
                     'absolute' => false,
-                    'file' => $this->mockFileObject([
+                    'fileProperties' => [
                         'width' => '1200',
                         'height' => '768',
-                        'mime_type' => 'jpg'
-                    ])
+                        'mime_type' => 'jpg',
+                    ],
                 ],
-                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50'
+                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50',
             ],
             'without_dataUri_argument_should render_data-uri' => [
                 [
@@ -77,25 +79,24 @@ class ImageViewHelperTest extends AbstractViewHelperTestCase
                     'cropVariant' => 'default',
                     'dataUri' => true,
                     'absolute' => false,
-                    'file' => $this->mockFileObject([
+                    'fileProperties' => [
                         'width' => '1200',
                         'height' => '768',
-                        'mime_type' => 'jpg'
-                    ])
+                        'mime_type' => 'jpg',
+                    ],
                 ],
-                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50'
+                'data:jpg;base64,dGhlIGltYWdlcyBjb250ZW50',
             ],
         ];
     }
 
-    /**
-     * @test
-     * @param array $arguments
-     * @param string $expected
-     * @dataProvider renderProvider
-     */
+    #[Test]
+    #[DataProvider('renderProvider')]
     public function render($arguments, $expected)
     {
+        $fileProperties = $arguments['fileProperties'];
+        unset($arguments['fileProperties']);
+        $arguments['file'] = $this->mockFileObject($fileProperties);
         $this->viewHelper->setArguments($arguments);
         $this->assertEquals($expected, $this->viewHelper->initializeArgumentsAndRender());
     }

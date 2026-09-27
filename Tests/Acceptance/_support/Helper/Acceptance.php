@@ -7,6 +7,8 @@ namespace Helper;
 use Codeception\Lib\ModuleContainer;
 use Codeception\Module;
 use Codeception\Module\WebDriver;
+use JsonException;
+use Masterminds\HTML5;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
 
@@ -49,6 +51,35 @@ class Acceptance extends Module
         if ($size !== $width) {
             $this->webdriver->wait(1);
             $this->webdriver->resizeWindow($width, $height);
+        }
+    }
+
+    /**
+     * Validate the current page's markup using the masterminds/html5 parser.
+     * Errors matching any pattern in 'ignoredErrors' are silently skipped.
+     *
+     * @param array $params Supported keys:
+     *   - ignoredErrors: array of regex patterns (strings) to suppress
+     */
+    public function validateMarkup(array $params = []): void
+    {
+        $ignoredPatterns = $params['ignoredErrors'] ?? [];
+        $html = $this->webdriver->grabPageSource();
+        $html5 = new HTML5();
+        $html5->parse($html);
+        $errors = $html5->getErrors();
+
+        $relevant = array_filter($errors, static function (string $error) use ($ignoredPatterns): bool {
+            foreach ($ignoredPatterns as $pattern) {
+                if (preg_match($pattern, $error)) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        if ($relevant !== []) {
+            $this->fail('Markup validation failed:' . "\n" . implode("\n", $relevant));
         }
     }
 
@@ -169,13 +200,13 @@ class Acceptance extends Module
 
     public function executeConsoleCommand(string $command, array $args = [], $env = []): array
     {
-        $escapedArgs = array_map('escapeshellarg', $args);
+        $escapedArgs = array_map(escapeshellarg(...), $args);
         $cmd = PHP_BINARY . ' .Build/vendor/bin/typo3 ' . $command;
         foreach ($escapedArgs as $arg) {
             $cmd .= ' ' . $arg;
         }
 
-        $envVars = 'TYPO3_PATH_APP=$PWD/.Build';
+        $envVars = 'TYPO3_PATH_APP=$PWD';
         foreach ($env as $key => $value) {
             $envVars .= ' ' . $key . '=' . $value;
         }
@@ -202,7 +233,7 @@ class Acceptance extends Module
 
     /**
      * @param string $statement
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function executeInDatabase(string $statement): void
     {

@@ -4,15 +4,14 @@ namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\DebugUtility;
 use Codeception\PHPUnit\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Class DebugUtilityTest
  */
 class DebugUtilityTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function getDebugInformationReturnsAnnotationForImageMagick()
     {
         $utility = new DebugUtility();
@@ -25,9 +24,7 @@ class DebugUtilityTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getDebugInformationReturnsAnnotationForGraphicsMagick()
     {
         $utility = new DebugUtility();
@@ -38,9 +35,7 @@ class DebugUtilityTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getDebugInformationReturnsEmptyStringForUnknownProcessor()
     {
         $utility = new DebugUtility();

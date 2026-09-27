@@ -5,13 +5,12 @@ namespace C1\AdaptiveImages\Utility;
 
 use C1\AdaptiveImages\Service\SettingsService;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Exception;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 class ImageUtility
 {
-    private ?array $options;
+    private ?array $options = null;
 
     private array $settings;
 
@@ -66,7 +65,7 @@ class ImageUtility
 
     public function processImage(array $processingConfiguration): array
     {
-        /** @var FileReference $processedImage */
+        /** @var \TYPO3\CMS\Core\Resource\ProcessedFile $processedImage */
         $processedImage = $this->imageService->applyProcessingInstructions(
             $this->originalFile,
             $processingConfiguration
@@ -161,7 +160,13 @@ class ImageUtility
     {
         $srcset = [];
         foreach ($candidates as $candidate) {
-            $srcset[] = sprintf('%s %dw', $candidate['url'], $candidate['width']);
+            $width = (int)$candidate['width'];
+            // A srcset must not list the same width twice. That happens when the (cropped)
+            // image is smaller than several requested widths: keep the first candidate.
+            if (isset($srcset[$width])) {
+                continue;
+            }
+            $srcset[$width] = sprintf('%s %dw', $candidate['url'], $width);
         }
         return implode(',', $srcset);
     }
@@ -174,6 +179,9 @@ class ImageUtility
      */
     public function getRatioFromFirstCandidate(array $candidates): float
     {
+        if (empty($candidates)) {
+            return 0.0;
+        }
         return reset($candidates)['ratio'];
     }
 

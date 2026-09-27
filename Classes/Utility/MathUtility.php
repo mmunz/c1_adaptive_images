@@ -22,7 +22,7 @@ class MathUtility implements LoggerAwareInterface
         // Corrupted or empty images don't have width or height, or it is 0 which caused division by zero errors, see #17.
         // This should ideally be handled before calling this method.
         if (!$width || !$height || $width == 0) {
-            $this->logger->warning(
+            $this->logger?->warning(
                 'Invalid width or height, cannot calculate the ratio. Return 0.00 instead. '
                 . 'This most likely means there is a corrupt or empty image.',
                 [

@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Tests\Acceptance;
 
+use AcceptanceTester;
+
 /**
  * Test case.
  */
 class GetSrcsetViewHelperCest extends AbstractViewHelperCest
 {
-    public function _before(\AcceptanceTester $I)
+    public function _before(AcceptanceTester $I)
     {
         $properties = [
             'crop' => ''
@@ -16,7 +18,7 @@ class GetSrcsetViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
     }
 
-    public function getSrcSetStringForImageWithoutCrop(\AcceptanceTester $I)
+    public function getSrcSetStringForImageWithoutCrop(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=GetSrcset&debug=1');
@@ -29,7 +31,7 @@ class GetSrcsetViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(640, 400, '62.50', 0);
     }
 
-    public function getSrcSetStringForImageWithoutCropAbsoluteUri(\AcceptanceTester $I)
+    public function getSrcSetStringForImageWithoutCropAbsoluteUri(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=GetSrcset&absolute=1');
@@ -39,7 +41,7 @@ class GetSrcsetViewHelperCest extends AbstractViewHelperCest
         $I->assertRegExp('/^http:.*\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 320w,http:.*\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg 640w/', $srcSetString);
     }
 
-    public function getSrcSetStringForImageWithInvalidCropVariant(\AcceptanceTester $I)
+    public function getSrcSetStringForImageWithInvalidCropVariant(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=GetSrcset&cropVariant=invalid&debug=1');
@@ -52,7 +54,7 @@ class GetSrcsetViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(640, 400, '62.50', 0);
     }
 
-    public function getSrcSetStringForImageWithCrop(\AcceptanceTester $I)
+    public function getSrcSetStringForImageWithCrop(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -68,7 +70,7 @@ class GetSrcsetViewHelperCest extends AbstractViewHelperCest
         $I->seeCurrentImageDimensions(640, 400, '62.50', 0);
     }
 
-    public function getSrcSetStringForImageWithCropVariantMobile(\AcceptanceTester $I)
+    public function getSrcSetStringForImageWithCropVariantMobile(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [

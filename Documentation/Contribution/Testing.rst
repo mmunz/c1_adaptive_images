@@ -8,10 +8,16 @@ For tests you first need to prepare a local typo3 instance for testing inside th
 
 You can install different TYPO3 versions for testing. From inside the extension folder (typo3conf/ext/c1_adaptive_images):
 
-* for 12.4: ``composer require typo3/minimal=^12.4 && git checkout composer.json && rm composer.lock``
 * for 13.4: ``composer require typo3/minimal=^13.4 && git checkout composer.json && rm composer.lock``
+* for 14.3: ``composer require typo3/minimal=^14.3 && git checkout composer.json && rm composer.lock``
 
-**Unit** tests should just work OOTB with: ``composer tests:unit``
+**Unit** tests require the following environment variables:
+
+.. code-block:: bash
+
+  export TYPO3_PATH_APP=$PWD
+  export TYPO3_PATH_ROOT=$PWD/.Build/public
+  composer tests:unit
 
 **Functional and acceptance tests** require a working mysql database where the testuser is allowed to create tables.
 Also some environment variables are required (adapt to your database credentials):
@@ -23,7 +29,7 @@ Also some environment variables are required (adapt to your database credentials
   # export typo3DatabasePassword=testing
   # export typo3DatabaseHost=127.0.0.1
   export typo3DatabaseDriver=pdo_sqlite
-  export TYPO3_PATH_APP=$PWD/.Build
+  export TYPO3_PATH_APP=$PWD
   export TYPO3_PATH_ROOT=$PWD/.Build/public
 
 For acceptance tests
@@ -34,8 +40,7 @@ the builtin webserver in php:
 
 .. code-block:: bash
 
-  cd typo3conf/ext/c1_adaptive_images
-  export TYPO3_PATH_APP=$PWD/.Build
+  export TYPO3_PATH_APP=$PWD
   export TYPO3_PATH_ROOT=$PWD/.Build/public
   php -S 127.0.0.1:8888 -t .Build/public/
 

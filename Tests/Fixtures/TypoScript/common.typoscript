@@ -1,6 +1,6 @@
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:c1_adaptive_images/Tests/Fixtures/TypoScript/lib/contentElement.t3s">
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:c1_adaptive_images/Tests/Fixtures/TypoScript/lib/dynamicContent.t3s">
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:c1_adaptive_images/Tests/Fixtures/TypoScript/lib/gpvar.t3s">
+@import 'EXT:c1_adaptive_images/Tests/Fixtures/TypoScript/lib/contentElement.typoscript'
+@import 'EXT:c1_adaptive_images/Tests/Fixtures/TypoScript/lib/dynamicContent.typoscript'
+@import 'EXT:c1_adaptive_images/Tests/Fixtures/TypoScript/lib/gpvar.typoscript'
 
 config {
     doctype = html5

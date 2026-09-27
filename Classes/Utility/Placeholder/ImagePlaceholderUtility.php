@@ -7,6 +7,7 @@ use C1\AdaptiveImages\Utility\CropVariantUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
 
 /**
@@ -80,7 +81,9 @@ class ImagePlaceholderUtility
         $pixel = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=';
 
         if ($base64 === false) {
-            return ExtensionManagementUtility::extPath('c1_adaptive_images') . 'Resources/Public/Images/placeholder.png';
+            return PathUtility::getAbsoluteWebPath(
+                ExtensionManagementUtility::extPath('c1_adaptive_images') . 'Resources/Public/Images/placeholder.png'
+            );
         } else {
             return $this->createInlineImageUri($pixel, 'image/png');
         }

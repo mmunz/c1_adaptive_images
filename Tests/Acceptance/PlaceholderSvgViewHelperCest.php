@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Tests\Acceptance;
 
+use AcceptanceTester;
+
 /**
  * Test case.
  */
 class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
 {
-    public function _before(\AcceptanceTester $I)
+    public function _before(AcceptanceTester $I)
     {
         $properties = [
             'crop' => ''
@@ -16,7 +18,7 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
     }
 
-    public function canSeePlaceholderSvgStringWithUncroppedImage(\AcceptanceTester $I)
+    public function canSeePlaceholderSvgStringWithUncroppedImage(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderSvg');
@@ -27,7 +29,7 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
     }
 
     // test if the viewhelper retrieves the correct cropVariants from the file reference as string
-    public function canSeePlaceholderSvgStringWithCroppedImage(\AcceptanceTester $I)
+    public function canSeePlaceholderSvgStringWithCroppedImage(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -42,7 +44,7 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->assertRegExp('/^data:image.*width%3D%22960%22%20height%3D%22600%22%/', $placeholderBase64String);
     }
 
-    public function canSeePlaceholderSvgStringWithNonExistingCropVariant(\AcceptanceTester $I)
+    public function canSeePlaceholderSvgStringWithNonExistingCropVariant(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderSvg&cropVariant=invalid');
@@ -53,7 +55,7 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
     }
 
     // test if the viewhelper retrieves the correct cropVariants from the file reference as string
-    public function canSeePlaceholderSvgStringWithCroppedImageAndAlternativeCropVariant(\AcceptanceTester $I)
+    public function canSeePlaceholderSvgStringWithCroppedImageAndAlternativeCropVariant(AcceptanceTester $I)
     {
         $I->flushCache();
         $properties = [
@@ -68,7 +70,7 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->assertRegExp('/^data:image.*width%3D%221000.32%22%20height%3D%22748.8%22%/', $placeholderBase64String);
     }
 
-    public function canSeePlaceholderSvgStringWithAdditionalContent(\AcceptanceTester $I)
+    public function canSeePlaceholderSvgStringWithAdditionalContent(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderSvg&content=additionalcontent');
@@ -78,7 +80,7 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->assertRegExp('/^data:image.*width%3D%221920%22%20height%3D%221200%22.*additionalcontent/', $placeholderBase64String);
     }
 
-    public function canSeePlaceholderSvgStringWithEmbeddedPreviewImage(\AcceptanceTester $I)
+    public function canSeePlaceholderSvgStringWithEmbeddedPreviewImage(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderSvg&embedPreview=1');
@@ -88,7 +90,7 @@ class PlaceholderSvgViewHelperCest extends AbstractViewHelperCest
         $I->assertRegExp('/^data:image.*width%3D%221920%22%20height%3D%221200%22.*xlink%3Ahref%3D%22data%3Aimage%2Fjpeg%3Bbase64%2/', $placeholderBase64String);
     }
 
-    public function canSeePlaceholderSvgStringWithEmbeddedPreviewImageAndEmbedPreviewWidth(\AcceptanceTester $I)
+    public function canSeePlaceholderSvgStringWithEmbeddedPreviewImageAndEmbedPreviewWidth(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderSvg&embedPreview=1&embedPreviewWidth=2');

@@ -22,7 +22,7 @@ class TagUtility
             'height' => $height
         ]);
 
-        if ($content && $content !== '') {
+        if ($content) {
             if (str_contains($content, 'xlink')) {
                 // svg tag needs xlink namespace if xlink is used in $content
                 $tagBuilder->addAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');

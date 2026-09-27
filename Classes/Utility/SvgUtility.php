@@ -4,11 +4,8 @@ namespace C1\AdaptiveImages\Utility;
 
 class SvgUtility
 {
-    protected TagUtility $tagUtility;
-
-    public function __construct(TagUtility $tagUtility)
+    public function __construct(protected TagUtility $tagUtility)
     {
-        $this->tagUtility = $tagUtility;
     }
 
     // Get a SVG Placeholder image as placeholder

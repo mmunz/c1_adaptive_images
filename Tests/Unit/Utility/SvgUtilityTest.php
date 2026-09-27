@@ -5,6 +5,7 @@ namespace C1\AdaptiveImages\Tests\Unit\Utility;
 
 use C1\AdaptiveImages\Utility\SvgUtility;
 use C1\AdaptiveImages\Utility\TagUtility;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,9 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class SvgUtilityTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function createPreviewImageTagTest()
     {
         $tagUtility = $this->createMock(TagUtility::class);
@@ -26,9 +25,7 @@ class SvgUtilityTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getSvgPlaceholderTest()
     {
         $tagUtility = $this->createMock(TagUtility::class);

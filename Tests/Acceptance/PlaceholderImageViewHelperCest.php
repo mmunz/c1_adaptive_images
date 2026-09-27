@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace C1\AdaptiveImages\Tests\Acceptance;
 
+use AcceptanceTester;
+
 /**
  * Test case.
  */
 class PlaceholderImageViewHelperCest extends AbstractViewHelperCest
 {
-    public function _before(\AcceptanceTester $I)
+    public function _before(AcceptanceTester $I)
     {
         $properties = [
             'crop' => ''
@@ -16,7 +18,7 @@ class PlaceholderImageViewHelperCest extends AbstractViewHelperCest
         $I->updateInDatabase('sys_file_reference', $properties, ['uid' => 1]);
     }
 
-    public function canSeePlaceholderImageStringWithUncroppedImage(\AcceptanceTester $I)
+    public function canSeePlaceholderImageStringWithUncroppedImage(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderImage');
@@ -33,7 +35,7 @@ class PlaceholderImageViewHelperCest extends AbstractViewHelperCest
         $this->validateMarkup($I);
     }
 
-    public function canSeePlaceholderImageStringWithMobileCropVariant(\AcceptanceTester $I)
+    public function canSeePlaceholderImageStringWithMobileCropVariant(AcceptanceTester $I)
     {
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.2,"width":0.4,"x":0.2,"y":0.2},"selectedRatio":"free"}}'
@@ -55,7 +57,7 @@ class PlaceholderImageViewHelperCest extends AbstractViewHelperCest
         $this->validateMarkup($I);
     }
 
-    public function canSeePlaceholderImageStringWithUncroppedImageAndCustomWidth(\AcceptanceTester $I)
+    public function canSeePlaceholderImageStringWithUncroppedImageAndCustomWidth(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderImage&width=32');
@@ -68,7 +70,7 @@ class PlaceholderImageViewHelperCest extends AbstractViewHelperCest
         $this->validateMarkup($I);
     }
 
-    public function canSeePlaceholderImageStringWithUncroppedImageWithDataUriFalse(\AcceptanceTester $I)
+    public function canSeePlaceholderImageStringWithUncroppedImageWithDataUriFalse(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderImage&dataUri=0');
@@ -85,7 +87,7 @@ class PlaceholderImageViewHelperCest extends AbstractViewHelperCest
         $this->validateMarkup($I);
     }
 
-    public function canSeePlaceholderImageStringWithUncroppedImageAndCustomWidthWithDataUriFalse(\AcceptanceTester $I)
+    public function canSeePlaceholderImageStringWithUncroppedImageAndCustomWidthWithDataUriFalse(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderImage&width=32&dataUri=0');
@@ -98,7 +100,7 @@ class PlaceholderImageViewHelperCest extends AbstractViewHelperCest
         $this->validateMarkup($I);
     }
 
-    public function canSeePlaceholderImageStringWithUncroppedImageAndCustomWidthWithDataUriFalseAndAbsolute(\AcceptanceTester $I)
+    public function canSeePlaceholderImageStringWithUncroppedImageAndCustomWidthWithDataUriFalseAndAbsolute(AcceptanceTester $I)
     {
         $I->flushCache();
         $I->amOnPage('/index.php?mode=PlaceholderImage&width=32&dataUri=0&absolute=1');
@@ -106,7 +108,7 @@ class PlaceholderImageViewHelperCest extends AbstractViewHelperCest
         $I->assertRegExp('/^http:.*\/fileadmin\/_processed_\/.*\/csm_nightlife-4_.*.jpg$/', $placeholderBase64String);
     }
 
-    public function canSeePlaceholderImageStringWithDataUriFalseAndMobileCropVariant(\AcceptanceTester $I)
+    public function canSeePlaceholderImageStringWithDataUriFalseAndMobileCropVariant(AcceptanceTester $I)
     {
         $properties = [
             'crop' => '{"default":{"cropArea":{"x":0,"y":0,"width":1,"height":1},"selectedRatio":"NaN"}, "mobile":{"cropArea":{"height":0.2,"width":0.4,"x":0.2,"y":0.2},"selectedRatio":"free"}}'
