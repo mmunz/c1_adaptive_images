@@ -293,9 +293,10 @@ abstract class AbstractImageBasedViewHelper extends AbstractTagBasedViewHelper
             $this->tag->addAttribute('width', $processedImage->getProperty('width'));
             $this->tag->addAttribute('height', $processedImage->getProperty('height'));
 
-            // The alt-attribute is mandatory to have valid html-code, therefore add it even if it is empty
+            // The alt-attribute is mandatory to have valid html-code, therefore add it even if it is empty.
+            // Cast: the property can be null, and Fluid 5's TagBuilder omits attributes with a null value.
             if (empty($this->arguments['alt'])) {
-                $this->tag->addAttribute('alt', $image->hasProperty('alternative') ? $image->getProperty('alternative') : '');
+                $this->tag->addAttribute('alt', (string)($image->hasProperty('alternative') ? $image->getProperty('alternative') : ''));
             }
             // Add title-attribute from property if not already set and the property is not an empty string
             $title = (string)($image->hasProperty('title') ? $image->getProperty('title') : '');
