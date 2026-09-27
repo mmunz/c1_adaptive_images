@@ -160,7 +160,13 @@ class ImageUtility
     {
         $srcset = [];
         foreach ($candidates as $candidate) {
-            $srcset[] = sprintf('%s %dw', $candidate['url'], $candidate['width']);
+            $width = (int)$candidate['width'];
+            // A srcset must not list the same width twice. That happens when the (cropped)
+            // image is smaller than several requested widths: keep the first candidate.
+            if (isset($srcset[$width])) {
+                continue;
+            }
+            $srcset[$width] = sprintf('%s %dw', $candidate['url'], $width);
         }
         return implode(',', $srcset);
     }
